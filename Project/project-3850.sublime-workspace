@@ -1,0 +1,946 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"printf",
+				"safe_printf"
+			],
+			[
+				"uin",
+				"uint16_t"
+			],
+			[
+				"S",
+				"Set_Curr_Node"
+			],
+			[
+				"G",
+				"Get_Head_Node"
+			],
+			[
+				"new",
+				"new_data"
+			],
+			[
+				"overwri",
+				"overwriting"
+			],
+			[
+				"File",
+				"FILE_NAME"
+			],
+			[
+				"re",
+				"record_steps"
+			],
+			[
+				"da",
+				"data_buf"
+			],
+			[
+				"record",
+				"record_delay"
+			],
+			[
+				"rec",
+				"record"
+			],
+			[
+				"Curren",
+				"Current_State"
+			],
+			[
+				"Set_Th",
+				"Get_State_Thread"
+			],
+			[
+				"Set_De",
+				"Set_Delay_Time"
+			],
+			[
+				"arr",
+				"array_of_words_p"
+			],
+			[
+				"word",
+				"word_count"
+			],
+			[
+				"Win",
+				"Window_buffer"
+			],
+			[
+				"do",
+				"double"
+			],
+			[
+				"win",
+				"win_ptr"
+			],
+			[
+				"Y",
+				"YSIZE"
+			],
+			[
+				"A",
+				"ADC_Value"
+			],
+			[
+				"Sym",
+				"SYMBOL_SIZE"
+			],
+			[
+				"st",
+				"status"
+			],
+			[
+				"but",
+				"button_Handle"
+			],
+			[
+				"de",
+				"debug"
+			],
+			[
+				"p",
+				"position"
+			],
+			[
+				"Draw_",
+				"Draw_Popup_list"
+			],
+			[
+				"P",
+				"Popup_list"
+			],
+			[
+				"Cu",
+				"Current_State"
+			],
+			[
+				"C",
+				"Current_State"
+			],
+			[
+				"Tas",
+				"Task_01_Init"
+			],
+			[
+				"T",
+				"Task_4_Init"
+			],
+			[
+				"Set_S",
+				"Set_State_Thread"
+			],
+			[
+				"def",
+				"define"
+			],
+			[
+				"co",
+				"line_colour"
+			],
+			[
+				"Sim",
+				"simulated_data"
+			],
+			[
+				"St",
+				"State_Thread1"
+			],
+			[
+				"sim",
+				"simulated_DMA"
+			],
+			[
+				"LCD",
+				"LCD_COLOR_BLACK"
+			],
+			[
+				"State",
+				"State_Thread1"
+			],
+			[
+				"y",
+				"y_min"
+			],
+			[
+				"x",
+				"x_max"
+			],
+			[
+				"os",
+				"osMutexRelease"
+			],
+			[
+				"osM",
+				"osMutexWait"
+			],
+			[
+				"buf",
+				"buflen"
+			],
+			[
+				"auto",
+				"auto_scale"
+			],
+			[
+				"mutex",
+				"osMutexWait"
+			],
+			[
+				"zoom",
+				"zoom_coeff"
+			],
+			[
+				"di",
+				"direction"
+			],
+			[
+				"In",
+				"Input_buffer"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"zo",
+				"zoom_coeff"
+			],
+			[
+				"Ma",
+				"Max_Samples"
+			],
+			[
+				"M",
+				"Max_Samples"
+			],
+			[
+				"n",
+				"num_buttons"
+			],
+			[
+				"displa",
+				"display_height"
+			],
+			[
+				"Map",
+				"Map_X_Display"
+			],
+			[
+				"x_",
+				"x_min"
+			],
+			[
+				"x_m",
+				"x_max"
+			],
+			[
+				"Grap",
+				"GraphProcess"
+			],
+			[
+				"gr",
+				"graph_help"
+			],
+			[
+				"Gra",
+				"GraphProcess"
+			],
+			[
+				"Gr",
+				"GraphInit"
+			],
+			[
+				"dis",
+				"display_height"
+			],
+			[
+				"print",
+				"printnum"
+			],
+			[
+				"num",
+				"num_str"
+			],
+			[
+				"t",
+				"typedef"
+			],
+			[
+				"display",
+				"display_width"
+			],
+			[
+				"Item",
+				"Item_number"
+			],
+			[
+				"V",
+				"Value2"
+			],
+			[
+				"iva",
+				"ivalue1"
+			],
+			[
+				"SYS",
+				"SYS_M"
+			],
+			[
+				"cell",
+				"Cell_number"
+			],
+			[
+				"off",
+				"offset"
+			],
+			[
+				"Cell",
+				"Cell_number"
+			],
+			[
+				"form",
+				"formula_mode"
+			],
+			[
+				"Com",
+				"Command_list"
+			],
+			[
+				"Comm",
+				"Command"
+			],
+			[
+				"comm",
+				"command_parser"
+			],
+			[
+				"cal",
+				"cal_p"
+			],
+			[
+				"LCD_",
+				"LCD_Result_len"
+			],
+			[
+				"grid",
+				"grid_space_p"
+			],
+			[
+				"gri",
+				"grid_space_p"
+			],
+			[
+				"gir",
+				"grid_space_p"
+			],
+			[
+				"item",
+				"item_num"
+			],
+			[
+				"button_",
+				"button_highlight"
+			],
+			[
+				"xm",
+				"x_min"
+			],
+			[
+				"ce",
+				"cell_number"
+			],
+			[
+				"cel",
+				"cell_position"
+			],
+			[
+				"dr",
+				"draw_item"
+			],
+			[
+				"sc",
+				"scaled_width"
+			],
+			[
+				"cur",
+				"curr_height"
+			],
+			[
+				"c",
+				"cell_width"
+			],
+			[
+				"pr",
+				"prev_height"
+			],
+			[
+				"g",
+				"get_height"
+			],
+			[
+				"nu",
+				"num_Hline"
+			],
+			[
+				"coef",
+				"coeff_num"
+			],
+			[
+				"max",
+				"max"
+			],
+			[
+				"ma",
+				"max_input"
+			],
+			[
+				"min",
+				"min_input"
+			],
+			[
+				"reaf",
+				"read_pcm_wavefile_data"
+			],
+			[
+				"scal",
+				"scaled_width"
+			],
+			[
+				"m",
+				"min_data_value"
+			],
+			[
+				"int",
+				"input"
+			],
+			[
+				"data",
+				"data_len"
+			],
+			[
+				"scaled",
+				"scaled_height"
+			],
+			[
+				"wor",
+				"word_array"
+			],
+			[
+				"char",
+				"characters"
+			],
+			[
+				"N",
+				"NumChannels"
+			],
+			[
+				"coeff",
+				"coeff_values"
+			],
+			[
+				"circula",
+				"circular_buffer"
+			],
+			[
+				"mass",
+				"mass_1"
+			],
+			[
+				"mas",
+				"mass_1"
+			],
+			[
+				"Sh",
+				"Shoulder_pitch_left"
+			],
+			[
+				"sty",
+				"style_options"
+			],
+			[
+				"asp",
+				"aspects"
+			],
+			[
+				"light",
+				"lights_max"
+			],
+			[
+				"as",
+				"aspects_min"
+			],
+			[
+				"post",
+				"posts_max"
+			],
+			[
+				"posts",
+				"posts_min"
+			],
+			[
+				"blank",
+				"blank_obj"
+			],
+			[
+				"pos",
+				"post_number"
+			],
+			[
+				"aspec",
+				"aspect_objects"
+			],
+			[
+				"can",
+				"can_obj"
+			],
+			[
+				"bl",
+				"blank_obj"
+			],
+			[
+				"ligh",
+				"light_number"
+			],
+			[
+				"bea",
+				"background_thickness"
+			],
+			[
+				"be",
+				"bevel_radius"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "modules/platform/src/DynamixelProtocol.c",
+			"settings":
+			{
+				"buffer_size": 1086,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 784.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: inst",
+				"Package Control: Install Package"
+			],
+			[
+				"hex",
+				"HexViewer: Reload Hex View"
+			],
+			[
+				"HEX",
+				"HexViewer: Toggle Hex View"
+			],
+			[
+				"he",
+				"Set Syntax: Hex"
+			],
+			[
+				"Package Control: \t",
+				"Package Control: Install Package"
+			],
+			[
+				"clanf",
+				"Clang Format: Format Selection"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control:",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 824.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src"
+	],
+	"file_history":
+	[
+		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/example/protocol2.0/read_write/read_write.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/HardwareIO.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/DynamixelProtocol.h",
+		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/src/dynamixel_sdk/protocol2_packet_handler.c",
+		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/example/protocol2.0/ping/ping.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/src/SimplePathPlanner.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Camera.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src/Localisation.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Classifier.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/Kinematics.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/Kinematics.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/IKGripper.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/MotorController.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/HardwareIO.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/SensorFilter.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/IRCamera.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/src/SimplePathPlanner.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/MotorController.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/IKGripper.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/IRCamera.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Classifier.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Camera.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/SensorFilter.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src/Localisation.h",
+		"/C/Users/Taylor/git/0373CELE/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-File-w.h",
+		"/C/Users/Taylor/git/0373CELE/Assignment_3/Ass-03-STM32-V03/Src/Ass-03.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/SimplePathPlanner.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignments/notes.txt",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignments/DE2 Board Files/DE2.qsf",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignments/DE2 Board Files/p1.sv",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignments/Assignment 1/src/Assignment1_simplified.v",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignments/DE2 Board Files/DE2_70.qsf",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignments/DE2.qsf",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignment 1/Assignment 1.v",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3720/Assignment 1/DE2.qsf",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/main.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/bq769x0_I2C_sample_code_with_CRC/bqMaximo_Ctrl_G2553.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/bq769x0_I2C_sample_code_with_CRC/main.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/bq769x0_I2C_sample_code_with_CRC/bq769x0_I2C_sample_code_with_CRC_1.0_manifest.html",
+		"/C/Users/fish_/Documents/NUbots/NUsense/Plan.txt",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Inc/main.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/src/dynamixel/v2/Ping.hpp",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/Documentation/IC_Devices.txt",
+		"/C/Users/fish_/AppData/Local/Temp/Temp1_sluc583.zip/bq769x0_I2C_sample_code_with_CRC/main.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Inc/stm32h7xx_hal_conf.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/system_stm32h7xx.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/stm32h7xx_it.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Src/stm32h7xx_hal_msp.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/sdio.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/spi.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/sd_diskio.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/CMSIS/Device/ST/STM32F7xx/Include/stm32f722xx.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_usart.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/spi.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/main.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/gpio.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/dma.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/usart.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/system_stm32f4xx.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usart.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/usart.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/USB_DEVICE/usb_device.c",
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/USB_DEVICE/usb_device.h",
+		"/C/Users/fish_/Desktop/COM_locations.py",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Task-03.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Task-02.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Task-01.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-File-w.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Button.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Window.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/test.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Assignment_3_3730.c",
+		"/C/Users/fish_/Downloads/NUC_Standoff.mfp",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Lib.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Middlewares/Third_Party/FatFs/src/ff.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/dma.c",
+		"/C/Users/fish_/Desktop/test.c",
+		"/E/wpa_supplicant.conf",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Middlewares/Third_Party/FatFs/src/ff.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Button.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/freertos.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Q01.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Task-04.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Equation.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Equation.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Debug.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Debug.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Popup.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Debug/output.map",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Middlewares/Third_Party/FatFs/src/ffconf_template.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Original/Inc/ffconf.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Original/Middlewares/Third_Party/FatFs/src/ff.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Popup.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Drivers/BSP/openx07v_c_lcd.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Window.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Debug.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/ffconf.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Updated/Src/Ass-03-Task-02.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Updated/Src/Ass-03-Task-04.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Updated/Src/Ass-03-Task-03.c",
+		"/C/Users/fish_/AppData/Roaming/Sublime Text 3/Packages/User/clang_format.sublime-settings",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Input.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Lib.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Input.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Button.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Window.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Button.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Window.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Task-01.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Task-02.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/freertos.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03.h",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Q1-Test.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Task Plan.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Simulated_data.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Lib.c",
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/main.c"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 208.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"HARDWARE_IO_H_",
+			"Dynamixel_Protocol",
+			"HardwareIO",
+			"write1ByteTxRx",
+			"SensorFilter",
+			"SENSOR_FILTER_H_",
+			"if (",
+			"HardwareIO",
+			"IK_GRIPPER_H_",
+			"IKGripper",
+			"TODO",
+			"SENSORFILTER_H_",
+			"HARDWAREIO_H_",
+			"IKGRIPPER_H_",
+			"SIMPLEPATHPLANNER_H_",
+			"_H_",
+			"MAIN_H_",
+			"ASS_03_H_",
+			"HardwareIO"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "modules/platform/src/DynamixelProtocol.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1086,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								641,
+								641
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 71.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 683.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "project-3850.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"task",
+				"Ass-03-STM32-V03\\Src\\Ass-03-Task-01.c"
+			],
+			[
+				"",
+				"C:\\Users\\fish_\\OneDrive - The University Of Newcastle\\Code\\Mesh-Generation\\Train Lights\\Blender\\blender_remote.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 242.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
