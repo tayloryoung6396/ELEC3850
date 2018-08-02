@@ -527,6 +527,14 @@
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
+		},
+		{
+			"file": "modules/input/src/PS3Control.c",
+			"settings":
+			{
+				"buffer_size": 183,
+				"line_ending": "Windows"
+			}
 		}
 	],
 	"build_system": "",
@@ -617,21 +625,21 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/src",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src"
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src"
 	],
 	"file_history":
 	[
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/PS3Control.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/HardwareIO.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/HardwareIO.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/PS3Control.h",
 		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/example/protocol2.0/read_write/read_write.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/HardwareIO.h",
@@ -755,11 +763,7 @@
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Task-02.c",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/freertos.c",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Q1-Test.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Task Plan.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Simulated_data.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Lib.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/main.c"
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Q1-Test.c"
 	],
 	"find":
 	{
@@ -778,6 +782,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"HARDWARE_IO_H_",
+			"HardwareIO",
 			"HARDWARE_IO_H_",
 			"Dynamixel_Protocol",
 			"HardwareIO",
@@ -814,7 +820,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -837,7 +843,36 @@
 						"settings":
 						{
 							"syntax": "Packages/C++/C.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "modules/input/src/PS3Control.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 183,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
