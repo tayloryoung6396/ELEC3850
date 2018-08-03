@@ -113,6 +113,7 @@ int Write_Multi(uint8_t* DXL_ID[], uint Address, uint* dxl_data[], uint8_t num_s
     // Initialize GroupBulkWrite Struct
     int groupwrite_num = groupBulkWrite(port_num, PROTOCOL_VERSION);
 
+
     for (int i = 0; i < num_servos; i++) {
         // Add parameter storage for Dynamixel#1 goal position
         dxl_addparam_result = groupBulkWriteAddParam(groupwrite_num,
