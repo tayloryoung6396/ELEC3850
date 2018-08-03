@@ -7,11 +7,9 @@
  * Outputs: Path to follow as some sort of vector function
  */
 
-#include "SimplePathPlanner.h"
+#include "SimplePathPlanner.hpp"
 
-void SimplePathPlanner_init() {
-    return 0;
-}
+void SimplePathPlanner_init() {}
 
 int SimplePathPlanner_main() {
     return 0;

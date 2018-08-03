@@ -1,6 +1,10 @@
-#ifndef IK_GRIPPER_H_
-#define IK_GRIPPER_H_
+#ifndef IK_GRIPPER_HPP_
+#define IK_GRIPPER_HPP_
 
-#include "main.h"
+#include "../../main.hpp"
 
-#endif /* IK_GRIPPER_H_ */
+extern void IKGripper_init();
+extern int IKGripper_main();
+extern double SSS_triangle(double a, double b, double c);
+
+#endif /* IK_GRIPPER_HPP_ */

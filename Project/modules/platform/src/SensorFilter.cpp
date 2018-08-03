@@ -6,11 +6,9 @@
  * Outputs: Filtered Sensors
  */
 
-#include "SensorFilter.h"
+#include "SensorFilter.hpp"
 
-void SensorFilter_init() {
-    return 0;
-}
+void SensorFilter_init() {}
 
 int SensorFilter_main() {
     return 0;

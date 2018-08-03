@@ -12,10 +12,11 @@
  *			Motor Controller - GPIO
  */
 
-#include "HardwareIO.h"
+#include "HardwareIO.hpp"
 
 void HardwareIO_init() {
-    return 0;
+    DynamixelProtocol_init();
+    printf("Test\n");
 }
 
 int HardwareIO_main() {

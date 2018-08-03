@@ -6,11 +6,9 @@
  *				- 3 x greyscale colour specific images
  */
 
-#include "Camera.h"
+#include "Camera.hpp"
 
-void Camera_init() {
-    return 0;
-}
+void Camera_init() {}
 
 int Camera_main() {
     return 0;

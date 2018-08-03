@@ -520,27 +520,36 @@
 	"buffers":
 	[
 		{
-			"file": "TODO Breakdown.yaml",
+			"file": "modules/platform/src/DynamixelProtocol.cpp",
 			"settings":
 			{
-				"buffer_size": 2977,
+				"buffer_size": 146,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/dynamixel/src/dynamixel_sdk/port_handler.cpp",
+			"settings":
+			{
+				"buffer_size": 1769,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "modules/motion/src/IKGripper.cpp",
+			"settings":
+			{
+				"buffer_size": 2806,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "modules/platform/src/DynamixelProtocol.c",
+			"file": "modules/motion/src/IKGripper.hpp",
 			"settings":
 			{
-				"buffer_size": 6539,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "modules/main.c",
-			"settings":
-			{
-				"buffer_size": 602,
+				"buffer_size": 208,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -637,6 +646,12 @@
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/behaviour",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/behaviour/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/protocol2.0",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/src/dynamixel_sdk",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixelSDK",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixelSDK/src",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/localisation",
@@ -650,6 +665,15 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/TODO Breakdown.yaml",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/Read.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/Write.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/.clang-format",
+		"/C/Users/Taylor/AppData/Roaming/Sublime Text 3/Packages/User/clang_format.sublime-settings",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol-c.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/main.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/MotorController.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/IKGripper.c",
@@ -768,16 +792,7 @@
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Middlewares/Third_Party/FatFs/src/ffconf_template.h",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Original/Inc/ffconf.h",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Original/Middlewares/Third_Party/FatFs/src/ff.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Popup.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Drivers/BSP/openx07v_c_lcd.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Window.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_2/Ass-02-STM32/Src/Ass-02-Debug.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/ffconf.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Updated/Src/Ass-03-Task-02.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Updated/Src/Ass-03-Task-04.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-Updated/Src/Ass-03-Task-03.c",
-		"/C/Users/fish_/AppData/Roaming/Sublime Text 3/Packages/User/clang_format.sublime-settings",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Input.h"
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-Popup.h"
 	],
 	"find":
 	{
@@ -796,6 +811,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" - ",
+			"R_H",
+			".h\"",
 			"*",
 			"HARDWARE_IO_H_",
 			"HardwareIO",
@@ -829,22 +847,22 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "TODO Breakdown.yaml",
+					"file": "modules/platform/src/DynamixelProtocol.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2977,
+						"buffer_size": 146,
 						"regions":
 						{
 						},
@@ -857,22 +875,22 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/YAML/YAML.sublime-syntax"
+							"syntax": "Packages/C++/C++.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "modules/platform/src/DynamixelProtocol.c",
+					"file": "modules/dynamixel/src/dynamixel_sdk/port_handler.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6539,
+						"buffer_size": 1769,
 						"regions":
 						{
 						},
@@ -885,43 +903,71 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/C++/C++.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1026.0,
+						"translation.y": 228.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "modules/motion/src/IKGripper.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2806,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1710,
+								1720
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 609.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "modules/main.c",
+					"buffer": 3,
+					"file": "modules/motion/src/IKGripper.hpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 602,
+						"buffer_size": 208,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								178,
+								178
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.sublime-syntax"
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1016,7 +1062,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 242.0,
+	"side_bar_width": 262.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

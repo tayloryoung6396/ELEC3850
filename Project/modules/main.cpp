@@ -3,12 +3,13 @@
  * Call all high level functions from here
  */
 
-#include "main.h"
+#include "main.hpp"
 
-void main() {
+int main() {
 
     // Initialise all modules
     HardwareIO_init();
+    PS3Control_init();
     Kinematics_init();
     SensorFilter_init();
     MotorController_init();
@@ -21,12 +22,23 @@ void main() {
 
     // Loop forever to run robot
     // Execute all code here
-    while (1) {
-        // For each iteration
-        // Check camera
-        // Check IR
-        // Check Ultrasonic
-        // Move
-        //
-    }
+    HardwareIO_main();
+    PS3Control_main();
+    Kinematics_main();
+    SensorFilter_main();
+    MotorController_main();
+    IKGripper_main();
+    Localisation_main();
+    Camera_main();
+    IRCamera_main();
+    Classifier_main();
+    SimplePathPlanner_main();
+    // while (1) {
+    //     // For each iteration
+    //     // Check camera
+    //     // Check IR
+    //     // Check Ultrasonic
+    //     // Move
+    //     //
+    // }
 }

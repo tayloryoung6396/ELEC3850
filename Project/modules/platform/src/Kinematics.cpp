@@ -3,10 +3,17 @@
  * Outputs: Platform parameters
  */
 
-#include "Kinematics.h"
+#include "Kinematics.hpp"
 
 void Kinematics_init() {
-    return 0;
+
+    // Populate kinematic model
+    Kinematics model;
+
+    model.base_pos[3] = {0};
+    model.grip_cen    = 2;
+    model.arm_len_1   = 10;
+    model.arm_len_2   = 10;
 }
 
 int Kinematics_main() {

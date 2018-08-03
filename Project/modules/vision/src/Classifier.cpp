@@ -5,11 +5,9 @@
  * Outputs: Vector to objects of interest
  */
 
-#include "Classifier.h"
+#include "Classifier.hpp"
 
-void Classifier_init() {
-    return 0;
-}
+void Classifier_init() {}
 
 int Classifier_main() {
     return 0;

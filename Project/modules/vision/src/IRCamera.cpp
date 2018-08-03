@@ -4,11 +4,9 @@
  * Outputs: TODO
  */
 
-#include "IRCamera.h"
+#include "IRCamera.hpp"
 
-void IRCamera_init() {
-    return 0;
-}
+void IRCamera_init() {}
 
 int IRCamera_main() {
     return 0;

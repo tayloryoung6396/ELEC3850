@@ -4,11 +4,9 @@
  * Outputs: Motor Commands to HardwareIO
  */
 
-#include "MotorController.h"
+#include "MotorController.hpp"
 
-void MotorController_init() {
-    return 0;
-}
+void MotorController_init() {}
 
 int MotorController_main() {
     return 0;

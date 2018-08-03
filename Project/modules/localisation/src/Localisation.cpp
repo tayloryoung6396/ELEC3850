@@ -5,11 +5,9 @@
  * Outputs: Goal Position as vector
  */
 
-#include "Localisation.h"
+#include "Localisation.hpp"
 
-void Localisation_init() {
-    return 0;
-}
+void Localisation_init() {}
 
 int Localisation_main() {
     // Goal_pos vec2d
