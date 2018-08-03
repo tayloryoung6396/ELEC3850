@@ -20,10 +20,9 @@
     - HardwareIO:
       - This should handle the Inputs and Outputs to the world.
         Communication between the perpherials and the MCU.
-        Inputs: Camera - I2c
+        Inputs: Camera
                 Ultrasonic Sensors - I2C
                 IR Sensor - I2C
-                Force Sensor - ADC
                 Servos - From Dynamixel
                 Motor Controller - Commands
         Outputs: Servos - To Dynamixel
