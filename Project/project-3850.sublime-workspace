@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"D",
+				"DXL_ID"
+			],
+			[
+				"nu",
+				"num_servos"
+			],
+			[
+				"ui",
+				"uint8_t"
+			],
+			[
+				"u",
+				"uint8_t"
+			],
+			[
 				"printf",
 				"safe_printf"
 			],
@@ -384,10 +400,6 @@
 				"get_height"
 			],
 			[
-				"nu",
-				"num_Hline"
-			],
-			[
 				"coef",
 				"coeff_num"
 			],
@@ -502,18 +514,6 @@
 			[
 				"bl",
 				"blank_obj"
-			],
-			[
-				"ligh",
-				"light_number"
-			],
-			[
-				"bea",
-				"background_thickness"
-			],
-			[
-				"be",
-				"bevel_radius"
 			]
 		]
 	},
@@ -523,16 +523,26 @@
 			"file": "modules/platform/src/DynamixelProtocol.c",
 			"settings":
 			{
-				"buffer_size": 1086,
+				"buffer_size": 7437,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "modules/input/src/PS3Control.c",
+			"file": "modules/platform/src/DynamixelProtocol.h",
 			"settings":
 			{
-				"buffer_size": 183,
+				"buffer_size": 241,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/dynamixelSDK/include/mx_28_2.h",
+			"settings":
+			{
+				"buffer_size": 3831,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -625,30 +635,45 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src"
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/src",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/dynamixelSDK",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/dynamixelSDK/include",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/dynamixelSDK/src",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src"
 	],
 	"file_history":
 	[
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/PS3Control.c",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/HardwareIO.c",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/HardwareIO.h",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/PS3Control.h",
-		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/example/protocol2.0/read_write/read_write.c",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.c",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/HardwareIO.h",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/DynamixelProtocol.h",
-		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/src/dynamixel_sdk/protocol2_packet_handler.c",
-		"/C/Users/Taylor/Desktop/DynamixelSDK-master/c/example/protocol2.0/ping/ping.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.h",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/dynamixelSDK/include/mx_28_2.h",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/dynamixelSDK/src/packet_handler.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/dynamixelSDK/include/robotis_def.h",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/dynamixelSDK/packet_handler.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/DynamixelProtocol1.0.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/DynamixelProtocol1.0.h",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/IKGripper.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/Kinematics.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/IKGripper.h",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/motion/src/FKGripper.h",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/HardwareIO.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Camera.c",
+		"/C/Users/fish_/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/SensorFilter.c",
+		"/C/Users/fish_/AppData/Local/Temp/Temp1_embeded_c(cm510_v1.02).zip/src/Dynamixel/dxl_hal.c",
+		"/C/Users/fish_/AppData/Local/Temp/Temp1_embeded_c(cm510_v1.02).zip/src/Dynamixel/dynamixel.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/behaviour/src/SimplePathPlanner.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Camera.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src/Localisation.c",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/main.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Classifier.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/Kinematics.c",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/Kinematics.h",
@@ -664,6 +689,7 @@
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Classifier.h",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/vision/src/Camera.h",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/SensorFilter.h",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/platform/src/HardwareIO.h",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/Project/modules/localisation/src/Localisation.h",
 		"/C/Users/Taylor/git/0373CELE/Assignment_3/Ass-03-STM32-V03/Src/Ass-03-File-w.h",
 		"/C/Users/Taylor/git/0373CELE/Assignment_3/Ass-03-STM32-V03/Src/Ass-03.h",
@@ -754,20 +780,11 @@
 		"/C/Users/fish_/AppData/Roaming/Sublime Text 3/Packages/User/clang_format.sublime-settings",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Input.h",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Lib.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Input.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Button.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Window.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Button.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Window.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Task-01.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Task-02.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/freertos.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03.h",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Q1-Test.c"
+		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32/Src/Ass-03-Input.c"
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 42.0
 	},
 	"find_in_files":
 	{
@@ -782,12 +799,45 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"HARDWARE_IO_H_",
-			"HardwareIO",
-			"HARDWARE_IO_H_",
-			"Dynamixel_Protocol",
-			"HardwareIO",
-			"write1ByteTxRx",
+			"Instruction",
+			"fprintf",
+			"ADDR_PRO_GOAL_POSITION",
+			"ADDR_PRO_TORQUE_ENABLE",
+			"ADDR_PRO_PRESENT_POSITION",
+			" TORQUE_DISABLE",
+			" TORQUE_ENABLE",
+			"TORQUE_ENABLE",
+			"ADDR_PRO_TORQUE_ENABLE",
+			"_ ",
+			"Gain",
+			"Level",
+			" Limit",
+			"Limit",
+			"(\\w) \\L$1",
+			"(\\W) \\l$1",
+			" ",
+			";",
+			"\t",
+			"uint4_t",
+			"uint2_t",
+			"uint1_t",
+			"uint2_t",
+			"DYNAMIXEL_PROTOCOL",
+			"dxl_comm_result",
+			"COMM_TX_FAIL",
+			"DXL1_ID",
+			"port_num",
+			"TPacket",
+			"template <typename TPacket>",
+			"=",
+			"TType",
+			"template <typenam",
+			"0",
+			"FK",
+			"FK_GRIPPER_H_",
+			"Kinematics.arm_len_1",
+			"IK_GRIPPER_H_",
+			"I",
 			"SensorFilter",
 			"SENSOR_FILTER_H_",
 			"if (",
@@ -820,7 +870,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -829,15 +879,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1086,
+						"buffer_size": 7437,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								641,
-								641
+								1897,
+								1897
 							]
 						],
 						"settings":
@@ -847,7 +897,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2112.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -855,24 +905,60 @@
 				},
 				{
 					"buffer": 1,
-					"file": "modules/input/src/PS3Control.c",
+					"file": "modules/platform/src/DynamixelProtocol.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 183,
+						"buffer_size": 241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								118,
+								118
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.sublime-syntax"
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "modules/dynamixelSDK/include/mx_28_2.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3831,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2548,
+								2548
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -901,11 +987,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.672216441207,
 			1.0
 		],
 		"rows":
@@ -965,7 +1058,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
@@ -973,7 +1066,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 242.0,
+	"side_bar_width": 185.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
