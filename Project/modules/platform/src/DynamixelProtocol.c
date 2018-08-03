@@ -94,19 +94,21 @@ void Broadcast_Ping() {
 }
 
 // TODO
-void Write_Multi(uint8_t* DXL_ID[], uint8_t Address, uint8_t* dxl_data[], uint8_t num_servos) {
+/* Example
+uint32_t *Servo_ID = malloc(2*sizeof(uint32_t));
+Servo_ID[2] = {MOTOR_L, MOTOR_R};
+uint32_t *Goal = malloc(2*sizeof(uint32_t));
+Goal[2] = {195, 195};
+Write_Multi(&Servo_ID, GOAL_POSITION, &Goal, 2);
+*/
+
+int Write_Multi(uint8_t* DXL_ID[], uint Address, uint* dxl_data[], uint8_t num_servos) {
 
     // Possibly unused variables TODO
-    int index                   = 0;
     int dxl_comm_result         = COMM_TX_FAIL;                                              // Communication result
     uint8_t dxl_addparam_result = False;                                                     // AddParam result
-    uint8_t dxl_getdata_result  = False;                                                     // GetParam result
     int dxl_goal_position[2]    = {DXL_MINIMUM_POSITION_VALUE, DXL_MAXIMUM_POSITION_VALUE};  // Goal position
 
-    uint8_t dxl_error             = 0;             // Dynamixel error
-    uint8_t dxl_led_value[2]      = {0x00, 0xFF};  // Dynamixel LED value for write
-    int32_t dxl1_present_position = 0;             // Present position
-    uint8_t dxl2_led_value_read;                   // Dynamixel LED value for read
 
     // Initialize GroupBulkWrite Struct
     int groupwrite_num = groupBulkWrite(port_num, PROTOCOL_VERSION);
@@ -121,7 +123,7 @@ void Write_Multi(uint8_t* DXL_ID[], uint8_t Address, uint8_t* dxl_data[], uint8_
                                                      LEN_PRO_GOAL_POSITION);
         if (dxl_addparam_result != True) {
             printf("[ID:%03d] groupBulkWrite addparam failed", DXL_ID[i]);
-            return 0;
+            return -1;
         }
     }
 
@@ -132,22 +134,16 @@ void Write_Multi(uint8_t* DXL_ID[], uint8_t Address, uint8_t* dxl_data[], uint8_
 
     // Clear bulkwrite parameter storage
     groupBulkWriteClearParam(groupwrite_num);
+
+    return 0;
 }
 
 // TODO
-uint8_t* Read_Multi(uint8_t* DXL_ID[], uint8_t Address, uint8_t** dxl_data, uint8_t num_servos) {
+int Read_Multi(uint8_t* DXL_ID[], uint Address, uint** dxl_data, uint8_t num_servos) {
 
     // Possibly unused variables TODO
-    int index                   = 0;
-    int dxl_comm_result         = COMM_TX_FAIL;                                              // Communication result
-    uint8_t dxl_addparam_result = False;                                                     // AddParam result
-    uint8_t dxl_getdata_result  = False;                                                     // GetParam result
-    int dxl_goal_position[2]    = {DXL_MINIMUM_POSITION_VALUE, DXL_MAXIMUM_POSITION_VALUE};  // Goal position
-
-    uint8_t dxl_error             = 0;             // Dynamixel error
-    uint8_t dxl_led_value[2]      = {0x00, 0xFF};  // Dynamixel LED value for write
-    int32_t dxl1_present_position = 0;             // Present position
-    uint8_t dxl2_led_value_read;                   // Dynamixel LED value for read
+    int dxl_comm_result        = COMM_TX_FAIL;  // Communication result
+    uint8_t dxl_getdata_result = False;         // GetParam result
 
     // Initialize Groupbulkread Struct
     int groupread_num = groupBulkRead(port_num, PROTOCOL_VERSION);
@@ -163,11 +159,11 @@ uint8_t* Read_Multi(uint8_t* DXL_ID[], uint8_t Address, uint8_t** dxl_data, uint
             groupBulkReadIsAvailable(groupread_num, DXL_ID[i], PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
         if (dxl_getdata_result != True) {
             printf("[ID:%03d] groupBulkRead getdata failed", DXL_ID[i]);
-            return 0;
+            return -1;
         }
 
         // Get present position value
-        dxl_result = groupBulkReadGetData(groupread_num, DXL_ID[i], PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
+        (*dxl_data)[i] = groupBulkReadGetData(groupread_num, DXL_ID[i], PRESENT_POSITION, LEN_PRO_PRESENT_POSITION);
     }
-    return *;
+    return 0;
 }
