@@ -3,6 +3,8 @@
 
 #include "../../main.hpp"
 
+#define DELTA_GRIP 0.03
+
 extern void IKGripper_init();
 extern int IKGripper_main(double Goal_pos[3]);
 extern int IK_Calculate(double Goal_pos[3]);

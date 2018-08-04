@@ -82,8 +82,17 @@ int IK_Calculate(double Goal_pos[3]) {
 
     // printf("Arm Length 3 %lf\n", arm_len_3);
 
+    // TODO Fix this mess
+    if (arm_len_3 = (Kinematics::arm_len_1 + Kinematics::arm_len_2)) {
+        servo.base_pitch  = 0;
+        servo.elbow_pitch = 0;
+        servo.wrist_pitch = 0;
 
-    if (arm_len_3 >= (Kinematics::arm_len_1 + Kinematics::arm_len_2)) {
+        // TODO what if the goal position is too far for the arm?
+        // printf("Arm is vertical or goal position is too far\n");
+        // printf("Arm lengths a1 %lf, a2 %lf, a3 %lf\n", arm_len_3, Kinematics::arm_len_1, Kinematics::arm_len_2);
+    }
+    else if (arm_len_3 > (Kinematics::arm_len_1 + Kinematics::arm_len_2) + DELTA_GRIP) {
         servo.base_pitch  = 0;
         servo.elbow_pitch = 0;
         servo.wrist_pitch = 0;
