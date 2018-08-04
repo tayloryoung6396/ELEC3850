@@ -2,7 +2,8 @@
 #define MAIN_H_
 
 #include "behaviour/src/SimplePathPlanner.hpp"
-#include "dynamixelSDK/include/mx_28_2.hpp"
+// #include "dynamixelSDK/include/mx_28_2.hpp"
+#include "input/src/AutonomousControl.hpp"
 #include "input/src/PS3Control.hpp"
 #include "localisation/src/Localisation.hpp"
 #include "motion/src/IKGripper.hpp"

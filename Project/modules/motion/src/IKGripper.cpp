@@ -43,36 +43,83 @@
 #include "IKGripper.hpp"
 #include "../../platform/src/Kinematics.hpp"
 
+double Gripper_angles::base_pitch  = 0;
+double Gripper_angles::base_yaw    = 0;
+double Gripper_angles::elbow_pitch = 0;
+double Gripper_angles::elbow_roll  = 0;
+double Gripper_angles::wrist_pitch = 0;
+double Gripper_angles::grip        = 0;
+
 void IKGripper_init() {}
 
-int IKGripper_main() {
+int IKGripper_main(double Goal_pos[3]) {
+    if (IK_Calculate(Goal_pos) != 0) {
+        printf("Error could not calculate Gripper IK\n");
+        return -1;
+    }
+    return 0;
+}
 
-    double Goal_pos[3] = {0, 0, 20};
+int IK_Calculate(double Goal_pos[3]) {
 
-    Kinematics model;
+    double theta_elbow_pitch = 0;
+    double theta_wrist_pitch = 0;
+    double theta_base_pitch  = 0;
+    double base_elevation    = 0;
+    double wrist_declination = 0;
+
+    // Kinematics model;
+
+    printf("%lf\n", Kinematics::grip_cen);
+
+    Gripper_angles servo;
 
     // Figure out some length parameter
-    double arm_len_3 = sqrt(pow((Goal_pos[0] - model.base_pos[0] - model.grip_cen), 2)
-                            + pow((Goal_pos[1] - model.base_pos[1]), 2) + pow((Goal_pos[2] - model.base_pos[2]), 2));
+    double arm_len_3 =
+        sqrt(pow((Goal_pos[0] - Kinematics::base_pos[0] - Kinematics::grip_cen), 2)
+             + pow((Goal_pos[1] - Kinematics::base_pos[1]), 2) + pow((Goal_pos[2] - Kinematics::base_pos[2]), 2));
 
-    double theta_elbow_pitch = SSS_triangle(model.arm_len_1, model.arm_len_2, arm_len_3);
-    double theta_wrist_pitch = SSS_triangle(model.arm_len_2, arm_len_3, model.arm_len_1);
-    double theta_base_pitch  = SSS_triangle(model.arm_len_1, arm_len_3, model.arm_len_2);
+    printf("Arm Length 3 %lf\n", arm_len_3);
 
-    double base_elevation = std::cos(std::sqrt(pow((Goal_pos[0] - model.base_pos[0] - model.grip_cen), 2)
-                                               + pow((Goal_pos[1] - model.base_pos[1]), 2))
-                                     * M_PI / 180);
 
-    double wrist_declination = 90 - base_elevation;
-    double base_pitch        = 90 - base_elevation - theta_base_pitch * 180 / M_PI;
-    double elbow_pitch       = 180 - theta_wrist_pitch * 180 / M_PI;
-    double wrist_pitch       = (-90) + base_pitch + elbow_pitch;
+    if (arm_len_3 >= (Kinematics::arm_len_1 + Kinematics::arm_len_2)) {
+        servo.base_pitch  = 0;
+        servo.elbow_pitch = 0;
+        servo.wrist_pitch = 0;
 
-    printf("theta_elbow_pitch %lf \ntheta_wrist_pitch %lf \ntheta_base_pitch %lf\n",
-           180 * theta_elbow_pitch / 3.14,
-           180 * theta_wrist_pitch / 3.14,
-           180 * theta_base_pitch / 3.14);
-    printf("base_pitch %lf \nelbow_pitch %lf \nwrist_pitch %lf\n", base_pitch, elbow_pitch, wrist_pitch);
+        // TODO what if the goal position is too far for the arm?
+        printf("Arm is vertical or goal position is too far\n");
+        printf("Arm lengths a1 %lf, a2 %lf, a3 %lf\n", arm_len_3, Kinematics::arm_len_1, Kinematics::arm_len_2);
+    }
+    else {
+        theta_elbow_pitch = SSS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, arm_len_3);
+        theta_wrist_pitch = SSS_triangle(Kinematics::arm_len_2, arm_len_3, Kinematics::arm_len_1);
+        theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3, Kinematics::arm_len_2);
+
+        base_elevation = std::cos(std::sqrt(pow((Goal_pos[0] - Kinematics::base_pos[0] - Kinematics::grip_cen), 2)
+                                            + pow((Goal_pos[1] - Kinematics::base_pos[1]), 2))
+                                  * M_PI / 180);
+
+        wrist_declination = 90 - base_elevation;
+        servo.base_pitch  = 90 - base_elevation - theta_base_pitch * 180 / M_PI;
+        servo.elbow_pitch = 180 - theta_wrist_pitch * 180 / M_PI;
+        servo.wrist_pitch = (-90) + servo.base_pitch + servo.elbow_pitch;
+
+        printf("theta_elbow_pitch %lf \ntheta_wrist_pitch %lf \ntheta_base_pitch %lf\n",
+               180 * theta_elbow_pitch / 3.14,
+               180 * theta_wrist_pitch / 3.14,
+               180 * theta_base_pitch / 3.14);
+    }
+
+    if ((isnan(servo.base_pitch) == 1) | (isnan(servo.elbow_pitch) == 1) | (isnan(servo.wrist_pitch) == 1)) {
+        servo.base_pitch  = 0;
+        servo.elbow_pitch = 0;
+        servo.wrist_pitch = 0;
+        return -1;
+    }
+
+    printf(
+        "base_pitch %lf \nelbow_pitch %lf \nwrist_pitch %lf\n", servo.base_pitch, servo.elbow_pitch, servo.wrist_pitch);
 
     return 0;
 }

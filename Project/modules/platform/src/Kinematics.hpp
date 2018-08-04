@@ -10,10 +10,10 @@ enum Servos { Base_Yaw = 1, Base_Pitch = 2, Elbow_Pitch = 3, Elbow_Roll = 4, Wri
 
 class Kinematics {
 public:
-    double base_pos[3];
-    double grip_cen;
-    double arm_len_1;
-    double arm_len_2;
+    static double base_pos[3];
+    static double grip_cen;
+    static double arm_len_1;
+    static double arm_len_2;
 };
 
 

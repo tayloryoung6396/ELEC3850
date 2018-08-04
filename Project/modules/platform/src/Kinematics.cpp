@@ -5,16 +5,12 @@
 
 #include "Kinematics.hpp"
 
-void Kinematics_init() {
+double Kinematics::base_pos[3] = {0};
+double Kinematics::grip_cen    = 2;
+double Kinematics::arm_len_1   = 10;
+double Kinematics::arm_len_2   = 10;
 
-    // Populate kinematic model
-    Kinematics model;
-
-    model.base_pos[3] = {0};
-    model.grip_cen    = 2;
-    model.arm_len_1   = 10;
-    model.arm_len_2   = 10;
-}
+void Kinematics_init() {}
 
 int Kinematics_main() {
     return 0;
