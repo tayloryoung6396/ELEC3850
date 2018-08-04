@@ -42,12 +42,14 @@ int main() {
     // Based on the above inputs come up with the motor commands
     MotorController_main();
     // Based on the above inputs come up with the gripper commands
-    double Goal[3] = {2, 5, 4};
+    double Goal[3] = {10, 10, 10};
     IKGripper_main(Goal);
-    printf("base_pitch %lf \nelbow_pitch %lf \nwrist_pitch %lf\n",
-           Gripper_angles::base_pitch,
-           Gripper_angles::elbow_pitch,
-           Gripper_angles::wrist_pitch);
+    printf("Goal %lf, %lf, %lf\n", Goal[0], Goal[1], Goal[2]);
+    printf("base_yaw %lf \nbase_pitch %lf \nelbow_pitch %lf \nwrist_pitch %lf\n",
+           Gripper_angles::base_yaw * 180 / M_PI,
+           Gripper_angles::base_pitch * 180 / M_PI,
+           Gripper_angles::elbow_pitch * 180 / M_PI,
+           Gripper_angles::wrist_pitch * 180 / M_PI);
     HardwareIO_main();
     // }
 }

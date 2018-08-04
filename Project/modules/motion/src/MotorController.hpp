@@ -3,6 +3,8 @@
 
 #include "../../main.hpp"
 
+#define DistToRev 1
+
 extern void MotorController_init();
 extern int MotorController_main();
 

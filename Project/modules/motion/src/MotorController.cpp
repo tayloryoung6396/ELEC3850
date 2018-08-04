@@ -8,7 +8,12 @@
 
 void MotorController_init() {}
 
-int MotorController_main() {
+// Convention here would say Forward is positive, Left Rotation is positive
+int MotorController_main(double Forward, double Rotation) {
 
     return 0;
+}
+
+double ConvertDistanceToRotation(double Goal_Dist) {
+    return (DistToRev * Goal_Dist);
 }
