@@ -9,6 +9,9 @@ extern void IKGripper_init();
 extern int IKGripper_main(double Goal_pos[3]);
 extern int IK_Calculate(double Goal_pos[3]);
 extern double SSS_triangle(double a, double b, double c);
+extern int Grip_Object();
+extern int Open_Gripper();
+extern int Close_Gripper();
 
 class Gripper_angles {
 public:

@@ -53,8 +53,16 @@ double Gripper_angles::grip        = 0;
 void IKGripper_init() {}
 
 int IKGripper_main(double Goal_pos[3]) {
-    if (IK_Calculate(Goal_pos) != 0) {
+    if (Open_Gripper() != 0) {
+        printf("Error could not open Gripper\n");
+        return -1;
+    }
+    else if (IK_Calculate(Goal_pos) != 0) {
         printf("Error could not calculate Gripper IK\n");
+        return -1;
+    }
+    else if (Grip_Object() != 0) {
+        printf("Error could not Grip Object\n");
         return -1;
     }
     return 0;
@@ -77,10 +85,10 @@ int IK_Calculate(double Goal_pos[3]) {
 
     // Now create a plane on this rotation and the z axis
     // Find our new horizontal goal point (To the wrist servo, ignore the gripper)
-    double rGoal_xy = std::sqrt(pow((Goal_pos[0]), 2) + pow((Goal_pos[1]), 2)) - Kinematics::grip_cen;
+    double rGoal_xy = std::sqrt(std::pow((Goal_pos[0]), 2) + std::pow((Goal_pos[1]), 2)) - Kinematics::grip_cen;
 
     // Calculate the straight line distance to the wrist servo
-    double arm_len_3 = std::sqrt(pow(rGoal_xy, 2) + pow(Goal_pos[2], 2));
+    double arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
 
     // Our arm needs to be fully extended
     if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2 + DELTA_GRIP) {
@@ -102,4 +110,40 @@ int IK_Calculate(double Goal_pos[3]) {
 double SSS_triangle(double a, double b, double c) {
     //"C = acos((a,2 + b,2 - c,2)/(2 * a * b))"
     return std::acos((std::pow(a, 2) + std::pow(b, 2) - std::pow(c, 2)) / (2 * a * b));
+}
+
+int Grip_Object() {
+    // Grip until the gripper has some defined load
+    bool Gripped = false;
+    while (!Gripped) {
+        Gripper_angles::grip++;
+        // Check if the object is in gripper
+        // HardwareIO::GripLoad
+        if (1) {
+            Gripped = true;
+        }
+        else if (Gripper_angles::grip >= Kinematics::grip_closed) {
+            printf("Error: Gripper failed to grab object\n");
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int Open_Gripper() {
+    // Set gripper open
+    // if (Write_Servo(Gripper, GOAL_POSITION, Kinematics::grip_open) != 0) {
+    //     printf("Error: Failed to set servo to position\n");
+    //     return -1;
+    // }
+    return 0;
+}
+
+int Close_Gripper() {
+    // Set gripper closed
+    // if (Write_Servo(Gripper, GOAL_POSITION, Kinematics::grip_closed) != 0) {
+    //     printf("Error: Failed to set servo to position\n");
+    //     return -1;
+    // }
+    return 0;
 }
