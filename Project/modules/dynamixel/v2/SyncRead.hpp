@@ -1,10 +1,12 @@
 #ifndef DYNAMIXEL_V2_SYNCREAD_HPP
 #define DYNAMIXEL_V2_SYNCREAD_HPP
 
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
+
 #include <array>
 #include <type_traits>
-
-#include "Dynamixel.hpp"
 
 namespace dynamixel {
 namespace v2 {
@@ -23,16 +25,16 @@ namespace v2 {
  * @author Alex Biddulph
  */
 #pragma pack(push, 1)  // Make it so that the compiler reads this struct "as is" (no padding bytes)
-    template <typename T, size_t N>
+    template <size_t N>
     struct SyncReadCommand {
 
-        SyncReadCommand(uint16_t address, T data, const std::array<uint8_t, N>& devices)
+        SyncReadCommand(uint16_t address, uint16_t size, const std::array<uint8_t, N>& devices)
             : magic(0x00FDFFFF)
             , id(0xFE)
             , length(3 + sizeof(address) + sizeof(size) + N)
             , instruction(Instruction::SYNC_READ)
             , address(address)
-            , size(sizeof(T))
+            , size(size)
             , devices(devices)
             , checksum(calculateChecksum(this)) {}
 

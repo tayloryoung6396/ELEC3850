@@ -1,10 +1,12 @@
 #ifndef DYNAMIXEL_V2_BULKREAD_HPP
 #define DYNAMIXEL_V2_BULKREAD_HPP
 
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
+
 #include <array>
 #include <type_traits>
-
-#include "Dynamixel.hpp"
 
 namespace dynamixel {
 namespace v2 {

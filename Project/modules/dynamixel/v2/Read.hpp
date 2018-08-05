@@ -1,7 +1,9 @@
 #ifndef DYNAMIXEL_V2_READ_HPP
 #define DYNAMIXEL_V2_READ_HPP
 
-#include "Dynamixel.hpp"
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
 
 namespace dynamixel {
 namespace v2 {
@@ -20,16 +22,15 @@ namespace v2 {
  * @author Trent Houliston
  */
 #pragma pack(push, 1)  // Make it so that the compiler reads this struct "as is" (no padding bytes)
-    template <typename T>
     struct ReadCommand {
 
-        ReadCommand(uint8_t id, uint16_t address)
+        ReadCommand(uint8_t id, uint16_t address, uint16_t size)
             : magic(0x00FDFFFF)
             , id(id)
             , length(5)
             , instruction(Instruction::READ)
             , address(address)
-            , size(sizeof(T))
+            , size(size)
             , checksum(calculateChecksum(this)) {}
 
         /// Magic number that heads up every packet

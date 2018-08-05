@@ -1,10 +1,12 @@
 #ifndef DYNAMIXEL_V2_BULKWRITE_HPP
 #define DYNAMIXEL_V2_BULKWRITE_HPP
 
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
+
 #include <array>
 #include <type_traits>
-
-#include "Dynamixel.hpp"
 
 namespace dynamixel {
 namespace v2 {
@@ -61,7 +63,7 @@ namespace v2 {
         /// The instruction that we will be executing
         const uint8_t instruction;
         /// DEvice data
-        const std::array<BulkWriteData, N> data;
+        const std::array<BulkWriteData<T>, N> data;
         /// Our checksum for this command
         const uint16_t checksum;
     };

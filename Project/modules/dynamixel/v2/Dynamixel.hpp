@@ -1,18 +1,8 @@
 #ifndef DYNAMIXEL_V2_DYNAMIXEL_HPP
 #define DYNAMIXEL_V2_DYNAMIXEL_HPP
 
-#include "Action.hpp"
-#include "BulkRead.hpp"
-#include "BulkWrite.hpp"
-#include "FactoryReset.hpp"
-#include "Ping.hpp"
-#include "Read.hpp"
-#include "Reboot.hpp"
-#include "RegWrite.hpp"
-#include "StatusReturn.hpp"
-#include "SyncRead.hpp"
-#include "SyncWrite.hpp"
-#include "Write.hpp"
+#include <cstddef>
+#include <cstdint>
 
 namespace dynamixel {
 namespace v2 {
@@ -85,5 +75,20 @@ namespace v2 {
     }
 }  // namespace v2
 }  // namespace dynamixel
+
+#define DYNAMIXEL_V2_INTERNAL
+#include "Action.hpp"
+#include "BulkRead.hpp"
+#include "BulkWrite.hpp"
+#include "FactoryReset.hpp"
+#include "Ping.hpp"
+#include "Read.hpp"
+#include "Reboot.hpp"
+#include "RegWrite.hpp"
+#include "StatusReturn.hpp"
+#include "SyncRead.hpp"
+#include "SyncWrite.hpp"
+#include "Write.hpp"
+#undef DYNAMIXEL_V2_INTERNAL
 
 #endif  // DYNAMIXEL_V2_DYNAMIXEL_HPP

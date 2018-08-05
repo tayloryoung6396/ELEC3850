@@ -1,10 +1,12 @@
 #ifndef DYNAMIXEL_V2_SYNCWRITE_HPP
 #define DYNAMIXEL_V2_SYNCWRITE_HPP
 
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
+
 #include <array>
 #include <type_traits>
-
-#include "Dynamixel.hpp"
 
 namespace dynamixel {
 namespace v2 {
@@ -63,7 +65,7 @@ namespace v2 {
         /// The number of bytes to read
         const uint16_t size;
         /// List of device IDs to read from
-        const std::array<SyncWriteData, N> data;
+        const std::array<SyncWriteData<T>, N> data;
         /// Our checksum for this command
         const uint16_t checksum;
     };

@@ -1,7 +1,9 @@
-#ifndef DYNAMIXEL_V2_ACTION_HPP
-#define DYNAMIXEL_V2_ACTION_HPP
+#ifndef DYNAMIXEL_V2_STATUSRETURN_HPP
+#define DYNAMIXEL_V2_STATUSRETURN_HPP
 
-#include "Dynamixel.hpp"
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
 
 namespace dynamixel {
 namespace v2 {
@@ -74,4 +76,4 @@ namespace v2 {
 }  // namespace v2
 }  // namespace dynamixel
 
-#endif  // DYNAMIXEL_V2_ACTION_HPP
+#endif  // DYNAMIXEL_V2_STATUSRETURN_HPP

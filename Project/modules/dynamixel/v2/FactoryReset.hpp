@@ -1,7 +1,9 @@
 #ifndef DYNAMIXEL_V2_FACTORYRESET_HPP
 #define DYNAMIXEL_V2_FACTORYRESET_HPP
 
-#include "Dynamixel.hpp"
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
 
 namespace dynamixel {
 namespace v2 {
@@ -21,7 +23,6 @@ namespace v2 {
  * @author Alex Biddulph
  */
 #pragma pack(push, 1)  // Make it so that the compiler reads this struct "as is" (no padding bytes)
-    template <typename T>
     struct FactoryResetCommand {
 
         FactoryResetCommand(uint8_t id, uint8_t reset)

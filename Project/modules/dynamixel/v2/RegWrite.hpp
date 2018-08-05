@@ -1,7 +1,9 @@
 #ifndef DYNAMIXEL_V2_REGWRITE_HPP
 #define DYNAMIXEL_V2_REGWRITE_HPP
 
-#include "Dynamixel.hpp"
+#ifndef DYNAMIXEL_V2_INTERNAL
+#error Do not include this file on its own. Include Dynamixel.hpp instead.
+#endif
 
 namespace dynamixel {
 namespace v2 {
