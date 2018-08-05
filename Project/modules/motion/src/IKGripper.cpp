@@ -62,80 +62,44 @@ int IKGripper_main(double Goal_pos[3]) {
 
 // TODO This has a lot of holes that re unaccounted for..
 int IK_Calculate(double Goal_pos[3]) {
-
     double theta_elbow_pitch = 0;
     double theta_wrist_pitch = 0;
     double theta_base_pitch  = 0;
-    double base_elevation    = 0;
-    double wrist_declination = 0;
 
-    // Kinematics model;
-
-    printf("%lf\n", Kinematics::grip_cen);
+    Goal_pos[0] -= Kinematics::base_pos[0];
+    Goal_pos[1] -= Kinematics::base_pos[1];
+    Goal_pos[2] -= Kinematics::base_pos[2];
 
     Gripper_angles servo;
 
-    // Figure out some length parameter
-    double arm_len_3 =
-        sqrt(pow((Goal_pos[0] - Kinematics::base_pos[0] - Kinematics::grip_cen), 2)
-             + pow((Goal_pos[1] - Kinematics::base_pos[1]), 2) + pow((Goal_pos[2] - Kinematics::base_pos[2]), 2));
+    // Calculate our base yaw rotation
+    servo.base_yaw = std::atan2(Goal_pos[1], Goal_pos[0]);
 
-    // printf("Arm Length 3 %lf\n", arm_len_3);
+    // Now create a plane on this rotation and the z axis
+    // Find our new horizontal goal point (To the wrist servo, ignore the gripper)
+    double rGoal_xy = std::sqrt(pow((Goal_pos[0]), 2) + pow((Goal_pos[1]), 2)) - Kinematics::grip_cen;
 
-    // TODO Fix this mess
-    if (arm_len_3 = (Kinematics::arm_len_1 + Kinematics::arm_len_2)) {
-        servo.base_pitch  = 0;
-        servo.elbow_pitch = 0;
-        servo.wrist_pitch = 0;
+    // Calculate the straight line distance to the wrist servo
+    double arm_len_3 = std::sqrt(pow(rGoal_xy, 2) + pow(Goal_pos[2], 2));
 
-        // TODO what if the goal position is too far for the arm?
-        // printf("Arm is vertical or goal position is too far\n");
-        // printf("Arm lengths a1 %lf, a2 %lf, a3 %lf\n", arm_len_3, Kinematics::arm_len_1, Kinematics::arm_len_2);
-    }
-    else if (arm_len_3 > (Kinematics::arm_len_1 + Kinematics::arm_len_2) + DELTA_GRIP) {
-        servo.base_pitch  = 0;
-        servo.elbow_pitch = 0;
-        servo.wrist_pitch = 0;
-
-        // TODO what if the goal position is too far for the arm?
-        // printf("Arm is vertical or goal position is too far\n");
-        // printf("Arm lengths a1 %lf, a2 %lf, a3 %lf\n", arm_len_3, Kinematics::arm_len_1, Kinematics::arm_len_2);
+    // Our arm needs to be fully extended
+    if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2 + DELTA_GRIP) {
+        theta_elbow_pitch = 0;
+        theta_wrist_pitch = 0;
+        theta_base_pitch  = 0;
     }
     else {
         theta_elbow_pitch = SSS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, arm_len_3);
         theta_wrist_pitch = SSS_triangle(Kinematics::arm_len_2, arm_len_3, Kinematics::arm_len_1);
         theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3, Kinematics::arm_len_2);
-
-        base_elevation = std::cos(std::sqrt(pow((Goal_pos[0] - Kinematics::base_pos[0] - Kinematics::grip_cen), 2)
-                                            + pow((Goal_pos[1] - Kinematics::base_pos[1]), 2))
-                                  * M_PI / 180);
-
-        wrist_declination = 90 - base_elevation;
-        servo.base_pitch  = 90 - base_elevation - theta_base_pitch * 180 / M_PI;
-        servo.elbow_pitch = 180 - theta_wrist_pitch * 180 / M_PI;
-        servo.wrist_pitch = (-90) + servo.base_pitch + servo.elbow_pitch;
-
-        // Servo base yaw
-        servo.base_yaw =
-            std::atan((Goal_pos[1] - Kinematics::base_pos[1]) / (Goal_pos[0] - Kinematics::base_pos[0])) * 180 / M_PI;
     }
 
-    if ((isnan(servo.base_pitch) == 1) | (isnan(servo.elbow_pitch) == 1) | (isnan(servo.wrist_pitch) == 1)) {
-        servo.base_pitch  = 0;
-        servo.elbow_pitch = 0;
-        servo.wrist_pitch = 0;
-        return -1;
-    }
-
-    servo.base_pitch *= M_PI / 180;
-    servo.base_yaw *= M_PI / 180;
-    servo.elbow_pitch *= M_PI / 180;
-    servo.elbow_roll *= M_PI / 180;
-    servo.wrist_pitch *= M_PI / 180;
-    return 0;
+    servo.base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
+    servo.elbow_pitch = M_PI - theta_elbow_pitch;
+    servo.wrist_pitch = servo.base_pitch + servo.elbow_pitch - M_PI / 2;
 }
 
 double SSS_triangle(double a, double b, double c) {
     //"C = acos((a,2 + b,2 - c,2)/(2 * a * b))"
-    return std::acos((pow(a, 2) + pow(b, 2) - pow(c, 2)) / (2 * a * b));
+    return std::acos((std::pow(a, 2) + std::pow(b, 2) - std::pow(c, 2)) / (2 * a * b));
 }

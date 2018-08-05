@@ -9,7 +9,7 @@
 void MotorController_init() {}
 
 // Convention here would say Forward is positive, Left Rotation is positive
-int MotorController_main(double Forward, double Rotation) {
+int MotorController_main() {  // double Forward, double Rotation) {
 
     return 0;
 }
