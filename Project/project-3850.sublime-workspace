@@ -4,24 +4,76 @@
 		"selected_items":
 		[
 			[
+				"c",
+				"close"
+			],
+			[
+				"s",
+				"servo_id"
+			],
+			[
+				"Gri",
+				"Gripper_angles"
+			],
+			[
+				"g",
+				"grip"
+			],
+			[
+				"G",
+				"Gripped"
+			],
+			[
+				"bas",
+				"base_pos"
+			],
+			[
+				"el",
+				"theta_elbow_pitch"
+			],
+			[
+				"t",
+				"theta_base_pitch"
+			],
+			[
+				"arm",
+				"arm_len_3"
+			],
+			[
+				"base",
+				"base_yaw"
+			],
+			[
+				"a",
+				"arm_len_3"
+			],
+			[
+				"De",
+				"DELTA_GRIP"
+			],
+			[
+				"dis",
+				"dist_goal"
+			],
+			[
+				"to",
+				"total_arm_length"
+			],
+			[
+				"di",
+				"dist_goal"
+			],
+			[
+				"D",
+				"DELTA_GRIP"
+			],
+			[
 				"grip",
 				"grip_cen"
 			],
 			[
 				"I",
 				"IK_Calculate"
-			],
-			[
-				"a",
-				"arm_len_2"
-			],
-			[
-				"arm",
-				"arm_len_1"
-			],
-			[
-				"G",
-				"Goal_pos"
 			],
 			[
 				"in",
@@ -216,10 +268,6 @@
 				"zoom_coeff"
 			],
 			[
-				"di",
-				"direction"
-			],
-			[
 				"In",
 				"Input_buffer"
 			],
@@ -276,20 +324,12 @@
 				"GraphInit"
 			],
 			[
-				"dis",
-				"display_height"
-			],
-			[
 				"print",
 				"printnum"
 			],
 			[
 				"num",
 				"num_str"
-			],
-			[
-				"t",
-				"typedef"
 			],
 			[
 				"display",
@@ -392,16 +432,8 @@
 				"curr_height"
 			],
 			[
-				"c",
-				"cell_width"
-			],
-			[
 				"pr",
 				"prev_height"
-			],
-			[
-				"g",
-				"get_height"
 			],
 			[
 				"nu",
@@ -482,38 +514,6 @@
 			[
 				"sty",
 				"style_options"
-			],
-			[
-				"asp",
-				"aspects"
-			],
-			[
-				"light",
-				"lights_max"
-			],
-			[
-				"as",
-				"aspects_min"
-			],
-			[
-				"post",
-				"posts_max"
-			],
-			[
-				"posts",
-				"posts_min"
-			],
-			[
-				"blank",
-				"blank_obj"
-			],
-			[
-				"pos",
-				"post_number"
-			],
-			[
-				"aspec",
-				"aspect_objects"
 			]
 		]
 	},
@@ -523,43 +523,16 @@
 			"file": "modules/main.cpp",
 			"settings":
 			{
-				"buffer_size": 1508,
+				"buffer_size": 1496,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "modules/vision/src/Classifier.cpp",
+			"file": "modules/dynamixel/v2/Write.hpp",
 			"settings":
 			{
-				"buffer_size": 284,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "modules/main.hpp",
-			"settings":
-			{
-				"buffer_size": 773,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "modules/input/src/AutonomousControl.cpp",
-			"settings":
-			{
-				"buffer_size": 733,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "modules/input/src/PS3Control.cpp",
-			"settings":
-			{
-				"buffer_size": 458,
-				"encoding": "UTF-8",
+				"buffer_size": 1913,
 				"line_ending": "Windows"
 			}
 		},
@@ -567,7 +540,50 @@
 			"file": "modules/platform/src/DynamixelProtocol.cpp",
 			"settings":
 			{
-				"buffer_size": 132,
+				"buffer_size": 932,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/platform/src/DynamixelProtocol.hpp",
+			"settings":
+			{
+				"buffer_size": 154,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/dynamixel/v2/Action.hpp",
+			"settings":
+			{
+				"buffer_size": 1920,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/makefile",
+			"settings":
+			{
+				"buffer_size": 798,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/main.hpp",
+			"settings":
+			{
+				"buffer_size": 812,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "modules/dynamixel/v2/Dynamixel.hpp",
+			"settings":
+			{
+				"buffer_size": 4987,
 				"line_ending": "Windows"
 			}
 		},
@@ -575,25 +591,16 @@
 			"file": "modules/motion/src/IKGripper.cpp",
 			"settings":
 			{
-				"buffer_size": 5314,
+				"buffer_size": 5088,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "modules/motion/src/MotorController.cpp",
+			"file": "modules/platform/src/HardwareIO.cpp",
 			"settings":
 			{
-				"buffer_size": 489,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "modules/motion/src/MotorController.hpp",
-			"settings":
-			{
-				"buffer_size": 209,
+				"buffer_size": 523,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -602,7 +609,7 @@
 			"file": "modules/motion/src/IKGripper.hpp",
 			"settings":
 			{
-				"buffer_size": 519,
+				"buffer_size": 600,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -611,7 +618,7 @@
 			"file": "modules/platform/src/Kinematics.cpp",
 			"settings":
 			{
-				"buffer_size": 359,
+				"buffer_size": 438,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -620,7 +627,7 @@
 			"file": "modules/platform/src/Kinematics.hpp",
 			"settings":
 			{
-				"buffer_size": 419,
+				"buffer_size": 479,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -718,6 +725,8 @@
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/behaviour",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/behaviour/src",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/localisation",
@@ -731,18 +740,25 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src/AutonomousControl.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/Read.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/Ping.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/BulkWrite.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src/PS3Control.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/main.hpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/vision/src/Classifier.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/MotorController.cpp",
+		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/MotorController.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src/AutonomousControl.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/makefile",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/HardwareIO.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/HardwareIO.hpp",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/main.hpp",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src/PS3Control.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/input/src/PS3Control.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/behaviour/src/SimplePathPlanner.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/localisation/src/Localisation.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/IKGripper.hpp",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/MotorController.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/Kinematics.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/SensorFilter.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/vision/src/Camera.hpp",
@@ -753,20 +769,16 @@
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/main.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/make",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/localisation/src/Localisation.cpp",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/motion/src/MotorController.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/behaviour/src/SimplePathPlanner.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/vision/src/IRCamera.cpp",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/vision/src/Classifier.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/vision/src/Camera.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/SensorFilter.cpp",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/DynamixelProtocol.cpp",
 		"/C/Users/Taylor/Downloads/makefile.1",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/src/dynamixel_sdk/port_handler.cpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixelSDK/include/mx_28_2.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/Old Dynamixel/DynamixelProtocol-c.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/platform/src/Old Dynamixel/DynamixelProtocol1.0.h",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/TODO Breakdown.yaml",
-		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/Read.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/modules/dynamixel/v2/Write.hpp",
 		"/C/Users/Taylor/OneDrive - The University Of Newcastle/Third Year/Semester 2/ELEC 3850/ELEC3850/Project/.clang-format",
 		"/C/Users/Taylor/AppData/Roaming/Sublime Text 3/Packages/User/clang_format.sublime-settings",
@@ -855,10 +867,7 @@
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Inc/usart.h",
 		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/system_stm32f4xx.c",
 		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.c",
-		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usart.c",
-		"/C/Users/fish_/git/ELEC3730/Assignment_3/Ass-03-STM32-V03/Src/usart.c",
-		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/USB_DEVICE/usb_device.c",
-		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/USB_DEVICE/usb_device.h"
+		"/C/Users/fish_/Documents/NUbots/NUsense/STM32_CubeMX/NUSense/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usart.c"
 	],
 	"find":
 	{
@@ -877,6 +886,31 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" T ",
+			"t",
+			"T",
+			"write",
+			"WriteCommand",
+			"Write",
+			"write",
+			"Write",
+			"write",
+			"Write",
+			"write",
+			"Write",
+			"retunr",
+			"const",
+			"servo",
+			"int ",
+			"int",
+			"pow",
+			"Grip",
+			"grip",
+			"Grip",
+			"Kinematics",
+			"0",
+			"lf",
+			"pow",
 			"Gripper_angles::",
 			"90",
 			"printf",
@@ -949,7 +983,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -958,15 +992,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1508,
+						"buffer_size": 1496,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								504,
-								504
+								322,
+								322
 							]
 						],
 						"settings":
@@ -976,170 +1010,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 133.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "modules/vision/src/Classifier.cpp",
+					"file": "modules/dynamixel/v2/Write.hpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 284,
+						"buffer_size": 1913,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								189,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "modules/main.hpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 773,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								751,
-								751
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "modules/input/src/AutonomousControl.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 733,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								292,
-								292
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "modules/input/src/PS3Control.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 458,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								161,
-								161
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "modules/platform/src/DynamixelProtocol.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 132,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								132,
-								132
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "modules/motion/src/IKGripper.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5314,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2836,
-								2836
+								1095,
+								1100
 							]
 						],
 						"settings":
@@ -1149,114 +1040,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1482.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "modules/motion/src/MotorController.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 489,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								381,
-								381
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "modules/motion/src/MotorController.hpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 209,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								103,
-								103
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 228.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "modules/motion/src/IKGripper.hpp",
+					"buffer": 2,
+					"file": "modules/platform/src/DynamixelProtocol.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 519,
+						"buffer_size": 932,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								99,
-								99
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "modules/platform/src/Kinematics.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 359,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								138,
-								138
+								737,
+								737
 							]
 						],
 						"settings":
@@ -1272,20 +1076,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "modules/platform/src/Kinematics.hpp",
+					"buffer": 3,
+					"file": "modules/platform/src/DynamixelProtocol.hpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 419,
+						"buffer_size": 154,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								329,
-								329
+								86,
+								86
 							]
 						],
 						"settings":
@@ -1297,7 +1101,282 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "modules/dynamixel/v2/Action.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1920,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1920,
+								1920
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 285.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "modules/makefile",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 798,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								798
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "modules/main.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 812,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								687,
+								693
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 57.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "modules/dynamixel/v2/Dynamixel.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4987,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								81,
+								87
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "modules/motion/src/IKGripper.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5088,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4583,
+								4583
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 570.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "modules/platform/src/HardwareIO.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 523,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								523,
+								523
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "modules/motion/src/IKGripper.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 600,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								306,
+								306
+							],
+							[
+								333,
+								333
+							],
+							[
+								361,
+								361
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "modules/platform/src/Kinematics.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 438,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								365,
+								365
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "modules/platform/src/Kinematics.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 479,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								398,
+								398
+							],
+							[
+								429,
+								429
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
 					"type": "text"
 				}
 			]

@@ -16,6 +16,8 @@
 #include "vision/src/Classifier.hpp"
 #include "vision/src/IRCamera.hpp"
 
+#include "dynamixel/v2/Dynamixel.hpp"
+
 #include <malloc.h>
 #include <math.h>
 #include <stdint.h>
