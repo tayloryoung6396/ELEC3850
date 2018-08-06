@@ -2,6 +2,7 @@
 #define DYNAMIXEL_PROTOCOL_H_
 
 #include "../../main.hpp"
+#include "uart.hpp"
 
 class UART {
 private:
@@ -25,6 +26,8 @@ private:
      * @brief Reconnects to the serial port
      */
     void reconnect();
+
+    utility::io::uart uart;
 
 public:
     void DynamixelProtocol_init();

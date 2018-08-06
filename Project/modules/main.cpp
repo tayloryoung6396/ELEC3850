@@ -8,7 +8,8 @@
 int main() {
 
     // Initialise all modules
-    DynamixelProtocol_init();
+    UART com;
+    com.DynamixelProtocol_init();
     PS3Control_init();
     AutonomousControl_init();
     Kinematics_init();

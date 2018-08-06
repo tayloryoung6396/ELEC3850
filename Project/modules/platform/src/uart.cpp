@@ -1,5 +1,6 @@
-#include "uart.h"
+#include "uart.hpp"
 #include <fcntl.h>
+#include <linux/serial.h>
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -54,18 +55,6 @@ namespace io {
     int uart::native_handle() {
         return fd;
     }
-
-// Setting the baud rate on a linux system
-#if defined(__linux__)
-
-    // Close our namespace so we can do the include
-}
-}
-
-#include <linux/serial.h>
-
-namespace utility {
-namespace io {
 
     void uart::set_rts(int value) {
         int flag = TIOCM_RTS;
