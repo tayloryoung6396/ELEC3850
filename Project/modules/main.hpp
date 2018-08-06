@@ -2,14 +2,13 @@
 #define MAIN_H_
 
 #include "behaviour/src/SimplePathPlanner.hpp"
-// #include "dynamixelSDK/include/mx_28_2.hpp"
+// #include "dynamixel/include/mx_28_2.hpp"
 #include "input/src/AutonomousControl.hpp"
 #include "input/src/PS3Control.hpp"
 #include "localisation/src/Localisation.hpp"
 #include "motion/src/IKGripper.hpp"
 #include "motion/src/MotorController.hpp"
 #include "platform/src/DynamixelProtocol.hpp"
-#include "platform/src/HardwareIO.hpp"
 #include "platform/src/Kinematics.hpp"
 #include "platform/src/SensorFilter.hpp"
 #include "vision/src/Camera.hpp"

@@ -8,7 +8,7 @@
 int main() {
 
     // Initialise all modules
-    HardwareIO_init();
+    DynamixelProtocol_init();
     PS3Control_init();
     AutonomousControl_init();
     Kinematics_init();
