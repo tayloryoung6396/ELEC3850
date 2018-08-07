@@ -61,6 +61,11 @@ int IKGripper_main(double Goal_pos[3]) {
         printf("Error could not calculate Gripper IK\n");
         return -1;
     }
+    uint8_t count           = 4;
+    uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
+    auto address            = ;
+    auto data[count]        = ;
+    executeWriteMulti(&servo_ID, address, &data, count);
     else if (Grip_Object() != 0) {
         printf("Error could not Grip Object\n");
         return -1;
@@ -114,12 +119,14 @@ double SSS_triangle(double a, double b, double c) {
 
 int Grip_Object() {
     // Grip until the gripper has some defined load
-    bool Gripped = false;
+    bool Gripped     = false;
+    uint8_t servo_ID = Gripper;
+    auto address     = ;
+    auto* data;
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        // HardwareIO::GripLoad
-        if (1) {
+        if (executeReadSingle(servo_ID, address, &data)) {
             Gripped = true;
         }
         else if (Gripper_angles::grip >= Kinematics::grip_closed) {
@@ -136,6 +143,10 @@ int Open_Gripper() {
     //     printf("Error: Failed to set servo to position\n");
     //     return -1;
     // }
+    uint8_t servo_ID = Gripper;
+    auto address     = ;
+    auto data        = Kinematics::grip_open;
+    executeWriteSingle(servo_ID, address, data);
     return 0;
 }
 
@@ -145,5 +156,9 @@ int Close_Gripper() {
     //     printf("Error: Failed to set servo to position\n");
     //     return -1;
     // }
+    uint8_t servo_ID = Gripper;
+    auto address     = ;
+    auto data        = Kinematics::grip_closed;
+    executeWriteSingle(servo_ID, address, data);
     return 0;
 }

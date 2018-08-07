@@ -8,8 +8,8 @@
 int main() {
 
     // Initialise all modules
-    UART com;
-    com.DynamixelProtocol_init();
+    printf("Starting Initilisation\n");
+    UART DynamixelProtocol_init();
     PS3Control_init();
     AutonomousControl_init();
     Kinematics_init();
@@ -21,6 +21,7 @@ int main() {
     IRCamera_init();
     Classifier_init();
     SimplePathPlanner_init();
+    printf("Finished Initilisation\n");
 
     // Loop forever to run robot
     // Execute all code here

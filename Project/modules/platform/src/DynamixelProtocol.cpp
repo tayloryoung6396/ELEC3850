@@ -9,6 +9,7 @@
 
 void UART::DynamixelProtocol_init() : device(UART_DEVICE), baud(UART_BAUD) {
     uart.open(device, baud);
+    printf("Initilising UART\n");
 }
 
 void UART::DynamixelProtocol_main() {}
@@ -22,7 +23,7 @@ void executeWriteSingle(uint8_t servo_ID, uint8_t address, T data) {
     }
 }
 
-void executeWriteMulti(uint8_t servo_ID[], uint8_t address, T data, uint8_t count) {
+void executeWriteMulti(uint8_t servo_ID[], uint8_t address, T data[], uint8_t count) {
 
     auto buf;
     for (int i = 0; i < count; i++) {

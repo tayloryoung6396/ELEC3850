@@ -10,9 +10,7 @@
 
 #include "AutonomousControl.hpp"
 
-void AutonomousControl_init() {
-    printf("Test\n");
-}
+void AutonomousControl_init() {}
 
 int AutonomousControl_main() {
     // There should be a state machine here,
