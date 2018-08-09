@@ -27,14 +27,14 @@ namespace io {
 
             // We want exclusive access to this uart
             if (ioctl(fd, TIOCEXCL) == -1) {
-                throw std::runtime_error("Failed to set exclusive access for " + device);
+                printf("Failed to set exclusive access for %s\n", device);
             }
 
             // Set our baud rate
             set_baud(baud);
         }
         else {
-            throw std::runtime_error("Failed to connect to " + device);
+            printf("Failed to connect to %s\n", device);
         }
     }
 
