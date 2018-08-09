@@ -9,7 +9,7 @@ int main() {
 
     // Initialise all modules
     printf("Starting Initilisation\n");
-    UART DynamixelProtocol_init();
+    UART();
     PS3Control_init();
     AutonomousControl_init();
     Kinematics_init();
@@ -53,6 +53,5 @@ int main() {
            Gripper_angles::base_pitch * 180 / M_PI,
            Gripper_angles::elbow_pitch * 180 / M_PI,
            Gripper_angles::wrist_pitch * 180 / M_PI);
-
     // }
 }
