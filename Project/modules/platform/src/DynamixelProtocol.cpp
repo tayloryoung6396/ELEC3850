@@ -16,7 +16,7 @@ void UART::DynamixelProtocol_main() {}
 
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
-int executeWriteSingle(uint8_t servo_ID, uint8_t address, uint8_t data) {
+int executeWriteSingle(uint8_t servo_ID, uint8_t address, double data) {
     auto buf = dynamixel::v2::Write(servo_ID, address, &data);
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));

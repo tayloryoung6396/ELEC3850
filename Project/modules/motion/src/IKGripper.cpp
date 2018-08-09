@@ -65,13 +65,18 @@ int IKGripper_main(double Goal_pos[3]) {
     uint8_t count           = 4;
     uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
     auto address            = MX28_GOAL_POSITION;
-    double data[count];
-    (data)[0] = Gripper_angles::base_pitch;
-    (data)[1] = Gripper_angles::base_yaw;
-    (data)[2] = Gripper_angles::elbow_pitch;
-    (data)[3] = Gripper_angles::wrist_pitch;
-    printf(
-        "Base_Yaw %lf\nBase_Pitch %lf\nElbow_Pitch %lf\nWrist_Pitch %lf\n", (data)[0], (data)[1], (data)[2], (data)[3]);
+    double* data1           = &Gripper_angles::base_yaw;
+    double* data[count]     = {
+        Gripper_angles::base_yaw, Gripper_angles::base_pitch, Gripper_angles::elbow_pitch, Gripper_angles::wrist_pitch};
+    printf("Outside2\nBase_Yaw %lf, %lf\nBase_Pitch %lf, %lf\nElbow_Pitch %lf, %lf\nWrist_Pitch %lf, %lf\n",
+           (*data)[0],
+           Gripper_angles::base_yaw,
+           (*data)[1],
+           Gripper_angles::base_pitch,
+           (*data)[2],
+           Gripper_angles::elbow_pitch,
+           (*data)[3],
+           Gripper_angles::wrist_pitch);
     executeWriteMulti(servo_ID, address, &data, count);
     if (Grip_Object() != 0) {
         printf("Error could not Grip Object\n");
