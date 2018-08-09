@@ -41,12 +41,12 @@
  */
 
 #include "IKGripper.hpp"
+#include "../../platform/src/DynamixelProtocol.hpp"
 #include "../../platform/src/Kinematics.hpp"
 
 double Gripper_angles::base_pitch  = 0;
 double Gripper_angles::base_yaw    = 0;
 double Gripper_angles::elbow_pitch = 0;
-double Gripper_angles::elbow_roll  = 0;
 double Gripper_angles::wrist_pitch = 0;
 double Gripper_angles::grip        = 0;
 
@@ -57,16 +57,23 @@ int IKGripper_main(double Goal_pos[3]) {
         printf("Error could not open Gripper\n");
         return -1;
     }
+
     else if (IK_Calculate(Goal_pos) != 0) {
         printf("Error could not calculate Gripper IK\n");
         return -1;
     }
     uint8_t count           = 4;
     uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
-    auto address            = ;
-    auto data[count]        = ;
-    executeWriteMulti(&servo_ID, address, &data, count);
-    else if (Grip_Object() != 0) {
+    auto address            = MX28_GOAL_POSITION;
+    double data[count];
+    (data)[0] = Gripper_angles::base_pitch;
+    (data)[1] = Gripper_angles::base_yaw;
+    (data)[2] = Gripper_angles::elbow_pitch;
+    (data)[3] = Gripper_angles::wrist_pitch;
+    printf(
+        "Base_Yaw %lf\nBase_Pitch %lf\nElbow_Pitch %lf\nWrist_Pitch %lf\n", (data)[0], (data)[1], (data)[2], (data)[3]);
+    executeWriteMulti(servo_ID, address, &data, count);
+    if (Grip_Object() != 0) {
         printf("Error could not Grip Object\n");
         return -1;
     }
@@ -110,6 +117,12 @@ int IK_Calculate(double Goal_pos[3]) {
     servo.base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
     servo.elbow_pitch = M_PI - theta_elbow_pitch;
     servo.wrist_pitch = servo.base_pitch + servo.elbow_pitch - M_PI / 2;
+    printf("Base_Yaw %lf\nBase_Pitch %lf\nElbow_Pitch %lf\nWrist_Pitch %lf\n",
+           servo.base_yaw,
+           servo.base_pitch,
+           servo.elbow_pitch,
+           servo.wrist_pitch);
+    return 0;
 }
 
 double SSS_triangle(double a, double b, double c) {
@@ -121,12 +134,12 @@ int Grip_Object() {
     // Grip until the gripper has some defined load
     bool Gripped     = false;
     uint8_t servo_ID = Gripper;
-    auto address     = ;
-    auto* data;
+    auto address     = MX28_GOAL_POSITION;
+    uint32_t data    = 0;
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        if (executeReadSingle(servo_ID, address, &data)) {
+        if (1) {  // executeReadSingle(servo_ID, address, &data) >= Kinematics::grip_load) {
             Gripped = true;
         }
         else if (Gripper_angles::grip >= Kinematics::grip_closed) {
@@ -144,9 +157,9 @@ int Open_Gripper() {
     //     return -1;
     // }
     uint8_t servo_ID = Gripper;
-    auto address     = ;
+    auto address     = MX28_GOAL_POSITION;
     auto data        = Kinematics::grip_open;
-    executeWriteSingle(servo_ID, address, data);
+    // executeWriteSingle(servo_ID, address, data);
     return 0;
 }
 
@@ -157,8 +170,8 @@ int Close_Gripper() {
     //     return -1;
     // }
     uint8_t servo_ID = Gripper;
-    auto address     = ;
+    auto address     = MX28_GOAL_POSITION;
     auto data        = Kinematics::grip_closed;
-    executeWriteSingle(servo_ID, address, data);
+    // executeWriteSingle(servo_ID, address, data);
     return 0;
 }

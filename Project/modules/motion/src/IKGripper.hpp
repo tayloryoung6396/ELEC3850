@@ -18,7 +18,6 @@ public:
     static double base_pitch;
     static double base_yaw;
     static double elbow_pitch;
-    static double elbow_roll;
     static double wrist_pitch;
     static double grip;
 };

@@ -16,6 +16,7 @@ public:
     static double grip_cen;
     static double grip_closed;
     static double grip_open;
+    static double grip_load;
 };
 
 
