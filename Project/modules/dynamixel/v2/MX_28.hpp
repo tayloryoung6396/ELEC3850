@@ -1,3 +1,6 @@
+#ifndef MX_28_H_
+#define MX_28_H_
+
 enum {
     MX28_MODEL_NUMBER           = 0,
     MX28_MODEL_INFORMATION      = 2,
@@ -52,3 +55,6 @@ enum {
     MX28_PRESENT_INPUT_VOLTAGE  = 144,
     MX28_PRESENT_TEMPERATURE    = 146
 };
+
+
+#endif /* MX_28_H_ */
