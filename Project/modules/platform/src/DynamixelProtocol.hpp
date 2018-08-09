@@ -7,7 +7,8 @@
 
 class UART {
 private:
-    const char* devName;
+    const char* device;
+    const int baud;
 
     // We will wait this long for an initial packet header
     int PACKET_WAIT = 10000;
@@ -28,15 +29,14 @@ private:
      */
     void reconnect();
 
-    utility::io::uart uart;
-
 public:
-    void DynamixelProtocol_init();
+    explicit UART();
 };
 
-extern int executeWriteSingle(uint8_t servo_ID, uint8_t address, double data);
-extern int executeWriteMulti(uint8_t* servo_ID, uint8_t address, double* data, uint8_t count);
-extern int executeReadSingle(uint8_t servo_ID, uint8_t address, uint* data);
-extern int executeReadMulti(uint8_t* servo_ID, uint8_t address, uint* data, uint8_t count);
+
+extern int executeWriteSingle(uint8_t servo_ID, uint16_t address, double data);
+extern int executeWriteMulti(uint8_t* servo_ID, uint16_t address, double* data, uint8_t count);
+extern int executeReadSingle(uint8_t servo_ID, uint16_t address, uint* data);
+extern int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t count);
 
 #endif /* DYNAMIXEL_PROTOCOL_H_ */

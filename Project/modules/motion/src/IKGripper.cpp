@@ -84,7 +84,6 @@ int IKGripper_main(double Goal_pos[3]) {
     return 0;
 }
 
-// TODO This has a lot of holes that re unaccounted for..
 int IK_Calculate(double Goal_pos[3]) {
     double theta_elbow_pitch = 0;
     double theta_wrist_pitch = 0;
@@ -143,7 +142,7 @@ int Grip_Object() {
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        if (1) {  // executeReadSingle(servo_ID, address, &data) >= Kinematics::grip_load) {
+        if (executeReadSingle(servo_ID, address, &data) >= Kinematics::grip_load) {
             Gripped = true;
         }
         else if (Gripper_angles::grip >= Kinematics::grip_closed) {
@@ -155,11 +154,6 @@ int Grip_Object() {
 }
 
 int Open_Gripper() {
-    // Set gripper open
-    // if (Write_Servo(Gripper, GOAL_POSITION, Kinematics::grip_open) != 0) {
-    //     printf("Error: Failed to set servo to position\n");
-    //     return -1;
-    // }
     uint8_t servo_ID = Gripper;
     auto address     = MX28_GOAL_POSITION;
     auto data        = Kinematics::grip_open;
@@ -168,11 +162,6 @@ int Open_Gripper() {
 }
 
 int Close_Gripper() {
-    // Set gripper closed
-    // if (Write_Servo(Gripper, GOAL_POSITION, Kinematics::grip_closed) != 0) {
-    //     printf("Error: Failed to set servo to position\n");
-    //     return -1;
-    // }
     uint8_t servo_ID = Gripper;
     auto address     = MX28_GOAL_POSITION;
     auto data        = Kinematics::grip_closed;
