@@ -25,7 +25,7 @@ int executeWriteSingle(uint8_t servo_ID, uint8_t address, double data) {
     return -1;
 }
 
-int executeWriteMulti(uint8_t* servo_ID, uint8_t address, double** data, uint8_t count) {
+int executeWriteMulti(uint8_t* servo_ID, uint8_t address, double* data, uint8_t count) {
 
     auto buf[count];
     for (int i = 0; i < count; i++) {
