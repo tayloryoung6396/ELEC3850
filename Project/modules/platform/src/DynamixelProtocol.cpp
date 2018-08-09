@@ -16,6 +16,8 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
     printf("Initilising UART\n");
 }
 
+void DynamixelProtocol_init() {}
+
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
 int executeWriteSingle(uint8_t servo_ID, uint16_t address, double data) {

@@ -31,6 +31,7 @@ private:
 
 public:
     explicit UART();
+    void DynamixelProtocol_init();
 };
 
 
