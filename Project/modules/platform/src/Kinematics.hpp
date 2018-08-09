@@ -10,6 +10,7 @@ enum Servos { Base_Yaw = 1, Base_Pitch = 2, Elbow_Pitch = 3, Elbow_Roll = 4, Wri
 
 class Kinematics {
 public:
+    // Gripper specific parameters
     static double base_pos[3];
     static double arm_len_1;
     static double arm_len_2;
@@ -17,6 +18,12 @@ public:
     static double grip_closed;
     static double grip_open;
     static double grip_load;
+
+    // Tank specific parameters
+    static double origin_offset[3];
+    static double tank_length;
+    static double tank_width;
+    static double tank_height;
 };
 
 
