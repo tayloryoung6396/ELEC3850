@@ -18,9 +18,8 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
-int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint data) {
-    auto buf = dynamixel::v2::WriteCommand<double>(servo_ID, address, data);
-
+int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint32_t* data) {
+    auto buf = dynamixel::v2::WriteCommand<uint32_t>(servo_ID, address, *data);
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
         return 0;
@@ -28,7 +27,7 @@ int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint data) {
     return -1;
 }
 
-int executeWriteMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t count) {
+int executeWriteMulti(uint8_t* servo_ID, uint16_t* address, uint8_t* data, uint32_t* count) {
 
     // double buf[count];
     // for (int i = 0; i < count; i++) {
@@ -44,16 +43,19 @@ int executeWriteMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t c
 }
 
 // TODO Fix
-int executeReadSingle(uint8_t servo_ID, uint16_t address, uint* data) {
-    auto buf = dynamixel::v2::ReadCommand(servo_ID, address, 1);
+int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* data) {
+    auto buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
     if (uart.good()) {
-        uart.read(&buf, sizeof(buf));
+        uart.write(&buf, sizeof(buf));
+
+
+        // Read
         return 0;
     }
     return -1;
 }
 
-int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t count) {
+int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count) {
     // auto buf = dynamixel::v2::BulkRead();
     // if (uart.good()) {
     //     uart.read(&buf, sizeof(buf));
