@@ -27,5 +27,13 @@
 #include <time.h>
 #include <cmath>
 #include <iostream>
+#include <limits>
+
+#define ADDRESS_VALUE(VAL) ADD_##VAL
+#define SIZE_VALUE(VAL) SIZE_##VAL
+#define MX28_ADDRESS_VALUE(VAL) ADDRESS_VALUE(MX28_##VAL)
+#define MX28_SIZE_VALUE(VAL) SIZE_VALUE(MX28_##VAL)
+#define MX64_ADDRESS_VALUE(VAL) ADDRESS_VALUE(MX64_##VAL)
+#define MX64_SIZE_VALUE(VAL) SIZE_VALUE(MX64_##VAL)
 
 #endif /* MAIN_H_ */
