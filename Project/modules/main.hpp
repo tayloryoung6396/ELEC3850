@@ -26,5 +26,6 @@
 #include <string.h>
 #include <time.h>
 #include <cmath>
+#include <iostream>
 
 #endif /* MAIN_H_ */

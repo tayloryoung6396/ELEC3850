@@ -12,6 +12,7 @@ extern double SSS_triangle(double a, double b, double c);
 extern int Grip_Object();
 extern int Open_Gripper();
 extern int Close_Gripper();
+extern uint32_t convert_rad_pos(uint8_t servo_ID, double angle);
 
 class Gripper_angles {
 public:

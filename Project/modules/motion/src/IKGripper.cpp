@@ -50,7 +50,9 @@ double Gripper_angles::elbow_pitch = 0;
 double Gripper_angles::wrist_pitch = 0;
 double Gripper_angles::grip        = 0;
 
-void IKGripper_init() {}
+void IKGripper_init() {
+    std::cout << "Initilising IK GRIPPER" << std::endl;
+}
 
 int IKGripper_main(double Goal_pos[3]) {
     if (Open_Gripper() != 0) {
@@ -65,17 +67,10 @@ int IKGripper_main(double Goal_pos[3]) {
     uint8_t count           = 4;
     uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
     auto address            = MX28_GOAL_POSITION;
-    double data[count]      = {
-        Gripper_angles::base_yaw, Gripper_angles::base_pitch, Gripper_angles::elbow_pitch, Gripper_angles::wrist_pitch};
-    printf("Outside2\nBase_Yaw %lf, %lf\nBase_Pitch %lf, %lf\nElbow_Pitch %lf, %lf\nWrist_Pitch %lf, %lf\n",
-           data[0],
-           Gripper_angles::base_yaw,
-           data[1],
-           Gripper_angles::base_pitch,
-           data[2],
-           Gripper_angles::elbow_pitch,
-           data[3],
-           Gripper_angles::wrist_pitch);
+    uint32_t data[count]    = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
+                            convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
+                            convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
+                            convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
     executeWriteMulti(servo_ID, address, data, count);
     if (Grip_Object() != 0) {
         printf("Error could not Grip Object\n");
@@ -120,11 +115,6 @@ int IK_Calculate(double Goal_pos[3]) {
     servo.base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
     servo.elbow_pitch = M_PI - theta_elbow_pitch;
     servo.wrist_pitch = servo.base_pitch + servo.elbow_pitch - M_PI / 2;
-    printf("Base_Yaw %lf\nBase_Pitch %lf\nElbow_Pitch %lf\nWrist_Pitch %lf\n",
-           servo.base_yaw,
-           servo.base_pitch,
-           servo.elbow_pitch,
-           servo.wrist_pitch);
     return 0;
 }
 
@@ -156,7 +146,7 @@ int Grip_Object() {
 int Open_Gripper() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_GOAL_POSITION;
-    auto data        = Kinematics::grip_open;
+    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
     executeWriteSingle(servo_ID, address, data);
     return 0;
 }
@@ -164,7 +154,35 @@ int Open_Gripper() {
 int Close_Gripper() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_GOAL_POSITION;
-    auto data        = Kinematics::grip_closed;
+    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
     executeWriteSingle(servo_ID, address, data);
     return 0;
+}
+
+uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
+
+    // Get the limits for the specific servo
+    // Get the offset for the servo
+    // TODO actually read limits
+    double max_limit = M_PI;
+    double min_limit = -M_PI;
+    double offset    = 0;
+
+    // Add the offset to the angle
+    angle += offset;
+
+    // Map our angle to our servo range
+    uint32_t new_angle = ((angle + M_PI) / (2 * M_PI)) * 4294967295;
+    // Map our limits
+    uint32_t max_mapped = ((max_limit + M_PI) / (2 * M_PI)) * 4294967295;
+    uint32_t min_mapped = ((min_limit + M_PI) / (2 * M_PI)) * 4294967295;
+
+    // Check we're within our limits
+    if (new_angle > max_mapped) {
+        return max_mapped;
+    }
+    else if (new_angle < min_mapped) {
+        return min_mapped;
+    }
+    return new_angle;
 }
