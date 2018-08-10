@@ -21,7 +21,9 @@ double tank_length      = 0.355;
 double tank_width       = 0.180;
 double tank_height      = 0.150;
 
-void Kinematics_init() {}
+void Kinematics_init() {
+    std::cout << "Initilising KINEMATICS" << std::endl;
+}
 
 int Kinematics_main() {
     return 0;

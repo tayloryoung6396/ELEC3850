@@ -6,7 +6,9 @@
 
 #include "MotorController.hpp"
 
-void MotorController_init() {}
+void MotorController_init() {
+    std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
+}
 
 // Convention here would say Forward is positive, Left Rotation is positive
 int MotorController_main() {  // double Forward, double Rotation) {
@@ -15,5 +17,6 @@ int MotorController_main() {  // double Forward, double Rotation) {
 }
 
 double ConvertDistanceToRotation(double Goal_Dist) {
+
     return (DistToRev * Goal_Dist);
 }

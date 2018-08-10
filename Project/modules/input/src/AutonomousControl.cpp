@@ -10,7 +10,9 @@
 
 #include "AutonomousControl.hpp"
 
-void AutonomousControl_init() {}
+void AutonomousControl_init() {
+    std::cout << "Initilising AUTONOMOUS CONTROLLER" << std::endl;
+}
 
 int AutonomousControl_main() {
     // There should be a state machine here,

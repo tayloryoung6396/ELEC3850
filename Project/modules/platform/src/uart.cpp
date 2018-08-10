@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <cerrno>
 #include <cstring>
+#include <iostream>
 #include <stdexcept>
 
 namespace utility {
@@ -27,14 +28,14 @@ namespace io {
 
             // We want exclusive access to this uart
             if (ioctl(fd, TIOCEXCL) == -1) {
-                std::cout << "Failed to set exclusive access for " << device std::endl;
+                std::cout << "Failed to set exclusive access for " << device << std::endl;
             }
 
             // Set our baud rate
             set_baud(baud);
         }
         else {
-            std::cout << "Failed to connect to " << device std::endl;
+            std::cout << "Failed to connect to " << device << std::endl;
         }
     }
 

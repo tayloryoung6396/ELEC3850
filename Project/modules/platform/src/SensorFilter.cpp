@@ -8,7 +8,9 @@
 
 #include "SensorFilter.hpp"
 
-void SensorFilter_init() {}
+void SensorFilter_init() {
+    std::cout << "Initilising SENSOR FILTER" << std::endl;
+}
 
 int SensorFilter_main() {
     return 0;

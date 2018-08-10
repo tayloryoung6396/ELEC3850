@@ -8,7 +8,9 @@
 
 #include "Camera.hpp"
 
-void Camera_init() {}
+void Camera_init() {
+    std::cout << "Initilising CAMERA" << std::endl;
+}
 
 int Camera_main() {
     return 0;

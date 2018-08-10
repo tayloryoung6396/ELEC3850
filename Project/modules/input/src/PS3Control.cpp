@@ -11,7 +11,9 @@
 
 #include "PS3Control.hpp"
 
-void PS3Control_init() {}
+void PS3Control_init() {
+    std::cout << "Initilising PS3 CONTROLLER" << std::endl;
+}
 
 int PS3Control_main() {
     // Check the controller is connected

@@ -7,7 +7,9 @@
 
 #include "Classifier.hpp"
 
-void Classifier_init() {}
+void Classifier_init() {
+    std::cout << "Initilising CLASSIFIER" << std::endl;
+}
 
 int Classifier_main() {
     return 0;
