@@ -66,7 +66,7 @@ int IKGripper_main(double Goal_pos[3]) {
     }
     uint8_t count           = 4;
     uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
-    auto address            = MX28_GOAL_POSITION;
+    auto address            = MX28_ADDRESS_VALUE(GOAL_POSITION);
     uint32_t data[count]    = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
                             convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
                             convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
@@ -127,12 +127,13 @@ int Grip_Object() {
     // Grip until the gripper has some defined load
     bool Gripped     = false;
     uint8_t servo_ID = Gripper;
-    auto address     = MX28_GOAL_POSITION;
-    uint32_t data    = 0;
+    auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
+    auto size        = MX28_SIZE_VALUE(GOAL_POSITION);
+    uint32_t* data   = 0;
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        if (executeReadSingle(servo_ID, address, &data) >= Kinematics::grip_load) {
+        if (executeReadSingle(servo_ID, address, size, data) >= Kinematics::grip_load) {
             Gripped = true;
         }
         else if (Gripper_angles::grip >= Kinematics::grip_closed) {
@@ -145,16 +146,18 @@ int Grip_Object() {
 
 int Open_Gripper() {
     uint8_t servo_ID = Gripper;
-    auto address     = MX28_GOAL_POSITION;
-    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
+    auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
+    uint32_t* data;
+    *data = convert_rad_pos(servo_ID, Kinematics::grip_open);
     executeWriteSingle(servo_ID, address, data);
     return 0;
 }
 
 int Close_Gripper() {
     uint8_t servo_ID = Gripper;
-    auto address     = MX28_GOAL_POSITION;
-    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
+    auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
+    uint32_t* data;
+    *data = convert_rad_pos(servo_ID, Kinematics::grip_closed);
     executeWriteSingle(servo_ID, address, data);
     return 0;
 }
@@ -172,10 +175,10 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     angle += offset;
 
     // Map our angle to our servo range
-    uint32_t new_angle = ((angle + M_PI) / (2 * M_PI)) * 4294967295;
+    uint32_t new_angle = ((angle + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
     // Map our limits
-    uint32_t max_mapped = ((max_limit + M_PI) / (2 * M_PI)) * 4294967295;
-    uint32_t min_mapped = ((min_limit + M_PI) / (2 * M_PI)) * 4294967295;
+    uint32_t max_mapped = ((max_limit + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
+    uint32_t min_mapped = ((min_limit + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
 
     // Check we're within our limits
     if (new_angle > max_mapped) {
