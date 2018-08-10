@@ -35,8 +35,8 @@ public:
 };
 
 
-extern int executeWriteSingle(uint8_t servo_ID, uint16_t address, double data);
-extern int executeWriteMulti(uint8_t* servo_ID, uint16_t address, double* data, uint8_t count);
+extern int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint data);
+extern int executeWriteMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t count);
 extern int executeReadSingle(uint8_t servo_ID, uint16_t address, uint* data);
 extern int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t count);
 

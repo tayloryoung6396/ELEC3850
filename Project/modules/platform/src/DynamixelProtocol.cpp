@@ -9,16 +9,16 @@
 #define UART_BAUD 115200
 
 
-class utility::io::uart uart;  // uart;
+class utility::io::uart uart;
 
 UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
-    uart.open(device, baud);
     printf("Initilising UART\n");
+    uart.open(device, baud);
 }
 
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
-int executeWriteSingle(uint8_t servo_ID, uint16_t address, double data) {
+int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint data) {
     auto buf = dynamixel::v2::WriteCommand<double>(servo_ID, address, data);
 
     if (uart.good()) {
@@ -28,7 +28,7 @@ int executeWriteSingle(uint8_t servo_ID, uint16_t address, double data) {
     return -1;
 }
 
-int executeWriteMulti(uint8_t* servo_ID, uint16_t address, double* data, uint8_t count) {
+int executeWriteMulti(uint8_t* servo_ID, uint16_t address, uint* data, uint8_t count) {
 
     // double buf[count];
     // for (int i = 0; i < count; i++) {
