@@ -18,7 +18,7 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
-int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint32_t* data) {
+int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data) {
     auto buf = dynamixel::v2::WriteCommand<uint32_t>(servo_ID, address, *data);
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
@@ -27,7 +27,7 @@ int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint32_t* data) {
     return -1;
 }
 
-int executeWriteMulti(uint8_t* servo_ID, uint16_t* address, uint8_t* data, uint32_t* count) {
+int executeWriteMulti(uint8_t* servo_ID, uint16_t address, uint8_t* data, uint32_t* count) {
 
     // double buf[count];
     // for (int i = 0; i < count; i++) {
