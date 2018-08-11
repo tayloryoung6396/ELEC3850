@@ -55,7 +55,13 @@ void IKGripper_init() {
 }
 
 int IKGripper_main(double Goal_pos[3]) {
-    if (Open_Gripper() != 0) {
+
+    if (Validate_Pos(Goal_pos) != 0) {
+        printf("Error Gripper Position Invalid\n");
+        return -1;
+    }
+
+    else if (Open_Gripper() != 0) {
         printf("Error could not open Gripper\n");
         return -1;
     }
@@ -71,7 +77,7 @@ int IKGripper_main(double Goal_pos[3]) {
                             convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
                             convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
                             convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
-    executeWriteMulti(servo_ID, address, data, count);
+    // executeWriteMulti(servo_ID, address, data, count);
     if (Grip_Object() != 0) {
         printf("Error could not Grip Object\n");
         return -1;
@@ -147,18 +153,16 @@ int Grip_Object() {
 int Open_Gripper() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t* data;
-    *data = convert_rad_pos(servo_ID, Kinematics::grip_open);
-    executeWriteSingle(servo_ID, address, data);
+    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
+    executeWriteSingle(servo_ID, address, reinterpret_cast<uint8_t*>(&data));
     return 0;
 }
 
 int Close_Gripper() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t* data;
-    *data = convert_rad_pos(servo_ID, Kinematics::grip_closed);
-    executeWriteSingle(servo_ID, address, data);
+    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
+    executeWriteSingle(servo_ID, address, reinterpret_cast<uint8_t*>(&data));
     return 0;
 }
 
@@ -188,4 +192,32 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
         return min_mapped;
     }
     return new_angle;
+}
+
+int Validate_Pos(double Goal_pos[3]) {
+
+    double x_limits[2] = {Kinematics::origin_offset[0] - (Kinematics::tank_length / 2),
+                          (Kinematics::tank_length / 2) + Kinematics::origin_offset[0]};
+    double y_limits[2] = {Kinematics::origin_offset[1] - (Kinematics::tank_width / 2),
+                          (Kinematics::tank_width / 2) + Kinematics::origin_offset[1]};
+    double z_limits[2] = {Kinematics::origin_offset[2] - (Kinematics::tank_height / 2),
+                          (Kinematics::tank_height / 2) + Kinematics::origin_offset[2]};
+
+    if ((Goal_pos[0] < x_limits[0]) | (Goal_pos[0] > x_limits[1])) {
+        std::cout << "Gripper Position Valid" << std::endl;
+        return 0;
+    }
+    else if ((Goal_pos[1] < y_limits[0]) | (Goal_pos[1] > y_limits[1])) {
+        std::cout << "Gripper Position Valid" << std::endl;
+        return 0;
+    }
+    else if ((Goal_pos[2] < z_limits[0]) | (Goal_pos[2] > z_limits[1])) {
+        std::cout << "Gripper Position Valid" << std::endl;
+        return 0;
+    }
+    std::cout << "Goal X " << Goal_pos[0] << ", " << x_limits[0] << ", " << x_limits[1] << std::endl;
+    std::cout << "Goal Y " << Goal_pos[1] << ", " << y_limits[0] << ", " << y_limits[1] << std::endl;
+    std::cout << "Goal Z " << Goal_pos[2] << ", " << z_limits[0] << ", " << z_limits[1] << std::endl;
+    std::cout << "Error goal position invalid" << std::endl;
+    return -1;
 }

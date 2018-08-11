@@ -13,6 +13,7 @@ extern int Grip_Object();
 extern int Open_Gripper();
 extern int Close_Gripper();
 extern uint32_t convert_rad_pos(uint8_t servo_ID, double angle);
+extern int Validate_Pos(double Goal_pos[3]);
 
 class Gripper_angles {
 public:
