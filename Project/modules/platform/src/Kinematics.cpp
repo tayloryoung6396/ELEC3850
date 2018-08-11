@@ -16,10 +16,10 @@ double Kinematics::grip_load   = 0;
 
 
 // Tank specific parameters
-double origin_offset[3] = {0};
-double tank_length      = 0.355;
-double tank_width       = 0.180;
-double tank_height      = 0.150;
+double Kinematics::origin_offset[3] = {0};  // Mid point of each axis
+double Kinematics::tank_length      = 0.355;
+double Kinematics::tank_width       = 0.180;
+double Kinematics::tank_height      = 0.150;
 
 void Kinematics_init() {
     std::cout << "Initilising KINEMATICS" << std::endl;
