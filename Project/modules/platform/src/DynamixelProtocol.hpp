@@ -36,7 +36,8 @@ public:
 
 
 extern int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data);
-extern int executeWriteMulti(uint8_t* servo_ID, uint16_t address, uint8_t* data, uint32_t* count);
+extern int executeWriteMulti(uint8_t* buf);
+extern int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_t* buf);
 extern int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* data);
 extern int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count);
 
