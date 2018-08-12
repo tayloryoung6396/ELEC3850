@@ -16,10 +16,6 @@ void MotorController_init() {
 int MotorController() {
     PathPlanner pplanner;
 
-    double Forward  = 1;
-    double Rotation = M_PI / 2;
-
-    pplanner.emplace_path(Forward, Rotation);
     if (!pplanner.check_path()) {
         std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
         pplanner.path_erase_first();
@@ -39,17 +35,23 @@ int MotorDriver(double Forward, double Rotation) {
     // Take the goal vehicle vector
     // Take the difference to figure out the movement needed
 
-    double wGoal[2] = {Forward, Rotation - Localistation::wTank_theta};
+    double wGoal[2] = {Forward, Rotation};
     double Goal_Dist[2];  // 0 is the left, 1 is the right
     Goal_Dist[0] = -ConvertRotationToArclen(wGoal[1]);
     Goal_Dist[1] = -Goal_Dist[0];
-    std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
 
     // Now account for the forward distance required
     Goal_Dist[0] += Forward;
     Goal_Dist[1] += Forward;
 
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
+
+    // Given that i actually get to the goal position
+    // Set the new tank odometry rotation to the expected one..
+    Localistation::wTank_theta += Rotation;
+
+    // TODO Here i should send the goal positions to the servos
+
     return 0;
 }
 

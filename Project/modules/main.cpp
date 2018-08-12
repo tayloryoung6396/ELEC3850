@@ -35,14 +35,17 @@ int main() {
         Classifier_main();
 
         // If we are in remote mode
-        if (1) {
-            PS3Control_main();
-        }
-        else {
-            // We must be in autonomous mode
-            // But we still need to check the remote, if it's connected, for a mode change command
-            AutonomousControl_main();
-        }
+        // if (1) {
+        //     PS3Control_main();
+        // }
+        // else {
+        // We must be in autonomous mode
+        // But we still need to check the remote, if it's connected, for a mode change command
+        AutonomousControl_main();
+        // }
+
+        // TODO Check that just spamming this doesn't affect the path
+        // If spamming does cause a bad path, check to see if we're at our goal before sending the next one
         // Based on the above inputs come up with the motor commands
         MotorController();
         // Based on the above inputs come up with the gripper commands
@@ -58,5 +61,3 @@ int main() {
         break;
     }
 }
-
-int State_Machine() {}
