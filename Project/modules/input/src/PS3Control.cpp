@@ -21,9 +21,10 @@ int PS3Control_main() {
     // Store the values in the respective variables
 
     // TODO Not sure how to handle this
-    // I would probably take the xy coordinates of the joystick, and convert it into polar coordinates
+    // I would probably take the xy coordinates of the joystick, and interpret it as foward and rotation
+    // The up down diraction would be forward backward
+    // The left right the rotation
     // from that it can be fed into the motorcontroller.
-    // However this means rotation on the spot doesn't work.. so not sure how to handle that input
     // Goodluck..
     return 0;
 }
