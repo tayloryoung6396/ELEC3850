@@ -9,6 +9,7 @@ int main() {
 
     // Initialise all modules
     printf("Starting Initilisation\n");
+    // wiringPiSetupSys();
     UART();
     PS3Control_init();
     AutonomousControl_init();
