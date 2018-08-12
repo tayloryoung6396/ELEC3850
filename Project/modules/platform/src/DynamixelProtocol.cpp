@@ -188,17 +188,17 @@ int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_
 
 
 void UART::setPacketTimeout(uint16_t packet_length) {
-    packet_start_time_ = getCurrentTime();
+    packet_start_time_ = UART::getCurrentTime();
     packet_timeout_    = (tx_time_per_byte * (double) packet_length) + (LATENCY_TIMER * 2.0) + 2.0;
 }
 
 void UART::setPacketTimeout(double msec) {
-    packet_start_time_ = getCurrentTime();
+    packet_start_time_ = UART::getCurrentTime();
     packet_timeout_    = msec;
 }
 
 bool UART::isPacketTimeout() {
-    if (getTimeSinceStart() > packet_timeout_) {
+    if (UART::getTimeSinceStart() > packet_timeout_) {
         packet_timeout_ = 0;
         return true;
     }
@@ -213,8 +213,8 @@ double UART::getCurrentTime() {
 double UART::getTimeSinceStart() {
     double elapsed_time;
 
-    elapsed_time = getCurrentTime() - packet_start_time_;
-    if (elapsed_time < 0.0) packet_start_time_ = getCurrentTime();
+    elapsed_time = UART::getCurrentTime() - packet_start_time_;
+    if (elapsed_time < 0.0) packet_start_time_ = UART::getCurrentTime();
 
     return elapsed_time;
 }
