@@ -14,14 +14,15 @@ void MotorController_init() {
 }
 
 int MotorController() {
+    PathPlanner pplanner;
+
     double Forward  = 1;
     double Rotation = M_PI / 2;
 
-    std::vector<std::pair<double, double>> path_vec;
-    path_vec.emplace_back(std::make_pair(Forward, Rotation));
-    if (!path_vec.empty()) {
-        std::vector<std::pair<double, double>>::const_iterator ret_vec = path_vec.begin();
-        path_vec.erase(path_vec.begin());
+    pplanner.emplace_path(Forward, Rotation);
+    if (!pplanner.check_path()) {
+        std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
+        pplanner.path_erase_first();
 
         if (MotorDriver(ret_vec->first, ret_vec->second) != 0) {
             std::cout << "Error Could not calculate motor driver" << std::endl;
