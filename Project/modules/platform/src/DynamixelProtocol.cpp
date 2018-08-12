@@ -206,7 +206,8 @@ bool isPacketTimeout() {
 }
 
 double getCurrentTime() {
-    return (double) millis();  // From wiringPi Library
+    return 0;
+    // return (double) millis();  // From wiringPi Library
 }
 
 double getTimeSinceStart() {

@@ -7,6 +7,8 @@
 
 #include "Localisation.hpp"
 
+double Localistation::wTank_theta = 0;
+
 void Localisation_init() {}
 
 int Localisation_main() {

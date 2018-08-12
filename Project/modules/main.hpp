@@ -25,10 +25,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <wiringPi.h>
+// #include <wiringPi.h>
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <vector>
 
 #define ADDRESS_VALUE(VAL) ADD_##VAL
 #define SIZE_VALUE(VAL) SIZE_##VAL

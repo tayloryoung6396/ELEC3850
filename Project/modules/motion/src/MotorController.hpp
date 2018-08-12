@@ -3,9 +3,12 @@
 
 #include "../../main.hpp"
 
-#define DistToRev 1
+#define DistToRev 1  // Meters per rotation
 
+extern int MotorController();
 extern void MotorController_init();
-extern int MotorController_main();
+extern int MotorDriver(double Forward, double Rotation);
+extern double ConvertDistanceToRotation(double Goal_Dist);
+extern double ConvertRotationToArclen(double Rotation);
 
 #endif /* MOTOR_CONTROLLER_H_ */

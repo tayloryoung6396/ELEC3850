@@ -6,4 +6,9 @@
 extern void Localisation_init();
 extern int Localisation_main();
 
+class Localistation {
+public:
+    static double wTank_theta;
+};
+
 #endif /* LOCALISATION_H_ */

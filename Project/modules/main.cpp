@@ -9,7 +9,7 @@ int main() {
 
     // Initialise all modules
     printf("Starting Initilisation\n");
-    wiringPiSetupSys();
+    // wiringPiSetupSys();
     UART();
     PS3Control_init();
     AutonomousControl_init();
@@ -44,7 +44,7 @@ int main() {
             AutonomousControl_main();
         }
         // Based on the above inputs come up with the motor commands
-        MotorController_main();
+        MotorController();
         // Based on the above inputs come up with the gripper commands
         double Goal[3] = {0.2, 0, 0.1};  // TODO remove
         IKGripper_main(Goal);
@@ -54,6 +54,7 @@ int main() {
                Gripper_angles::base_pitch * 180 / M_PI,
                Gripper_angles::elbow_pitch * 180 / M_PI,
                Gripper_angles::wrist_pitch * 180 / M_PI);
+
         break;
     }
 }
