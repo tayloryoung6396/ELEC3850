@@ -31,17 +31,6 @@ private:
 public:
     explicit UART();
     void DynamixelProtocol_init();
-
-    static int tx_time_per_byte;
-    static int packet_start_time_;
-    static int packet_timeout_;
-
-    // SDK Functions
-    void setPacketTimeout(uint16_t packet_length);
-    void setPacketTimeout(double msec);
-    bool isPacketTimeout();
-    double getCurrentTime();
-    double getTimeSinceStart();
 };
 
 
@@ -50,5 +39,17 @@ extern int executeWriteMulti(uint8_t* buf);
 extern int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_t* buf);
 extern int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* data);
 extern int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count);
+
+// SDK Functions
+
+static int tx_time_per_byte;
+static int packet_start_time_;
+static int packet_timeout_;
+
+extern void setPacketTimeout(uint16_t packet_length);
+extern void setPacketTimeout(double msec);
+extern bool isPacketTimeout();
+extern double getCurrentTime();
+extern double getTimeSinceStart();
 
 #endif /* DYNAMIXEL_PROTOCOL_H_ */

@@ -9,7 +9,6 @@
 #define UART_BAUD 115200
 
 class utility::io::uart uart;
-class UART UART;
 
 UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
     printf("Initilising UART\n");
@@ -81,7 +80,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
         // Figure out our packet length and some appropriate timeout
         // set packet timeout
 
-        UART.setPacketTimeout((uint16_t)(size + 11));  // CRC + Min length?
+        setPacketTimeout((uint16_t)(size + 11));  // CRC + Min length?
 
         // Now lets write our packet
         uart.write(&buf, sizeof(buf));
@@ -125,7 +124,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                     // Check that we haven't been waiting too long
                     if (rx_length < wait_length) {
                         // check timeout
-                        if (UART.isPacketTimeout() == true) {
+                        if (isPacketTimeout() == true) {
                             if (rx_length == 0) {
                                 rx_result = COMM_RX_TIMEOUT;
                             }
@@ -161,7 +160,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
 
             else {
                 // check timeout
-                if (UART.isPacketTimeout() == true) {
+                if (isPacketTimeout() == true) {
                     if (rx_length == 0) {
                         rx_result = COMM_RX_TIMEOUT;
                     }
@@ -187,18 +186,18 @@ int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_
 }
 
 
-void UART::setPacketTimeout(uint16_t packet_length) {
-    packet_start_time_ = UART::getCurrentTime();
+void setPacketTimeout(uint16_t packet_length) {
+    packet_start_time_ = getCurrentTime();
     packet_timeout_    = (tx_time_per_byte * (double) packet_length) + (LATENCY_TIMER * 2.0) + 2.0;
 }
 
-void UART::setPacketTimeout(double msec) {
-    packet_start_time_ = UART::getCurrentTime();
+void setPacketTimeout(double msec) {
+    packet_start_time_ = getCurrentTime();
     packet_timeout_    = msec;
 }
 
-bool UART::isPacketTimeout() {
-    if (UART::getTimeSinceStart() > packet_timeout_) {
+bool isPacketTimeout() {
+    if (getTimeSinceStart() > packet_timeout_) {
         packet_timeout_ = 0;
         return true;
     }
@@ -206,15 +205,15 @@ bool UART::isPacketTimeout() {
     return false;
 }
 
-double UART::getCurrentTime() {
+double getCurrentTime() {
     return (double) millis();  // From wiringPi Library
 }
 
-double UART::getTimeSinceStart() {
+double getTimeSinceStart() {
     double elapsed_time;
 
-    elapsed_time = UART::getCurrentTime() - packet_start_time_;
-    if (elapsed_time < 0.0) packet_start_time_ = UART::getCurrentTime();
+    elapsed_time = getCurrentTime() - packet_start_time_;
+    if (elapsed_time < 0.0) packet_start_time_ = getCurrentTime();
 
     return elapsed_time;
 }
