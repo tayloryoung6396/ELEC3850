@@ -81,13 +81,12 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
         // Figure out our packet length and some appropriate timeout
         // set packet timeout
 
-        UART.setPacketTimeout(
-            (uint16_t)(DXL_MAKEWORD(buf[PKT_PARAMETER0 + 2], buf[PKT_PARAMETER0 + 3]) + 11));  // CRC + Min length?
+        UART.setPacketTimeout((uint16_t)(size + 11));  // CRC + Min length?
 
         // Now lets write our packet
         uart.write(&buf, sizeof(buf));
         // Now lets listen for a return
-        int result           = COMM_TX_FAIL;
+        int rx_result        = COMM_TX_FAIL;
         uint16_t rx_length   = 0;
         uint16_t wait_length = 11;  // minimum length (H0 H1 H2 RESERVED ID LEN_L LEN_H INST ERROR CRC16_L CRC16_H)
 
@@ -97,8 +96,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
             if (rx_length >= wait_length) {
                 uint16_t idx = 0;
 
-                // find packet header
-                // TODO change this
+                // Find packet header
                 for (idx = 0; idx < (rx_length - 3); idx++) {
                     if ((data[idx] == 0xFF) && (data[idx + 1] == 0xFF) && (data[idx + 2] == 0xFD)
                         && (data[idx + 3] != 0xFD)) {
@@ -129,10 +127,10 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                         // check timeout
                         if (UART.isPacketTimeout() == true) {
                             if (rx_length == 0) {
-                                result = COMM_RX_TIMEOUT;
+                                rx_result = COMM_RX_TIMEOUT;
                             }
                             else {
-                                result = COMM_RX_CORRUPT;
+                                rx_result = COMM_RX_CORRUPT;
                             }
                             break;
                         }
@@ -145,10 +143,10 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                     uint16_t crc = DXL_MAKEWORD(data[wait_length - 2], data[wait_length - 1]);
                     // TODO this should check the checksum??
                     // if (dynamixel::v2::calculateChecksum(data, 0) == crc) {
-                    //     result = COMM_SUCCESS;
+                    //     rx_result = COMM_SUCCESS;
                     // }
                     // else {
-                    //     result = COMM_RX_CORRUPT;
+                    //     rx_result = COMM_RX_CORRUPT;
                     // }
                     // break;
                 }
@@ -165,10 +163,10 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                 // check timeout
                 if (UART.isPacketTimeout() == true) {
                     if (rx_length == 0) {
-                        result = COMM_RX_TIMEOUT;
+                        rx_result = COMM_RX_TIMEOUT;
                     }
                     else {
-                        result = COMM_RX_CORRUPT;
+                        rx_result = COMM_RX_CORRUPT;
                     }
                     break;
                 }
