@@ -4,7 +4,6 @@
 #include "../../main.hpp"
 #include "uart.hpp"
 
-
 class UART {
 private:
     const char* device;
@@ -32,6 +31,17 @@ private:
 public:
     explicit UART();
     void DynamixelProtocol_init();
+
+    static int tx_time_per_byte;
+    static int packet_start_time_;
+    static int packet_timeout_;
+
+    // SDK Functions
+    void setPacketTimeout(uint16_t packet_length);
+    void setPacketTimeout(double msec);
+    bool isPacketTimeout();
+    double getCurrentTime();
+    double getTimeSinceStart();
 };
 
 

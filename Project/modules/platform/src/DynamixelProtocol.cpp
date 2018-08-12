@@ -9,10 +9,12 @@
 #define UART_BAUD 115200
 
 class utility::io::uart uart;
+class UART UART;
 
 UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
     printf("Initilising UART\n");
     uart.open(device, baud);
+    tx_time_per_byte = (1000.0 / (double) baud) * 10.0;
 }
 
 // Function that takes servo ID, address, and data
@@ -68,12 +70,23 @@ int executeWriteMulti(uint8_t* buf) {
 
 #define data_MAX_LEN (4 * 1024)
 
+#define LATENCY_TIMER 16  // Random value taken from SDK
+#define INST_READ 2       // Actually use our enums
+
 // TODO Fix
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* data) {
     auto buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
+    // Check that our UART is still conected
     if (uart.good()) {
+        // Figure out our packet length and some appropriate timeout
+        // set packet timeout
+
+        UART.setPacketTimeout(
+            (uint16_t)(DXL_MAKEWORD(buf[PKT_PARAMETER0 + 2], buf[PKT_PARAMETER0 + 3]) + 11));  // CRC + Min length?
+
+        // Now lets write our packet
         uart.write(&buf, sizeof(buf));
-        // Read
+        // Now lets listen for a return
         int result           = COMM_TX_FAIL;
         uint16_t rx_length   = 0;
         uint16_t wait_length = 11;  // minimum length (H0 H1 H2 RESERVED ID LEN_L LEN_H INST ERROR CRC16_L CRC16_H)
@@ -98,9 +111,9 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                         || DXL_MAKEWORD(data[PKT_LENGTH_L], data[PKT_LENGTH_H]) > data_MAX_LEN
                         || data[PKT_INSTRUCTION] != 0x55) {
                         // remove the first byte in the packet
-                        for (uint16_t s = 0; s < rx_length - 1; s++)
+                        for (uint16_t s = 0; s < rx_length - 1; s++) {
                             data[s] = data[1 + s];
-                        // memcpy(&data[0], &data[idx], rx_length - idx);
+                        }
                         rx_length -= 1;
                         continue;
                     }
@@ -111,21 +124,21 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                         continue;
                     }
 
+                    // Check that we haven't been waiting too long
                     if (rx_length < wait_length) {
                         // check timeout
-                        // if (port->isPacketTimeout() == true) {
-                        //     if (rx_length == 0) {
-                        //         result = COMM_RX_TIMEOUT;
-                        //     }
-                        //     else {
-                        //         result = COMM_RX_CORRUPT;
-                        //     }
-                        //     break;
-                        // }
-                        // else {
-                        //     continue;
-                        // }
-                        // TODO Handle
+                        if (UART.isPacketTimeout() == true) {
+                            if (rx_length == 0) {
+                                result = COMM_RX_TIMEOUT;
+                            }
+                            else {
+                                result = COMM_RX_CORRUPT;
+                            }
+                            break;
+                        }
+                        else {
+                            continue;
+                        }
                     }
 
                     // verify CRC16
@@ -150,7 +163,15 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
 
             else {
                 // check timeout
-                // TODO handle this..
+                if (UART.isPacketTimeout() == true) {
+                    if (rx_length == 0) {
+                        result = COMM_RX_TIMEOUT;
+                    }
+                    else {
+                        result = COMM_RX_CORRUPT;
+                    }
+                    break;
+                }
             }
         }
     }
@@ -165,4 +186,37 @@ int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_
     // 		return 0;
     // }
     return -1;
+}
+
+
+void UART::setPacketTimeout(uint16_t packet_length) {
+    packet_start_time_ = getCurrentTime();
+    packet_timeout_    = (tx_time_per_byte * (double) packet_length) + (LATENCY_TIMER * 2.0) + 2.0;
+}
+
+void UART::setPacketTimeout(double msec) {
+    packet_start_time_ = getCurrentTime();
+    packet_timeout_    = msec;
+}
+
+bool UART::isPacketTimeout() {
+    if (getTimeSinceStart() > packet_timeout_) {
+        packet_timeout_ = 0;
+        return true;
+    }
+
+    return false;
+}
+
+double UART::getCurrentTime() {
+    return (double) millis();  // From wiringPi Library
+}
+
+double UART::getTimeSinceStart() {
+    double elapsed_time;
+
+    elapsed_time = getCurrentTime() - packet_start_time_;
+    if (elapsed_time < 0.0) packet_start_time_ = getCurrentTime();
+
+    return elapsed_time;
 }
