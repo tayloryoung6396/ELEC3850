@@ -21,7 +21,6 @@ int SimplePathPlanner_main() {
     double Rotation = M_PI / 2;
     PathPlanner pplanner;
 
-
     // Rotation is relative to the vehicle, not the world
     pplanner.emplace_path(Forward, Rotation);
     return 0;
