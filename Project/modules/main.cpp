@@ -34,15 +34,19 @@ int main() {
         IRCamera_main();
         Classifier_main();
 
-        // If we are in remote mode
-        // if (1) {
-        //     PS3Control_main();
-        // }
-        // else {
-        // We must be in autonomous mode
-        // But we still need to check the remote, if it's connected, for a mode change command
-        AutonomousControl_main();
-        // }
+        // Neither of these directly control the driving or the gripper.
+        // The driving is controlled by a vector of movement commands
+        // The gripper is controlled by seeting some goal position
+
+        // Check if we are connected, if we are then check the mode
+        // If we are in ps3 controll mode then don't run the autonomous controller
+        PS3Control_main();
+        // TODO This should be some mode variable
+        if (1) {
+            // We must be in autonomous mode
+            // But we still need to check the remote, if it's connected, for a mode change command
+            AutonomousControl_main();
+        }
 
         // TODO Check that just spamming this doesn't affect the path
         // If spamming does cause a bad path, check to see if we're at our goal before sending the next one

@@ -20,6 +20,13 @@ void PS3Control_init() {
 
 int PS3Control_main() {
     // Check the controller is connected
+    // if (connected) {
+    //     check the 'mode' button
+    // }
+    // If we are in remote mode
+    // if (mode_ps3) {
+
+
     // Check the inputs
     // Store the values in the respective variables
 
@@ -40,6 +47,7 @@ int PS3Control_main() {
 
     // Rotation is relative to the vehicle, not the world
     pplanner.emplace_path(Forward, Rotation);
+    // }
 
     return 0;
 }
