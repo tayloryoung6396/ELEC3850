@@ -26,6 +26,6 @@ int AutonomousControl_main() {
     // Figure out if there's stuff around me
     Localisation_main();
     // Decide how to move
-    SimplePathPlanner_main();
+    SimplePathPlanner(double wGoal[2]);
     return 0;
 }

@@ -15,3 +15,5 @@ int Localisation_main() {
     // Goal_pos vec2d
     return 0;
 }
+
+void TankToWorld(double Goal_Dist[2]) {}

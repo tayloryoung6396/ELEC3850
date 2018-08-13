@@ -9,6 +9,8 @@
 #include "../../localisation/src/Localisation.hpp"
 #include "../../platform/src/Kinematics.hpp"
 
+std::vector<std::pair<double, double>> PathPlanner::path_vec;
+
 void MotorController_init() {
     std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
 }
@@ -49,6 +51,7 @@ int MotorDriver(double Forward, double Rotation) {
     // Given that i actually get to the goal position
     // Set the new tank odometry rotation to the expected one..
     Localistation::wTank_theta += Rotation;
+    // Localistation::TankToWorld(Goal_Dist);
 
     // TODO Here i should send the goal positions to the servos
 
@@ -78,3 +81,22 @@ double ConvertRotationToArclen(double Rotation) {
 // hence if you wanted to turn on the spot and drive to xy, you could have 2 components to the list
 // the first being the zero length vector with a rotation
 // the second being the length of the goal
+
+void PathPlanner::emplace_path(double Forward, double Rotation) {
+    path_vec.emplace_back(std::make_pair(Forward, Rotation));
+}
+
+bool PathPlanner::check_path() {
+    if (path_vec.empty()) {
+        return true;
+    }
+    return false;
+}
+
+std::vector<std::pair<double, double>>::const_iterator PathPlanner::get_first_path() {
+    return path_vec.begin();
+}
+
+void PathPlanner::path_erase_first() {
+    path_vec.erase(path_vec.begin());
+}
