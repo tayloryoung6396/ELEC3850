@@ -144,11 +144,11 @@ int Grip_Object() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
     auto size        = MX28_SIZE_VALUE(GOAL_POSITION);
-    uint32_t* data   = 0;
+    PID data;
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        if (executeReadSingle(servo_ID, address, size, data) >= Kinematics::grip_load) {
+        if (executeReadSingle<PID>(servo_ID, address, size, &data) >= Kinematics::grip_load) {
             Gripped = true;
         }
         else if (Gripper_angles::grip >= Kinematics::grip_closed) {

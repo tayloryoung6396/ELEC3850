@@ -74,29 +74,31 @@ int executeWriteMulti(uint8_t* buf) {
 #define INST_READ 2       // Actually use our enums
 
 // TODO Fix
-int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* data) {
+template <typename T>
+int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, T* rx_data) {
 
-    auto buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
+    auto tx_buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
+
+    dynamixel::v2::StatusReturnCommand<T> stat;
+
+    uint8_t* data;
+    int rx_result        = COMM_TX_FAIL;
+    uint16_t rx_length   = 0;
+    uint16_t wait_length = 11;  // minimum length (H0 H1 H2 RESERVED ID LEN_L LEN_H INST ERROR CRC16_L CRC16_H)
+
     // Check that our UART is still conected
     if (uart.good()) {
         // Figure out our packet length and some appropriate timeout
         // set packet timeout
-
         setPacketTimeout((uint16_t)(size + 11));  // CRC + Min length?
-
         // Now lets write our packet
-        uart.write(&buf, sizeof(buf));
+        uart.write(&tx_buf, sizeof(tx_buf));
         // Now lets listen for a return
-        int rx_result        = COMM_TX_FAIL;
-        uint16_t rx_length   = 0;
-        uint16_t wait_length = 11;  // minimum length (H0 H1 H2 RESERVED ID LEN_L LEN_H INST ERROR CRC16_L CRC16_H)
-
         while (true) {
             // read into data the minimum amount expected, increment the amount read
             rx_length += uart.read(&data[rx_length], wait_length - rx_length);
             if (rx_length >= wait_length) {
                 uint16_t idx = 0;
-
                 // Find packet header
                 for (idx = 0; idx < (rx_length - 3); idx++) {
                     if ((data[idx] == 0xFF) && (data[idx + 1] == 0xFF) && (data[idx + 2] == 0xFD)
@@ -106,45 +108,11 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                 }
                 if (idx == 0)  // found at the beginning of the packet
                 {
-                    // TODO Maybe i should be forming the struct here, and then decoding it later...??
-                    if (data[PKT_RESERVED] != 0x00 || data[PKT_ID] > 0xFC
-                        || DXL_MAKEWORD(data[PKT_LENGTH_L], data[PKT_LENGTH_H]) > data_MAX_LEN
-                        || data[PKT_INSTRUCTION] != 0x55) {
-                        // remove the first byte in the packet
-                        for (uint16_t s = 0; s < rx_length - 1; s++) {
-                            data[s] = data[1 + s];
-                        }
-                        rx_length -= 1;
-                        continue;
-                    }
-
-                    // re-calculate the exact length of the rx packet
-                    if (wait_length != DXL_MAKEWORD(data[PKT_LENGTH_L], data[PKT_LENGTH_H]) + PKT_LENGTH_H + 1) {
-                        wait_length = DXL_MAKEWORD(data[PKT_LENGTH_L], data[PKT_LENGTH_H]) + PKT_LENGTH_H + 1;
-                        continue;
-                    }
-
-                    // Check that we haven't been waiting too long
-                    if (rx_length < wait_length) {
-                        // check timeout
-                        if (isPacketTimeout() == true) {
-                            if (rx_length == 0) {
-                                rx_result = COMM_RX_TIMEOUT;
-                            }
-                            else {
-                                rx_result = COMM_RX_CORRUPT;
-                            }
-                            break;
-                        }
-                        else {
-                            continue;
-                        }
-                    }
-
+                    uart.read(&stat, sizeof(stat));
                     // verify CRC16
-                    uint16_t crc = DXL_MAKEWORD(data[wait_length - 2], data[wait_length - 1]);
+                    uint16_t crc = stat.checksum;
                     // TODO this should check the checksum??
-                    if (dynamixel::v2::calculateChecksum(data, 0) == crc) {
+                    if (dynamixel::v2::calculateChecksum(&stat) == crc) {
                         rx_result = COMM_SUCCESS;
                     }
                     else {
@@ -160,7 +128,6 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                     rx_length -= idx;
                 }
             }
-
             else {
                 // check timeout
                 if (isPacketTimeout() == true) {
@@ -175,8 +142,8 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
             }
         }
     }
-
-    return 0;
+    rx_data = stat;
+    return rx_result;
 }
 
 int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count) {
