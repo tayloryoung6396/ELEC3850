@@ -26,6 +26,8 @@ int AutonomousControl_main() {
     // Figure out if there's stuff around me
     Localisation_main();
     // Decide how to move
-    SimplePathPlanner(double wGoal[2]);
+    // TODO make this a variable in the autonomous controller
+    double wGoal[2] = {0};
+    SimplePathPlanner(wGoal);
     return 0;
 }

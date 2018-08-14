@@ -5,6 +5,6 @@
 #include "../../main.hpp"
 
 extern void SimplePathPlanner_init();
-extern int SimplePathPlanner(double wGoal[2]);
+extern int SimplePathPlanner(double wGoal[]);
 
 #endif /* SIMPLE_PATH_PLANNER_H_ */

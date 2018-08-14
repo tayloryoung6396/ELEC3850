@@ -8,6 +8,7 @@
  */
 
 #include "SimplePathPlanner.hpp"
+#include "../../localisation/src/Localisation.hpp"
 
 void SimplePathPlanner_init() {}
 
@@ -15,11 +16,10 @@ int SimplePathPlanner(double wGoal[2]) {
     // Given a list of obstacles
     // Given a goal position
     // Knowing the current position
-    // TODO these should be read in from localisation parameter
-    double Localistation::wTank_pos[2];
+    // double Localisation::wTank_pos[2];
 
     // Calculate our vector from out current position to our goal position
-    double tGoal[2] = {wGoal[0] - wTank[0], wGoal[1] - wTank[1]};
+    double tGoal[2] = {wGoal[0] - Localistation::wTank_pos[0], wGoal[1] - Localistation::wTank_pos[1]};
 
     // Calculate the rotation difference
     double rGoal = std::atan2(tGoal[1], tGoal[0]);

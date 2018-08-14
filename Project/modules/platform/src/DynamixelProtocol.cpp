@@ -19,13 +19,12 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
 int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data) {
-    /*
+
     auto buf = dynamixel::v2::WriteCommand<uint8_t>(servo_ID, address, *data);
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
         return 0;
     }
-    */
     return -1;
 }
 
@@ -76,7 +75,7 @@ int executeWriteMulti(uint8_t* buf) {
 
 // TODO Fix
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* data) {
-    /*
+
     auto buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
     // Check that our UART is still conected
     if (uart.good()) {
@@ -107,6 +106,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                 }
                 if (idx == 0)  // found at the beginning of the packet
                 {
+                    // TODO Maybe i should be forming the struct here, and then decoding it later...??
                     if (data[PKT_RESERVED] != 0x00 || data[PKT_ID] > 0xFC
                         || DXL_MAKEWORD(data[PKT_LENGTH_L], data[PKT_LENGTH_H]) > data_MAX_LEN
                         || data[PKT_INSTRUCTION] != 0x55) {
@@ -144,13 +144,13 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
                     // verify CRC16
                     uint16_t crc = DXL_MAKEWORD(data[wait_length - 2], data[wait_length - 1]);
                     // TODO this should check the checksum??
-                    // if (dynamixel::v2::calculateChecksum(data, 0) == crc) {
-                    //     rx_result = COMM_SUCCESS;
-                    // }
-                    // else {
-                    //     rx_result = COMM_RX_CORRUPT;
-                    // }
-                    // break;
+                    if (dynamixel::v2::calculateChecksum(data, 0) == crc) {
+                        rx_result = COMM_SUCCESS;
+                    }
+                    else {
+                        rx_result = COMM_RX_CORRUPT;
+                    }
+                    break;
                 }
                 else {
                     // remove unnecessary packets
@@ -175,7 +175,6 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, uint32_t* d
             }
         }
     }
-    */
 
     return 0;
 }
