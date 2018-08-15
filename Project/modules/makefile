@@ -1,5 +1,21 @@
-make: main.cpp behaviour/src/SimplePathPlanner.cpp input/src/AutonomousControl.cpp input/src/PS3Control.cpp localisation/src/Localisation.cpp motion/src/IKGripper.cpp motion/src/MotorController.cpp platform/src/DynamixelProtocol.cpp platform/src/Kinematics.cpp platform/src/uart.cpp platform/src/SensorFilter.cpp vision/src/Camera.cpp vision/src/Classifier.cpp vision/src/IRCamera.cpp 
-	g++ -o main main.cpp behaviour/src/SimplePathPlanner.cpp input/src/AutonomousControl.cpp input/src/PS3Control.cpp localisation/src/Localisation.cpp motion/src/IKGripper.cpp motion/src/MotorController.cpp platform/src/DynamixelProtocol.cpp platform/src/Kinematics.cpp platform/src/uart.cpp platform/src/SensorFilter.cpp vision/src/Camera.cpp vision/src/Classifier.cpp vision/src/IRCamera.cpp -lm -I.
+SRCS := main.cpp \
+		behaviour/src/SimplePathPlanner.cpp \
+		input/src/AutonomousControl.cpp \
+		input/src/PS3Control.cpp \
+		localisation/src/Localisation.cpp \
+		platform/src/DynamixelProtocol.cpp \
+		motion/src/MotorController.cpp \
+		platform/src/Kinematics.cpp \
+		platform/src/uart.cpp \
+		platform/src/SensorFilter.cpp \
+		vision/src/Camera.cpp \
+		vision/src/Classifier.cpp \
+		motion/src/IKGripper.cpp \
+		vision/src/IRCamera.cpp
+FLAGS := -lm -I.
 
-makepi: main.cpp behaviour/src/SimplePathPlanner.cpp input/src/AutonomousControl.cpp input/src/PS3Control.cpp localisation/src/Localisation.cpp motion/src/IKGripper.cpp motion/src/MotorController.cpp platform/src/DynamixelProtocol.cpp platform/src/Kinematics.cpp platform/src/uart.cpp platform/src/SensorFilter.cpp vision/src/Camera.cpp vision/src/Classifier.cpp vision/src/IRCamera.cpp 
-	g++ -o main main.cpp behaviour/src/SimplePathPlanner.cpp input/src/AutonomousControl.cpp input/src/PS3Control.cpp localisation/src/Localisation.cpp motion/src/IKGripper.cpp motion/src/MotorController.cpp platform/src/DynamixelProtocol.cpp platform/src/Kinematics.cpp platform/src/uart.cpp platform/src/SensorFilter.cpp vision/src/Camera.cpp vision/src/Classifier.cpp vision/src/IRCamera.cpp -lm -lwiringPi -I.
+all: $(SRCS)
+	g++ -o main $(SRCS) $(FLAGS)
+
+makepi: $(SRCS)
+	g++ -o main $(SRCS) $(FLAGS)

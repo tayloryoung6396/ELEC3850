@@ -1,7 +1,7 @@
 #ifndef SENSOR_FILTER_H_
 #define SENSOR_FILTER_H_
 
-#include "../../main.hpp"
+#include "main.hpp"
 
 extern void SensorFilter_init();
 extern int SensorFilter_main();

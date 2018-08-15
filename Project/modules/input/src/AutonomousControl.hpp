@@ -1,7 +1,7 @@
 #ifndef AUTONOMOUS_CONTROL_H_
 #define AUTONOMOUS_CONTROL_H_
 
-#include "../../main.hpp"
+#include "main.hpp"
 
 extern void AutonomousControl_init();
 extern int AutonomousControl_main();

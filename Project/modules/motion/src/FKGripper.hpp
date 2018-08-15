@@ -1,7 +1,7 @@
 #ifndef FK_GRIPPER_HPP_
 #define FK_GRIPPER_HPP_
 
-#include "../../main.hpp"
+#include "main.hpp"
 
 extern void IKGripper_init();
 extern int IKGripper_main();

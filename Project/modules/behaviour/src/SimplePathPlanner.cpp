@@ -8,7 +8,6 @@
  */
 
 #include "SimplePathPlanner.hpp"
-#include "../../localisation/src/Localisation.hpp"
 
 void SimplePathPlanner_init() {}
 

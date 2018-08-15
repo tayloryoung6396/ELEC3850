@@ -1,7 +1,7 @@
 #ifndef IK_GRIPPER_HPP_
 #define IK_GRIPPER_HPP_
 
-#include "../../main.hpp"
+#include "main.hpp"
 
 #define DELTA_GRIP 0.03
 

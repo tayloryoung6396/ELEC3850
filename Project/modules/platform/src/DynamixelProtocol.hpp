@@ -1,8 +1,7 @@
 #ifndef DYNAMIXEL_PROTOCOL_H_
 #define DYNAMIXEL_PROTOCOL_H_
 
-#include "../../main.hpp"
-#include "uart.hpp"
+#include "main.hpp"
 
 class UART {
 private:

@@ -5,10 +5,6 @@
  */
 
 #include "MotorController.hpp"
-#include "../../behaviour/src/SimplePathPlanner.hpp"
-#include "../../localisation/src/Localisation.hpp"
-#include "../../platform/src/Kinematics.hpp"
-
 std::vector<std::pair<double, double>> PathPlanner::path_vec;
 
 void MotorController_init() {

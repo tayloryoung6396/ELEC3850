@@ -1,7 +1,7 @@
 #ifndef MOTOR_CONTROLLER_H_
 #define MOTOR_CONTROLLER_H_
 
-#include "../../main.hpp"
+#include "main.hpp"
 
 #define DistToRev 1  // Meters per rotation
 

@@ -1,7 +1,7 @@
 #ifndef KINEMATICS_H_
 #define KINEMATICS_H_
 
-#include "../../main.hpp"
+#include "main.hpp"
 
 extern void Kinematics_init();
 extern int Kinematics_main();

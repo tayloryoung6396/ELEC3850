@@ -3,7 +3,6 @@
  */
 
 #include "DynamixelProtocol.hpp"
-#include "uart.hpp"
 
 #define UART_DEVICE "/dev/ttyUSB0"
 #define UART_BAUD 115200

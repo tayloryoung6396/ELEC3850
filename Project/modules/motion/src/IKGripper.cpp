@@ -41,8 +41,6 @@
  */
 
 #include "IKGripper.hpp"
-#include "../../platform/src/DynamixelProtocol.hpp"
-#include "../../platform/src/Kinematics.hpp"
 
 double Gripper_angles::base_pitch  = 0;
 double Gripper_angles::base_yaw    = 0;
