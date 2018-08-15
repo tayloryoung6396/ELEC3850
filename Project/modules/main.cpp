@@ -34,9 +34,12 @@ int main() {
         IRCamera_main();
         Classifier_main();
 
-        // Neither of these directly control the driving or the gripper.
-        // The driving is controlled by a vector of movement commands
-        // The gripper is controlled by seeting some goal position
+        // The motor director overseas the current status of the drive motors
+        // It's job is to check whether the drive motors have reached the goal position
+        // Track the number of revolutions performed
+        // Update the localisation model about where we currently are.
+        // If need be, the motor director can perform the final positioning itself, independent of the loop
+        MotorDirector();
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 controll mode then don't run the autonomous controller
@@ -48,8 +51,9 @@ int main() {
             AutonomousControl_main();
         }
 
-        // TODO Check that just spamming this doesn't affect the path
-        // If spamming does cause a bad path, check to see if we're at our goal before sending the next one
+        // Neither of these directly control the driving or the gripper.
+        // The driving is controlled by a vector of movement commands
+        // The gripper is controlled by seeting some goal position with velocity
         // Based on the above inputs come up with the motor commands
         MotorController();
         // Based on the above inputs come up with the gripper commands

@@ -18,6 +18,7 @@ public:
 extern int MotorController();
 extern void MotorController_init();
 extern int MotorDriver(double Forward, double Rotation);
+extern int MotorDirector();
 extern double ConvertDistanceToRotation(double Goal_Dist);
 extern double ConvertRotationToArclen(double Rotation);
 

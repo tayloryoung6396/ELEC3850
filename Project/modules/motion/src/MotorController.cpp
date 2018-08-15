@@ -54,6 +54,38 @@ int MotorDriver(double Forward, double Rotation) {
     return 0;
 }
 
+int MotorDirector() {
+    // Check all drive motors are in the last known position
+    // And or check that we have reached our goal
+
+    // TODO
+    // Bulk read the 2 motor servos
+    // Check the current servo position
+    // if (moving) {
+    //     update the number of revolutions we've done
+    //     if(moving_forward && last_pos < 3500 && curr_pos > 0){
+    //         revolution++
+    //     }
+    //     else if(moving_backwards && last_pos > 500 && curr_pos < 3500){
+    //         revolution++
+    //     }
+    //     if (we're on the correct revolution && pres_pos ~= goal_pos){
+    //         stop driving
+    //         update moving
+    //     }
+    //     else if (we are on the correct revolution){
+    //         maybe take control and watch?
+    //         while(pres_pos !~= goal pos){
+    //            keep polling etc
+    //         }
+    //     }
+    // update locatisation with the actual position we finished at
+    // }
+    // else{
+    //     check we are where we think we are
+    // }
+}
+
 double ConvertDistanceToRotation(double Goal_Dist) {
     return (DistToRev * Goal_Dist);  // meters per rotation * goal meters
 }
