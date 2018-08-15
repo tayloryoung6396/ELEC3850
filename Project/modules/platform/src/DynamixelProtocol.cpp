@@ -51,10 +51,6 @@ int executeWriteMulti(uint8_t* buf) {
 #define PKT_INSTRUCTION 7
 #define PKT_ERROR 8
 #define PKT_PARAMETER0 8
-#define DXL_MAKEWORD(a, b)                                                                                             \
-    ((uint16_t)(((uint8_t)(((uint64_t)(a)) & 0xff)) | ((uint16_t)((uint8_t)(((uint64_t)(b)) & 0xff))) << 8))
-#define DXL_MAKEDWORD(a, b)                                                                                            \
-    ((uint32_t)(((uint16_t)(((uint64_t)(a)) & 0xffff)) | ((uint32_t)((uint16_t)(((uint64_t)(b)) & 0xffff))) << 16))
 
 // Communication Result
 #define COMM_SUCCESS 0            // tx or rx packet communication success
@@ -74,7 +70,7 @@ int executeWriteMulti(uint8_t* buf) {
 
 // TODO Fix
 template <typename T>
-int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, T* rx_data) {
+int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
 
     auto tx_buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
 
@@ -141,7 +137,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint size, T* rx_data)
             }
         }
     }
-    rx_data = stat;
+    rx_data = stat.data;
     return rx_result;
 }
 
@@ -187,3 +183,7 @@ double getTimeSinceStart() {
 
     return elapsed_time;
 }
+
+template int executeReadSingle<PID>(uint8_t, uint16_t, uint16_t, PID&);
+template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
+template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
