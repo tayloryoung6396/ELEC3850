@@ -59,20 +59,21 @@ int MotorDirector() {
     // Check all drive motors are in the last known position
     // And or check that we have reached our goal
     static uint32_t prev_pos[2]       = {0};  // TODO Make public
+    static uint32_t curr_pos[2]       = {0};  // TODO This is read in
     static uint8_t curr_revolution[2] = {0};
     static uint8_t goal_revolution[2] = {0};
     static int moving_flag[2]         = {0};
     // TODO
     // Bulk read the 2 motor servos
     uint8_t count       = 2;
-    uint8_t servo_ID[2] = {MOTOR_L_ID, MOTOR_R_ID};
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
     uint8_t address     = MX64_ADDRESS_VALUE(PRESENT_POSITION);
     uint8_t size        = MX64_SIZE_VALUE(PRESENT_POSITION);
-    MOTOR_T motor_data;
+    // OTOR_T motor_data;
 
-    executeReadMulti(servo_ID, address, motor_data, size, count);
+    // executeReadMulti(servo_ID, address, motor_data, size, count);
 
-    static uint32_t goal_pos = {0};  // TODO This is read in
+    static uint32_t goal_pos[2] = {0};  // TODO This is read in
 
     // Check the current servo position
     if (moving_flag[0] != 0 | moving_flag[1] != 0) {
@@ -86,13 +87,14 @@ int MotorDirector() {
                 curr_revolution[i]++;
             }
             // were on the correct revolution
-            if (curr_revolution[i] == goal_revolution[i] && pres_pos[i] = goal_pos[i]) {  // TODO Goal pos +- some delta
+            if (curr_revolution[i] == goal_revolution[i]
+                && curr_pos[i] == goal_pos[i]) {  // TODO Goal pos +- some delta
                 // stop driving update moving = 0
-                moving_flag = 0;
+                moving_flag[i] = 0;
             }
             else if (curr_revolution[i] == goal_revolution[i]) {
                 // maybe take control and watch ?
-                while (pres_pos[i] != goal_pos[i]) {  // TODO Goal pos +- some delta
+                while (curr_pos[i] != goal_pos[i]) {  // TODO Goal pos +- some delta
                     // keep polling etc
                     break;
                 }

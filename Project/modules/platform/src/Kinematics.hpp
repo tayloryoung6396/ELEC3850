@@ -6,7 +6,7 @@
 extern void Kinematics_init();
 extern int Kinematics_main();
 
-enum Servos { Base_Yaw = 1, Base_Pitch = 2, Elbow_Pitch = 3, Elbow_Roll = 4, Wrist_Pitch = 5, Gripper = 6 };
+enum Servos { Base_Yaw = 1, Base_Pitch = 2, Elbow_Pitch = 3, Wrist_Pitch = 4, Gripper = 5, Motor_L = 6, Motor_R = 7 };
 
 class Kinematics {
 public:
