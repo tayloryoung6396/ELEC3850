@@ -9,6 +9,7 @@ std::vector<std::pair<double, double>> PathPlanner::path_vec;
 
 void MotorController_init() {
     std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
+    // TODO Initialise current motor position
 }
 
 int MotorController() {
@@ -57,33 +58,52 @@ int MotorDriver(double Forward, double Rotation) {
 int MotorDirector() {
     // Check all drive motors are in the last known position
     // And or check that we have reached our goal
-
+    static uint32_t prev_pos[2]       = {0};  // TODO Make public
+    static uint8_t curr_revolution[2] = {0};
+    static uint8_t goal_revolution[2] = {0};
+    static int moving_flag[2]         = {0};
     // TODO
     // Bulk read the 2 motor servos
+    uint8_t count       = 2;
+    uint8_t servo_ID[2] = {MOTOR_L_ID, MOTOR_R_ID};
+    uint8_t address     = MX64_ADDRESS_VALUE(PRESENT_POSITION);
+    uint8_t size        = MX64_SIZE_VALUE(PRESENT_POSITION);
+    MOTOR_T motor_data;
+
+    executeReadMulti(servo_ID, address, motor_data, size, count);
+
+    static uint32_t goal_pos = {0};  // TODO This is read in
+
     // Check the current servo position
-    // if (moving) {
-    //     update the number of revolutions we've done
-    //     if(moving_forward && last_pos < 3500 && curr_pos > 0){
-    //         revolution++
-    //     }
-    //     else if(moving_backwards && last_pos > 500 && curr_pos < 3500){
-    //         revolution++
-    //     }
-    //     if (we're on the correct revolution && pres_pos ~= goal_pos){
-    //         stop driving
-    //         update moving
-    //     }
-    //     else if (we are on the correct revolution){
-    //         maybe take control and watch?
-    //         while(pres_pos !~= goal pos){
-    //            keep polling etc
-    //         }
-    //     }
-    // update locatisation with the actual position we finished at
-    // }
-    // else{
-    //     check we are where we think we are
-    // }
+    if (moving_flag[0] != 0 | moving_flag[1] != 0) {
+        for (int i = 0; i < 2; i++) {
+
+            // update the number of revolutions weve done
+            if (moving_flag[i] == 1 && prev_pos[i] < 3500 && curr_pos[i] > 0) {
+                curr_revolution[i]++;
+            }
+            else if (moving_flag[i] == -1 && prev_pos[i] > 500 && curr_pos[i] < 3500) {
+                curr_revolution[i]++;
+            }
+            // were on the correct revolution
+            if (curr_revolution[i] == goal_revolution[i] && pres_pos[i] = goal_pos[i]) {  // TODO Goal pos +- some delta
+                // stop driving update moving = 0
+                moving_flag = 0;
+            }
+            else if (curr_revolution[i] == goal_revolution[i]) {
+                // maybe take control and watch ?
+                while (pres_pos[i] != goal_pos[i]) {  // TODO Goal pos +- some delta
+                    // keep polling etc
+                    break;
+                }
+            }
+        }
+    }
+    // TODO update locatisation with the actual position we finished at
+    else {
+        // TODO check we are where we think we are
+    }
+    return 0;
 }
 
 double ConvertDistanceToRotation(double Goal_Dist) {
