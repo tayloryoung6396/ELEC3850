@@ -43,4 +43,8 @@
 #define DXL_MAKEDWORD(a, b)                                                                                            \
     ((uint32_t)(((uint16_t)(((uint64_t)(a)) & 0xffff)) | ((uint32_t)((uint16_t)(((uint64_t)(b)) & 0xffff))) << 16))
 
+
+extern double getCurrentTime();
+extern double getTimeSinceStart();
+
 #endif /* MAIN_H_ */
