@@ -12,7 +12,7 @@ SRCS := main.cpp \
 		vision/src/Classifier.cpp \
 		motion/src/IKGripper.cpp \
 		vision/src/IRCamera.cpp
-FLAGS := -lm -I.
+FLAGS := -lm -lwiringPi -I.
 
 all: $(SRCS)
 	g++ -o main $(SRCS) $(FLAGS)

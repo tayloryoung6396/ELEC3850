@@ -66,6 +66,6 @@ int main() {
                Gripper_angles::elbow_pitch * 180 / M_PI,
                Gripper_angles::wrist_pitch * 180 / M_PI);
 
-        break;
+//        break;
     }
 }
