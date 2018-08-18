@@ -27,7 +27,7 @@ int main() {
     // Loop forever to run robot
     // Execute all code here
     while (1) {
-        std::cout << "time" << getTimeSinceStart() << std::endl;
+        std::cout << "time" << (double) millis() << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();
@@ -68,19 +68,4 @@ int main() {
 
         //        break;
     }
-}
-
-double getCurrentTime() {
-    // return 0;
-    return (double) millis();  // From wiringPi Library
-}
-
-double getTimeSinceStart() {
-    double elapsed_time;
-    static double packet_start_time_;
-
-    elapsed_time = getCurrentTime() - packet_start_time_;
-    if (elapsed_time < 0.0) packet_start_time_ = getCurrentTime();
-
-    return elapsed_time;
 }
