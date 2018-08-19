@@ -28,6 +28,17 @@ int main() {
     // Execute all code here
     while (1) {
         std::cout << "time" << (double) millis() << std::endl;
+
+        uint8_t servo_ID = 1;
+        uint32_t data    = 1;
+        executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
+
+        data = 10;
+        executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data));
+
+        data = 10;
+        executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(MOVING), reinterpret_cast<uint8_t*>(&data));
+
         // For each iteration
         // Check sensors
         Camera_main();
@@ -66,6 +77,6 @@ int main() {
                Gripper_angles::elbow_pitch * 180 / M_PI,
                Gripper_angles::wrist_pitch * 180 / M_PI);
 
-        //        break;
+        break;
     }
 }
