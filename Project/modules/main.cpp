@@ -31,14 +31,14 @@ int main() {
 
         uint8_t servo_ID = 1;
         uint32_t data    = 1;
-        executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
-
-        data = 10;
-        executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data));
-
-        data = 10;
-        executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(MOVING), reinterpret_cast<uint8_t*>(&data));
-
+        int result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "Result" << result << std::endl;
+        data   = 10;
+        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "Result" << result << std::endl;
+        data   = 10;
+        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(MOVING), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "Result" << result << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();
