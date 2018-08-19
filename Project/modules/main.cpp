@@ -16,7 +16,7 @@ int main() {
     Kinematics_init();
     SensorFilter_init();
     MotorController_init();
-    FKGripper_init();
+//    FKGripper_init();
     IKGripper_init();
     Localisation_init();
     Camera_init();
@@ -52,7 +52,7 @@ int main() {
         // For each iteration
         // Check sensors
         Camera_main();
-        IRCamera_main();
+        InfraredSensor_main();
         Classifier_main();
 
         // The motor director overseas the current status of the drive motors

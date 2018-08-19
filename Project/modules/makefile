@@ -1,7 +1,7 @@
 SRCS := main.cpp \
 		behaviour/src/SimplePathPlanner.cpp \
-		input/AutonomousControl/src/AutonomousControl.cpp \
-		input/PS3Control/src/PS3Control.cpp \
+		input/AutonomousController/src/AutonomousControl.cpp \
+		input/PS3Controller/src/PS3Control.cpp \
 		localisation/src/Localisation.cpp \
 		platform/src/DynamixelProtocol.cpp \
 		motion/MotorController/src/MotorController.cpp \
@@ -12,7 +12,7 @@ SRCS := main.cpp \
 		vision/Classifier/src/Classifier.cpp \
 		motion/Gripper/src/IKGripper.cpp \
 		motion/Gripper/src/FKGripper.cpp \
-		vision/InfraredCamera/src/InfraredCamera.cpp \
+		vision/InfraredSensor/src/InfraredSensor.cpp \
 		vision/UltrasonicSensor/src/UltrasonicSensor.cpp
 FLAGS := -lm -lwiringPi -I.
 
