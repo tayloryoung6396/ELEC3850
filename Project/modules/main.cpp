@@ -26,8 +26,8 @@ int main() {
 
     // Loop forever to run robot
     // Execute all code here
-
     while (1) {
+        std::cout << "time" << (double) millis() << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();
@@ -66,6 +66,6 @@ int main() {
                Gripper_angles::elbow_pitch * 180 / M_PI,
                Gripper_angles::wrist_pitch * 180 / M_PI);
 
-        break;
+        //        break;
     }
 }
