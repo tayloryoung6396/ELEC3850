@@ -5,7 +5,7 @@
 #include "DynamixelProtocol.hpp"
 
 #define UART_DEVICE "/dev/ttyUSB0"
-#define UART_BAUD 115200
+#define UART_BAUD 1000000
 
 class utility::io::uart uart;
 
@@ -171,7 +171,7 @@ bool isPacketTimeout() {
 }
 
 double getCurrentTime() {
-   // return 0;
+    // return 0;
     return (double) millis();  // From wiringPi Library
 }
 
