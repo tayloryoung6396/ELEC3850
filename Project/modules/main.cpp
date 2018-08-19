@@ -29,18 +29,26 @@ int main() {
     // Loop forever to run robot
     // Execute all code here
     while (1) {
-        std::cout << "time" << (double) millis() << std::endl;
+        std::cout << "time -> " << (double) millis() << std::endl;
 
         uint8_t servo_ID = 1;
-        uint32_t data    = 1;
-        int result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
-        std::cout << "Result" << result << std::endl;
+        uint16_t read_buf;
+        int result = executeReadSingle(
+            servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf);
+        std::cout << "Read Result " << result << std::endl;
+        std::cout << "Read " << read_buf << std::endl;
+        uint32_t data = 1;
+        result        = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "LED Result " << result << std::endl;
+        data   = 1;
+        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "Torque Result " << result << std::endl;
         data   = 10;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data));
-        std::cout << "Result" << result << std::endl;
-        data   = 10;
-        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(MOVING), reinterpret_cast<uint8_t*>(&data));
-        std::cout << "Result" << result << std::endl;
+        std::cout << "Gain Result " << result << std::endl;
+        // data   = 10;
+        // result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(MOVING), reinterpret_cast<uint8_t*>(&data));
+        // std::cout << "Moving Result " << result << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();
