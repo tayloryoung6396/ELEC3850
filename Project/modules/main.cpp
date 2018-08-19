@@ -16,10 +16,12 @@ int main() {
     Kinematics_init();
     SensorFilter_init();
     MotorController_init();
+    FKGripper_init();
     IKGripper_init();
     Localisation_init();
     Camera_init();
-    IRCamera_init();
+    InfraredSensor_init();
+    UltrasonicSensor_init();
     Classifier_init();
     SimplePathPlanner_init();
     printf("Finished Initilisation\n");
