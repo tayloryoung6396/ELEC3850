@@ -9,14 +9,14 @@ int main() {
 
     // Initialise all modules
     printf("Starting Initilisation\n");
-    // wiringPiSetupSys();
+    wiringPiSetupSys();
     UART();
     PS3Control_init();
     AutonomousControl_init();
     Kinematics_init();
     SensorFilter_init();
     MotorController_init();
-//    FKGripper_init();
+    FKGripper_init();
     IKGripper_init();
     Localisation_init();
     Camera_init();
