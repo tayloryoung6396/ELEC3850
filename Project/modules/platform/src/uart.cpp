@@ -152,7 +152,7 @@ namespace io {
 
     ssize_t uart::write(const void* buf, size_t count) {
         tcflush(fd, TCIFLUSH);
-        auto = ::write(fd, buf, count);
+        auto n = ::write(fd, buf, count);
         tcflush(fd, TCIFLUSH);
         return n;
     }

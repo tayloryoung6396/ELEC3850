@@ -38,8 +38,8 @@ int main() {
         //     servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf);
         // std::cout << "Read Result " << result << std::endl;
         // std::cout << "Read " << read_buf << std::endl;
-        uint32_t data = 1;
-        result        = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
+        uint8_t data = 1;
+        result       = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
         std::cout << "LED Result " << result << std::endl;
         data   = 1;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
