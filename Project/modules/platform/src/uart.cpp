@@ -151,7 +151,10 @@ namespace io {
     }
 
     ssize_t uart::write(const void* buf, size_t count) {
-        return ::write(fd, buf, count);
+        tcflush(fd, TCIFLUSH);
+        auto = ::write(fd, buf, count);
+        tcflush(fd, TCIFLUSH);
+        return n;
     }
 
     ssize_t uart::blocking_write(const void* buf, size_t count) {

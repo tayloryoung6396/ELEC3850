@@ -58,33 +58,33 @@ int AutonomousControl_main() {
 // take the grid map and perform a weighted gradient over the map
 // output a goal position to send to path planner
 
-#define OBSTACLE 1
-#define GRID_X 60
-#define GRID_Y 60
+// #define OBSTACLE 1
+// #define GRID_X 60
+// #define GRID_Y 60
 
-// TODO this is slow, find a way to avoid the pow and sqrt
-int* weighted_search() {
-    int goal_x      = 0;
-    int goal_y      = 0;
-    double max_dist = 0;
-    curr_max_grid   = 0;
+// // TODO this is slow, find a way to avoid the pow and sqrt
+// int* weighted_search() {
+//     int goal_x      = 0;
+//     int goal_y      = 0;
+//     double max_dist = 0;
+//     curr_max_grid   = 0;
 
-    int tank_grid_x = 0;  // TODO populate from localisation
-    int tank_grid_x = 0;  // TODO populate from localisation
+//     int tank_grid_x = 0;  // TODO populate from localisation
+//     int tank_grid_x = 0;  // TODO populate from localisation
 
-    // Search each vertical column
-    for (int x = 0; x < GRID_X; x++) {
-        // Search each horizontal row
-        for (int y = 0; y < GRID_Y; y++) {
-            // If the cell doesnt have an obstacle curently in it
-            if (grid_map[x][y] != OBSTACLE) {
-                max_dist = std::sqrt(std::pow(x - tank_grid_x, 2) + std::pow(y - tank_grid_y, 2));
-                if (max_dist > curr_max_grid) {
-                    curr_max_grid = max_dist;
-                    goal_x        = x;
-                    goal_y        = y;
-                }
-            }
-        }
-    }
-}
+//     // Search each vertical column
+//     for (int x = 0; x < GRID_X; x++) {
+//         // Search each horizontal row
+//         for (int y = 0; y < GRID_Y; y++) {
+//             // If the cell doesnt have an obstacle curently in it
+//             if (grid_map[x][y] != OBSTACLE) {
+//                 max_dist = std::sqrt(std::pow(x - tank_grid_x, 2) + std::pow(y - tank_grid_y, 2));
+//                 if (max_dist > curr_max_grid) {
+//                     curr_max_grid = max_dist;
+//                     goal_x        = x;
+//                     goal_y        = y;
+//                 }
+//             }
+//         }
+//     }
+// }
