@@ -47,9 +47,9 @@ int main() {
         data   = 10;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data));
         std::cout << "Gain Result " << result << std::endl;
-        // data   = 10;
-        // result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(MOVING), reinterpret_cast<uint8_t*>(&data));
-        // std::cout << "Moving Result " << result << std::endl;
+        data   = 10;
+        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "Goal Result " << result << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();

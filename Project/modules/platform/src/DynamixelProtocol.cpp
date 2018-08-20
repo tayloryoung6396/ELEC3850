@@ -22,8 +22,6 @@ int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data) {
 
     auto buf = dynamixel::v2::WriteCommand<uint8_t>(servo_ID, address, *data);
 
-    std::cout << "Trying to write this " << buf << std::endl;
-
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
         return 0;

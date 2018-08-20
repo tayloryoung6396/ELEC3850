@@ -144,7 +144,7 @@ int Grip_Object() {
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), MX28_SIZE_VALUE(GOAL_POSITION), grip_load);
+        // executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), MX28_SIZE_VALUE(GOAL_POSITION), grip_load);
         if (grip_load >= Kinematics::grip_load) {
             Gripped = true;
         }
