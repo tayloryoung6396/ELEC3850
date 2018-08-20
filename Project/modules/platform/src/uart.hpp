@@ -18,7 +18,7 @@ namespace io {
 
         explicit uart();
 
-        explicit uart(const std::string& device, const unsigned int& baud_rate = 1000000);
+        explicit uart(const std::string& device, const unsigned int& baud_rate = 115200);
 
         ~uart();
 
@@ -38,7 +38,7 @@ namespace io {
         ssize_t write(const void* buf, size_t count);
         ssize_t blocking_write(const void* buf, size_t count);
 
-        void open(const std::string& device, const unsigned int& baud_rate = 1000000);
+        void open(const std::string& device, const unsigned int& baud_rate = 115200);
 
         void close();
     };

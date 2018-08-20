@@ -5,7 +5,7 @@
 #include "DynamixelProtocol.hpp"
 
 #define UART_DEVICE "/dev/ttyUSB0"
-#define UART_BAUD 1000000
+#define UART_BAUD 115200
 
 class utility::io::uart uart;
 

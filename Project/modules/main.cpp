@@ -33,10 +33,11 @@ int main() {
 
         uint8_t servo_ID = 1;
         uint16_t read_buf;
-        int result = executeReadSingle(
-            servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf);
-        std::cout << "Read Result " << result << std::endl;
-        std::cout << "Read " << read_buf << std::endl;
+        int result;
+        // result = executeReadSingle(
+        //     servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf);
+        // std::cout << "Read Result " << result << std::endl;
+        // std::cout << "Read " << read_buf << std::endl;
         uint32_t data = 1;
         result        = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
         std::cout << "LED Result " << result << std::endl;
