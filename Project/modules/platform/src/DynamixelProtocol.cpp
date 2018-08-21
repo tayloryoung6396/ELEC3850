@@ -88,7 +88,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         std::cout << __LINE__ << " uart is good" << std::endl;
         // Figure out our packet length and some appropriate timeout
         // set packet timeout
-        setPacketTimeout((uint16_t)(11));//size + 11));  // CRC + Min length?
+        setPacketTimeout((uint16_t)(11));  // size + 11));  // CRC + Min length?
         // Now lets write our packet
         uart.write(&tx_buf, sizeof(tx_buf));
         std::cout << __LINE__ << " uart written" << std::endl;
@@ -135,9 +135,9 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // check timeout
-//                std::cout << __LINE__ << "else" << std::endl;
+                //                std::cout << __LINE__ << "else" << std::endl;
                 if (isPacketTimeout() == true) {
-		    std::cout << __LINE__ << "packet timeout" << std::endl;
+                    std::cout << __LINE__ << "packet timeout" << std::endl;
                     if (rx_length == 0) {
                         rx_result = COMM_RX_TIMEOUT;
                     }
@@ -179,9 +179,9 @@ void setPacketTimeout(double msec) {
 }
 
 bool isPacketTimeout() {
-//    std::cout << "Packet Timeout" << packet_timeout_ << std::endl;
+    //    std::cout << "Packet Timeout" << packet_timeout_ << std::endl;
     if (getTimeSinceStart() > packet_timeout_) {
-	std::cout << __LINE__ << "timeout" << std::endl;
+        std::cout << __LINE__ << "timeout" << std::endl;
         packet_timeout_ = 0;
         return true;
     }
