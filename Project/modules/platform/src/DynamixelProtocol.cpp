@@ -75,7 +75,7 @@ template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
 
     auto tx_buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
-
+    std::cout << __LINE__ << std::endl;
     dynamixel::v2::StatusReturnCommand<T> stat;
 
     uint8_t* data;
@@ -85,32 +85,40 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
     // Check that our UART is still conected
     if (uart.good()) {
+        std::cout << __LINE__ << " uart is good" << std::endl;
         // Figure out our packet length and some appropriate timeout
         // set packet timeout
-        setPacketTimeout((uint16_t)(size + 11));  // CRC + Min length?
+        setPacketTimeout((uint16_t)(11));//size + 11));  // CRC + Min length?
         // Now lets write our packet
         uart.write(&tx_buf, sizeof(tx_buf));
+        std::cout << __LINE__ << " uart written" << std::endl;
         // Now lets listen for a return
         while (true) {
+            // std::cout << __LINE__ << std::endl;
             // read into data the minimum amount expected, increment the amount read
             rx_length += uart.read(&data[rx_length], wait_length - rx_length);
             if (rx_length >= wait_length) {
+                std::cout << __LINE__ << " This would be good" << std::endl;
                 uint16_t idx = 0;
                 // Find packet header
                 for (idx = 0; idx < (rx_length - 3); idx++) {
                     if ((data[idx] == 0xFF) && (data[idx + 1] == 0xFF) && (data[idx + 2] == 0xFD)
                         && (data[idx + 3] != 0xFD)) {
+                        std::cout << __LINE__ << std::endl;
                         break;
                     }
                 }
                 if (idx == 0)  // found at the beginning of the packet
                 {
+                    std::cout << __LINE__ << std::endl;
                     uart.read(&stat, sizeof(stat));
                     // verify CRC16
                     uint16_t crc = stat.checksum;
                     // TODO this should check the checksum??
+                    std::cout << __LINE__ << std::endl;
                     if (dynamixel::v2::calculateChecksum(&stat) == crc) {
                         rx_result = COMM_SUCCESS;
+                        std::cout << __LINE__ << std::endl;
                     }
                     else {
                         rx_result = COMM_RX_CORRUPT;
@@ -127,7 +135,9 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // check timeout
+//                std::cout << __LINE__ << "else" << std::endl;
                 if (isPacketTimeout() == true) {
+		    std::cout << __LINE__ << "packet timeout" << std::endl;
                     if (rx_length == 0) {
                         rx_result = COMM_RX_TIMEOUT;
                     }
@@ -139,7 +149,9 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
         }
     }
+    std::cout << __LINE__ << std::endl;
     rx_data = stat.data;
+    std::cout << __LINE__ << std::endl;
     return rx_result;
 }
 
@@ -156,15 +168,20 @@ int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_
 void setPacketTimeout(uint16_t packet_length) {
     packet_start_time_ = getCurrentTime();
     packet_timeout_    = (tx_time_per_byte * (double) packet_length) + (LATENCY_TIMER * 2.0) + 2.0;
+    std::cout << "start " << packet_start_time_ << " timeout " << packet_timeout_ << std::endl;
 }
 
 void setPacketTimeout(double msec) {
+    std::cout << "I should call this??" << std::endl;
     packet_start_time_ = getCurrentTime();
     packet_timeout_    = msec;
+    std::cout << "S " << packet_start_time_ << " timeout " << packet_timeout_ << std::endl;
 }
 
 bool isPacketTimeout() {
+//    std::cout << "Packet Timeout" << packet_timeout_ << std::endl;
     if (getTimeSinceStart() > packet_timeout_) {
+	std::cout << __LINE__ << "timeout" << std::endl;
         packet_timeout_ = 0;
         return true;
     }
@@ -179,8 +196,8 @@ double getCurrentTime() {
 
 double getTimeSinceStart() {
     double elapsed_time;
-
     elapsed_time = getCurrentTime() - packet_start_time_;
+    std::cout << __LINE__ << " " << elapsed_time << " " << packet_start_time_ << " " << getCurrentTime() << std::endl;
     if (elapsed_time < 0.0) packet_start_time_ = getCurrentTime();
 
     return elapsed_time;
