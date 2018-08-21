@@ -14,7 +14,7 @@ SRCS := main.cpp \
 		motion/Gripper/src/FKGripper.cpp \
 		vision/InfraredSensor/src/InfraredSensor.cpp \
 		vision/UltrasonicSensor/src/UltrasonicSensor.cpp
-FLAGS := -lm -lwiringPi -I.
+FLAGS := -lm -lwiringPi -ggdb -O0 -I.
 
 all: $(SRCS)
 	g++ -o main $(SRCS) $(FLAGS)
