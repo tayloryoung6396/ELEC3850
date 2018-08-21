@@ -97,6 +97,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             // std::cout << __LINE__ << std::endl;
             // read into data the minimum amount expected, increment the amount read
             rx_length += uart.read(&data[rx_length], wait_length - rx_length);
+            std::cout << "uart read " << rx_length << std::endl;
             if (rx_length >= wait_length) {
                 std::cout << __LINE__ << " This would be good" << std::endl;
                 uint16_t idx = 0;

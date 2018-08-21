@@ -34,10 +34,10 @@ int main() {
         uint8_t servo_ID = 1;
         uint16_t read_buf;
         int result;
-        // result = executeReadSingle(
-        //     servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf);
-        // std::cout << "Read Result " << result << std::endl;
-        // std::cout << "Read " << read_buf << std::endl;
+        result = executeReadSingle(
+            servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf);
+        std::cout << "Read Result " << result << std::endl;
+        std::cout << "Read " << read_buf << std::endl;
         uint8_t data = 1;
         result       = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
         std::cout << "LED Result " << result << std::endl;
@@ -47,18 +47,9 @@ int main() {
         uint16_t data2 = 850;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data2));
         std::cout << "P Gain Result " << result << std::endl;
-        data2  = 100;
-        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_P_GAIN), reinterpret_cast<uint8_t*>(&data2));
-        std::cout << "V_P Gain Result " << result << std::endl;
-        data2  = 1920;
-        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_I_GAIN), reinterpret_cast<uint8_t*>(&data2));
-        std::cout << "V_I Gain Result " << result << std::endl;
         uint32_t data3 = 0;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), reinterpret_cast<uint8_t*>(&data3));
         std::cout << "Goal Result " << result << std::endl;
-        data3  = 50;
-        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_VELOCITY), reinterpret_cast<uint8_t*>(&data3));
-        std::cout << "VEL Goal Result " << result << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();
