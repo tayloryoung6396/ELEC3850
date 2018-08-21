@@ -78,7 +78,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
     std::cout << __LINE__ << std::endl;
     dynamixel::v2::StatusReturnCommand<T> stat;
 
-    uint8_t* data;
+    uint8_t data[11] = {0};
     int rx_result        = COMM_TX_FAIL;
     uint16_t rx_length   = 0;
     uint16_t wait_length = 11;  // minimum length (H0 H1 H2 RESERVED ID LEN_L LEN_H INST ERROR CRC16_L CRC16_H)
@@ -96,9 +96,11 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         while (true) {
             // std::cout << __LINE__ << std::endl;
             // read into data the minimum amount expected, increment the amount read
+	    std::cout << "uart read " << rx_length << std::endl;
             rx_length += uart.read(&data[rx_length], wait_length - rx_length);
-            std::cout << "uart read " << rx_length << std::endl;
-            if (rx_length >= wait_length) {
+	    //rx_length++;
+	    std::cout << "data " << data[rx_length] << std::endl;
+	    if (rx_length >= wait_length) {
                 std::cout << __LINE__ << " This would be good" << std::endl;
                 uint16_t idx = 0;
                 // Find packet header
@@ -117,12 +119,14 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
                     uint16_t crc = stat.checksum;
                     // TODO this should check the checksum??
                     std::cout << __LINE__ << std::endl;
-                    if (dynamixel::v2::calculateChecksum(&stat) == crc) {
+		    uint16_t crc_rx = dynamixel::v2::calculateChecksum(&stat);
+                    if (crc_rx == crc) {
                         rx_result = COMM_SUCCESS;
                         std::cout << __LINE__ << std::endl;
                     }
                     else {
-                        rx_result = COMM_RX_CORRUPT;
+                        std::cout << "CRC Returned " << crc_rx << " expected " << crc << std::endl;
+			rx_result = COMM_RX_CORRUPT;
                     }
                     break;
                 }
