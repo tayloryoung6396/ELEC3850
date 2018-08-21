@@ -8,3 +8,5 @@ Project/modules/main
 \.vs/
 
 *.sublime-workspace
+
+*.save
