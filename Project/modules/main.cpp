@@ -44,10 +44,10 @@ int main() {
         data   = 1;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
         std::cout << "Torque Result " << result << std::endl;
-        data   = 10;
+        data   = 850;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), reinterpret_cast<uint8_t*>(&data));
         std::cout << "Gain Result " << result << std::endl;
-        data   = 10;
+        data   = 0;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), reinterpret_cast<uint8_t*>(&data));
         std::cout << "Goal Result " << result << std::endl;
         // For each iteration
