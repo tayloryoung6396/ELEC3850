@@ -39,26 +39,6 @@ struct PID {
     uint16_t D;
 };
 
-// This is the header that is contained in the CommandResult
-#pragma pack(push, 1)  // Make sure that this struct is not cache aligned
-struct Header {
-    Header() {}
-    uint8_t id        = -1;
-    uint16_t length   = 0;
-    uint8_t errorcode = -1;
-};
-// Check that this struct is not cache aligned
-static_assert(sizeof(Header) == 3, "The compiler is adding padding to this struct, Bad compiler!");
-#pragma pack(pop)
-
-// This is the object that is returned when a command is run
-struct CommandResult {
-    CommandResult() : header(), data(), checksum(0) {}
-    Header header;
-    std::vector<uint8_t> data;
-    uint8_t checksum;
-};
-
 extern int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data);
 extern int executeWriteMulti(uint8_t* buf);
 extern int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_t* buf);
