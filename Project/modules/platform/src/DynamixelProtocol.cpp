@@ -252,14 +252,14 @@ int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_
 void setPacketTimeout(uint16_t packet_length) {
     packet_start_time_ = getCurrentTime();
     packet_timeout_    = (tx_time_per_byte * (double) packet_length) + (LATENCY_TIMER * 2.0) + 2.0;
-    std::cout << "start " << packet_start_time_ << " timeout " << packet_timeout_ << std::endl;
+    // std::cout << "start " << packet_start_time_ << " timeout " << packet_timeout_ << std::endl;
 }
 
 void setPacketTimeout(double msec) {
-    std::cout << "I should call this??" << std::endl;
+    // std::cout << "I should call this??" << std::endl;
     packet_start_time_ = getCurrentTime();
     packet_timeout_    = msec;
-    std::cout << "S " << packet_start_time_ << " timeout " << packet_timeout_ << std::endl;
+    // std::cout << "S " << packet_start_time_ << " timeout " << packet_timeout_ << std::endl;
 }
 
 bool isPacketTimeout() {
@@ -281,7 +281,8 @@ double getCurrentTime() {
 double getTimeSinceStart() {
     double elapsed_time;
     elapsed_time = getCurrentTime() - packet_start_time_;
-    std::cout << __LINE__ << " " << elapsed_time << " " << packet_start_time_ << " " << getCurrentTime() << std::endl;
+    // std::cout << __LINE__ << " " << elapsed_time << " " << packet_start_time_ << " " << getCurrentTime() <<
+    // std::endl;
     if (elapsed_time < 0.0) packet_start_time_ = getCurrentTime();
 
     return elapsed_time;
