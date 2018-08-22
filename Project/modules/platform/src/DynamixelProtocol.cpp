@@ -70,15 +70,19 @@ int executeWriteMulti(uint8_t* buf) {
 #define LATENCY_TIMER 16  // Random value taken from SDK
 #define INST_READ 2       // Actually use our enums
 
+#define byte_wait 1200
+#define packet_wait 100000
+
 // TODO Fix
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
+
 
     auto tx_buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
     std::cout << __LINE__ << std::endl;
     dynamixel::v2::StatusReturnCommand<T> stat;
 
-    uint8_t data[11] = {0};
+    uint8_t data[11]     = {0};
     int rx_result        = COMM_TX_FAIL;
     uint16_t rx_length   = 0;
     uint16_t wait_length = 11;  // minimum length (H0 H1 H2 RESERVED ID LEN_L LEN_H INST ERROR CRC16_L CRC16_H)
@@ -86,78 +90,90 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
     // Check that our UART is still conected
     if (uart.good()) {
         std::cout << __LINE__ << " uart is good" << std::endl;
-        // Figure out our packet length and some appropriate timeout
-        // set packet timeout
-        setPacketTimeout((uint16_t)(11));  // size + 11));  // CRC + Min length?
+
         // Now lets write our packet
         uart.write(&tx_buf, sizeof(tx_buf));
         std::cout << __LINE__ << " uart written" << std::endl;
-        // Now lets listen for a return
-        while (true) {
-            // std::cout << __LINE__ << std::endl;
-            // read into data the minimum amount expected, increment the amount read
-	    std::cout << "uart read " << rx_length << std::endl;
-            rx_length += uart.read(&data[rx_length], wait_length - rx_length);
-	    //rx_length++;
-	    std::cout << "data " << data[rx_length] << std::endl;
-	    if (rx_length >= wait_length) {
-                std::cout << __LINE__ << " This would be good" << std::endl;
-                uint16_t idx = 0;
-                // Find packet header
-                for (idx = 0; idx < (rx_length - 3); idx++) {
-                    if ((data[idx] == 0xFF) && (data[idx + 1] == 0xFF) && (data[idx + 2] == 0xFD)
-                        && (data[idx + 3] != 0xFD)) {
-                        std::cout << __LINE__ << std::endl;
-                        break;
-                    }
-                }
-                if (idx == 0)  // found at the beginning of the packet
-                {
-                    std::cout << __LINE__ << std::endl;
-                    uart.read(&stat, sizeof(stat));
-                    // verify CRC16
-                    uint16_t crc = stat.checksum;
-                    // TODO this should check the checksum??
-                    std::cout << __LINE__ << std::endl;
-		    uint16_t crc_rx = dynamixel::v2::calculateChecksum(&stat);
-                    if (crc_rx == crc) {
-                        rx_result = COMM_SUCCESS;
-                        std::cout << __LINE__ << std::endl;
-                    }
-                    else {
-                        std::cout << "CRC Returned " << crc_rx << " expected " << crc << std::endl;
-			rx_result = COMM_RX_CORRUPT;
-                    }
-                    break;
-                }
-                else {
-                    // remove unnecessary packets
-                    for (uint16_t s = 0; s < rx_length - idx; s++) {
-                        data[s] = data[idx + s];
-                    }
-                    rx_length -= idx;
+
+        // First we find the packet magic number in order to sync with the channel
+        setPacketTimeout((uint16_t)(PACKET_WAIT));
+        for (int sync = 0; sync < 2;) {
+            if (isPacketTimeout() == true) {
+                uint8_t byte;
+
+                if (uart.read(&byte, 1) > 0) {
+                    sync = (byte == 0xFF) ? (sync + 1) : 0;
                 }
             }
             else {
-                // check timeout
-                //                std::cout << __LINE__ << "else" << std::endl;
-                if (isPacketTimeout() == true) {
-                    std::cout << __LINE__ << "packet timeout" << std::endl;
-                    if (rx_length == 0) {
-                        rx_result = COMM_RX_TIMEOUT;
-                    }
-                    else {
-                        rx_result = COMM_RX_CORRUPT;
-                    }
-                    break;
-                }
+                // The result is pre initialized as a timeout
+                return stat.error;
             }
         }
+
+        // We now are now waiting for 4 bytes
+        setPacketTimeout((uint16_t)(BYTE_WAIT * sizeof(stat.magic)));
+        uint8_t* headerBytes = reinterpret_cast<uint8_t*>(&stat.magic);
+        for (size_t done = 0; done < sizeof(Header);) {
+            if (isPacketTimeout() == true) {
+                done += uart.read(&headerBytes[done], sizeof(Header) - done);
+            }
+            else {
+                // The result is pre initialized as a timeout
+                return stat.error;
+            }
+        }
+
+        // Here we adjust our "length" to mean the length of the payload rather then the length of bytes after the
+        // length
+        int length = 0;
+        if (sat.length < 2) {
+            std::cout << "Length: " << (int) stat.length << ", " << (int) (stat.length - 2) << "\r" << std::endl;
+        }
+
+        else {
+            length = stat.length - 2;
+        }
+
+        // We now are now waiting for our data
+        setPacketTimeout((uint16_t)(BYTE_WAIT * length));
+        stat.data.resize(length);
+        for (int done = 0; done < length;) {
+            if (isPacketTimeout() == true) {
+                done += uart.read(&stat.data[done], length - done);
+            }
+            else {
+                // Set our packet header to timeout and return it
+                stat.error = COMM_RX_TIMEOUT;
+                return stat.error;
+            }
+        }
+
+        // We just read the checksum now
+        setPacketTimeout((uint16_t)(2000));
+        if (isPacketTimeout() == true) {
+            // If we fail to read the checksum then just assume corrupt data.
+            if (uart.read(&stat.checksum, 1) != 1) {
+                stat.error = COMM_RX_CORRUPT;
+                return stat.error;
+            }
+        }
+        else {
+            // If all we are missing is the checksum, just assume the data is corrupt
+            stat.error = COMM_RX_CORRUPT;
+            return stat.error;
+        }
+
+        // Validate our checksum
+        if (stat.checksum != calculateChecksum(stat)) {
+            stat.checksum = 0;  // GCC doesn't like that this isn't initalized
+            stat.error    = COMM_RX_CORRUPT;
+            return stat.error;
+        }
+
+        // Return the packet we recieved
+        return stat.error;
     }
-    std::cout << __LINE__ << std::endl;
-    rx_data = stat.data;
-    std::cout << __LINE__ << std::endl;
-    return rx_result;
 }
 
 int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count) {
