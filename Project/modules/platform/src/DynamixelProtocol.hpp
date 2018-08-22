@@ -44,7 +44,7 @@ struct PID {
 struct Header {
     Header() {}
     uint8_t id        = -1;
-    uint8_t length    = 0;
+    uint16_t length   = 0;
     uint8_t errorcode = -1;
 };
 // Check that this struct is not cache aligned
