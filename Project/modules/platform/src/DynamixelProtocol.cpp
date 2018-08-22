@@ -82,8 +82,6 @@ int executeWriteMulti(uint8_t* buf) {
 //     std::cout << __LINE__ << std::endl;
 //     dynamixel::v2::StatusReturnCommand<T> stat;
 
-//     CommandResult result;
-
 //     int rx_result      = COMM_TX_FAIL;
 //     uint16_t rx_length = 0;
 
@@ -215,14 +213,16 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
         while (true) {
             if (isPacketTimeout() != true) {
-                rx_length += uart.read(&stat, sizeof(stat) - rx_length);
-                if (rx_length == sizeof(stat)) {
+                rx_length +=
+                    uart.read((reinterpret_cast<uint8_t*>(&stat) + 4), sizeof(stat) - sizeof(stat.magic) - rx_length);
+                if (rx_length == sizeof(stat) - sizeof(stat.magic)) {
                     break;
                 }
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) << std::endl;
+                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
+                          << std::endl;
                 return rx_result;
             }
         }
