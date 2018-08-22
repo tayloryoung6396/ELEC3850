@@ -193,21 +193,21 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         std::cout << __LINE__ << " uart written" << std::endl;
 
         // First we find the packet magic number in order to sync with the channel
-        // setPacketTimeout((uint16_t)(PACKET_WAIT));
-        // for (int sync = 0; sync < 2;) {
-        //     if (isPacketTimeout() != true) {
-        //         uint8_t byte;
+        setPacketTimeout((uint16_t)(PACKET_WAIT));
+        for (int sync = 0; sync < 2;) {
+            if (isPacketTimeout() != true) {
+                uint8_t byte;
 
-        //         if (uart.read(&byte, 1) > 0) {
-        //             sync = (byte == 0xFF) ? (sync + 1) : 0;
-        //         }
-        //     }
-        //     else {
-        //         // The result is pre initialized as a timeout
-        //         std::cout << "failed to sync" << std::endl;
-        //         return rx_result;
-        //     }
-        // }
+                if (uart.read(&byte, 1) > 0) {
+                    sync = (byte == 0xFF) ? (sync + 1) : 0;
+                }
+            }
+            else {
+                // The result is pre initialized as a timeout
+                std::cout << "failed to sync" << std::endl;
+                return rx_result;
+            }
+        }
 
         // We now are now waiting for 4 bytes
         setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
