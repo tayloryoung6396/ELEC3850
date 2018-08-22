@@ -98,7 +98,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         // First we find the packet magic number in order to sync with the channel
         setPacketTimeout((uint16_t)(PACKET_WAIT));
         for (int sync = 0; sync < 2;) {
-            if (isPacketTimeout() == true) {
+            if (isPacketTimeout() != true) {
                 uint8_t byte;
 
                 if (uart.read(&byte, 1) > 0) {
@@ -107,21 +107,27 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // The result is pre initialized as a timeout
-                return rx_result
+		std::cout << "failed to sync" << std::endl;
+                return rx_result;
             }
         }
 
+	uint8_t* packet_bytes;
         // We now are now waiting for 4 bytes
-        setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * length) + (2000)));
+        setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * size) + (20000)));
         // uint8_t* headerBytes;// = reinterpret_cast<uint8_t*>(&stat.magic);
         while (true) {
             // for (size_t done = 0; done < sizeof(stat.magic);) {
             if (isPacketTimeout() != true) {
-                rx_length += uart.read(&stat, sizeof(stat) - done);
+                rx_length += uart.read(&(stat.id), sizeof(stat) - sizeof(stat.magic) - rx_length);
+		if(rx_length == sizeof(stat) - sizeof(stat.magic)){
+		    break;
+		}
             }
             else {
                 // The result is pre initialized as a timeout
-                return rx_result
+		std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) << std::endl;
+                return rx_result;
             }
             //}
 
@@ -167,13 +173,17 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             // }
         }
         // Validate our checksum
-        if (stat.checksum != dynamixel::v2::calculateChecksum(stat)) {
+	//stat = packet_bytes;
+        uint16_t crc = dynamixel::v2::calculateChecksum(&stat);
+        if (stat.checksum != crc) {
             // stat.checksum = 0;  // GCC doesn't like that this isn't initalized
             // stat.error    = COMM_RX_CORRUPT;
+	    std::cout << "Checksum corrupt got " << stat.checksum  << " calculated " << crc << std::endl;
             return COMM_RX_CORRUPT;
         }
 
         // Return the packet we recieved
+	std::cout << "Success" << std::endl;
         return COMM_SUCCESS;
     }
 }
