@@ -82,8 +82,6 @@ int executeWriteMulti(uint8_t* buf) {
 //     std::cout << __LINE__ << std::endl;
 //     dynamixel::v2::StatusReturnCommand<T> stat;
 
-//     CommandResult result;
-
 //     int rx_result      = COMM_TX_FAIL;
 //     uint16_t rx_length = 0;
 
@@ -194,21 +192,30 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         uart.write(&tx_buf, sizeof(tx_buf));
         std::cout << __LINE__ << " uart written" << std::endl;
 
-        First we find the packet magic number in order to sync with the channel setPacketTimeout(
-            (uint16_t)(PACKET_WAIT));
-        for (int sync = 0; sync < 2;) {
-            if (isPacketTimeout() != true) {
-                uint8_t byte;
-
-                if (uart.read(&byte, 1) > 0) {
-                    sync = (byte == 0xFF) ? (sync + 1) : 0;
+        // First we find the packet magic number in order to sync with the channel
+        setPacketTimeout((uint16_t)(PACKET_WAIT));
+        uint8_t byte;
+        int bytes_read = 0;
+        while (isPacketTimeout() != true) {
+            if (uart.read(&byte, 1) > 0) {
+                if (bytes_read == 0 && byte == 0xFF) {
+                    bytes_read++;
+                }
+                else if (bytes_read == 1 && byte == 0xFF) {
+                    bytes_read++;
+                }
+                else if (bytes_read == 2 && byte == 0xFD) {
+                    bytes_read++;
+                }
+                else if (bytes_read == 3 && byte != 0xFD) {
+                    bytes_read++;
                 }
             }
-            else {
-                // The result is pre initialized as a timeout
-                std::cout << "failed to sync" << std::endl;
-                return rx_result;
-            }
+        }
+        if (bytes_read != 4) {
+            // The result is pre initialized as a timeout
+            std::cout << "failed to sync" << std::endl;
+            return rx_result;
         }
 
         // We now are now waiting for 4 bytes
@@ -217,13 +224,14 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             if (isPacketTimeout() != true) {
                 rx_length +=
                     uart.read((reinterpret_cast<uint8_t*>(&stat) + 4), sizeof(stat) - sizeof(stat.magic) - rx_length);
-                if (rx_length == sizeof(stat) - sizeof(stat.magic) - 2) {
+                if (rx_length == sizeof(stat) - sizeof(stat.magic)) {
                     break;
                 }
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) << std::endl;
+                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
+                          << std::endl;
                 return rx_result;
             }
         }
