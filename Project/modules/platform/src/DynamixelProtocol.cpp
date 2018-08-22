@@ -70,8 +70,8 @@ int executeWriteMulti(uint8_t* buf) {
 #define LATENCY_TIMER 16  // Random value taken from SDK
 #define INST_READ 2       // Actually use our enums
 
-#define byte_wait 1200
-#define packet_wait 100000
+#define BYTE_WAIT 1200
+#define PACKET_WAIT 100000
 
 // TODO Fix
 template <typename T>
@@ -113,10 +113,10 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
         // We now are now waiting for 4 bytes
         setPacketTimeout((uint16_t)(BYTE_WAIT * sizeof(stat.magic)));
-        uint8_t* headerBytes = reinterpret_cast<uint8_t*>(&stat.magic);
-        for (size_t done = 0; done < sizeof(Header);) {
+        uint8_t* headerBytes;// = reinterpret_cast<uint8_t*>(&stat.magic);
+        for (size_t done = 0; done < sizeof(stat.magic);) {
             if (isPacketTimeout() == true) {
-                done += uart.read(&headerBytes[done], sizeof(Header) - done);
+                done += uart.read(&headerBytes[done], sizeof(stat.magic) - done);
             }
             else {
                 // The result is pre initialized as a timeout
@@ -127,7 +127,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         // Here we adjust our "length" to mean the length of the payload rather then the length of bytes after the
         // length
         int length = 0;
-        if (sat.length < 2) {
+        if (stat.length < 2) {
             std::cout << "Length: " << (int) stat.length << ", " << (int) (stat.length - 2) << "\r" << std::endl;
         }
 
@@ -137,14 +137,14 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
         // We now are now waiting for our data
         setPacketTimeout((uint16_t)(BYTE_WAIT * length));
-        stat.data.resize(length);
+        //stat.data.resize(length);
         for (int done = 0; done < length;) {
             if (isPacketTimeout() == true) {
-                done += uart.read(&stat.data[done], length - done);
+                done += uart.read(&stat.data, length - done);
             }
             else {
                 // Set our packet header to timeout and return it
-                stat.error = COMM_RX_TIMEOUT;
+                // stat.error = COMM_RX_TIMEOUT;
                 return stat.error;
             }
         }
@@ -154,13 +154,13 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         if (isPacketTimeout() == true) {
             // If we fail to read the checksum then just assume corrupt data.
             if (uart.read(&stat.checksum, 1) != 1) {
-                stat.error = COMM_RX_CORRUPT;
+                // stat.error = COMM_RX_CORRUPT;
                 return stat.error;
             }
         }
         else {
             // If all we are missing is the checksum, just assume the data is corrupt
-            stat.error = COMM_RX_CORRUPT;
+            // stat.error = COMM_RX_CORRUPT;
             return stat.error;
         }
 
@@ -224,6 +224,6 @@ double getTimeSinceStart() {
     return elapsed_time;
 }
 
-template int executeReadSingle<PID>(uint8_t, uint16_t, uint16_t, PID&);
+//template int executeReadSingle<PID>(uint8_t, uint16_t, uint16_t, PID&);
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
