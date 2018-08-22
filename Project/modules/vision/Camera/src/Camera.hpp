@@ -3,6 +3,9 @@
 
 #include "main.hpp"
 
+#include <cstdio>
+#include <string>
+
 extern void Camera_init();
 extern int Camera_main();
 
