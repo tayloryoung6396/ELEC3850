@@ -17,7 +17,7 @@ short map(long x, long in_min, long in_max, long out_min, long out_max) {
 }
 
 // map to the range of the short variable
-short short_map(long x) {
+short map(long x) {
     return (x - SHRT_MIN) * (2 * SHRT_MAX - 2 * SHRT_MIN) / (SHRT_MAX - SHRT_MIN) + 2 * SHRT_MIN;
 }
 
