@@ -107,72 +107,74 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // The result is pre initialized as a timeout
-                return stat.error;
+                return rx_result
             }
         }
 
         // We now are now waiting for 4 bytes
-        setPacketTimeout((uint16_t)(BYTE_WAIT * sizeof(stat.magic)));
-        uint8_t* headerBytes;// = reinterpret_cast<uint8_t*>(&stat.magic);
-        for (size_t done = 0; done < sizeof(stat.magic);) {
-            if (isPacketTimeout() == true) {
-                done += uart.read(&headerBytes[done], sizeof(stat.magic) - done);
+        setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * length) + (2000)));
+        // uint8_t* headerBytes;// = reinterpret_cast<uint8_t*>(&stat.magic);
+        while (true) {
+            // for (size_t done = 0; done < sizeof(stat.magic);) {
+            if (isPacketTimeout() != true) {
+                rx_length += uart.read(&stat, sizeof(stat) - done);
             }
             else {
                 // The result is pre initialized as a timeout
-                return stat.error;
+                return rx_result
             }
-        }
+            //}
 
-        // Here we adjust our "length" to mean the length of the payload rather then the length of bytes after the
-        // length
-        int length = 0;
-        if (stat.length < 2) {
-            std::cout << "Length: " << (int) stat.length << ", " << (int) (stat.length - 2) << "\r" << std::endl;
-        }
+            // // Here we adjust our "length" to mean the length of the payload rather then the length of bytes after
+            // the
+            // // length
+            // int length = 0;
+            // if (stat.length < 2) {
+            //     std::cout << "Length: " << (int) stat.length << ", " << (int) (stat.length - 2) << "\r" << std::endl;
+            // }
 
-        else {
-            length = stat.length - 2;
-        }
+            // else {
+            //     length = stat.length - 2;
+            // }
 
-        // We now are now waiting for our data
-        setPacketTimeout((uint16_t)(BYTE_WAIT * length));
-        //stat.data.resize(length);
-        for (int done = 0; done < length;) {
-            if (isPacketTimeout() == true) {
-                done += uart.read(&stat.data, length - done);
-            }
-            else {
-                // Set our packet header to timeout and return it
-                // stat.error = COMM_RX_TIMEOUT;
-                return stat.error;
-            }
-        }
+            // // We now are now waiting for our data
+            // setPacketTimeout((uint16_t)(BYTE_WAIT * length));
+            // //stat.data.resize(length);
+            // for (int done = 0; done < length;) {
+            //     if (isPacketTimeout() == true) {
+            //         done += uart.read(&stat.data, length - done);
+            //     }
+            //     else {
+            //         // Set our packet header to timeout and return it
+            //         // stat.error = COMM_RX_TIMEOUT;
+            //         return stat.error;
+            //     }
+            // }
 
-        // We just read the checksum now
-        setPacketTimeout((uint16_t)(2000));
-        if (isPacketTimeout() == true) {
-            // If we fail to read the checksum then just assume corrupt data.
-            if (uart.read(&stat.checksum, 1) != 1) {
-                // stat.error = COMM_RX_CORRUPT;
-                return stat.error;
-            }
+            // We just read the checksum now
+            // setPacketTimeout((uint16_t)(2000));
+            // if (isPacketTimeout() == true) {
+            //     // If we fail to read the checksum then just assume corrupt data.
+            //     if (uart.read(&stat.checksum, 1) != 1) {
+            //         // stat.error = COMM_RX_CORRUPT;
+            //         return stat.error;
+            //     }
+            // }
+            // else {
+            //     // If all we are missing is the checksum, just assume the data is corrupt
+            //     // stat.error = COMM_RX_CORRUPT;
+            //     return stat.error;
+            // }
         }
-        else {
-            // If all we are missing is the checksum, just assume the data is corrupt
-            // stat.error = COMM_RX_CORRUPT;
-            return stat.error;
-        }
-
         // Validate our checksum
-        if (stat.checksum != calculateChecksum(stat)) {
-            stat.checksum = 0;  // GCC doesn't like that this isn't initalized
-            stat.error    = COMM_RX_CORRUPT;
-            return stat.error;
+        if (stat.checksum != dynamixel::v2::calculateChecksum(stat)) {
+            // stat.checksum = 0;  // GCC doesn't like that this isn't initalized
+            // stat.error    = COMM_RX_CORRUPT;
+            return COMM_RX_CORRUPT;
         }
 
         // Return the packet we recieved
-        return stat.error;
+        return COMM_SUCCESS;
     }
 }
 
@@ -224,6 +226,6 @@ double getTimeSinceStart() {
     return elapsed_time;
 }
 
-//template int executeReadSingle<PID>(uint8_t, uint16_t, uint16_t, PID&);
+// template int executeReadSingle<PID>(uint8_t, uint16_t, uint16_t, PID&);
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
