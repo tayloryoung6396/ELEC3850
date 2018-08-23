@@ -21,7 +21,7 @@ double* FK_Calculate(double base_yaw, double base_pitch, double elbow_pitch, dou
     Pres_pos[1]                 = std::sin(base_yaw) * arm_len_xy;
     Pres_pos[0]                 = std::cos(base_yaw) * arm_len_xy;
 
-    return Pres_pos;
+    return 0;  // Pres_pos;
 }
 
 double SAS_triangle(double b, double c, double angle_A) {
