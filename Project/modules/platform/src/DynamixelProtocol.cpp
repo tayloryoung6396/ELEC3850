@@ -241,9 +241,6 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
                 return rx_result;
             }
         }
-	std::cout << "data size " << size << std::endl;
-	stat.length = 3 + size;
-	std::cout << "stat.length " << stat.length << std::endl;
         // Validate our checksum
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
@@ -258,6 +255,12 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             std::cout << " stat.data        " << stat.data << std::endl;
             std::cout << " stat.checksum    " << stat.checksum << std::endl;
             std::cout << std::dec << std::endl;
+
+            std::array<uint8_t, 12> test = *(reinterpret_cast<std::array<uint8_t, 12>*>(&stat));
+            for (int k = 0; k < 12; k++) {
+                std::cout << ((int) (test[k])) << std::endl;
+            }
+
             return COMM_RX_CORRUPT;
         }
 
