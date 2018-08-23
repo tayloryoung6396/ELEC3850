@@ -51,3 +51,25 @@ int PS3Control_main() {
 
     return 0;
 }
+
+// Initilise
+// Connect to the controller
+
+// Running
+
+// Step 1
+// Check that the controller is connected
+// If it's not then don't worry about the rest of this
+// Probably some safety feature to stop it driving away
+// If we were in ps3 mode and we have disconnected, we might try to reconnect
+// If that fails stop the vehicle
+
+// Step 2
+// Read in all of the buttons
+// bytes_read = read(ps3_handle, data, sizeof(data))
+// if we read in all of the bytes expected then good
+
+// Step 3
+// Check to see if we have switched from autonomous mode to ps3 or vise versa
+// If we are in ps3 mode, then look at all of the other buttons
+// Perform some action/tell someone else that a button has been pressed
