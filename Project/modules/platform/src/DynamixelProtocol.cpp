@@ -138,7 +138,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         auto offset = sizeof(stat.magic) + header_size;
         setPacketTimeout((uint16_t)(BYTE_WAIT * length));
         for (int done = 0; done < length;) {
-            if (isPacketTimeout() == true) {
+            if (isPacketTimeout() != true) {
                 done += uart.read((reinterpret_cast<uint8_t*>(&stat) + offset), length - done);
             }
             else {
@@ -165,9 +165,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat);
         if (stat.checksum != crc) {
             std::cout << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::endl;
-            std::cout << "Packet Received"
-                      << "\n"
-                      << std::endl;
+            std::cout << "Packet Received" << std::endl;
             std::cout << std::hex << std::endl;
             std::cout << " stat.magic       " << stat.magic << std::endl;
             std::cout << " stat.id          " << stat.id << std::endl;
@@ -246,6 +244,16 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat);
         if (stat.checksum != crc) {
             std::cout << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::endl;
+            std::cout << "Packet Received" << std::endl;
+            std::cout << std::hex << std::endl;
+            std::cout << " stat.magic       " << stat.magic << std::endl;
+            std::cout << " stat.id          " << stat.id << std::endl;
+            std::cout << " stat.length      " << stat.length << std::endl;
+            std::cout << " stat.instruction " << stat.instruction << std::endl;
+            std::cout << " stat.error       " << stat.error << std::endl;
+            std::cout << " stat.data        " << stat.data << std::endl;
+            std::cout << " stat.checksum    " << stat.checksum << std::endl;
+            std::cout << std::dec << std::endl;
             return COMM_RX_CORRUPT;
         }
 
