@@ -30,7 +30,7 @@ int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data) {
 }
 
 int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_t* buf) {
-    //*buf = dynamixel::v2::BulkWriteData<uint8_t>(servo_ID, address, *data);
+    // *buf = dynamixel::v2::BulkWriteData<uint8_t>(servo_ID, address, *data);
     return 0;
 }
 
@@ -74,6 +74,7 @@ int executeWriteMulti(uint8_t* buf) {
 #define PACKET_WAIT 100000
 
 // TODO Fix
+/*
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
 
@@ -182,10 +183,10 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         return COMM_SUCCESS;
     }
 }
-
+*/
 
 /****************************************************************************************************************************/
-/*
+
 
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
@@ -240,8 +241,11 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
                 return rx_result;
             }
         }
+	std::cout << "data size " << size << std::endl;
+	stat.length = 3 + size;
+	std::cout << "stat.length " << stat.length << std::endl;
         // Validate our checksum
-        uint16_t crc = dynamixel::v2::calculateChecksum(&stat);
+        uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
             std::cout << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::endl;
             std::cout << "Packet Received" << std::endl;
@@ -262,7 +266,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         return COMM_SUCCESS;
     }
 }
-*/
+
 
 int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count) {
     // auto buf = dynamixel::v2::BulkRead();
