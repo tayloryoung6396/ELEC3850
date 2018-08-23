@@ -74,7 +74,7 @@ int executeWriteMulti(uint8_t* buf) {
 #define PACKET_WAIT 100000
 
 // TODO Fix
-/*
+
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
 
@@ -163,19 +163,25 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         }
 
         // Validate our checksum
-        uint16_t crc = dynamixel::v2::calculateChecksum(&stat);
+        uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
             std::cout << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::endl;
             std::cout << "Packet Received" << std::endl;
             std::cout << std::hex << std::endl;
-            std::cout << " stat.magic       " << stat.magic << std::endl;
-            std::cout << " stat.id          " << stat.id << std::endl;
-            std::cout << " stat.length      " << stat.length << std::endl;
-            std::cout << " stat.instruction " << stat.instruction << std::endl;
-            std::cout << " stat.error       " << stat.error << std::endl;
-            std::cout << " stat.data        " << stat.data << std::endl;
-            std::cout << " stat.checksum    " << stat.checksum << std::endl;
+            std::cout << " stat.magic       " << (int) stat.magic << std::endl;
+            std::cout << " stat.id          " << (int) stat.id << std::endl;
+            std::cout << " stat.length      " << (int) stat.length << std::endl;
+            std::cout << " stat.instruction " << (int) stat.instruction << std::endl;
+            std::cout << " stat.error       " << (int) stat.error << std::endl;
+            std::cout << " stat.data        " << (int) stat.data << std::endl;
+            std::cout << " stat.checksum    " << (int) stat.checksum << std::endl;
             std::cout << std::dec << std::endl;
+            std::cout << "start" << std::hex << std::endl;
+            std::array<uint8_t, 12> test = *(reinterpret_cast<std::array<uint8_t, 12>*>(&stat));
+            for (int k = 0; k < 12; k++) {
+                std::cout << ((int) (test[k])) << std::endl;
+            }
+            std::cout << std::dec << "end" << std::endl;
             return COMM_RX_CORRUPT;
         }
 
@@ -183,11 +189,11 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         return COMM_SUCCESS;
     }
 }
-*/
+
 
 /****************************************************************************************************************************/
 
-
+/*
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
 
@@ -228,8 +234,8 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
         while (true) {
             if (isPacketTimeout() != true) {
-                rx_length +=
-                    uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic)), sizeof(stat) - sizeof(stat.magic) - rx_length);
+                rx_length += uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic)),
+                                       sizeof(stat) - sizeof(stat.magic) - rx_length);
                 if (rx_length == sizeof(stat) - sizeof(stat.magic)) {
                     break;
                 }
@@ -255,12 +261,12 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             std::cout << " stat.data        " << (int) stat.data << std::endl;
             std::cout << " stat.checksum    " << (int) stat.checksum << std::endl;
             std::cout << std::dec << std::endl;
-	    std::cout << "start" << std::hex << std::endl;
+            std::cout << "start" << std::hex << std::endl;
             std::array<uint8_t, 12> test = *(reinterpret_cast<std::array<uint8_t, 12>*>(&stat));
             for (int k = 0; k < 12; k++) {
                 std::cout << ((int) (test[k])) << std::endl;
             }
-	    std::cout << std::dec << "end" << std::endl;
+            std::cout << std::dec << "end" << std::endl;
             return COMM_RX_CORRUPT;
         }
 
@@ -269,7 +275,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         return COMM_SUCCESS;
     }
 }
-
+*/
 
 int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count) {
     // auto buf = dynamixel::v2::BulkRead();
