@@ -66,8 +66,31 @@ int main() {
             servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), MX28_SIZE_VALUE(POSITION_P_GAIN), read_buf2);
         std::cout << "P_GAIN RESULT " << result << std::endl;
         std::cout << "P_GAIN VALUE " << read_buf << std::endl;
-        delay(10);
         uint32_t read_buf3;
+        delay(10);
+        std::cout << "READING Min pos limit" << std::endl;
+        result = executeReadSingle(
+            servo_ID, MX28_ADDRESS_VALUE(MIN_POSITION_LIMIT), MX28_SIZE_VALUE(MIN_POSITION_LIMIT), read_buf3);
+        std::cout << "Min pos limit RESULT " << result << std::endl;
+        std::cout << "Min pos limit VALUE " << read_buf << std::endl;
+
+        delay(10);
+        std::cout << "READING Max pos limit" << std::endl;
+        result = executeReadSingle(
+            servo_ID, MX28_ADDRESS_VALUE(MAX_POSITION_LIMIT), MX28_SIZE_VALUE(MAX_POSITION_LIMIT), read_buf3);
+        std::cout << "Max pos limit RESULT " << result << std::endl;
+        std::cout << "Max pos limit VALUE " << read_buf << std::endl;
+
+
+        delay(10);
+        std::cout << "READING PRESENT" << std::endl;
+        result = executeReadSingle(
+            servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf3);
+        std::cout << "PRESENT RESULT " << result << std::endl;
+        std::cout << "PRESENT VALUE " << read_buf << std::endl;
+
+        delay(10);
+
         uint32_t data3 = 2000;
         std::cout << "WRITING GOAL" << std::endl;
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), reinterpret_cast<uint8_t*>(&data3));
