@@ -17,7 +17,7 @@ SRCS := main.cpp \
 FLAGS := -lm -lwiringPi -ggdb -O0 -I.
 
 all: $(SRCS)
-	g++ -o main $(SRCS) $(FLAGS)
+	g++ -std=c++11 -o main $(SRCS) $(FLAGS)
 
 makepi: $(SRCS)
-	g++ -o main $(SRCS) $(FLAGS)
+	g++ -std=c++11 -o main $(SRCS) $(FLAGS)
