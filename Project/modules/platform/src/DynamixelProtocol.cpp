@@ -143,7 +143,6 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         if (stat.checksum != crc) {
             std::cout << std::hex << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::dec
                       << std::endl;
-            std::cout << "Packet Received" << std::endl;
             std::cout << std::hex << std::endl;
             std::cout << " stat.magic       " << (int) stat.magic << std::endl;
             std::cout << " stat.id          " << (int) stat.id << std::endl;
@@ -153,17 +152,15 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             std::cout << " stat.data        " << (int) stat.data << std::endl;
             std::cout << " stat.checksum    " << (int) stat.checksum << std::endl;
             std::cout << std::dec << std::endl;
-            std::cout << "start" << std::hex << std::endl;
             std::array<uint8_t, 12> test = *(reinterpret_cast<std::array<uint8_t, 12>*>(&stat));
             for (int k = 0; k < 12; k++) {
                 std::cout << ((int) (test[k])) << std::endl;
             }
-            std::cout << std::dec << "end" << std::endl;
             return COMM_RX_CORRUPT;
         }
 
         // Return the packet we recieved
-        std::cout << "Success" << (int) (stat.data) << std::endl;
+        std::cout << "Success " << (int) (stat.data) << std::endl;
         return COMM_SUCCESS;
     }
 }
