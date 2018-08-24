@@ -35,14 +35,20 @@ int main() {
         uint16_t read_buf;
         int result;
         result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
-        std::cout << "Read Result " << result << std::endl;
-        std::cout << "Read " << read_buf << std::endl;
+        std::cout << "LED RESULT " << result << std::endl;
+        std::cout << "LED VALUE " << read_buf << std::endl;
         uint8_t data = 1;
         result       = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
-        std::cout << "LED Result " << result << std::endl;
-        // data   = 1;
-        // result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
-        // std::cout << "Torque Result " << result << std::endl;
+        std::cout << "LED RESULT " << result << std::endl;
+
+        data = 1;
+        std::cout << "WRITING TORQUE" << std::endl;
+        result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
+        std::cout << "TORQUE RESULT " << result << std::endl;
+        std::cout << "READING TORQUE" << std::endl;
+        result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
+        std::cout << "TORQUE RESULT " << result << std::endl;
+        std::cout << "TORQUE VALUE " << read_buf << std::endl;
         // uint16_t data2 = 850;
         // result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN),
         // reinterpret_cast<uint8_t*>(&data2)); std::cout << "P Gain Result " << result << std::endl; uint32_t data3 =

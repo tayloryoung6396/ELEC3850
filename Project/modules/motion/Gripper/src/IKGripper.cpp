@@ -160,7 +160,7 @@ int Open_Gripper() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
     uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
-    executeWriteSingle(servo_ID, address, reinterpret_cast<uint8_t*>(&data));
+    // executeWriteSingle(servo_ID, address, reinterpret_cast<uint8_t*>(&data));
     return 0;
 }
 
@@ -168,7 +168,7 @@ int Close_Gripper() {
     uint8_t servo_ID = Gripper;
     auto address     = MX28_ADDRESS_VALUE(GOAL_POSITION);
     uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
-    executeWriteSingle(servo_ID, address, reinterpret_cast<uint8_t*>(&data));
+    // executeWriteSingle(servo_ID, address, reinterpret_cast<uint8_t*>(&data));
     return 0;
 }
 
