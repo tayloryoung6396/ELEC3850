@@ -249,26 +249,27 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         }
 
         // We now are now waiting for 4 bytes
-        setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
+        setPacketTimeout((uint16_t)((BYTE_WAIT * (sizeof(stat.magic) + 2)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
         while (true) {
             if (isPacketTimeout() != true) {
                 rx_length += uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic) - 2),
-                                       sizeof(stat) - sizeof(stat.magic) - rx_length);
-                if (rx_length == sizeof(stat) - sizeof(stat.magic)) {
+                                       sizeof(stat) - sizeof(stat.magic) - rx_length + 2);
+                if (rx_length == sizeof(stat) - sizeof(stat.magic) + 2) {
                     break;
                 }
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
+                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic) + 2
                           << std::endl;
-                return rx_result;
+		break;
+                //return rx_result;
             }
         }
         // Validate our checksum
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
-            std::cout << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::endl;
+            std::cout << std::hex << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::dec<< std::endl;
             std::cout << "Packet Received" << std::endl;
             std::cout << std::hex << std::endl;
             std::cout << " stat.magic       " << (int) stat.magic << std::endl;
@@ -289,7 +290,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         }
 
         // Return the packet we recieved
-        std::cout << "Success" << std::endl;
+        std::cout << "Success" << (int)(stat.data) << std::endl;
         return COMM_SUCCESS;
     }
 }

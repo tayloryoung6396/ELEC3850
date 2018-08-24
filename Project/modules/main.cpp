@@ -37,7 +37,7 @@ int main() {
         result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
         std::cout << "LED RESULT " << result << std::endl;
         std::cout << "LED VALUE " << read_buf << std::endl;
-        uint8_t data = 1;
+        uint8_t data = 0;
         result       = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(LED), reinterpret_cast<uint8_t*>(&data));
         std::cout << "LED RESULT " << result << std::endl;
 
