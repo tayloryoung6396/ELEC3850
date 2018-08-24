@@ -266,6 +266,8 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
                 //return rx_result;
             }
         }
+	std::cout << "Read length " << rx_length << std::endl;
+	std::cout << "Expected size " << sizeof(stat) - sizeof(stat.magic) + 2 << std::endl;
         // Validate our checksum
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
