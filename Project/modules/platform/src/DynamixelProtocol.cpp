@@ -21,7 +21,17 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data) {
 
     auto buf = dynamixel::v2::WriteCommand<uint8_t>(servo_ID, address, *data);
-
+    std::cout << "writing" << std::endl;
+    std::cout << std::hex << std::endl;
+    std::cout << " buf.magic       " << (int) buf.magic << std::endl;
+    std::cout << " buf.id          " << (int) buf.id << std::endl;
+    std::cout << " buf.length      " << (int) buf.length << std::endl;
+    std::cout << " buf.instruction " << (int) buf.instruction << std::endl;
+    std::cout << " buf.address     " << (int) buf.address << std::endl;
+    std::cout << " buf.data        " << (int) buf.data << std::endl;
+    std::cout << " buf.checksum    " << (int) buf.checksum << std::endl;
+    std::cout << std::dec << std::endl;
+    std::cout << "finished writing" << std::endl;
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
         return 0;

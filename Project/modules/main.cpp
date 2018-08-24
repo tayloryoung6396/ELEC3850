@@ -34,7 +34,7 @@ int main() {
         uint8_t servo_ID = 1;
         uint16_t read_buf;
         int result;
-        result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), MX28_SIZE_VALUE(TORQUE_ENABLE), read_buf);
+        result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
         std::cout << "Read Result " << result << std::endl;
         std::cout << "Read " << read_buf << std::endl;
         uint8_t data = 1;
