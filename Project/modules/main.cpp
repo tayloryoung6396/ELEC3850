@@ -32,7 +32,7 @@ int main() {
         std::cout << "time -> " << (double) millis() << std::endl;
 
         uint8_t servo_ID = 1;
-        uint16_t read_buf;
+        uint8_t read_buf;
         int result;
         result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
         std::cout << "LED RESULT " << result << std::endl;
@@ -46,7 +46,7 @@ int main() {
         result = executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), reinterpret_cast<uint8_t*>(&data));
         std::cout << "TORQUE RESULT " << result << std::endl;
         std::cout << "READING TORQUE" << std::endl;
-        result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
+        result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), MX28_SIZE_VALUE(TORQUE_ENABLE), read_buf);
         std::cout << "TORQUE RESULT " << result << std::endl;
         std::cout << "TORQUE VALUE " << read_buf << std::endl;
         // uint16_t data2 = 850;

@@ -223,7 +223,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         std::cout << " tx_buf.length      " << (int) tx_buf.length << std::endl;
         std::cout << " tx_buf.instruction " << (int) tx_buf.instruction << std::endl;
         std::cout << " tx_buf.address     " << (int) tx_buf.address << std::endl;
-        std::cout << " tx_buf.data        " << (int) tx_buf.data << std::endl;
+        std::cout << " tx_buf.size        " << (int) tx_buf.size << std::endl;
         std::cout << " tx_buf.checksum    " << (int) tx_buf.checksum << std::endl;
         std::cout << std::dec << std::endl;
         std::cout << "finished writing" << std::endl;
@@ -252,7 +252,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         setPacketTimeout((uint16_t)((BYTE_WAIT * sizeof(stat.magic)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
         while (true) {
             if (isPacketTimeout() != true) {
-                rx_length += uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic)),
+                rx_length += uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic) - 2),
                                        sizeof(stat) - sizeof(stat.magic) - rx_length);
                 if (rx_length == sizeof(stat) - sizeof(stat.magic)) {
                     break;

@@ -27,7 +27,7 @@ namespace v2 {
         ReadCommand(uint8_t id, uint16_t address, uint16_t size)
             : magic(0x00FDFFFF)
             , id(id)
-            , length(5)
+            , length(7)
             , instruction(Instruction::READ)
             , address(address)
             , size(size)
