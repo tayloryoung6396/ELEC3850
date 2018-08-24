@@ -209,7 +209,6 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
 
     auto tx_buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
-    std::cout << __LINE__ << std::endl;
     dynamixel::v2::StatusReturnCommand<T> stat;
 
     int rx_result      = COMM_TX_FAIL;
@@ -217,11 +216,20 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
     // Check that our UART is still conected
     if (uart.good()) {
-        std::cout << __LINE__ << " uart is good" << std::endl;
+        std::cout << "writing" << std::endl;
+        std::cout << std::hex << std::endl;
+        std::cout << " tx_buf.magic       " << (int) tx_buf.magic << std::endl;
+        std::cout << " tx_buf.id          " << (int) tx_buf.id << std::endl;
+        std::cout << " tx_buf.length      " << (int) tx_buf.length << std::endl;
+        std::cout << " tx_buf.instruction " << (int) tx_buf.instruction << std::endl;
+        std::cout << " tx_buf.address     " << (int) tx_buf.address << std::endl;
+        std::cout << " tx_buf.data        " << (int) tx_buf.data << std::endl;
+        std::cout << " tx_buf.checksum    " << (int) tx_buf.checksum << std::endl;
+        std::cout << std::dec << std::endl;
+        std::cout << "finished writing" << std::endl;
 
         // Now lets write our packet
         uart.write(&tx_buf, sizeof(tx_buf));
-        std::cout << __LINE__ << " uart written" << std::endl;
 
         // First we find the packet magic number in order to sync with the channel
         setPacketTimeout((uint16_t)(PACKET_WAIT));
