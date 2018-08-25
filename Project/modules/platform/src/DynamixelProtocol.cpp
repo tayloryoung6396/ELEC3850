@@ -166,6 +166,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
         // Return the packet we recieved
         std::cout << "Success " << (int) (stat.data) << std::endl;
+        rx_data = stat.data;
         return COMM_SUCCESS;
     }
 }

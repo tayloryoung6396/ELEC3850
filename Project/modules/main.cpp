@@ -42,7 +42,7 @@ int main() {
         std::cout << "READING LED" << std::endl;
         result = executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(LED), MX28_SIZE_VALUE(LED), read_buf);
         std::cout << "LED RESULT " << result << std::endl;
-        std::cout << "LED VALUE " << read_buf << std::endl;
+        std::cout << "LED VALUE " << (int) read_buf << std::endl;
         delay(20);
         data = 1;
         std::cout << "WRITING TORQUE" << std::endl;
@@ -53,7 +53,7 @@ int main() {
         result =
             executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), MX28_SIZE_VALUE(TORQUE_ENABLE), read_buf);
         std::cout << "TORQUE RESULT " << result << std::endl;
-        std::cout << "TORQUE VALUE " << read_buf << std::endl;
+        std::cout << "TORQUE VALUE " << (int) read_buf << std::endl;
         delay(20);
         uint16_t data2 = 1600;
         uint16_t read_buf2;
@@ -65,21 +65,21 @@ int main() {
         result = executeReadSingle(
             servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), MX28_SIZE_VALUE(POSITION_P_GAIN), read_buf2);
         std::cout << "P_GAIN RESULT " << result << std::endl;
-        std::cout << "P_GAIN VALUE " << read_buf << std::endl;
+        std::cout << "P_GAIN VALUE " << (int) read_buf2 << std::endl;
         uint32_t read_buf3;
         delay(20);
         std::cout << "READING Min pos limit" << std::endl;
         result = executeReadSingle(
             servo_ID, MX28_ADDRESS_VALUE(MIN_POSITION_LIMIT), MX28_SIZE_VALUE(MIN_POSITION_LIMIT), read_buf3);
         std::cout << "Min pos limit RESULT " << result << std::endl;
-        std::cout << "Min pos limit VALUE " << read_buf << std::endl;
+        std::cout << "Min pos limit VALUE " << (int) read_buf3 << std::endl;
 
         delay(20);
         std::cout << "READING Max pos limit" << std::endl;
         result = executeReadSingle(
             servo_ID, MX28_ADDRESS_VALUE(MAX_POSITION_LIMIT), MX28_SIZE_VALUE(MAX_POSITION_LIMIT), read_buf3);
         std::cout << "Max pos limit RESULT " << result << std::endl;
-        std::cout << "Max pos limit VALUE " << read_buf << std::endl;
+        std::cout << "Max pos limit VALUE " << (int) read_buf3 << std::endl;
 
 
         delay(20);
@@ -87,7 +87,7 @@ int main() {
         result = executeReadSingle(
             servo_ID, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), read_buf3);
         std::cout << "PRESENT RESULT " << result << std::endl;
-        std::cout << "PRESENT VALUE " << read_buf << std::endl;
+        std::cout << "PRESENT VALUE " << (int) read_buf3 << std::endl;
 
         delay(20);
 
@@ -100,7 +100,7 @@ int main() {
         result =
             executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(GOAL_POSITION), MX28_SIZE_VALUE(GOAL_POSITION), read_buf3);
         std::cout << "GOAL RESULT " << result << std::endl;
-        std::cout << "GOAL VALUE " << read_buf << std::endl;
+        std::cout << "GOAL VALUE " << (int) read_buf3 << std::endl;
         // For each iteration
         // Check sensors
         Camera_main();
