@@ -18,9 +18,10 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 
 // Function that takes servo ID, address, and data
 // Calls dynamixel execute functions
-int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data) {
+template <typename T>
+int executeWriteSingle(uint8_t servo_ID, uint16_t address, const T& data) {
 
-    auto buf = dynamixel::v2::WriteCommand<uint8_t>(servo_ID, address, *data);
+    auto buf = dynamixel::v2::WriteCommand<T>(servo_ID, address, data);
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
         return 0;
@@ -82,6 +83,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
     int rx_result      = COMM_TX_FAIL;
     uint16_t rx_length = 0;
+    uint8_t magic[4]   = {0xFF, 0xFF, 0xFD, 0x00};
 
     // Check that our UART is still conected
     if (uart.good()) {
@@ -99,15 +101,18 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
 
         // Now lets write our packet
         uart.write(&tx_buf, sizeof(tx_buf));
-
         // First we find the packet magic number in order to sync with the channel
         setPacketTimeout((uint16_t)(PACKET_WAIT));
-        for (int sync = 0; sync < 2;) {
+        for (int sync = 0; sync < 4;) {
             if (isPacketTimeout() != true) {
                 uint8_t byte;
-
                 if (uart.read(&byte, 1) > 0) {
-                    sync = (byte == 0xFF) ? (sync + 1) : 0;
+                    for (int i = 0; i < 4; i++) {
+                        if (byte == magic[i]) {
+                            sync = i + 1;
+                            break;
+                        }
+                    }
                 }
             }
             else {
@@ -122,15 +127,15 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             (uint16_t)((BYTE_WAIT * (sizeof(stat.magic) + 2)) + (BYTE_WAIT * size) + (2000) + PACKET_WAIT));
         while (true) {
             if (isPacketTimeout() != true) {
-                rx_length += uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic) - 2),
-                                       sizeof(stat) - sizeof(stat.magic) - rx_length + 2);
-                if (rx_length == sizeof(stat) - sizeof(stat.magic) + 2) {
+                rx_length += uart.read((reinterpret_cast<uint8_t*>(&stat) + sizeof(stat.magic)),
+                                       sizeof(stat) - sizeof(stat.magic) - rx_length);
+                if (rx_length == sizeof(stat) - sizeof(stat.magic)) {
                     break;
                 }
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic) + 2
+                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
                           << std::endl;
                 break;
                 // return rx_result;
@@ -211,3 +216,7 @@ double getTimeSinceStart() {
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
 template int executeReadSingle<uint32_t>(uint8_t, uint16_t, uint16_t, uint32_t&);
+
+template int executeWriteSingle<uint8_t>(uint8_t, uint16_t, const uint8_t&);
+template int executeWriteSingle<uint16_t>(uint8_t, uint16_t, const uint16_t&);
+template int executeWriteSingle<uint32_t>(uint8_t, uint16_t, const uint32_t&);

@@ -39,11 +39,13 @@ struct PID {
     uint16_t D;
 };
 
-extern int executeWriteSingle(uint8_t servo_ID, uint16_t address, uint8_t* data);
+
 extern int executeWriteMulti(uint8_t* buf);
 extern int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_t* buf);
 extern int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count);
 
+template <typename T>
+int executeWriteSingle(uint8_t servo_ID, uint16_t address, const T& data);
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data);
 
