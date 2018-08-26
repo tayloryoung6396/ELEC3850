@@ -4,6 +4,16 @@
 
 #include "DynamixelProtocol.hpp"
 
+// Communication Result
+#define COMM_SUCCESS 0         // tx or rx packet communication success
+#define COMM_RX_TIMEOUT -3001  // There is no status packet
+#define COMM_RX_CORRUPT -3002  // Incorrect status packet
+
+#define LATENCY_TIMER 16  // Random value taken from SDK
+
+#define BYTE_WAIT 1200
+#define PACKET_WAIT 100000
+
 #define UART_DEVICE "/dev/ttyUSB0"
 #define UART_BAUD 115200
 
@@ -43,37 +53,6 @@ int executeWriteMulti(uint8_t* buf) {
     return -1;
 }
 
-#define PKT_HEADER0 0
-#define PKT_HEADER1 1
-#define PKT_HEADER2 2
-#define PKT_RESERVED 3
-#define PKT_ID 4
-#define PKT_LENGTH_L 5
-#define PKT_LENGTH_H 6
-#define PKT_INSTRUCTION 7
-#define PKT_ERROR 8
-#define PKT_PARAMETER0 8
-
-// Communication Result
-#define COMM_SUCCESS 0            // tx or rx packet communication success
-#define COMM_PORT_BUSY -1000      // Port is busy (in use)
-#define COMM_TX_FAIL -1001        // Failed transmit instruction packet
-#define COMM_RX_FAIL -1002        // Failed get status packet
-#define COMM_TX_ERROR -2000       // Incorrect instruction packet
-#define COMM_RX_WAITING -3000     // Now recieving status packet
-#define COMM_RX_TIMEOUT -3001     // There is no status packet
-#define COMM_RX_CORRUPT -3002     // Incorrect status packet
-#define COMM_NOT_AVAILABLE -9000  //
-
-#define data_MAX_LEN (4 * 1024)
-
-#define LATENCY_TIMER 16  // Random value taken from SDK
-#define INST_READ 2       // Actually use our enums
-
-#define BYTE_WAIT 1200
-#define PACKET_WAIT 100000
-
-// TODO Fix
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
 
@@ -85,20 +64,8 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
     uint16_t rx_length = 0;
     uint8_t magic[4]   = {0xFF, 0xFF, 0xFD, 0x00};
 
-    // Check that our UART is still conected
+    // Check that our UART is still connected
     if (uart.good()) {
-        // std::cout << "writing" << std::endl;
-        // std::cout << std::hex << std::endl;
-        // std::cout << " tx_buf.magic       " << (int) tx_buf.magic << std::endl;
-        // std::cout << " tx_buf.id          " << (int) tx_buf.id << std::endl;
-        // std::cout << " tx_buf.length      " << (int) tx_buf.length << std::endl;
-        // std::cout << " tx_buf.instruction " << (int) tx_buf.instruction << std::endl;
-        // std::cout << " tx_buf.address     " << (int) tx_buf.address << std::endl;
-        // std::cout << " tx_buf.size        " << (int) tx_buf.size << std::endl;
-        // std::cout << " tx_buf.checksum    " << (int) tx_buf.checksum << std::endl;
-        // std::cout << std::dec << std::endl;
-        // std::cout << "finished writing" << std::endl;
-
         // Now lets write our packet
         uart.write(&tx_buf, sizeof(tx_buf));
         // First we find the packet magic number in order to sync with the channel
@@ -117,8 +84,8 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "failed to sync" << std::endl;
-                return rx_result;
+                std::cout << "ERROR: Failed to sync servo " << servo_ID << std::endl;
+                return COMM_RX_TIMEOUT;
             }
         }
 
@@ -135,19 +102,16 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
-                          << std::endl;
-                break;
-                // return rx_result;
+                std::cout << "ERROR: Failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
+                          << " servo " << servo_ID << std::endl;
+                return COMM_RX_TIMEOUT;
             }
         }
-        std::cout << "Read length " << rx_length << std::endl;
-        std::cout << "Expected size " << sizeof(stat) - sizeof(stat.magic) + 2 << std::endl;
         // Validate our checksum
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
-            std::cout << std::hex << "Checksum corrupt got " << stat.checksum << " calculated " << crc << std::dec
-                      << std::endl;
+            std::cout << std::hex << "ERROR: Checksum corrupt " << stat.checksum << " calculated " << crc << " servo "
+                      << servo_ID << std::dec << std::endl;
             std::cout << std::hex << std::endl;
             std::cout << " stat.magic       " << (int) stat.magic << std::endl;
             std::cout << " stat.id          " << (int) stat.id << std::endl;
@@ -165,7 +129,6 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         }
 
         // Return the packet we recieved
-        std::cout << "Success " << (int) (stat.data) << std::endl;
         rx_data = stat.data;
         return COMM_SUCCESS;
     }
@@ -202,7 +165,6 @@ bool isPacketTimeout() {
 }
 
 double getCurrentTime() {
-    // return 0;
     return (double) millis();  // From wiringPi Library
 }
 
@@ -213,6 +175,8 @@ double getTimeSinceStart() {
 
     return elapsed_time;
 }
+
+// int // TODO  ping all servos on startup
 
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
