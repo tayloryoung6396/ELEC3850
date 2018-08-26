@@ -8,6 +8,7 @@
 #define COMM_SUCCESS 0         // tx or rx packet communication success
 #define COMM_RX_TIMEOUT -3001  // There is no status packet
 #define COMM_RX_CORRUPT -3002  // Incorrect status packet
+#define COMM_TX_ERROR -2000    // Incorrect instruction packet
 
 #define LATENCY_TIMER 16  // Random value taken from SDK
 

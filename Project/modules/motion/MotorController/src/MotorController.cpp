@@ -6,12 +6,12 @@
 
 #include "MotorController.hpp"
 std::vector<std::pair<double, double>> PathPlanner::path_vec;
-PathPlanner::goal_pos[2]        = {0};
-PathPlanner::prev_pos[2]        = {0};
-PathPlanner::curr_pos[2]        = {0};
-PathPlanner::curr_revolution[2] = {0};
-PathPlanner::goal_revolution[2] = {0};
-PathPlanner::moving_flag[2]     = {0};
+uint32_t PathPlanner::goal_pos[2]       = {0};
+uint32_t PathPlanner::prev_pos[2]       = {0};
+uint32_t PathPlanner::curr_pos[2]       = {0};
+uint8_t PathPlanner::curr_revolution[2] = {0};
+uint8_t PathPlanner::goal_revolution[2] = {0};
+int PathPlanner::moving_flag[2]         = {0};
 
 void MotorController_init() {
     std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
@@ -103,13 +103,13 @@ int MotorDirector() {
             }
             // were on the correct revolution
             if (PathPlanner::curr_revolution[i] == PathPlanner::goal_revolution[i]
-                && PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
+                && PathPlanner::curr_pos[i] == goal_pos[i]) {  // TODO Goal pos +- some delta
                 // stop driving update moving = 0
                 PathPlanner::moving_flag[i] = 0;
             }
             else if (PathPlanner::curr_revolution[i] == PathPlanner::goal_revolution[i]) {
                 // maybe take control and watch ?
-                while (PathPlanner::curr_pos[i] != PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
+                while (PathPlanner::curr_pos[i] != goal_pos[i]) {  // TODO Goal pos +- some delta
                     // keep polling etc
                     break;
                 }
