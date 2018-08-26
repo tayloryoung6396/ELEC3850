@@ -50,6 +50,17 @@ double Gripper_angles::grip        = 0;
 
 void IKGripper_init() {
     std::cout << "Initilising IK GRIPPER" << std::endl;
+    // Run homing script
+    if (Gripper_home() != 0) {
+        std::cout << "ERROR: Homing Gripper" << std::endl;
+    }
+}
+
+int Gripper_home() {
+    // Read servo present positions
+    // Do FK to figure out where we are
+    // Plan a path to the homing positions
+    return 0;
 }
 
 int IKGripper_main(double Goal_pos[3]) {

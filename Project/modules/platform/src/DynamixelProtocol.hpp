@@ -39,6 +39,7 @@ struct PID {
     uint16_t D;
 };
 
+extern void Dynamixel_init();
 
 extern int executeWriteMulti(uint8_t* buf);
 extern int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_t* buf);

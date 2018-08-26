@@ -8,7 +8,7 @@
 #define COMM_SUCCESS 0         // tx or rx packet communication success
 #define COMM_RX_TIMEOUT -3001  // There is no status packet
 #define COMM_RX_CORRUPT -3002  // Incorrect status packet
-#define COMM_TX_FAIL -1001    // Incorrect instruction packet
+#define COMM_TX_FAIL -1001     // Incorrect instruction packet
 
 #define LATENCY_TIMER 16  // Random value taken from SDK
 
@@ -177,7 +177,37 @@ double getTimeSinceStart() {
     return elapsed_time;
 }
 
-// int // TODO  ping all servos on startup
+void Dynamixel_init() {
+    // Report back on any servos that failed to connect
+    // Set gains and torque
+    uint8_t data;
+    for (int servo_ID = 1; servo_ID < 6; i++) {
+        // TODO This should probably be a ping, but i dont think i have a function to handle it
+        if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
+            delay(10);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
+            delay(10);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 16000);
+            delay(10);
+        }
+        else {
+            std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
+        }
+    }
+    for (int servo_ID = 6; servo_ID < 8; i++) {
+        // TODO This should probably be a ping, but i dont think i have a function to handle it
+        if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
+            delay(10);
+            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 1);
+            delay(10);
+            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(VELOCITY_P_GAIN), 16000);
+            delay(10);
+        }
+        else {
+            std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
+        }
+    }
+}
 
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);

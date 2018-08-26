@@ -9,21 +9,33 @@ int main() {
 
     // Initialise all modules
     printf("Starting Initilisation\n");
+
+    // System Init
     wiringPiSetupSys();
     UART();
+
+    // Controll Init
     PS3Control_init();
     AutonomousControl_init();
     Kinematics_init();
-    SensorFilter_init();
+
+    // Servo Init
+    Dynamixel_init();
     MotorController_init();
     FKGripper_init();
     IKGripper_init();
+
+    // Odometry Init
     Localisation_init();
+    SimplePathPlanner_init();
+
+    // Sensors Init
     Camera_init();
     InfraredSensor_init();
     UltrasonicSensor_init();
+    SensorFilter_init();
     Classifier_init();
-    SimplePathPlanner_init();
+
     printf("Finished Initilisation\n");
 
     // Loop forever to run robot

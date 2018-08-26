@@ -28,14 +28,14 @@ namespace io {
 
             // We want exclusive access to this uart
             if (ioctl(fd, TIOCEXCL) == -1) {
-                std::cout << "Failed to set exclusive access for " << device << std::endl;
+                std::cout << "ERROR: Failed to set exclusive access for " << device << std::endl;
             }
 
             // Set our baud rate
             set_baud(baud);
         }
         else {
-            std::cout << "Failed to connect to " << device << std::endl;
+            std::cout << "ERROR: Failed to connect to " << device << std::endl;
         }
     }
 
@@ -111,7 +111,7 @@ namespace io {
 
         // Get our serial_info from the system
         if (ioctl(fd, TIOCGSERIAL, &serinfo) < 0) {
-            throw std::runtime_error("There was an error setting the baud rate for " + device);
+            throw std::runtime_error("ERROR: Failed setting the baud rate for " + device);
         }
 
         // Set the speed flags to "Custom Speed" (clear the existing speed, and set the custom speed flags)
@@ -126,7 +126,7 @@ namespace io {
 
         // Set our custom speed in the system
         if (ioctl(fd, TIOCSSERIAL, &serinfo) < 0) {
-            throw std::runtime_error("There was an error setting the baud rate for " + device);
+            throw std::runtime_error("ERROR: Failed setting the baud rate for " + device);
         }
 
         // Flush our connection to remove all existing data
