@@ -6,6 +6,7 @@
 #define DistToRev 1  // Meters per rotation
 
 class PathPlanner {
+
 public:
     static std::vector<std::pair<double, double>> path_vec;
 
@@ -13,6 +14,13 @@ public:
     bool check_path();
     std::vector<std::pair<double, double>>::const_iterator get_first_path();
     void path_erase_first();
+
+    static uint32_t goal_pos[2];
+    static uint32_t prev_pos[2];
+    static uint32_t curr_pos[2];
+    static uint8_t curr_revolution[2];
+    static uint8_t goal_revolution[2];
+    static int moving_flag[2];
 };
 
 extern int MotorController();

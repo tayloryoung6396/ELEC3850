@@ -6,6 +6,12 @@
 
 #include "MotorController.hpp"
 std::vector<std::pair<double, double>> PathPlanner::path_vec;
+PathPlanner::goal_pos[2]        = {0};
+PathPlanner::prev_pos[2]        = {0};
+PathPlanner::curr_pos[2]        = {0};
+PathPlanner::curr_revolution[2] = {0};
+PathPlanner::goal_revolution[2] = {0};
+PathPlanner::moving_flag[2]     = {0};
 
 void MotorController_init() {
     std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
@@ -51,50 +57,59 @@ int MotorDriver(double Forward, double Rotation) {
     // Localistation::TankToWorld(Goal_Dist);
 
     // TODO Here i should send the goal positions to the servos
-
+    // TODO This is probably where i want to setup the director for this new motor command
+    for (int i = 0; i < 2; i++) {
+        // Set moving flag
+        PathPlanner::moving_flag[i] = (Goal_Dist[i] == 0) ? 0 : ((Goal_Dist[i] < 0) ? (-1) : 1);
+        // Set goal position
+        PathPlanner::moving_flag[i] = Goal_Dist[i];
+        // Set goal revolution
+        // Convert goal distance to number of revolutions
+        PathPlanner::goal_revolution[i] = ConvertDistanceToRotation(Goal_Dist[i]);
+    }
     return 0;
 }
 
 int MotorDirector() {
     // Check all drive motors are in the last known position
     // And or check that we have reached our goal
-    static uint32_t prev_pos[2]       = {0};  // TODO Make public
-    static uint32_t curr_pos[2]       = {0};  // TODO This is read in
-    static uint8_t curr_revolution[2] = {0};
-    static uint8_t goal_revolution[2] = {0};
-    static int moving_flag[2]         = {0};
+
     // TODO
     // Bulk read the 2 motor servos
+    // MOTOR_T motor_data;
+    // executeReadMulti(servo_ID, address, motor_data, size, count);
     uint8_t count       = 2;
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
-    uint8_t address     = MX64_ADDRESS_VALUE(PRESENT_POSITION);
-    uint8_t size        = MX64_SIZE_VALUE(PRESENT_POSITION);
-    // OTOR_T motor_data;
 
-    // executeReadMulti(servo_ID, address, motor_data, size, count);
-
-    static uint32_t goal_pos[2] = {0};  // TODO This is read in
+    for (int i = 0; i < count; i++) {
+        executeReadSingle(servo_ID[i],
+                          MX28_ADDRESS_VALUE(PRESENT_POSITION),
+                          MX28_SIZE_VALUE(PRESENT_POSITION),
+                          PathPlanner::curr_pos[i]);
+        delay(10);
+    }
 
     // Check the current servo position
-    if (moving_flag[0] != 0 | moving_flag[1] != 0) {
+    if (PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
         for (int i = 0; i < 2; i++) {
 
             // update the number of revolutions weve done
-            if (moving_flag[i] == 1 && prev_pos[i] < 3500 && curr_pos[i] > 0) {
-                curr_revolution[i]++;
+            if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < 3500 && PathPlanner::curr_pos[i] > 0) {
+                PathPlanner::curr_revolution[i]++;
             }
-            else if (moving_flag[i] == -1 && prev_pos[i] > 500 && curr_pos[i] < 3500) {
-                curr_revolution[i]++;
+            else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > 500
+                     && PathPlanner::curr_pos[i] < 3500) {
+                PathPlanner::curr_revolution[i]++;
             }
             // were on the correct revolution
-            if (curr_revolution[i] == goal_revolution[i]
-                && curr_pos[i] == goal_pos[i]) {  // TODO Goal pos +- some delta
+            if (PathPlanner::curr_revolution[i] == PathPlanner::goal_revolution[i]
+                && PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
                 // stop driving update moving = 0
-                moving_flag[i] = 0;
+                PathPlanner::moving_flag[i] = 0;
             }
-            else if (curr_revolution[i] == goal_revolution[i]) {
+            else if (PathPlanner::curr_revolution[i] == PathPlanner::goal_revolution[i]) {
                 // maybe take control and watch ?
-                while (curr_pos[i] != goal_pos[i]) {  // TODO Goal pos +- some delta
+                while (PathPlanner::curr_pos[i] != PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
                     // keep polling etc
                     break;
                 }
@@ -109,7 +124,7 @@ int MotorDirector() {
 }
 
 double ConvertDistanceToRotation(double Goal_Dist) {
-    return (DistToRev * Goal_Dist);  // meters per rotation * goal meters
+    return (Goal_Dist / DistToRev);  // Return revolutions
 }
 
 double ConvertRotationToArclen(double Rotation) {
