@@ -14,7 +14,6 @@ double Kinematics::grip_closed = M_PI / 2;
 double Kinematics::grip_open   = 0;
 double Kinematics::grip_load   = 0;
 
-
 // Tank specific parameters
 double Kinematics::origin_offset[3] = {0};  // Mid point of each axis
 double Kinematics::tank_length      = 0.355;

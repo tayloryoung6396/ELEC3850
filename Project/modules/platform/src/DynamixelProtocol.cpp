@@ -45,18 +45,22 @@ int executeWriteBuffer(uint8_t servo_ID, uint16_t address, uint8_t* data, uint8_
     return 0;
 }
 
-int executeWriteMulti(uint8_t* buf) {
+template <typename T>
+int executeWriteMulti(uint8_t servo_ID, uint16_t address, const T& data, uint count) {
     // auto group_buf = dynamixel::v2::BulkWriteCommand<uint8_t, sizeof(buf)>(&buf, sizeof(buf));
-    if (uart.good()) {
-        // uart.write(&group_buf, sizeof(group_buf));
-        return 0;
-    }
+    // if (uart.good()) {
+    //     for (int i = 0; i < count; i++) {
+    //         if (executeWriteSingle(servo_ID[i], address, data[i]) != 0) {
+    //             std::cout << "ERROR: Could not write to servo" << std::endl;
+    //         }
+    //     }
+    //     return 0;
+    // }
     return -1;
 }
 
 template <typename T>
 int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data) {
-
 
     auto tx_buf = dynamixel::v2::ReadCommand(servo_ID, address, size);
     dynamixel::v2::StatusReturnCommand<T> stat;
@@ -135,12 +139,16 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
     }
 }
 
-
-int executeReadMulti(uint8_t* servo_ID, uint16_t address, uint32_t* data, uint8_t count) {
+template <typename T>
+int executeReadMulti(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_data, uint count) {
     // auto buf = dynamixel::v2::BulkRead();
     // if (uart.good()) {
     //     uart.read(&buf, sizeof(buf));
     // 		return 0;
+    // }
+    // for (int i = 0; i < count; i++) {
+    //     executeReadSingle(uint8_t servo_ID[i], uint16_t address, uint16_t size, T & rx_data);
+    //     delay(10);
     // }
     return -1;
 }
