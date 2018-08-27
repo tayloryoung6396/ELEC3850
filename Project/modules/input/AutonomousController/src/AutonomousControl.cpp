@@ -29,6 +29,12 @@ int AutonomousControl_main() {
     // TODO make this a variable in the autonomous controller
     double wGoal[2] = {0};
     SimplePathPlanner(wGoal);
+
+
+    Gripper::Goal[0] = 0;
+    Gripper::Goal[1] = 0;
+    Gripper::Goal[2] = 0;
+
     return 0;
 }
 

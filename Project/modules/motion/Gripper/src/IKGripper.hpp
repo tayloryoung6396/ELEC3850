@@ -26,4 +26,9 @@ public:
     static double grip;
 };
 
+class Gripper {
+public:
+    static double Goal[3];
+};
+
 #endif /* IK_GRIPPER_HPP_ */

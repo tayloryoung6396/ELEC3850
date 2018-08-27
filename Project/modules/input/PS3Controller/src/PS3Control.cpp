@@ -49,6 +49,10 @@ int PS3Control_main() {
     pplanner.emplace_path(Forward, Rotation);
     // }
 
+    Gripper::Goal[0] = 0;
+    Gripper::Goal[1] = 0;
+    Gripper::Goal[2] = 0;
+
     return 0;
 }
 

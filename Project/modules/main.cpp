@@ -73,8 +73,7 @@ int main() {
         // Based on the above inputs come up with the motor commands
         MotorController();
         // Based on the above inputs come up with the gripper commands
-        double Goal[3] = {0.2, 0, 0.1};  // TODO remove
-        IKGripper_main(Goal);            // TODO output goal from autonomous/PS3
+        IKGripper_main(Gripper::Goal);
         break;
     }
 }

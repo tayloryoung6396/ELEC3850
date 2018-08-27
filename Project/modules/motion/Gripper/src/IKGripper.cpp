@@ -48,6 +48,8 @@ double Gripper_angles::elbow_pitch = 0;
 double Gripper_angles::wrist_pitch = 0;
 double Gripper_angles::grip        = 0;
 
+double Gripper::Goal[3] = {0};
+
 void IKGripper_init() {
     std::cout << "Initilising IK GRIPPER" << std::endl;
     // Run homing script
