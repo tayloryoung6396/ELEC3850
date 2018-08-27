@@ -19,7 +19,6 @@ public:
     static uint32_t prev_pos[2];
     static uint32_t curr_pos[2];
     static uint8_t curr_revolution[2];
-    static uint8_t goal_revolution[2];
     static int moving_flag[2];
 };
 

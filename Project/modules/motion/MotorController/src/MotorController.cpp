@@ -10,7 +10,6 @@ uint32_t PathPlanner::goal_pos[2]       = {0};
 uint32_t PathPlanner::prev_pos[2]       = {0};
 uint32_t PathPlanner::curr_pos[2]       = {0};
 uint8_t PathPlanner::curr_revolution[2] = {0};
-uint8_t PathPlanner::goal_revolution[2] = {0};
 int PathPlanner::moving_flag[2]         = {0};
 
 void MotorController_init() {
@@ -65,7 +64,8 @@ int MotorDriver(double Forward, double Rotation) {
         PathPlanner::moving_flag[i] = Goal_Dist[i];
         // Set goal revolution
         // Convert goal distance to number of revolutions
-        PathPlanner::goal_revolution[i] = ConvertDistanceToRotation(Goal_Dist[i]);
+        // This counts down to 0, so add it to our outstanding revolutions
+        PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
     }
     return 0;
 }
@@ -73,6 +73,7 @@ int MotorDriver(double Forward, double Rotation) {
 int MotorDirector() {
     // Check all drive motors are in the last known position
     // And or check that we have reached our goal
+    // The current revolution counts down to 0
 
     // TODO
     // Bulk read the 2 motor servos
@@ -95,19 +96,19 @@ int MotorDirector() {
 
             // update the number of revolutions weve done
             if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < 3500 && PathPlanner::curr_pos[i] > 0) {
-                PathPlanner::curr_revolution[i]++;
+                PathPlanner::curr_revolution[i]--;
             }
             else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > 500
                      && PathPlanner::curr_pos[i] < 3500) {
-                PathPlanner::curr_revolution[i]++;
+                PathPlanner::curr_revolution[i]--;
             }
             // were on the correct revolution
-            if (PathPlanner::curr_revolution[i] == PathPlanner::goal_revolution[i]
+            if (PathPlanner::curr_revolution[i] == 0
                 && PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
                 // stop driving update moving = 0
                 PathPlanner::moving_flag[i] = 0;
             }
-            else if (PathPlanner::curr_revolution[i] == PathPlanner::goal_revolution[i]) {
+            else if (PathPlanner::curr_revolution[i] == 0) {
                 // maybe take control and watch ?
                 while (PathPlanner::curr_pos[i] != PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
                     // keep polling etc
