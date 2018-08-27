@@ -84,8 +84,8 @@ int MotorDirector() {
 
     for (int i = 0; i < count; i++) {
         executeReadSingle(servo_ID[i],
-                          MX28_ADDRESS_VALUE(PRESENT_POSITION),
-                          MX28_SIZE_VALUE(PRESENT_POSITION),
+                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
+                          MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
         delay(10);
     }
