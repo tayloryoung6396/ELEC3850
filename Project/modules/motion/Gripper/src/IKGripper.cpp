@@ -58,8 +58,41 @@ void IKGripper_init() {
 
 int Gripper_home() {
     // Read servo present positions
+    uint32_t base_yaw;
+    uint32_t base_pitch;
+    uint32_t elbow_pitch;
+    uint32_t wrist_pitch;
+
+    // TODO This should probably be a bulk read
+    executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
+    delay(10);
+    executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
+    delay(10);
+    executeReadSingle(3, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), elbow_pitch);
+    delay(10);
+    executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
+
     // Do FK to figure out where we are
+    double Pres_pos[3];
+    // TODO These angles should be in radians not uint32_t eg call convert_pos_rad()
+    // FK_Calculate(double(Base_Yaw), double(Base_Pitch), double(Elbow_Pitch), double(Wrist_Pitch), Pres_pos);
+
     // Plan a path to the homing positions
+    double Goal_pos[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
+    IK_Calculate(Goal_pos);
+
+    // Send servos to positions
+    // TODO This should probably be a bulk write
+    executeWriteSingle(Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), base_yaw);
+    delay(10);
+    executeWriteSingle(Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), base_pitch);
+    delay(10);
+    executeWriteSingle(Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), elbow_pitch);
+    delay(10);
+    executeWriteSingle(Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), wrist_pitch);
+    delay(10);
+    Close_Gripper();
+
     return 0;
 }
 
@@ -197,9 +230,9 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     // Get the limits for the specific servo
     // Get the offset for the servo
     // TODO actually read limits
-    double max_limit = M_PI;
-    double min_limit = -M_PI;
-    double offset    = 0;
+    double max_limit = std::numeric_limits<uint32_t>::max() - 1;
+    double min_limit = 0;
+    double offset    = std::numeric_limits<uint32_t>::max() / 2;
 
     // Add the offset to the angle
     angle += offset;

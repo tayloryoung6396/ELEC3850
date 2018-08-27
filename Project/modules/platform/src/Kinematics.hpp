@@ -18,6 +18,7 @@ public:
     static double grip_closed;
     static double grip_open;
     static double grip_load;
+    static double grip_home[3];
 
     // Tank specific parameters
     static double origin_offset[3];

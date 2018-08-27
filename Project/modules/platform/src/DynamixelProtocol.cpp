@@ -195,8 +195,8 @@ void Dynamixel_init() {
             delay(10);
             executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
             delay(10);
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 16000);
-            delay(10);
+            // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 16000);
+            // delay(10);
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
@@ -208,8 +208,8 @@ void Dynamixel_init() {
             delay(10);
             executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 1);
             delay(10);
-            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(VELOCITY_P_GAIN), 16000);
-            delay(10);
+            // executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(VELOCITY_P_GAIN), 16000);
+            // delay(10);
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
