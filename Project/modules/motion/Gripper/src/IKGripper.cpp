@@ -159,15 +159,17 @@ int Grip_Object() {
     while (!Gripped) {
         Gripper_angles::grip++;
         // Check if the object is in gripper
-        executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(PRESENT_LOAD), MX28_SIZE_VALUE(PRESENT_LOAD), grip_load);
-        if (grip_load >= Kinematics::grip_load) {
-            Gripped = true;
+        if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(PRESENT_LOAD), MX28_SIZE_VALUE(PRESENT_LOAD), grip_load)
+            == 0) {
+            if (grip_load >= Kinematics::grip_load) {
+                Gripped = true;
+            }
+            else if (Gripper_angles::grip >= Kinematics::grip_closed) {
+                printf("Error: Gripper failed to grab object\n");
+                return -1;
+            }
+            delay(10);
         }
-        else if (Gripper_angles::grip >= Kinematics::grip_closed) {
-            printf("Error: Gripper failed to grab object\n");
-            return -1;
-        }
-        delay(10);
     }
     return 0;
 }
