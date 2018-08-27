@@ -74,8 +74,11 @@ int Gripper_home() {
 
     // Do FK to figure out where we are
     double Pres_pos[3];
-    // TODO These angles should be in radians not uint32_t eg call convert_pos_rad()
-    // FK_Calculate(double(Base_Yaw), double(Base_Pitch), double(Elbow_Pitch), double(Wrist_Pitch), Pres_pos);
+    FK_Calculate(convert_pos_rad(Base_Yaw, double(base_yaw)),
+                 convert_pos_rad(Base_Pitch, double(base_pitch)),
+                 convert_pos_rad(Elbow_Pitch, double(elbow_pitch)),
+                 convert_pos_rad(Wrist_Pitch, double(wrist_pitch)),
+                 Pres_pos);
 
     // Plan a path to the homing positions
     double Goal_pos[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
@@ -251,6 +254,14 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
         return min_mapped;
     }
     return new_angle;
+}
+
+double convert_pos_rad(uint8_t servo_ID, uint32_t angle) {
+    // double max_limit = std::numeric_limits<uint32_t>::max() - 1;
+    // double min_limit = 0;
+    // double offset    = std::numeric_limits<uint32_t>::max() / 2;
+    // Return radians angle
+    return double(2 * M_PI * angle / double(std::numeric_limits<uint32_t>::max()));
 }
 
 int Validate_Pos(double Goal_pos[3]) {
