@@ -48,6 +48,7 @@ int main() {
         Camera_main();
         InfraredSensor_main();
         Classifier_main();
+        UltrasonicSensor_main();
 
         // The motor director overseas the current status of the drive motors
         // It's job is to check whether the drive motors have reached the goal position
