@@ -124,16 +124,7 @@ int IKGripper_main(double Goal_pos[3]) {
                             convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
                             convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
                             convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
-    // uint8_t buf;
-    // for (int i = 0; i < count; i++) {
-    //     if (executeWriteBuffer(servo_ID[i], address, reinterpret_cast<uint8_t*>(&data[count]), &buf) != 0) {
-    //         printf("Error could add param to buffer\n");
-    //     }
-    //     *buf = dynamixel::v2::BulkWriteData<uint8_t>(servo_ID, address, *data);
-    // }
-    // if (executeWriteMulti(&buf) != 0) {
-    //     printf("Error could not multi write to servos\n");
-    // }
+    // TODO Bulkwrite
     for (int i = 0; i < count; i++) {
         executeWriteSingle(servo_ID[count], address, data[count]);
         delay(10);
