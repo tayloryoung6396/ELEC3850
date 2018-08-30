@@ -83,3 +83,27 @@ SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
 TabWidth: 4
 UseTab: Never
+
+---
+# Javascript
+Language: JavaScript
+BasedOnStyle: Google
+AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlinesLeft: false
+AlignOperands: true
+AlignTrailingComments: true
+AllowShortBlocksOnASingleLine: false
+ColumnLimit: 120
+IndentWidth: 4
+KeepEmptyLinesAtTheStartOfBlocks: true
+MaxEmptyLinesToKeep: 2
+ReflowComments: true
+SortIncludes: true
+SpaceBeforeAssignmentOperators: true
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+TabWidth: 4
+UseTab: Never
