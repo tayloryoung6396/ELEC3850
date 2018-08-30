@@ -42,3 +42,18 @@ void TankToWorld(double Goal_Dist[2]) {}
 // TODO this doesnt account for objects seen..
 // maybe there needs to be a second layer to the map that contains visually seen objects
 // or another map
+
+// Occupancy mapping - apparently the name for doing ^^
+// Suppose we build a grid fixed to the world.
+// We start at some position withing the grid (probably initilise to some rough estimation of the center)
+// Now we fill the grid with all equally weighted probabilities of an object being in that location
+// Lets call this 0.5
+// When we detect an object at a distance D on for instance or left hand side.
+// Take the current grid position of the tank
+// Figure out the grid position of the object (its probably somewhere relative to the known position)
+// Now for each cell between us and the object position, calculate a new probability for that cell to be occupied
+// Essentially make a function that takes these inputs:
+// - Distance between the robot and the obstacle / the cell
+// - Previous probability of the cell
+// And outputs an updated probability
+// This function might work over some exponential of the distance or something
