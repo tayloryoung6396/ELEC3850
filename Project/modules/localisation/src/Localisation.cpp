@@ -57,3 +57,7 @@ void TankToWorld(double Goal_Dist[2]) {}
 // - Previous probability of the cell
 // And outputs an updated probability
 // This function might work over some exponential of the distance or something
+
+// This grid spacing is the problem... do you make the grid the size of the radius of the robot
+// which means for path planning you only need a single cell space to make it through,
+// or do you make the size of the grid some smaller amount and need to do some harder path planning
