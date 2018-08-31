@@ -93,6 +93,7 @@ void Setup() {
 
 // SEND PULSE TO SENSORS
 void Sendpulse() {
+	printf("into Send Pulse");
     // PULSE
     digitalWrite(TRIG, HIGH);
     delayMicroseconds(10);  // 10us Delay
@@ -110,15 +111,20 @@ void Sendpulse() {
 
     while ((end[0] == 0 || end[1] == 0 || end[2] == 0) && ((micros() - Start) < 23000)) {
         delayMicroseconds(100);
+        printf("Waiting\n");
     }
+    printf("Out of Send Pulse\n");
     return ;
 }
 
 // SENSOR DISTANCE CALCULATION
 void DistanceM() {
+	printf("into DistanceM");
     Sendpulse();  // SEND PULSE
+    printf("after sedpulse\n");
     sensor = 0;
     while (sensor <= 2) {
+    	printf("into While");
         long traveltime   = end[sensor] - Start;  // TIME CALCULATION
         int distance      = traveltime * 1.7;     // DISTANCE CALCULATION IN METRES
         DETECTION[sensor] = distance;             // SAVE SENSOR READINGS TO ARRAY
