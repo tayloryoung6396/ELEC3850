@@ -10,6 +10,7 @@
  */
 
 #include "PS3Control.hpp"
+#include <iostream>
 
 #define FORWARD_SPEED 1   // TODO Change
 #define ROTATION_SPEED 1  // TODO Change
@@ -21,13 +22,13 @@ void PS3Control_init() {
 int PS3Control_main() {
     // Check the controller is connected
     // if (connected) {
-    checkconnection()
-    while (ps3_connected=1)
-    {
+//    checkconnection()
+//    while (ps3_connected=1)
+//{
 
-        checkconnection()
+//        checkconnection()
 
-    }
+  //  }
     }
     //     check the 'mode' button
     // }
@@ -44,7 +45,7 @@ int PS3Control_main() {
     // The left right the rotation
     // from that it can be fed into the motorcontroller.
     // Goodluck..
-
+/*
     double L_joystick_x;  // Up positive, Down negative
     double L_joystick_y;  // Left positive, Right negative
 
@@ -61,9 +62,9 @@ int PS3Control_main() {
     Gripper::Goal[1] = 0;
     Gripper::Goal[2] = 0;
 
-    return 0;
+return 0;
 }
-
+*/
 // Initilise
 // Connect to the controller
 

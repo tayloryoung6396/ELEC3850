@@ -23,6 +23,7 @@ class Joystick {
 public:
     Joystick(std::string filename = "/dev/input/js0");
     ~Joystick();
+     /////////////
     //checkconnection("/dev/input/js0"){
     //if ps3:good
     //}
@@ -30,15 +31,17 @@ public:
 
     // reads in the next available joystick update. Blocks until it receives an update.
     void Update();
-
+    int update =0;
     // Checks if the most recent call to this->Update() was a Button or an Axis
     bool hasButtonUpdate();
     bool hasAxisUpdate();
 
     // Get the ID of the updated button or axis
-    ButtonId getUpdatedButton();
-    AxisId getUpdatedAxis();
+    int ButtonId=getUpdatedButton();
+    int AxisId=getUpdatedAxis();
 
+    getUpdatedButton();
+    getUpdatedAxis();
     // get the state of a particular button or axis
     uint8_t getButtonState(ButtonIdentification button_id);
     int16_t getAxisState(AxisIdentification axis_id);
