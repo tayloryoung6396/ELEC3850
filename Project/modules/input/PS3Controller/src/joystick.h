@@ -19,11 +19,14 @@ struct joystick_move_t {
 };
 
 const size_t joystick_event_size = sizeof(joystick_move_t);  // size of move event object in bytes
-
 class Joystick {
 public:
     Joystick(std::string filename = "/dev/input/js0");
     ~Joystick();
+    //checkconnection("/dev/input/js0"){
+    //if ps3:good
+    //}
+    // check bytes read in
 
     // reads in the next available joystick update. Blocks until it receives an update.
     void Update();

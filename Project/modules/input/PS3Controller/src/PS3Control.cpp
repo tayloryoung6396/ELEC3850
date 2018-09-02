@@ -21,6 +21,14 @@ void PS3Control_init() {
 int PS3Control_main() {
     // Check the controller is connected
     // if (connected) {
+    checkconnection()
+    while (ps3_connected=1)
+    {
+
+        checkconnection()
+
+    }
+    }
     //     check the 'mode' button
     // }
     // If we are in remote mode
