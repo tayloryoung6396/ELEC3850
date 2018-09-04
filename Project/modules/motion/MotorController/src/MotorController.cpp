@@ -57,6 +57,7 @@ int MotorDriver(double Forward, double Rotation) {
 
     // TODO Here i should send the goal positions to the servos
     // TODO This is probably where i want to setup the director for this new motor command
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
         // Set moving flag
         PathPlanner::moving_flag[i] = (Goal_Dist[i] == 0) ? 0 : ((Goal_Dist[i] < 0) ? (-1) : 1);
@@ -66,6 +67,9 @@ int MotorDriver(double Forward, double Rotation) {
         // Convert goal distance to number of revolutions
         // This counts down to 0, so add it to our outstanding revolutions
         PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        delay(10);
     }
     return 0;
 }
@@ -94,7 +98,8 @@ int MotorDirector() {
 
     // Check the current servo position
     if (PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
-        std::cout << "Moving flag " << (int) moving_flag[0] << " " << (int) moving_flag[1] << std::endl;
+        std::cout << "Moving flag " << (int) PathPlanner::moving_flag[0] << " " << (int) PathPlanner::moving_flag[1]
+                  << std::endl;
         for (int i = 0; i < 2; i++) {
             // update the number of revolutions weve done
             if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < 3500 && PathPlanner::curr_pos[i] > 0) {
@@ -111,6 +116,7 @@ int MotorDirector() {
                 && PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
                 // stop driving update moving = 0
                 PathPlanner::moving_flag[i] = 0;
+                executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
                 std::cout << "Stopped moving"
                           << " ID " << i << std::endl;
             }
