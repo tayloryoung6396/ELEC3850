@@ -87,34 +87,41 @@ int MotorDirector() {
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
                           MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
+        std::cout << "Servo " << (int) servo_ID[i] << " Present position " << (int) PathPlanner::curr_pos[i]
+                  << std::endl;
         delay(10);
     }
 
     // Check the current servo position
     if (PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
+        std::cout << "Moving flag " << (int) moving_flag[0] << " " << (int) moving_flag[1] << std::endl;
         for (int i = 0; i < 2; i++) {
-
             // update the number of revolutions weve done
             if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < 3500 && PathPlanner::curr_pos[i] > 0) {
                 PathPlanner::curr_revolution[i]--;
+                std::cout << "1 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
             }
             else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > 500
                      && PathPlanner::curr_pos[i] < 3500) {
                 PathPlanner::curr_revolution[i]--;
+                std::cout << "2 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
             }
             // were on the correct revolution
             if (PathPlanner::curr_revolution[i] == 0
                 && PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
                 // stop driving update moving = 0
                 PathPlanner::moving_flag[i] = 0;
+                std::cout << "Stopped moving"
+                          << " ID " << i << std::endl;
             }
-            else if (PathPlanner::curr_revolution[i] == 0) {
-                // maybe take control and watch ?
-                while (PathPlanner::curr_pos[i] != PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
-                    // keep polling etc
-                    break;
-                }
-            }
+            // TODO Implement this
+            // else if (PathPlanner::curr_revolution[i] == 0) {
+            //     // maybe take control and watch ?
+            //     while (PathPlanner::curr_pos[i] != PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
+            //         // keep polling etc
+            //         break;
+            //     }
+            // }
         }
     }
     // TODO update locatisation with the actual position we finished at
