@@ -226,9 +226,10 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     // Get the limits for the specific servo
     // Get the offset for the servo
     // TODO actually read limits
-    double max_limit = std::numeric_limits<uint32_t>::max() - 1;
-    double min_limit = 0;
-    double offset    = std::numeric_limits<uint32_t>::max() / 2;
+    // TODO convert to use radians
+    double max_limit = Kinematics::Servo_max_limit[servo_ID - 1];
+    double min_limit = Kinematics::Servo_min_limit[servo_ID - 1];
+    double offset    = Kinematics::Servo_offset[servo_ID - 1];
 
     // Add the offset to the angle
     angle += offset;
