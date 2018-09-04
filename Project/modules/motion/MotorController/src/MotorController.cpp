@@ -53,6 +53,7 @@ int MotorDriver(double Forward, double Rotation) {
     // Given that i actually get to the goal position
     // Set the new tank odometry rotation to the expected one..
     Localistation::wTank_theta += Rotation;
+    // TODO decide which space we are in. This ^ is currently done twice
     // Localistation::TankToWorld(Goal_Dist);
 
     // TODO Here i should send the goal positions to the servos
@@ -83,6 +84,12 @@ int MotorDirector() {
     // Bulk read the 2 motor servos
     // MOTOR_T motor_data;
     // executeReadMulti(servo_ID, address, motor_data, size, count);
+    const int offset               = 200;
+    const uint16_t max_position[2] = {std::numeric_limits<uint32_t>::max() / 2 - offset,
+                                      std::numeric_limits<uint32_t>::min() / 2 + offset};
+    const uint16_t min_position[2] = {std::numeric_limits<uint32_t>::min() / 2 + offset,
+                                      std::numeric_limits<uint32_t>::max() / 2 - offset};
+
     uint8_t count       = 2;
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
 
@@ -102,12 +109,13 @@ int MotorDirector() {
                   << std::endl;
         for (int i = 0; i < 2; i++) {
             // update the number of revolutions weve done
-            if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < 3500 && PathPlanner::curr_pos[i] > 0) {
+            if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < max_position[i]
+                && PathPlanner::curr_pos[i] > min_position[i]) {
                 PathPlanner::curr_revolution[i]--;
                 std::cout << "1 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
             }
-            else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > 500
-                     && PathPlanner::curr_pos[i] < 3500) {
+            else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > min_position[i]
+                     && PathPlanner::curr_pos[i] < max_position[i]) {
                 PathPlanner::curr_revolution[i]--;
                 std::cout << "2 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
             }
