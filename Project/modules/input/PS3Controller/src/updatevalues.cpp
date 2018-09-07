@@ -1,5 +1,5 @@
-#include "updates.h"  //include header file to update values
-
+#include "updatevalues.h"  //include header file to update values
+#include "joystick.h"
 // this will ensure that any input that is read in
 // is within the range of a short
 short bound_short(int num) {
@@ -24,7 +24,7 @@ short map(long x) {
 
 // this function will check to see what is being pressed
 void update_buttons(Joystick* joy) {
-    ButtonId update    = joy->getUpdatedButton();
+    ButtonIdentification()    = joy->getUpdatedButton();
     unsigned int value = joy->getButtonState(update);
 
     switch (update) {
@@ -51,7 +51,7 @@ void update_buttons(Joystick* joy) {
 
 // this function will look at joystick direction
 void update_axes(Joystick* joy) {
-    AxisId update = joy->getUpdatedAxis();
+    AxisIdentification() = joy->getUpdatedAxis();
     int16_t value = joy->getAxisState(update);
 
     switch (update) {

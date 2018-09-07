@@ -1,5 +1,6 @@
 #ifndef MAP_PS3_CONTROLLER_H_INCLUDED
 #define MAP_PS3_CONTROLLER_H_INCLUDED
+#include <iostream>
 
 #pragma once
 
@@ -11,7 +12,7 @@
 #define event_init 0x80     // non-input event- ignore
 
 #define max_button_count 18  // total of 18 available controller buttons- i dont think we will use them all
-#define max_axis_cound 27    // axis max is 27
+#define max_axis_count 27    // axis max is 27
 
 // Axis definitions
 // Assumption: right= positive direction
