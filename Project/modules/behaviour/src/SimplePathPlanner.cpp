@@ -10,23 +10,27 @@
 
 void SimplePathPlanner_init() {}
 
-int SimplePathPlanner(double wGoal[2]) {
-    // Given a list of obstacles
-    // Given a goal position
-    // Knowing the current position
-    // double Localisation::wTank_pos[2];
+int SimplePathPlanner(double w_Goal_Position[2]) {
+    // TODO use the occupancy map to find an appropriate path
 
-    // Calculate our vector from out current position to our goal position
-    double tGoal[2] = {wGoal[0] - Localistation::wTank_pos[0], wGoal[1] - Localistation::wTank_pos[1]};
-
+    // Calculate path from w_Tank_Position to w_Goal_Position
+    // This will be a vector of pairs X Y in tank space
+    double t_Goal_Position[2] = {w_Goal_Position[0] - Localistation::w_Tank_Position[0],
+                                 w_Goal_Position[1] - Localistation::w_Tank_Position[1]};
     // Calculate the rotation difference
-    double rGoal = std::atan2(tGoal[1], tGoal[0]);
+    double t_Goal_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
 
-    double Forward  = std::sqrt(std::pow(tGoal[0], 2) + std::pow(tGoal[1], 2));
-    double Rotation = Localistation::wTank_theta - rGoal;
+    // Convert into a forward and rotation command
+    double Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
+    double Rotation = Localistation::w_Tank_Rotation - t_Goal_Rotation;
     PathPlanner pplanner;
 
     // Rotation is relative to the vehicle, not the world
     pplanner.emplace_path(Forward, Rotation);
     return 0;
+}
+
+void Recalculate_path() {
+    // So i didn't end up where i wanted to,
+    // but i should be able to take my position and the goal and recalculate a new vector
 }

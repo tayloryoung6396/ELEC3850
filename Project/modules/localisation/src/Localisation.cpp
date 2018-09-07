@@ -8,8 +8,10 @@
 
 #include "Localisation.hpp"
 
-double Localistation::wTank_theta  = 0;
-double Localistation::wTank_pos[2] = {0};
+double Localistation::w_Tank_Position[2];  // X Y Current position in world coordinates
+double Localistation::w_Tank_Rotation;  // Rotation about the w_Tank_Position in the anticlockwise direction (radians)
+
+double Localistation::w_Goal_Position[2];  // X Y Goal position in world coordinates
 
 void Localisation_init() {}
 

@@ -5,7 +5,8 @@
  */
 
 #include "MotorController.hpp"
-std::vector<std::pair<double, double>> PathPlanner::path_vec;
+std::vector<std::pair<double, double>> PathPlanner::path_vec;  // Vector of pairs of X Y goal coordinates in tank space
+
 uint32_t PathPlanner::goal_pos[2]       = {0};
 uint32_t PathPlanner::prev_pos[2]       = {0};
 uint32_t PathPlanner::curr_pos[2]       = {0};
@@ -14,10 +15,16 @@ int PathPlanner::moving_flag[2]         = {0};
 
 void MotorController_init() {
     std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
-    // TODO Initialise current motor position
+    // Initialise current motor position
+    executeReadSingle(
+        Motor_L, MX64_ADDRESS_VALUE(PRESENT_POSITION), MX64_SIZE_VALUE(PRESENT_POSITION), PathPlanner::curr_pos[0]);
+    executeReadSingle(
+        Motor_R, MX64_ADDRESS_VALUE(PRESENT_POSITION), MX64_SIZE_VALUE(PRESENT_POSITION), PathPlanner::curr_pos[1]);
 }
 
 int MotorController() {
+    // Iterate through each vector of pairs
+    // Convert it to a polar vector and execute it - all in tank space
     PathPlanner pplanner;
 
     if (!pplanner.check_path()) {
@@ -35,9 +42,11 @@ int MotorController() {
 // Convention here would say Forward is positive, Left Rotation is positive
 // Essentially takes a polar vector in world coordinates
 int MotorDriver(double Forward, double Rotation) {
-    // Take current vehicle vector
-    // Take the goal vehicle vector
-    // Take the difference to figure out the movement needed
+    // Take the forward and roation relative to the tank and convert it into a pair of motor commands
+    // This will be a revolution amount/position - this might just be a total amount irrelevant of revolutions and have
+    // it accounted for later
+
+    // Set tank to moving[2] if we get a non zero input
 
     double wGoal[2] = {Forward, Rotation};
     double Goal_Dist[2];  // 0 is the left, 1 is the right
@@ -50,24 +59,16 @@ int MotorDriver(double Forward, double Rotation) {
 
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
 
-    // Given that i actually get to the goal position
-    // Set the new tank odometry rotation to the expected one..
-    Localistation::wTank_theta += Rotation;
-    // TODO decide which space we are in. This ^ is currently done twice
-    // Localistation::TankToWorld(Goal_Dist);
-
-    // TODO Here i should send the goal positions to the servos
-    // TODO This is probably where i want to setup the director for this new motor command
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
         // Set moving flag
         PathPlanner::moving_flag[i] = (Goal_Dist[i] == 0) ? 0 : ((Goal_Dist[i] < 0) ? (-1) : 1);
         // Set goal position
-        PathPlanner::moving_flag[i] = Goal_Dist[i];
-        // Set goal revolution
-        // Convert goal distance to number of revolutions
-        // This counts down to 0, so add it to our outstanding revolutions
-        PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+        // PathPlanner::moving_flag[i] = Goal_Dist[i];
+        // // Set goal revolution
+        // // Convert goal distance to number of revolutions
+        // // This counts down to 0, so add it to our outstanding revolutions
+        // PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
         delay(10);
@@ -85,10 +86,10 @@ int MotorDirector() {
     // MOTOR_T motor_data;
     // executeReadMulti(servo_ID, address, motor_data, size, count);
     const int offset               = 200;
-    const uint16_t max_position[2] = {std::numeric_limits<uint32_t>::max() / 2 - offset,
-                                      std::numeric_limits<uint32_t>::min() / 2 + offset};
-    const uint16_t min_position[2] = {std::numeric_limits<uint32_t>::min() / 2 + offset,
-                                      std::numeric_limits<uint32_t>::max() / 2 - offset};
+    const uint16_t max_position[2] = {(uint16_t) std::numeric_limits<uint32_t>::max() / 2 - offset,
+                                      (uint16_t) std::numeric_limits<uint32_t>::min() / 2 + offset};
+    const uint16_t min_position[2] = {(uint16_t) std::numeric_limits<uint32_t>::min() / 2 + offset,
+                                      (uint16_t) std::numeric_limits<uint32_t>::max() / 2 - offset};
 
     uint8_t count       = 2;
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
@@ -102,6 +103,7 @@ int MotorDirector() {
                   << std::endl;
         delay(10);
     }
+
 
     // Check the current servo position
     if (PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
@@ -120,8 +122,8 @@ int MotorDirector() {
                 std::cout << "2 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
             }
             // were on the correct revolution
-            if (PathPlanner::curr_revolution[i] == 0
-                && PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
+            if (PathPlanner::curr_revolution[i] == 0 && (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
+                || (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100)) {  // Goal pos +- some delta
                 // stop driving update moving = 0
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
@@ -139,6 +141,8 @@ int MotorDirector() {
         }
     }
     // TODO update locatisation with the actual position we finished at
+    // Localisation::w_Tank_Position[0] =
+    // Need to somehow convert a change in rotation to a vector?
     else {
         // TODO check we are where we think we are
     }

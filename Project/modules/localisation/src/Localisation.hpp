@@ -8,8 +8,9 @@ extern int Localisation_main();
 
 class Localistation {
 public:
-    static double wTank_theta;
-    static double wTank_pos[2];
+    static double w_Tank_Position[2];
+    static double w_Tank_Rotation;
+    static double w_Goal_Position[2];
 };
 
 #endif /* LOCALISATION_H_ */

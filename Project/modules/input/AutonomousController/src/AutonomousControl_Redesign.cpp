@@ -47,10 +47,34 @@ Recalculate_path() {
 
 /********************************Motor_Controller********************************/
 
-Motor_Controller(){
+void MotorController_init() {
+    std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
+    // TODO Initialise current motor position
+    executeReadSingle(Motor_L,
+                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
+                          MX64_SIZE_VALUE(PRESENT_POSITION),
+                          PathPlanner::curr_pos[0]);
+    executeReadSingle(Motor_R,
+                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
+                          MX64_SIZE_VALUE(PRESENT_POSITION),
+                          PathPlanner::curr_pos[1]);
+}
+
+int Motor_Controller(){
 	// Iterate through each vector of pairs
 	// Convert it to a polar vector and execute it - all in tank space
-	Motor_Driver(Polar_Vector);
+	PathPlanner pplanner;
+
+    if (!pplanner.check_path()) {
+        std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
+        pplanner.path_erase_first();
+
+        if (MotorDriver(ret_vec->first, ret_vec->second) != 0) {
+            std::cout << "Error Could not calculate motor driver" << std::endl;
+            return -1;
+        }
+    }
+    return 0;
 }
 
 Motor_Driver(Forward, Rotation){
@@ -58,6 +82,33 @@ Motor_Driver(Forward, Rotation){
 	// This will be a revolution amount/position - this might just be a total amount irrelevant of revolutions and have it accounted for later
 
 	// Set tank to moving[2] if we get a non zero input
+
+	double wGoal[2] = {Forward, Rotation};
+    double Goal_Dist[2];  // 0 is the left, 1 is the right
+    Goal_Dist[0] = -ConvertRotationToArclen(wGoal[1]);
+    Goal_Dist[1] = -Goal_Dist[0];
+
+    // Now account for the forward distance required
+    Goal_Dist[0] += Forward;
+    Goal_Dist[1] += Forward;
+
+    std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
+
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
+    for (int i = 0; i < 2; i++) {
+        // Set moving flag
+        PathPlanner::moving_flag[i] = (Goal_Dist[i] == 0) ? 0 : ((Goal_Dist[i] < 0) ? (-1) : 1);
+        // Set goal position
+        // PathPlanner::moving_flag[i] = Goal_Dist[i];
+        // // Set goal revolution
+        // // Convert goal distance to number of revolutions
+        // // This counts down to 0, so add it to our outstanding revolutions
+        // PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        delay(10);
+    }
+    return 0;
 }
 
 Motor_Director(){

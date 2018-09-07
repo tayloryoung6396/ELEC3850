@@ -24,7 +24,7 @@ double Kinematics::tank_length      = 0.355;
 double Kinematics::tank_width       = 0.180;
 double Kinematics::tank_height      = 0.150;
 
-double Kinematics::Servo_max_limit[5] = {M_PI / 2, M_PI / 2 M_PI / 2 M_PI / 2 M_PI / 4};
+double Kinematics::Servo_max_limit[5] = {M_PI / 2, M_PI / 2, M_PI / 2, M_PI / 2, M_PI / 4};
 double Kinematics::Servo_min_limit[5] = {-M_PI / 2, -M_PI / 2, -M_PI / 2, -M_PI / 2, 0};
 double Kinematics::Servo_offset[5]    = {0, 0, 0, 0, 0};
 
