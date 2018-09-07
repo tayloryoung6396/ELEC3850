@@ -29,10 +29,26 @@ void PS3Control_init() {
 }
 
 int PS3Control_main() {
+    static int32_t A_L_J_H = 0;
+    static int32_t A_L_J_V = 0;
+
+    if (A_L_J_V > 100) {
+        executeWriteSingle(Motor_L, MX64_ADDRESS_VALUE(GOAL_VELOCITY), -20);
+        delay(10);
+        executeWriteSingle(Motor_R, MX64_ADDRESS_VALUE(GOAL_VELOCITY), -20);
+        delay(10);
+    }
+    else if (A_L_J_V < -100) {
+        executeWriteSingle(Motor_L, MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        delay(10);
+        executeWriteSingle(Motor_R, MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        delay(10);
+    }
+
+
     JoystickEvent event;
     // read from joystick
     if (joystick.sample(&event)) {
-
         if (event.isAxis()) {
             // event was an axis event
             switch (event.number) {
@@ -41,6 +57,7 @@ int PS3Control_main() {
                     break;
                 case PS3Walk::AXIS_LEFT_JOYSTICK_VERTICAL:
                     std::cout << "AXIS_LEFT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
+                    A_L_J_V = (int) event.value;
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_VERTICAL:
                     std::cout << "AXIS_RIGHT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
