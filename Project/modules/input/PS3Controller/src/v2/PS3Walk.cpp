@@ -22,6 +22,8 @@
 #define FORWARD_SPEED 1   // TODO Change
 #define ROTATION_SPEED 1  // TODO Change
 
+class Joystick joystick;
+
 void PS3Control_init() {
     std::cout << "Initilising PS3 CONTROLLER" << std::endl;
 }

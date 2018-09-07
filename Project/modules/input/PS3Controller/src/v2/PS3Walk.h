@@ -58,6 +58,6 @@ public:
 extern void PS3Control_init();
 extern int PS3Control_main();
 
-Joystick joystick;  // TODO: make configurable
+//Joystick joystick;  // TODO: make configurable
 
 #endif /* PS3_CONTROL_H_ */
