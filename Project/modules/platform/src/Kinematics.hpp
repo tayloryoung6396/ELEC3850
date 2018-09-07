@@ -25,6 +25,10 @@ public:
     static double tank_length;
     static double tank_width;
     static double tank_height;
+
+    static double Kinematics::Servo_max_limit[5];
+    static double Kinematics::Servo_min_limit[5];
+    static double Kinematics::Servo_offset[5];
 };
 
 

@@ -1,8 +1,9 @@
 /*
- * This should take the goal objects and motor commands to calculate the vector between the two.
- * Inputs:  Motor Commands
-            Objects
- * Outputs: Goal Position as vector
+ * This should take the Ultrasonic readings and the current position and populate an occupancy map of the surroundings
+ * Inputs:  Ultrasonic sensor readings
+ *          Position
+ * Outputs: Occupancy map
+ *			Position
  */
 
 #include "Localisation.hpp"

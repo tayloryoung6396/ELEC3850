@@ -22,13 +22,13 @@ void PS3Control_init() {
 int PS3Control_main() {
     // Check the controller is connected
     // if (connected) {
-//    checkconnection()
-//    while (ps3_connected=1)
-//{
+    checkconnection()
+    while (ps3_connected=1)
+    {
 
-//        checkconnection()
+        checkconnection()
 
-  //  }
+    }
     }
     //     check the 'mode' button
     // }
@@ -86,3 +86,13 @@ return 0;
 // Check to see if we have switched from autonomous mode to ps3 or vise versa
 // If we are in ps3 mode, then look at all of the other buttons
 // Perform some action/tell someone else that a button has been pressed
+
+    // if (connected) {
+    // checkconnection()
+    // while (ps3_connected=1)
+    // {
+
+    //     checkconnection()
+
+    // }
+    // }

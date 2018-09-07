@@ -1,6 +1,5 @@
 /*
- * This should handle the Inputs and Outputs to the world.
- * Communication between the perpherials and the MCU.
+ * This should take the occupancy map and plan a path to a given goal
  * Inputs:  Goal of robot relative to robot as vector
             Any obstacle for the robot to avoid as vector
             Kinematics
@@ -31,5 +30,3 @@ int SimplePathPlanner(double wGoal[2]) {
     pplanner.emplace_path(Forward, Rotation);
     return 0;
 }
-
-//
