@@ -31,7 +31,7 @@ int MotorController() {
         std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
         pplanner.path_erase_first();
 
-        if (MotorDriver(ret_vec->first, ret_vec->second) != 0) {
+        if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
             std::cout << "Error Could not calculate motor driver" << std::endl;
             return -1;
         }
@@ -41,7 +41,7 @@ int MotorController() {
 
 // Convention here would say Forward is positive, Left Rotation is positive
 // Essentially takes a polar vector in world coordinates
-int MotorDriver(double Forward, double Rotation) {
+int MotorDriver_Distance(double Forward, double Rotation) {
     // Take the forward and roation relative to the tank and convert it into a pair of motor commands
     // This will be a revolution amount/position - this might just be a total amount irrelevant of revolutions and have
     // it accounted for later
@@ -71,6 +71,29 @@ int MotorDriver(double Forward, double Rotation) {
         // PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        delay(10);
+    }
+    return 0;
+}
+
+int MotorDriver_Velocity(double Forward, double Rotation) {
+
+    double Goal_Vel[2];  // 0 is the left, 1 is the right
+    Goal_Vel[0] = -ConvertRotationToArclen(Rotation);
+    Goal_Vel[1] = -Goal_Vel[0];
+
+    // Now account for the forward distance required
+    Goal_Vel[0] += Forward;
+    Goal_Vel[1] += Forward;
+
+    std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
+
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
+    for (int i = 0; i < 2; i++) {
+        // Set moving flag
+        PathPlanner::moving_flag[i] = (Goal_Vel[i] == 0) ? 0 : ((Goal_Vel[i] < 0) ? (-1) : 1);
+
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), Goal_Vel[i]);
         delay(10);
     }
     return 0;
