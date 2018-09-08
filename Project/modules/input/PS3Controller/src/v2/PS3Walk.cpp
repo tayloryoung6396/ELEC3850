@@ -22,6 +22,13 @@
 #define FORWARD_SPEED 1   // TODO Change
 #define ROTATION_SPEED 1  // TODO Change
 
+#define AXIS_MAX_LIMIT 32768
+#define AXIS_MIN_LIMIT -32767
+#define FORWARD_MAX_LIMIT 100
+#define FORWARD_MIN_LIMIT 100
+#define ROTATION_MAX_LIMIT 100
+#define ROTATION_MIN_LIMIT 100
+
 class Joystick joystick;
 
 void PS3Control_init() {
@@ -29,22 +36,8 @@ void PS3Control_init() {
 }
 
 int PS3Control_main() {
-    static int32_t A_L_J_H = 0;
-    static int32_t A_L_J_V = 0;
-
-    if (A_L_J_V > 100) {
-        executeWriteSingle(Motor_L, MX64_ADDRESS_VALUE(GOAL_VELOCITY), -20);
-        delay(10);
-        executeWriteSingle(Motor_R, MX64_ADDRESS_VALUE(GOAL_VELOCITY), -20);
-        delay(10);
-    }
-    else if (A_L_J_V < -100) {
-        executeWriteSingle(Motor_L, MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
-        delay(10);
-        executeWriteSingle(Motor_R, MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
-        delay(10);
-    }
-
+    static double Forward  = 0;
+    static double Rotation = 0;
 
     JoystickEvent event;
     // read from joystick
@@ -54,67 +47,170 @@ int PS3Control_main() {
             switch (event.number) {
                 case PS3Walk::AXIS_LEFT_JOYSTICK_HORIZONTAL:
                     std::cout << "AXIS_LEFT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
+                    axis_left_joystick_horizontal = (int) event.value;
+                    // Call some function probably or something
+                    // Call motor function
+                    // Need some scaled values
+                    Forward = -(double) map_values(axis_left_joystick_horizontal,
+                                                   FORWARD_MAX_LIMIT,
+                                                   FORWARD_MIN_LIMIT,
+                                                   AXIS_MAX_LIMIT,
+                                                   AXIS_MIN_LIMIT);
+                    MotorDriver(Forward, Rotation);
                     break;
                 case PS3Walk::AXIS_LEFT_JOYSTICK_VERTICAL:
                     std::cout << "AXIS_LEFT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
-                    A_L_J_V = (int) event.value;
+                    axis_left_joystick_horizontal = (int) event.value;
+                    // Call some function probably or something
+                    // Call motor function
+                    // Need some scaled values
+                    Rotation = -(double) map_values(axis_left_joystick_horizontal,
+                                                    ROTATION_MAX_LIMIT,
+                                                    ROTATION_MIN_LIMIT,
+                                                    AXIS_MAX_LIMIT,
+                                                    AXIS_MIN_LIMIT);
+                    MotorDriver(Forward, Rotation);
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_VERTICAL:
                     std::cout << "AXIS_RIGHT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
+                    axis_right_joystick_vertical = (int) event.value;
+                    // Call some function probably or something
+                    // Gripper forward backwards
+                    // Need some intermediate variable to be incrememted
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_HORIZONTAL:
                     std::cout << "AXIS_RIGHT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
+                    axis_right_joystick_horizontal = (int) event.value;
+                    // Call some function probably or something
+                    // Gripper either left right or rotate
+                    // Need some intermediate variable to be incrememted
                     break;
             }
         }
         else if (event.isButton()) {
             // event was a button event
             switch (event.number) {
+                case PS3Walk::BUTTON_SELECT:
+                    button_select = (int) event.value;
+                    // Call some function probably or something
+                    // Change between autonomous and ps3
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_SELECT" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_LEFT_JOYSTICK:
+                    button_left_joystick = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_LEFT_JOYSTICK" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_RIGHT_JOYSTICK:
+                    button_right_joystick = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_RIGHT_JOYSTICK" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_START:
+                    button_start = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_START" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_DPAD_UP:
+                    button_dpad_up = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_DPAD_UP" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_DPAD_RIGHT:
+                    button_dpad_right = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_DPAD_RIGHT" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_DPAD_DOWN:
+                    button_dpad_down = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_DPAD_DOWN" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_DPAD_LEFT:
+                    button_dpad_left = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_DPAD_LEFT" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_L2:
+                    button_l2 = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_L2" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_R2:
+                    button_r2 = (int) event.value;
+                    // Call some function probably or something
+                    // Gripper up down
+                    // Need some intermediate variable to be incrememted
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_R2" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_L1:
+                    button_l1 = (int) event.value;
+                    // Call some function probably or something
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_L1" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_R1:
+                    button_r1 = (int) event.value;
+                    // Call some function probably or something
+                    // Gripper up down
+                    // Need some intermediate variable to be incrememted
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_R1" << std::endl;
+                    }
+                    break;
                 case PS3Walk::BUTTON_TRIANGLE:
+                    button_triangle = (int) event.value;
+                    // Call some function probably or something
                     if (event.value > 0) {  // button down
                         std::cout << "BUTTON_TRIANGLE" << std::endl;
                     }
                     break;
+                case PS3Walk::BUTTON_CIRCLE:
+                    button_circle = (int) event.value;
+                    // Call some function probably or something
+                    // Grip open
+                    Open_Gripper();
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_CIRCLE" << std::endl;
+                    }
+                    break;
+                case PS3Walk::BUTTON_CROSS:
+                    button_cross = (int) event.value;
+                    // Call some function probably or something
+                    // Grip close
+                    Close_Gripper();
+                    if (event.value > 0) {  // button down
+                        std::cout << "BUTTON_CROSS" << std::endl;
+                    }
+                    break;
                 case PS3Walk::BUTTON_SQUARE:
+                    button_square = (int) event.value;
+                    // Call some function probably or something
                     if (event.value > 0) {  // button down
                         std::cout << "BUTTON_SQUARE" << std::endl;
                     }
                     break;
-                    /*case BUTTON_L1:
-                        if (event.value > 0) { // button down
-                            NUClear::log("Requesting Left Side Kick");
-                            emit(std::make_unique<KickScriptCommand>(KickScriptCommand{
-                                {0, -1, 0}, // vector pointing right relative to robot
-                                LimbID::LEFT_LEG
-                            }));
-                        }
-                        break;
-                    case BUTTON_L2:
-                        if (event.value > 0) { // button down
-                            NUClear::log("Requesting Left Front Kick");
-                            emit(std::make_unique<KickScriptCommand>(KickScriptCommand{
-                                {1, 0, 0}, // vector pointing forward relative to robot
-                                LimbID::LEFT_LEG
-                            }));
-                        }
-                        break;
-                    case BUTTON_R1:
-                        if (event.value > 0) { // button down
-                            NUClear::log("Requesting Right Side Kick");
-                            emit(std::make_unique<KickScriptCommand>(KickScriptCommand{
-                                {0, 1, 0}, // vector pointing left relative to robot
-                                LimbID::RIGHT_LEG
-                            }));
-                        }
-                        break;
-                    case BUTTON_R2:
-                        if (event.value > 0) {  // button down
-                            NUClear::log("Requesting Right Front Kick");
-                            emit(std::make_unique<KickScriptCommand>(
-                                KickScriptCommand(Eigen::Vector3d(1, 0, 0),  // vector pointing forward relative to
-                    robot LimbID::RIGHT_LEG)));
-                        }
-                        break;*/
             }
         }
     }
@@ -122,4 +218,8 @@ int PS3Control_main() {
     else if (!joystick.valid()) {
         joystick.reconnect();
     }
+}
+
+int32_t map_values(int32_t input, int32_t output_end, int32_t output_start, int32_t input_end, int32_t input_start) {
+    return (output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start));
 }
