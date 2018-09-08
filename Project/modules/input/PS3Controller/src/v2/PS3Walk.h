@@ -64,7 +64,7 @@ extern int32_t map_values(int32_t input,
                           int32_t input_end,
                           int32_t input_start);
 
-static uint32_t axis_left_joystick_horizontal  = 0;
+static uint32_t axis_left_joystick_vertical    = 0;
 static uint32_t axis_left_joystick_horizontal  = 0;
 static uint32_t axis_right_joystick_vertical   = 0;
 static uint32_t axis_right_joystick_horizontal = 0;

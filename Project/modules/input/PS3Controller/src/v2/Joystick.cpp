@@ -25,13 +25,13 @@ Joystick::Joystick() : _fd(-1), path("/dev/input/js0") {
     openPath(path);
 }
 
-Joystick::Joystick(char*) : _fd(-1), path(path) {
+Joystick::Joystick(std::string) : _fd(-1), path(path) {
     openPath(path);
 }
 
-void Joystick::openPath(char* devicePath) {
+void Joystick::openPath(std::string devicePath) {
     std::cout << "Connecting to " << devicePath << std::endl;
-    _fd = open(devicePath, O_RDONLY | O_NONBLOCK);
+    _fd = open(devicePath.c_str(), O_RDONLY | O_NONBLOCK);
 }
 
 bool Joystick::sample(JoystickEvent* event) {

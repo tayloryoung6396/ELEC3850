@@ -12,6 +12,7 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <string>
 #include <vector>
 
 #include "behaviour/src/SimplePathPlanner.hpp"

@@ -77,10 +77,10 @@ public:
  */
 class Joystick {
 private:
-    void openPath(char* devicePath);
+    void openPath(std::string devicePath);
 
     int _fd;
-    char* path;
+    std::string path;
 
 public:
     ~Joystick();
@@ -99,7 +99,7 @@ public:
     /**
      * Initialises an instance for the joystick device specified.
      */
-    Joystick(char* devicePath);
+    Joystick(std::string devicePath);
 
     /**
      * Returns true if the joystick was found and may be used, otherwise false.
