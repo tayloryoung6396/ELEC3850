@@ -36,6 +36,10 @@ int MotorController() {
             return -1;
         }
     }
+    else {
+        // We must be at our goal?
+        // Or we don't have a goal
+    }
     return 0;
 }
 
@@ -145,8 +149,9 @@ int MotorDirector() {
                 std::cout << "2 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
             }
             // were on the correct revolution
-            if (PathPlanner::curr_revolution[i] == 0 && (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
-                || (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100)) {  // Goal pos +- some delta
+            if (PathPlanner::curr_revolution[i] == 0
+                && ((PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
+                    || (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100))) {  // Goal pos +- some delta
                 // stop driving update moving = 0
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);

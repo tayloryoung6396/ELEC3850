@@ -10,13 +10,13 @@
 
 void SimplePathPlanner_init() {}
 
-int SimplePathPlanner(double w_Goal_Position[2]) {
+int SimplePathPlanner() {
     // TODO use the occupancy map to find an appropriate path
 
     // Calculate path from w_Tank_Position to w_Goal_Position
     // This will be a vector of pairs X Y in tank space
-    double t_Goal_Position[2] = {w_Goal_Position[0] - Localistation::w_Tank_Position[0],
-                                 w_Goal_Position[1] - Localistation::w_Tank_Position[1]};
+    double t_Goal_Position[2] = {Localisation::w_Goal_Position[0] - Localistation::w_Tank_Position[0],
+                                 Localisation::w_Goal_Position[1] - Localistation::w_Tank_Position[1]};
     // Calculate the rotation difference
     double t_Goal_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
 
