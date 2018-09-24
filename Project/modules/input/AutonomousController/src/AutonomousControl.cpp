@@ -26,39 +26,66 @@ int AutonomousControl_main() {
     // Figure out if there's stuff around me
     Localisation_main();
     // Decide how to move
-    // TODO make this a variable in the autonomous controller
-    double wGoal[2] = {0};
-    SimplePathPlanner(wGoal);
 
+    // What do we want to do.. hence STATE MACHINE!
 
-    Gripper::Goal[0] = 0;
-    Gripper::Goal[1] = 0;
-    Gripper::Goal[2] = 0;
+    // flags for conditions
+    bool have_object   = FALSE;
+    double Goal_pos[3] = {0};
+
+    // TODO this is not optimized in any way.. you're an idiot
+    // TODO Account for being at the object already/goal and needing to do something
+    if (!have_object) {
+        // known object pos
+        if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
+            // Check to see if we're at the goal or not
+            if (at goal) {
+                // grab object TODO
+                // check where the object is exactly
+                // either use last image or do a whoe new classification?
+                // perform grab
+
+                IKGripper_Grab_Object(Goal_pos[3]);
+            }
+            else {
+                // go to the object path planner
+                SimplePathPlanner(Localistation::w_Goal_Position[0], Localistation::w_Goal_Position[1]);
+            }
+        }
+        // unknown object pos
+        // If our goal is negative then it means we don't have a valid goal/don't know a goal
+        else if (Localistation::w_Goal_Position[0] ! > 0 | Localistation::w_Goal_Position[1] ! > 0) {
+            // search for it
+            weighted_search();
+        }
+    }
+
+    else if (have_object) {
+        // known goal pos
+        // If our goal is negative then it means we don't have a valid goal/don't know a goal
+        if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
+            // Check to see if we're at the goal or not
+            if ((Localistation::w_Goal_Position[0] == Localistation::w_tank_Position[0])
+                && (Localistation::w_Goal_Position[1] == Localistation::w_tank_Position[1])) {
+                // Do something
+                // Figure out where we are putting it TODO
+                IKGripper_Place_Object(Goal_pos[3])
+            }
+            else {
+                // go to the goal path planner
+                SimplePathPlanner(Localistation::w_Goal_Position[0], Localistation::w_Goal_Position[1]);
+            }
+        }
+        // unknown goal pos
+        else if (Localistation::w_Goal_Position[0] ! > 0 | Localistation::w_Goal_Position[1] ! > 0) {
+            // search for it
+            weighted_search();
+        }
+    }
 
     return 0;
 }
 
-// if(!have object){
-//     if(known object pos){
-//         go to the object
-//         path planner
-//     }
-//     else if(unknown object pos){
-//         search for it
-//         weighted_search()
-//     }
-// }
-
-// else if (have object){
-//     if(known goal pos){
-//         go to the goal
-//         path planner
-//     }
-//     else if(unknown goal pos){
-//         search for it
-//         weighted_search()
-//     }
-// }
 
 // weighted_search()
 // take the grid map and perform a weighted gradient over the map
