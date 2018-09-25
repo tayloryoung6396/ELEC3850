@@ -93,7 +93,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
         // Set moving flag
         PathPlanner::moving_flag[i] = (Goal_Vel[i] == 0) ? 0 : ((Goal_Vel[i] < 0) ? (-1) : 1);
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), Goal_Vel[i]);
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (uint32_t) Goal_Vel[i]);
         delay(10);
     }
     return 0;

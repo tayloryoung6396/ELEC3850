@@ -25,9 +25,9 @@
 #define AXIS_MAX_LIMIT 32768
 #define AXIS_MIN_LIMIT -32767
 #define FORWARD_MAX_LIMIT 100
-#define FORWARD_MIN_LIMIT 100
-#define ROTATION_MAX_LIMIT 100
-#define ROTATION_MIN_LIMIT 100
+#define FORWARD_MIN_LIMIT -100
+#define ROTATION_MAX_LIMIT 50
+#define ROTATION_MIN_LIMIT -50
 
 class Joystick joystick;
 
@@ -56,19 +56,21 @@ int PS3Control_main() {
                                                    FORWARD_MIN_LIMIT,
                                                    AXIS_MAX_LIMIT,
                                                    AXIS_MIN_LIMIT);
+                    std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
                     MotorDriver_Velocity(Forward, Rotation);
                     break;
                 case PS3Walk::AXIS_LEFT_JOYSTICK_VERTICAL:
                     std::cout << "AXIS_LEFT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
-                    axis_left_joystick_horizontal = (int) event.value;
+                    axis_left_joystick_vertical = (int) event.value;
                     // Call some function probably or something
                     // Call motor function
                     // Need some scaled values
-                    Rotation = -(double) map_values(axis_left_joystick_horizontal,
+                    Rotation = -(double) map_values(axis_left_joystick_vertical,
                                                     ROTATION_MAX_LIMIT,
                                                     ROTATION_MIN_LIMIT,
                                                     AXIS_MAX_LIMIT,
                                                     AXIS_MIN_LIMIT);
+                    std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
                     MotorDriver_Velocity(Forward, Rotation);
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_VERTICAL:
