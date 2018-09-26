@@ -19,9 +19,6 @@
 
 #include "PS3Walk.h"
 
-#define FORWARD_SPEED 1   // TODO Change
-#define ROTATION_SPEED 1  // TODO Change
-
 #define AXIS_MAX_LIMIT 32768
 #define AXIS_MIN_LIMIT -32767
 #define FORWARD_MAX_LIMIT 100
@@ -40,9 +37,10 @@ int PS3Control_main() {
     static double Rotation = 0;
 
     JoystickEvent event;
+    Input ip;
     // read from joystick
     if (joystick.sample(&event)) {
-        if (event.isAxis()) {
+        if (event.isAxis() && !ip.Autonomous_Enabled) {
             // event was an axis event
             switch (event.number) {
                 case PS3Walk::AXIS_LEFT_JOYSTICK_HORIZONTAL:
@@ -101,116 +99,146 @@ int PS3Control_main() {
                     }
                     break;
                 case PS3Walk::BUTTON_LEFT_JOYSTICK:
-                    button_left_joystick = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_LEFT_JOYSTICK" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_left_joystick = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_LEFT_JOYSTICK" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_RIGHT_JOYSTICK:
-                    button_right_joystick = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_RIGHT_JOYSTICK" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_right_joystick = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_RIGHT_JOYSTICK" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_START:
-                    button_start = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_START" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_start = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_START" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_DPAD_UP:
-                    button_dpad_up = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_DPAD_UP" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_dpad_up = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_DPAD_UP" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_DPAD_RIGHT:
-                    button_dpad_right = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_DPAD_RIGHT" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_dpad_right = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_DPAD_RIGHT" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_DPAD_DOWN:
-                    button_dpad_down = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_DPAD_DOWN" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_dpad_down = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_DPAD_DOWN" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_DPAD_LEFT:
-                    button_dpad_left = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_DPAD_LEFT" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_dpad_left = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_DPAD_LEFT" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_L2:
-                    button_l2 = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_L2" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_l2 = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_L2" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_R2:
-                    button_r2 = (int) event.value;
-                    // Call some function probably or something
-                    // Gripper up down
-                    // Need some intermediate variable to be incrememted
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_R2" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_r2 = (int) event.value;
+                        // Call some function probably or something
+                        // Gripper up down
+                        // Need some intermediate variable to be incrememted
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_R2" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_L1:
-                    button_l1 = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_L1" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_l1 = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_L1" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_R1:
-                    button_r1 = (int) event.value;
-                    // Call some function probably or something
-                    // Gripper up down
-                    // Need some intermediate variable to be incrememted
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_R1" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_r1 = (int) event.value;
+                        // Call some function probably or something
+                        // Gripper up down
+                        // Need some intermediate variable to be incrememted
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_R1" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_TRIANGLE:
-                    button_triangle = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_TRIANGLE" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_triangle = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_TRIANGLE" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_CIRCLE:
-                    button_circle = (int) event.value;
-                    // Call some function probably or something
-                    // Grip open
-                    Open_Gripper();
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_CIRCLE" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_circle = (int) event.value;
+                        // Call some function probably or something
+                        // Grip open
+                        Open_Gripper();
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_CIRCLE" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_CROSS:
-                    button_cross = (int) event.value;
-                    // Call some function probably or something
-                    // Grip close
-                    Close_Gripper();
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_CROSS" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_cross = (int) event.value;
+                        // Call some function probably or something
+                        // Grip close
+                        Close_Gripper();
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_CROSS" << std::endl;
+                        }
                     }
                     break;
                 case PS3Walk::BUTTON_SQUARE:
-                    button_square = (int) event.value;
-                    // Call some function probably or something
-                    if (event.value > 0) {  // button down
-                        std::cout << "BUTTON_SQUARE" << std::endl;
+                    if (!ip.Autonomous_Enabled) {
+                        button_square = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            std::cout << "BUTTON_SQUARE" << std::endl;
+                        }
                     }
                     break;
             }

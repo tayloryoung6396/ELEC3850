@@ -76,11 +76,12 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     return 0;
 }
 
+// Note in this configuration, it is not a polar vector
 int MotorDriver_Velocity(double Forward, double Rotation) {
 
     double Goal_Vel[2];  // 0 is the left, 1 is the right
-    Goal_Vel[0] = -ConvertRotationToArclen(Rotation);
-    Goal_Vel[1] = -Goal_Vel[0];
+    Goal_Vel[0] = -Rotation;
+    Goal_Vel[1] = Rotation;
 
     // Now account for the forward distance required
     Goal_Vel[0] += Forward;
