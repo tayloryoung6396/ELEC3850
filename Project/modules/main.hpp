@@ -43,8 +43,8 @@
 
 class Input {
 public:
-    static bool Autonomous_Enable;
-}
+    static bool Autonomous_Enabled;
+};
 
 
 #endif /* MAIN_H_ */

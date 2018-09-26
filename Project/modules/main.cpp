@@ -63,7 +63,7 @@ int main() {
         // If we are in ps3 control mode then don't run the autonomous controller
         PS3Control_main();
         // TODO This should be some mode variable
-        if (Autonomous_Enabled) {
+        if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
             //          AutonomousControl_main();
