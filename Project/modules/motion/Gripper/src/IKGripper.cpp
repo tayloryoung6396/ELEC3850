@@ -227,7 +227,7 @@ int Close_Gripper() {
     return 0;
 }
 
-uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
+int32_t convert_rad_pos(uint8_t servo_ID, double angle) {
 
     // Get the limits for the specific servo
     // Get the offset for the servo
@@ -241,10 +241,13 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     angle += offset;
 
     // Map our angle to our servo range
-    uint32_t new_angle = ((angle + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
+    int32_t new_angle =
+        (int32_t)(((double) (angle + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
     // Map our limits
-    uint32_t max_mapped = ((max_limit + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
-    uint32_t min_mapped = ((min_limit + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
+    int32_t max_mapped =
+        (int32_t)(((double) (max_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+    int32_t min_mapped =
+        (int32_t)(((double) (min_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
 
     // Check we're within our limits
     if (new_angle > max_mapped) {
