@@ -211,6 +211,7 @@ int Open_Gripper() {
     uint8_t servo_ID = Gripper;
     uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
     uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
+    std::cout << "Open_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
     delay(10);
     return 0;
@@ -220,6 +221,7 @@ int Close_Gripper() {
     uint8_t servo_ID = Gripper;
     uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
     uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
+    std::cout << "Close_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
     delay(10);
     return 0;
