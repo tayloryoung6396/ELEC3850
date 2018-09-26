@@ -210,7 +210,7 @@ int Grip_Object() {
 int Open_Gripper() {
     uint8_t servo_ID = Gripper;
     uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
+    int32_t data     = convert_rad_pos(servo_ID, Kinematics::grip_open);
     std::cout << "Open_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
     delay(10);
@@ -220,7 +220,7 @@ int Open_Gripper() {
 int Close_Gripper() {
     uint8_t servo_ID = Gripper;
     uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
+    int32_t data     = convert_rad_pos(servo_ID, Kinematics::grip_closed);
     std::cout << "Close_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
     delay(10);
@@ -248,11 +248,17 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
 
     // Check we're within our limits
     if (new_angle > max_mapped) {
+        std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << max_mapped << std::endl;
+        std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
         return max_mapped;
     }
     else if (new_angle < min_mapped) {
+        std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << min_mapped << std::endl;
+        std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
         return min_mapped;
     }
+    std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << new_angle << std::endl;
+    std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
     return new_angle;
 }
 
