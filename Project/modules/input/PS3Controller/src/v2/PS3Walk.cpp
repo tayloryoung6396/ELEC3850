@@ -90,7 +90,7 @@ int PS3Control_main() {
                     if (IKGripper_main(Gripper_Goal) != 0) {
                         std::cout << "ERROR: Could not move gripper" << std::endl;
                     }
-                    std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " Gripper_Goal[2]
+                    std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " << Gripper_Goal[2]
                               << std::endl;
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_HORIZONTAL:
@@ -109,7 +109,7 @@ int PS3Control_main() {
                     if (IKGripper_main(Gripper_Goal) != 0) {
                         std::cout << "ERROR: Could not move gripper" << std::endl;
                     }
-                    std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " Gripper_Goal[2]
+                    std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " << Gripper_Goal[2]
                               << std::endl;
                     break;
             }
@@ -209,8 +209,8 @@ int PS3Control_main() {
                             if (IKGripper_main(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1]
-                                      << " " Gripper_Goal[2] << std::endl;
+                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                                      << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
@@ -235,8 +235,8 @@ int PS3Control_main() {
                             if (IKGripper_main(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1]
-                                      << " " Gripper_Goal[2] << std::endl;
+                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                                      << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
