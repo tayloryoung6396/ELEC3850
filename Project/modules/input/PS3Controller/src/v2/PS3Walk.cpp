@@ -254,9 +254,10 @@ int PS3Control_main() {
                         button_circle = (int) event.value;
                         // Call some function probably or something
                         // Grip open
-                        Open_Gripper();
+
                         if (event.value > 0) {  // button down
                             std::cout << "BUTTON_CIRCLE" << std::endl;
+                            Open_Gripper();
                         }
                     }
                     break;
@@ -265,9 +266,10 @@ int PS3Control_main() {
                         button_cross = (int) event.value;
                         // Call some function probably or something
                         // Grip close
-                        Close_Gripper();
+
                         if (event.value > 0) {  // button down
                             std::cout << "BUTTON_CROSS" << std::endl;
+                            Close_Gripper();
                         }
                     }
                     break;
