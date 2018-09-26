@@ -251,5 +251,7 @@ int PS3Control_main() {
 }
 
 int32_t map_values(int32_t input, int32_t output_end, int32_t output_start, int32_t input_end, int32_t input_start) {
-    return (output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start));
+    return (int32_t)((double) output_start
+                     + (((double) (output_end - output_start)) / ((double) (input_end - input_start)))
+                           * (double) ((input - input_start)));
 }
