@@ -15,17 +15,8 @@ void AutonomousControl_init() {
 }
 
 int AutonomousControl_main() {
-    // TODO
-    // There should be a state machine here,
-    // States:
-    // Searching
-    // Collecting
-    // Rescuing
 
-    // These will go into the states
-    // Figure out if there's stuff around me
-    Localisation_main();
-    // Decide how to move
+    Localisation_main();  // TODO Maybe this should happen all of the time?
 
     // What do we want to do.. hence STATE MACHINE!
 
@@ -56,7 +47,7 @@ int AutonomousControl_main() {
         // If our goal is negative then it means we don't have a valid goal/don't know a goal
         else if (Localistation::w_Goal_Position[0] ! > 0 | Localistation::w_Goal_Position[1] ! > 0) {
             // search for it
-            weighted_search();
+            // TODO // weighted_search();
         }
     }
 
@@ -79,7 +70,7 @@ int AutonomousControl_main() {
         // unknown goal pos
         else if (Localistation::w_Goal_Position[0] ! > 0 | Localistation::w_Goal_Position[1] ! > 0) {
             // search for it
-            weighted_search();
+            // TODO // weighted_search();
         }
     }
 
@@ -87,13 +78,14 @@ int AutonomousControl_main() {
 }
 
 
-// weighted_search()
-// take the grid map and perform a weighted gradient over the map
-// output a goal position to send to path planner
+// TODO
+// // weighted_search() {
+// // take the grid map and perform a weighted gradient over the map
+// // output a goal position to send to path planner
 
 // #define OBSTACLE 1
-// #define GRID_X 60
-// #define GRID_Y 60
+// #define GRID_X 60  // TODO these are defined already in localisation
+// #define GRID_Y 60  // TODO these are defined already in localisation
 
 // // TODO this is slow, find a way to avoid the pow and sqrt
 // int* weighted_search() {
