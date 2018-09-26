@@ -88,13 +88,17 @@ int Gripper_home() {
 
     // Send servos to positions
     // TODO This should probably be a bulk write
-    executeWriteSingle(Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), base_yaw);
+    executeWriteSingle(
+        Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(base_yaw, Gripper_angles::base_yaw));
     delay(10);
-    executeWriteSingle(Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), base_pitch);
+    executeWriteSingle(
+        Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(base_pitch, Gripper_angles::base_pitch));
     delay(10);
-    executeWriteSingle(Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), elbow_pitch);
+    executeWriteSingle(
+        Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(elbow_pitch, Gripper_angles::elbow_pitch));
     delay(10);
-    executeWriteSingle(Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), wrist_pitch);
+    executeWriteSingle(
+        Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(wrist_pitch, Gripper_angles::wrist_pitch));
     delay(10);
     Close_Gripper();
 
