@@ -55,6 +55,12 @@ int PS3Control_main() {
                                                    AXIS_MAX_LIMIT,
                                                    AXIS_MIN_LIMIT);
                     std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
+		    //int tmp;
+		    //if((int) event.value > 10){tmp = 100;}
+		    //else{tmp=0;}
+                    //executeWriteSingle(6, 104, -tmp);
+                    //delay(10); 
+                    //executeWriteSingle(7, 104, tmp);
                     MotorDriver_Velocity(Forward, Rotation);
                     break;
                 case PS3Walk::AXIS_LEFT_JOYSTICK_VERTICAL:
@@ -68,8 +74,8 @@ int PS3Control_main() {
                                                     ROTATION_MIN_LIMIT,
                                                     AXIS_MAX_LIMIT,
                                                     AXIS_MIN_LIMIT);
-                    std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
-                    MotorDriver_Velocity(Forward, Rotation);
+                    // std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
+                    // MotorDriver_Velocity(Forward, Rotation);
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_VERTICAL:
                     std::cout << "AXIS_RIGHT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;

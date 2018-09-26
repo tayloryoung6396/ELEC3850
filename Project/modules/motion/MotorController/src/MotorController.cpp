@@ -86,6 +86,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     // Now account for the forward distance required
     Goal_Vel[0] += Forward;
     Goal_Vel[1] += Forward;
+    Goal_Vel[1] = -Goal_Vel[1];
 
     std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
 
@@ -94,7 +95,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
         // Set moving flag
         PathPlanner::moving_flag[i] = (Goal_Vel[i] == 0) ? 0 : ((Goal_Vel[i] < 0) ? (-1) : 1);
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (uint32_t) Goal_Vel[i]);
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (int32_t) Goal_Vel[i]);
         delay(10);
     }
     return 0;
