@@ -111,11 +111,12 @@ int IKGripper_main(double Goal_pos[3]) {
         printf("Error Gripper Position Invalid\n");
         return -1;
     }
+    std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
 
-    else if (Open_Gripper() != 0) {
-        printf("Error could not open Gripper\n");
-        return -1;
-    }
+    // else if (Open_Gripper() != 0) {
+    //     printf("Error could not open Gripper\n");
+    //     return -1;
+    // }
 
     else if (IK_Calculate(Goal_pos) != 0) {
         printf("Error could not calculate Gripper IK\n");
@@ -133,10 +134,10 @@ int IKGripper_main(double Goal_pos[3]) {
         executeWriteSingle(servo_ID[count], address, data[count]);
         delay(10);
     }
-    if (Grip_Object() != 0) {
-        printf("Error could not Grip Object\n");
-        return -1;
-    }
+    // if (Grip_Object() != 0) {
+    //     printf("Error could not Grip Object\n");
+    //     return -1;
+    // }
     return 0;
 }
 
