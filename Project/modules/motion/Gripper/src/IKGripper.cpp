@@ -60,10 +60,10 @@ void IKGripper_init() {
 
 int Gripper_home() {
     // Read servo present positions
-    uint32_t base_yaw;
-    uint32_t base_pitch;
-    uint32_t elbow_pitch;
-    uint32_t wrist_pitch;
+    int32_t base_yaw;
+    int32_t base_pitch;
+    int32_t elbow_pitch;
+    int32_t wrist_pitch;
 
     // TODO This should probably be a bulk read
     executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
@@ -124,10 +124,10 @@ int IKGripper_main(double Goal_pos[3]) {
     uint count              = 4;
     uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
     uint16_t address        = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t data[count]    = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
-                            convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
-                            convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
-                            convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
+    int32_t data[count]     = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
+                           convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
+                           convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
+                           convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
     // TODO Bulkwrite
     for (int i = 0; i < count; i++) {
         executeWriteSingle(servo_ID[count], address, data[count]);
@@ -240,29 +240,38 @@ int32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     // Add the offset to the angle
     angle += offset;
 
-    // Map our angle to our servo range
-    int32_t new_angle =
-        (int32_t)(((double) (angle + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
-    // Map our limits
-    int32_t max_mapped =
-        (int32_t)(((double) (max_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
-    int32_t min_mapped =
-        (int32_t)(((double) (min_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+    if (angle > max_limit) {
+        angle = max_limit;
+    }
+    else if (angle < min_limit) {
+        angle = min_limit;
+    }
 
-    // Check we're within our limits
-    if (new_angle > max_mapped) {
-        std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << max_mapped << std::endl;
-        std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
-        return max_mapped;
-    }
-    else if (new_angle < min_mapped) {
-        std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << min_mapped << std::endl;
-        std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
-        return min_mapped;
-    }
-    std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << new_angle << std::endl;
-    std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
-    return new_angle;
+    return ((int32_t)(angle * std::numeric_limits<int32_t>::max()));
+
+    // // Map our angle to our servo range
+    // int32_t new_angle =
+    //     (int32_t)(((double) (angle + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+    // // Map our limits
+    // int32_t max_mapped =
+    //     (int32_t)(((double) (max_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+    // int32_t min_mapped =
+    //     (int32_t)(((double) (min_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+
+    // // Check we're within our limits
+    // if (new_angle > max_mapped) {
+    //     std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << max_mapped << std::endl;
+    //     std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    //     return max_mapped;
+    // }
+    // else if (new_angle < min_mapped) {
+    //     std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << min_mapped << std::endl;
+    //     std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    //     return min_mapped;
+    // }
+    // std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << new_angle << std::endl;
+    // std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    // return new_angle;
 }
 
 double convert_pos_rad(uint8_t servo_ID, uint32_t angle) {
