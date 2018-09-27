@@ -20,12 +20,14 @@ found objects by proximity. */
 #include <wiringPi.h>
 
 // DEFINITIONS
-#define SENSORS 3   // AMOUNT OF US SENSORS
-#define READINGS 3  // AMOUNT OF EXPECTED READINGS FROM US SENSORS
+#define TRUE 1
+#define SENSORS 4   // AMOUNT OF US SENSORS
+#define READINGS 4  // AMOUNT OF EXPECTED READINGS FROM US SENSORS
 #define TRIG 29     // TRIGGER PIN FOR US SENSORS
-#define ECHO0 31    // ECHO PINS FOR US SENSORS (1-3)
+#define ECHO0 31    // ECHO PINS FOR US SENSORS (1-4)
 #define ECHO1 33
 #define ECHO2 35
+#define ECHO3 37
 
 // GLOBAL VARIABLES
 int DETECTION[SENSORS];  // ARRAY TO STORE DISTANCE CALCULATIONS
@@ -60,6 +62,10 @@ void myInterrupt2(void) {  // INTERRUPT FOR SENSOR 3
     end[2] = micros();
 }
 
+void myInterrupt4(void) {  // INTERRUPT FOR SENSOR 4
+	end[3] = micros();
+}
+
 // FUNCTIONS
 void Setup() {
     // SET UP GPIO
@@ -70,6 +76,7 @@ void Setup() {
     pinMode(ECHO0, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 1
     pinMode(ECHO1, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 2
     pinMode(ECHO2, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 3
+	pinMode(ECHO3, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 3
 
     // SET UP INTERRUPTS
     if (wiringPiISR(ECHO0, INT_EDGE_FALLING, &myInterrupt0) < 0) {
@@ -83,6 +90,10 @@ void Setup() {
     if (wiringPiISR(ECHO2, INT_EDGE_FALLING, &myInterrupt2) < 0) {
         fprintf(stderr, "Unable to setup ISR 2: %s\n", strerror(errno));
     }
+
+	if (wiringPiISR(ECHO3, INT_EDGE_FALLING, &myInterrupt3) < 0) {
+		fprintf(stderr, "Unable to setup ISR 3: %s\n", strerror(errno));
+	}
 
     // Initialisations
     digitalWrite(TRIG, LOW);  // TRIGGER PIN MUST START LOW
@@ -107,18 +118,20 @@ void Sendpulse() {
     end[0]   = 0;
     end[1]   = 0;
     end[2]   = 0;
+	end[3]	 = 0;
 
-    while ((end[0] == 0 || end[1] == 0 || end[2] == 0) && ((micros() - Start) < 23000)) {
-        delayMicroseconds(100);
+    while ((end[0] == 0 || end[1] == 0 || end[2] == 0 || end[3] == 0) && (MaxedOut = (micros() - Start)) < 23000) {
+        delayMircoseconds(100);
     }
     return ;
 }
 
 // SENSOR DISTANCE CALCULATION
-void DistanceM() {
+int DistanceM() {
+
     Sendpulse();  // SEND PULSE
-    sensor = 0;
-    while (sensor <= 2) {
+
+    while (sensor <= 4) {
         long traveltime   = end[sensor] - Start;  // TIME CALCULATION
         int distance      = traveltime * 1.7;     // DISTANCE CALCULATION IN METRES
         DETECTION[sensor] = distance;             // SAVE SENSOR READINGS TO ARRAY
@@ -168,7 +181,8 @@ int main() {
         printf("Right Sensor Distance \t %d \t m \n Back Sensor Distance \t %d \t m\n Left Sensor Distance \t %d \t m \n",
             DETECTION[0],
             DETECTION[1],
-            DETECTION[2]);
+            DETECTION[2],
+			DETECTION[3]);
 
         // DEBUG OBJECT DETECTION FLAGS
         printf("\n Right flag status \t %d \n Back flag status \t %d \n Left flag status \t %d", RFlag, BFlag, LFlag);
