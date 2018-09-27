@@ -42,28 +42,32 @@ int main() {
 
     // Loop forever to run robot
     // Execute all code here
-    double tmp[3] = {0, 0, 0};
-    IK_Calculate(tmp);
-    tmp[0] = 0.1;
-    tmp[1] = 0;
-    tmp[2] = 0.1;
-    IK_Calculate(tmp);
+    double tmp[3]{0};
     tmp[0] = 0.2;
     tmp[1] = 0;
     tmp[2] = 0.2;
-    IK_Calculate(tmp);
+    IKGripper_move(tmp);
+    delay(5000);
+    tmp[0] = 0.25;
+    tmp[1] = 0;
+    tmp[2] = 0.25;
+    IKGripper_move(tmp);
+    delay(5000);
     tmp[0] = 0;
+    tmp[1] = 0.25;
+    tmp[2] = 0.25;
+    IKGripper_move(tmp);
+    delay(5000);
+    tmp[0] = -0.25;
+    tmp[1] = 0;
+    tmp[2] = 0.25;
+    IKGripper_move(tmp);
+    delay(5000);
+    tmp[0] = 0.2;
     tmp[1] = 0.2;
     tmp[2] = 0.2;
-    IK_Calculate(tmp);
-    tmp[0] = -0.2;
-    tmp[1] = 0;
-    tmp[2] = 0.2;
-    IK_Calculate(tmp);
-    tmp[0] = 0.1;
-    tmp[1] = 0.1;
-    tmp[2] = 0.1;
-    IK_Calculate(tmp);
+    IKGripper_move(tmp);
+    delay(5000);
 
     while (1) {
         //        std::cout << "time -> " << (double) millis() << std::endl;
