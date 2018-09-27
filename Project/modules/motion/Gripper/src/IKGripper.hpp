@@ -7,7 +7,7 @@
 
 extern void IKGripper_init();
 extern int Gripper_home();
-extern int IKGripper_main(double Goal_pos[3]);
+extern int IKGripper_move(double Goal_pos[3]);
 extern int IK_Calculate(double Goal_pos[3]);
 extern double SSS_triangle(double a, double b, double c);
 extern int Grip_Object();
