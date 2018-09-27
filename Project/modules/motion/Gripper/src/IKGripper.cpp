@@ -107,11 +107,13 @@ int Gripper_home() {
 
 int IKGripper_main(double Goal_pos[3]) {
 
+    std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
+
     if (Validate_Pos(Goal_pos) != 0) {
         printf("Error Gripper Position Invalid\n");
         return -1;
     }
-    std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
+
 
     // else if (Open_Gripper() != 0) {
     //     printf("Error could not open Gripper\n");
