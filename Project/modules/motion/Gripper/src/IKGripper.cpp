@@ -204,19 +204,20 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
         return -1;
     }
 
-    else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
-        printf("Error could not calculate Gripper IK\n");
-        return -1;
-    }
-    data[count] = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
-                   convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
-                   convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
-                   convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
-    // TODO Bulkwrite
-    for (int i = 0; i < count; i++) {
-        executeWriteSingle(servo_ID[count], address, data[count]);
-        delay(10);
-    }
+    // TODO make rest position
+    // else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
+    //     printf("Error could not calculate Gripper IK\n");
+    //     return -1;
+    // }
+    // data[0] = convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw);
+    // data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
+    // data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
+    // data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
+    // // TODO Bulkwrite
+    // for (int i = 0; i < count; i++) {
+    //     executeWriteSingle(servo_ID[count], address, data[count]);
+    //     delay(10);
+    // }
 
     if (Close_Gripper() != 0) {
         printf("Error could not Grip Object\n");
