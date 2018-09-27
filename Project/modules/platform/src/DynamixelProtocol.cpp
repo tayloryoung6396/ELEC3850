@@ -220,6 +220,7 @@ void Dynamixel_init() {
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
 template int executeReadSingle<uint32_t>(uint8_t, uint16_t, uint16_t, uint32_t&);
+template int executeReadSingle<int32_t>(uint8_t, uint16_t, uint16_t, int32_t&);
 
 template int executeWriteSingle<uint8_t>(uint8_t, uint16_t, const uint8_t&);
 template int executeWriteSingle<uint16_t>(uint8_t, uint16_t, const uint16_t&);
