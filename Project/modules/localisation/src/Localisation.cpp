@@ -133,7 +133,9 @@ std::vector<std::pair<double, double>> breshams_alg(i, sen_hori, sen_vert, w_Tan
 
 double probability(m, n, cell_dist, obj_dist){
     //
-
+    double y=(-0.2/obj_dist)*cell_dist-0.1);        //this is a straight line to determine probability
+    if (grid_map[m][n]+y<=1 && grid_map[m][n]>=0)
+    grid_map[m][n]+=y;                              //this updates cell value
 
 }
 
