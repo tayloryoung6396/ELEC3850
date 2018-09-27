@@ -87,7 +87,7 @@ int PS3Control_main() {
                     else if (axis_right_joystick_vertical > 0) {
                         Gripper_Goal[1] -= (double) axis_right_joystick_vertical / 10000.0;
                     }
-                    if (IKGripper_main(Gripper_Goal) != 0) {
+                    if (IKGripper_move(Gripper_Goal) != 0) {
                         std::cout << "ERROR: Could not move gripper" << std::endl;
                     }
                     std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " << Gripper_Goal[2]
@@ -106,7 +106,7 @@ int PS3Control_main() {
                     else if (axis_right_joystick_horizontal > 0) {
                         Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / 10000.0;
                     }
-                    if (IKGripper_main(Gripper_Goal) != 0) {
+                    if (IKGripper_move(Gripper_Goal) != 0) {
                         std::cout << "ERROR: Could not move gripper" << std::endl;
                     }
                     std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " << Gripper_Goal[2]
@@ -206,7 +206,7 @@ int PS3Control_main() {
                         if (event.value > 0) {  // button down
                             std::cout << "BUTTON_R2" << std::endl;
                             Gripper_Goal[2] += 0.01;
-                            if (IKGripper_main(Gripper_Goal) != 0) {
+                            if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
                             std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
@@ -232,7 +232,7 @@ int PS3Control_main() {
                         if (event.value > 0) {  // button down
                             std::cout << "BUTTON_R1" << std::endl;
                             Gripper_Goal[2] -= 0.01;
-                            if (IKGripper_main(Gripper_Goal) != 0) {
+                            if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
                             std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "

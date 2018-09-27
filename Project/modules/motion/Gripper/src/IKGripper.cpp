@@ -84,7 +84,11 @@ int Gripper_home() {
 
     // Plan a path to the homing positions
     double Goal_pos[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
+    std::cout << "Goal Position Homing " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
     IK_Calculate(Goal_pos);
+
+    std::cout << "IK Result " << Gripper_angles::base_yaw << " " << Gripper_angles::base_pitch << " "
+              << Gripper_angles::elbow_pitch << " " << Gripper_angles::wrist_pitch << std::endl;
 
     // Send servos to positions
     // TODO This should probably be a bulk write
@@ -105,7 +109,7 @@ int Gripper_home() {
     return 0;
 }
 
-int IKGripper_main(double Goal_pos[3]) {
+int IKGripper_Grab_Object(double Goal_pos[3]) {
 
     std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
 
@@ -115,10 +119,10 @@ int IKGripper_main(double Goal_pos[3]) {
     }
 
 
-    // else if (Open_Gripper() != 0) {
-    //     printf("Error could not open Gripper\n");
-    //     return -1;
-    // }
+    else if (Open_Gripper() != 0) {
+        printf("Error could not open Gripper\n");
+        return -1;
+    }
 
     else if (IK_Calculate(Goal_pos) != 0) {
         printf("Error could not calculate Gripper IK\n");
@@ -136,10 +140,91 @@ int IKGripper_main(double Goal_pos[3]) {
         executeWriteSingle(servo_ID[count], address, data[count]);
         delay(10);
     }
-    // if (Grip_Object() != 0) {
-    //     printf("Error could not Grip Object\n");
-    //     return -1;
-    // }
+    if (Grip_Object() != 0) {
+        printf("Error could not Grip Object\n");
+        return -1;
+    }
+    return 0;
+}
+
+int IKGripper_move(double Goal_pos[3]) {
+
+    std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
+
+    if (Validate_Pos(Goal_pos) != 0) {
+        printf("Error Gripper Position Invalid\n");
+        return -1;
+    }
+
+    else if (IK_Calculate(Goal_pos) != 0) {
+        printf("Error could not calculate Gripper IK\n");
+        return -1;
+    }
+    uint count              = 4;
+    uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
+    uint16_t address        = MX28_ADDRESS_VALUE(GOAL_POSITION);
+    int32_t data[count]     = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
+                           convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
+                           convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
+                           convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
+    // TODO Bulkwrite
+    for (int i = 0; i < count; i++) {
+        executeWriteSingle(servo_ID[count], address, data[count]);
+        delay(10);
+    }
+    return 0;
+}
+
+int IKGripper_Place_Object(double Goal_pos[3]) {
+
+    if (Validate_Pos(Goal_pos) != 0) {
+        printf("Error Gripper Position Invalid\n");
+        return -1;
+    }
+
+    else if (IK_Calculate(Goal_pos) != 0) {
+        printf("Error could not calculate Gripper IK\n");
+        return -1;
+    }
+    uint count              = 4;
+    uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
+    uint16_t address        = MX28_ADDRESS_VALUE(GOAL_POSITION);
+    uint32_t data[count]    = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
+                            convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
+                            convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
+                            convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
+    // TODO Bulkwrite
+    for (int i = 0; i < count; i++) {
+        executeWriteSingle(servo_ID[count], address, data[count]);
+        delay(10);
+    }
+
+    else if (Open_Gripper() != 0) {
+        printf("Error could not open Gripper\n");
+        return -1;
+    }
+
+    else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
+        printf("Error could not calculate Gripper IK\n");
+        return -1;
+    }
+    uint count              = 4;
+    uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
+    uint16_t address        = MX28_ADDRESS_VALUE(GOAL_POSITION);
+    uint32_t data[count]    = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
+                            convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
+                            convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
+                            convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
+    // TODO Bulkwrite
+    for (int i = 0; i < count; i++) {
+        executeWriteSingle(servo_ID[count], address, data[count]);
+        delay(10);
+    }
+
+    if (Close_Gripper() != 0) {
+        printf("Error could not Grip Object\n");
+        return -1;
+    }
     return 0;
 }
 
