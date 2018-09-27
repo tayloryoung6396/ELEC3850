@@ -60,27 +60,27 @@ void IKGripper_init() {
 
 int Gripper_home() {
     // Read servo present positions
-    uint32_t base_yaw;
-    uint32_t base_pitch;
-    uint32_t elbow_pitch;
-    uint32_t wrist_pitch;
+    int32_t base_yaw;
+    int32_t base_pitch;
+    int32_t elbow_pitch;
+    int32_t wrist_pitch;
 
-    // TODO This should probably be a bulk read
-    executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
-    delay(10);
-    executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
-    delay(10);
-    executeReadSingle(3, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), elbow_pitch);
-    delay(10);
-    executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
+    // // TODO This should probably be a bulk read
+    // executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
+    // delay(10);
+    // executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
+    // delay(10);
+    // executeReadSingle(3, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), elbow_pitch);
+    // delay(10);
+    // executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
 
-    // Do FK to figure out where we are
-    double Pres_pos[3];
-    FK_Calculate(convert_pos_rad(Base_Yaw, double(base_yaw)),
-                 convert_pos_rad(Base_Pitch, double(base_pitch)),
-                 convert_pos_rad(Elbow_Pitch, double(elbow_pitch)),
-                 convert_pos_rad(Wrist_Pitch, double(wrist_pitch)),
-                 Pres_pos);
+    // // Do FK to figure out where we are
+    // double Pres_pos[3];
+    // FK_Calculate(convert_pos_rad(Base_Yaw, double(base_yaw)),
+    //              convert_pos_rad(Base_Pitch, double(base_pitch)),
+    //              convert_pos_rad(Elbow_Pitch, double(elbow_pitch)),
+    //              convert_pos_rad(Wrist_Pitch, double(wrist_pitch)),
+    //              Pres_pos);
 
     // Plan a path to the homing positions
     double Goal_pos[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
@@ -88,13 +88,17 @@ int Gripper_home() {
 
     // Send servos to positions
     // TODO This should probably be a bulk write
-    executeWriteSingle(Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), base_yaw);
+    executeWriteSingle(
+        Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(base_yaw, Gripper_angles::base_yaw));
     delay(10);
-    executeWriteSingle(Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), base_pitch);
+    executeWriteSingle(
+        Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(base_pitch, Gripper_angles::base_pitch));
     delay(10);
-    executeWriteSingle(Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), elbow_pitch);
+    executeWriteSingle(
+        Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(elbow_pitch, Gripper_angles::elbow_pitch));
     delay(10);
-    executeWriteSingle(Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), wrist_pitch);
+    executeWriteSingle(
+        Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(wrist_pitch, Gripper_angles::wrist_pitch));
     delay(10);
     Close_Gripper();
 
@@ -103,15 +107,18 @@ int Gripper_home() {
 
 int IKGripper_Grab_Object(double Goal_pos[3]) {
 
+    std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
+
     if (Validate_Pos(Goal_pos) != 0) {
         printf("Error Gripper Position Invalid\n");
         return -1;
     }
 
-    else if (Open_Gripper() != 0) {
-        printf("Error could not open Gripper\n");
-        return -1;
-    }
+
+    // else if (Open_Gripper() != 0) {
+    //     printf("Error could not open Gripper\n");
+    //     return -1;
+    // }
 
     else if (IK_Calculate(Goal_pos) != 0) {
         printf("Error could not calculate Gripper IK\n");
@@ -120,19 +127,19 @@ int IKGripper_Grab_Object(double Goal_pos[3]) {
     uint count              = 4;
     uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
     uint16_t address        = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t data[count]    = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
-                            convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
-                            convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
-                            convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
+    int32_t data[count]     = {convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw),
+                           convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch),
+                           convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch),
+                           convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch)};
     // TODO Bulkwrite
     for (int i = 0; i < count; i++) {
         executeWriteSingle(servo_ID[count], address, data[count]);
         delay(10);
     }
-    if (Grip_Object() != 0) {
-        printf("Error could not Grip Object\n");
-        return -1;
-    }
+    // if (Grip_Object() != 0) {
+    //     printf("Error could not Grip Object\n");
+    //     return -1;
+    // }
     return 0;
 }
 
@@ -259,7 +266,8 @@ int Grip_Object() {
 int Open_Gripper() {
     uint8_t servo_ID = Gripper;
     uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_open);
+    int32_t data     = convert_rad_pos(servo_ID, Kinematics::grip_open);
+    std::cout << "Open_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
     delay(10);
     return 0;
@@ -268,13 +276,14 @@ int Open_Gripper() {
 int Close_Gripper() {
     uint8_t servo_ID = Gripper;
     uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
-    uint32_t data    = convert_rad_pos(servo_ID, Kinematics::grip_closed);
+    int32_t data     = convert_rad_pos(servo_ID, Kinematics::grip_closed);
+    std::cout << "Close_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
     delay(10);
     return 0;
 }
 
-uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
+int32_t convert_rad_pos(uint8_t servo_ID, double angle) {
 
     // Get the limits for the specific servo
     // Get the offset for the servo
@@ -287,20 +296,43 @@ uint32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     // Add the offset to the angle
     angle += offset;
 
-    // Map our angle to our servo range
-    uint32_t new_angle = ((angle + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
-    // Map our limits
-    uint32_t max_mapped = ((max_limit + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
-    uint32_t min_mapped = ((min_limit + M_PI) / (2 * M_PI)) * std::numeric_limits<uint32_t>::max();
+    if (angle > max_limit) {
+        angle = max_limit;
+    }
+    else if (angle < min_limit) {
+        angle = min_limit;
+    }
+    angle = (angle + M_PI) / (2 * M_PI);
 
-    // Check we're within our limits
-    if (new_angle > max_mapped) {
-        return max_mapped;
-    }
-    else if (new_angle < min_mapped) {
-        return min_mapped;
-    }
-    return new_angle;
+
+    std::cout << "convert servo_ID " << (int) servo_ID << " from " << angle << " to " << (int) (angle * 4096)
+              << std::endl;
+    std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    return ((int) (angle * 4096));
+
+    // // Map our angle to our servo range
+    // int32_t new_angle =
+    //     (int32_t)(((double) (angle + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+    // // Map our limits
+    // int32_t max_mapped =
+    //     (int32_t)(((double) (max_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+    // int32_t min_mapped =
+    //     (int32_t)(((double) (min_limit + M_PI) / ((double) (2 * M_PI))) * std::numeric_limits<int32_t>::max());
+
+    // // Check we're within our limits
+    // if (new_angle > max_mapped) {
+    //     std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << max_mapped << std::endl;
+    //     std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    //     return max_mapped;
+    // }
+    // else if (new_angle < min_mapped) {
+    //     std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << min_mapped << std::endl;
+    //     std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    //     return min_mapped;
+    // }
+    // std::cout << "convert servo_ID " << servo_ID << " from " << angle << " to " << new_angle << std::endl;
+    // std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
+    // return new_angle;
 }
 
 double convert_pos_rad(uint8_t servo_ID, uint32_t angle) {
