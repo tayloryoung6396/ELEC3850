@@ -65,22 +65,22 @@ int Gripper_home() {
     int32_t elbow_pitch;
     int32_t wrist_pitch;
 
-    // TODO This should probably be a bulk read
-    executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
-    delay(10);
-    executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
-    delay(10);
-    executeReadSingle(3, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), elbow_pitch);
-    delay(10);
-    executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
+    // // TODO This should probably be a bulk read
+    // executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
+    // delay(10);
+    // executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
+    // delay(10);
+    // executeReadSingle(3, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), elbow_pitch);
+    // delay(10);
+    // executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
 
-    // Do FK to figure out where we are
-    double Pres_pos[3];
-    FK_Calculate(convert_pos_rad(Base_Yaw, double(base_yaw)),
-                 convert_pos_rad(Base_Pitch, double(base_pitch)),
-                 convert_pos_rad(Elbow_Pitch, double(elbow_pitch)),
-                 convert_pos_rad(Wrist_Pitch, double(wrist_pitch)),
-                 Pres_pos);
+    // // Do FK to figure out where we are
+    // double Pres_pos[3];
+    // FK_Calculate(convert_pos_rad(Base_Yaw, double(base_yaw)),
+    //              convert_pos_rad(Base_Pitch, double(base_pitch)),
+    //              convert_pos_rad(Elbow_Pitch, double(elbow_pitch)),
+    //              convert_pos_rad(Wrist_Pitch, double(wrist_pitch)),
+    //              Pres_pos);
 
     // Plan a path to the homing positions
     double Goal_pos[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
