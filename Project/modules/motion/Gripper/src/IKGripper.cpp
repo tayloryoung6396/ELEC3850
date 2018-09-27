@@ -246,7 +246,9 @@ int32_t convert_rad_pos(uint8_t servo_ID, double angle) {
     else if (angle < min_limit) {
         angle = min_limit;
     }
-
+    std::cout << "convert servo_ID " << (int) servo_ID << " from " << angle << " to "
+              << (int32_t)(angle * std::numeric_limits<int32_t>::max()) << std::endl;
+    std::cout << "limits max, min " << max_limit << " " << min_limit << std::endl;
     return ((int32_t)(angle * std::numeric_limits<int32_t>::max()));
 
     // // Map our angle to our servo range
