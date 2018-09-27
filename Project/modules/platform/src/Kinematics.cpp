@@ -15,7 +15,7 @@ double Kinematics::grip_closed = M_PI / 4.0;
 double Kinematics::grip_open   = -M_PI / 4.0;
 double Kinematics::grip_load   = 0;
 
-double Kinematics::grip_home[3] = {0, 0, 0.15};
+double Kinematics::grip_home[3] = {0.3, 0, 0};
 
 // Tank specific parameters
 // TODO Actually measure these

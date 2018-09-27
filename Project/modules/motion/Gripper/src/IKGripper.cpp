@@ -265,11 +265,13 @@ int IK_Calculate(double Goal_pos[3]) {
 
     // Our arm needs to be fully extended
     if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2 + DELTA_GRIP) {
+	std::cout << "Length too long" << std::endl;
         theta_elbow_pitch = 0;
         theta_wrist_pitch = 0;
         theta_base_pitch  = 0;
     }
     else {
+	std::cout << "Legth within limits" << std::endl;
         theta_elbow_pitch = SSS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, arm_len_3);
         theta_wrist_pitch = SSS_triangle(Kinematics::arm_len_2, arm_len_3, Kinematics::arm_len_1);
         theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3, Kinematics::arm_len_2);
@@ -278,7 +280,7 @@ int IK_Calculate(double Goal_pos[3]) {
     Gripper_angles::base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
     Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
     Gripper_angles::wrist_pitch = Gripper_angles::base_pitch + Gripper_angles::elbow_pitch - M_PI / 2;
-    std::cout << "IK " << rGoal_xy << " " << arm_len_3 << " " << theta_elbow_pitch << " " << theta_wrist_pitch << " "
+    std::cout << "IK r_G " << rGoal_xy << " al3 " << arm_len_3 << " " << theta_elbow_pitch << " " << theta_wrist_pitch << " "
               << theta_base_pitch << std::endl;
     std::cout << "IK servo angles " << Gripper_angles::base_yaw << " " << Gripper_angles::base_pitch << " "
               << Gripper_angles::elbow_pitch << " " << Gripper_angles::wrist_pitch << std::endl;
@@ -396,7 +398,8 @@ double convert_pos_rad(uint8_t servo_ID, uint32_t angle) {
     // double min_limit = 0;
     // double offset    = std::numeric_limits<uint32_t>::max() / 2;
     // Return radians angle
-    return double(2 * M_PI * angle / double(std::numeric_limits<uint32_t>::max()));
+    return ((double)((angle * 2.0 * M_PI / 4960.0) - (2 * M_PI)));
+    // return double(2 * M_PI * angle / double(std::numeric_limits<uint32_t>::max()));
 }
 
 int Validate_Pos(double Goal_pos[3]) {
