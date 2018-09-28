@@ -94,10 +94,10 @@ int Gripper_home() {
     std::cout << "IK Result: b_y " << Gripper_angles::base_yaw << " b_p " << Gripper_angles::base_pitch << " e_p "
               << Gripper_angles::elbow_pitch << " w_p " << Gripper_angles::wrist_pitch << std::endl;
 
-    std::cout << "Converted Result: b_y " << convert_rad_pos(base_yaw, Gripper_angles::base_yaw) << " b_p "
-              << convert_rad_pos(base_pitch, Gripper_angles::base_pitch) << " e_p "
-              << convert_rad_pos(elbow_pitch, Gripper_angles::elbow_pitch) << " w_p "
-              << convert_rad_pos(wrist_pitch, Gripper_angles::wrist_pitch) << std::endl;
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
 
     // Send servos to positions
     // TODO This should probably be a bulk write
@@ -183,6 +183,14 @@ int IKGripper_move(double Goal_pos[3]) {
         printf("Error could not calculate Gripper IK\n");
         return -1;
     }
+
+    std::cout << "IK Result: b_y " << Gripper_angles::base_yaw << " b_p " << Gripper_angles::base_pitch << " e_p "
+              << Gripper_angles::elbow_pitch << " w_p " << Gripper_angles::wrist_pitch << std::endl;
+
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
     // uint count              = 4;
     // uint8_t servo_ID[count] = {Base_Yaw, Base_Pitch, Elbow_Pitch, Wrist_Pitch};
     // uint16_t address        = MX28_ADDRESS_VALUE(GOAL_POSITION);
