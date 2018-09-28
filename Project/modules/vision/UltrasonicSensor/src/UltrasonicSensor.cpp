@@ -73,6 +73,7 @@ void Sendpulse() {
 void DistanceM() {
     for (int sensor = 0; sensor < SENSORS; sensor++) {
         Ultrasonic::Detection_distances[sensor] =
-            Ultrasonic::sensor_return[sensor] * 1.7;  // DISTANCE CALCULATION IN METRES
+            Ultrasonic::sensor_return[sensor] * 1.7
+            + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
     }
 }
