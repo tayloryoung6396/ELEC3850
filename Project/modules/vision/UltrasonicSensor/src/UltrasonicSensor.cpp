@@ -1,6 +1,6 @@
 /*
- * This should handle the initial processing of the IR images.
- * Inputs:  Camera Images - IR
+ * This should handle the ultrasonic
+ * Inputs:  US
  * Outputs: TODO
  */
 
@@ -34,58 +34,23 @@ int UltrasonicSensor_main() {
     // Probably some sort of relative position to the localisation
     // Stuff
 
-    int LFlag    = 0;     // FLAG FOR OBJECT DETECTION TO THE LEFT
-    int BFlag    = 0;     // FLAG FOR OBJECT DETECTION TO THE BACK
-    int RFlag    = 0;     // FLAG FOR OBJECT DETECTION TO THE RIGHT
-    int LeftLim  = 0.05;  // LEFT OBJECT AVOIDANCE LIMIT (5CM)
-    int RightLim = 0.05;  // RIGHT OBJECT AVOIDANCE LIMIT (5CM)
-    int BackLim  = 0.1;   // BACK OBJECT AVOIDANCE LIMIT (10CM)
-
-
-    delayMicroseconds(60);                                 // DELAY BETWEEN READINGS
-    Sendpulse();                                           // SEND PULSE
-    DistanceM();                                           // DISTANCE DETECTION
-    if (Ultrasonic::Detection_distances[0] <= RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        RFlag = 1;                                         // SET OBJECT DETECTION FLAG
-    }
-
-    else if (Ultrasonic::Detection_distances[0] > RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        RFlag = 0;                                             // RESET OBJECT DETECTION FLAG
-    }
-
-    if (Ultrasonic::Detection_distances[1] <= BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        BFlag = 1;                                        // SET OBJECT DETECTION FLAG
-    }
-
-    else if (Ultrasonic::Detection_distances[1] > BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        BFlag = 0;                                            // RESET OBJECT DETECTION FLAG
-    }
-
-    if (Ultrasonic::Detection_distances[2] <= LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        LFlag = 1;                                        // SET OBJECT DETECTION FLAG
-    }
-
-    else if (Ultrasonic::Detection_distances[2] > LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        LFlag = 0;                                            // RESET OBJECT DETECTION FLAG
-    }
+    Sendpulse();  // SEND PULSE
+    DistanceM();  // DISTANCE DETECTION
 
     // DEBUG DISTANCE CALCULATIONS
-    std::cout << "Right Sensor Distance " << Ultrasonic::Detection_distances[0] << " m"
-              << " Flag " << RFlag << std::endl;
-    std::cout << "Back Sensor Distance " << Ultrasonic::Detection_distances[1] << " m"
-              << " Flag " << BFlag << std::endl;
-    std::cout << "Left Sensor Distance " << Ultrasonic::Detection_distances[2] << " m"
-              << " Flag " << LFlag << std::endl;
+    std::cout << "Right Sensor Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
+    std::cout << "Back Sensor Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
+    std::cout << "Left Sensor Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
     return 0;
 }
 
-// SEND PULSE TO SENSORS
 void Sendpulse() {
     int echo_pin[SENSORS] = {ECHO0, ECHO1, ECHO2};
+    int trig_pin[SENSORS] = {TRIG, TRIG, TRIG};
     for (int sensor = 0; sensor < SENSORS; sensor++) {
-        digitalWrite(TRIG, HIGH);
+        digitalWrite(trig_pin[sensor], HIGH);
         delayMicroseconds(10);  // 10us Delay
-        digitalWrite(TRIG, LOW);
+        digitalWrite(trig_pin[sensor], LOW);
 
         // WAIT FOR ECHO START
         delayMicroseconds(400);
@@ -105,7 +70,6 @@ void Sendpulse() {
     }
 }
 
-// SENSOR DISTANCE CALCULATION
 void DistanceM() {
     for (int sensor = 0; sensor < SENSORS; sensor++) {
         Ultrasonic::Detection_distances[sensor] =

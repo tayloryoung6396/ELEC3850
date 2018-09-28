@@ -214,7 +214,7 @@ void Dynamixel_init() {
             // delay(10);
         }
         else {
-            std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
+            std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
         }
     }
 }
