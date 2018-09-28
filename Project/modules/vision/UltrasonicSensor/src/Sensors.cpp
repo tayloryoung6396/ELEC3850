@@ -18,6 +18,7 @@ found objects by proximity. */
 #include <stdlib.h>
 #include <string.h>
 #include <wiringPi.h>
+#include <iostream>
 
 // DEFINITIONS
 #define SENSORS 1   // AMOUNT OF US SENSORS
@@ -29,14 +30,14 @@ found objects by proximity. */
 #define ECHO3 25
 
 // GLOBAL VARIABLES
-int DETECTION[SENSORS];  // ARRAY TO STORE DISTANCE CALCULATIONS
-int sensor   = 0;        // START AT FIRST SENSOR
-int LeftLim  = 0.05;     // LEFT OBJECT AVOIDANCE LIMIT (5CM)
-int RightLim = 0.05;     // RIGHT OBJECT AVOIDANCE LIMIT (5CM)
-int BackLim  = 0.1;      // BACK OBJECT AVOIDANCE LIMIT (10CM)
-int LFlag    = 0;        // FLAG FOR OBJECT DETECTION TO THE LEFT
-int BFlag    = 0;        // FLAG FOR OBJECT DETECTION TO THE BACK
-int RFlag    = 0;        // FLAG FOR OBJECT DETECTION TO THE RIGHT
+double DETECTION[SENSORS];  // ARRAY TO STORE DISTANCE CALCULATIONS
+int sensor   = 0;           // START AT FIRST SENSOR
+int LeftLim  = 0.05;        // LEFT OBJECT AVOIDANCE LIMIT (5CM)
+int RightLim = 0.05;        // RIGHT OBJECT AVOIDANCE LIMIT (5CM)
+int BackLim  = 0.1;         // BACK OBJECT AVOIDANCE LIMIT (10CM)
+int LFlag    = 0;           // FLAG FOR OBJECT DETECTION TO THE LEFT
+int BFlag    = 0;           // FLAG FOR OBJECT DETECTION TO THE BACK
+int RFlag    = 0;           // FLAG FOR OBJECT DETECTION TO THE RIGHT
 
 unsigned long Start;         // START TIME (US)
 unsigned short MaxedOut;     // PIN MAX
@@ -98,9 +99,9 @@ void DistanceM() {
     Sendpulse();  // SEND PULSE
     sensor = 0;
     while (sensor <= 0) {
-        long traveltime   = end[sensor] - Start;  // TIME CALCULATION
-        int distance      = traveltime * 1.7;     // DISTANCE CALCULATION IN METRES
-        DETECTION[sensor] = distance;             // SAVE SENSOR READINGS TO ARRAY
+        long traveltime   = end[sensor] - Start;   // TIME CALCULATION
+        double distance   = traveltime * 0.00017;  // DISTANCE CALCULATION IN METRES
+        DETECTION[sensor] = distance;              // SAVE SENSOR READINGS TO ARRAY
         sensor++;
     }
     printf("Out of while\n");
@@ -128,7 +129,7 @@ int main() {
 
 
         // DEBUG DISTANCE CALCULATIONS
-        printf("Right Sensor Distance \t %d m\n", DETECTION[0]);
+        printf("Right Sensor Distance \t %lf m\n", DETECTION[0]);
     }
 
     return 0;
