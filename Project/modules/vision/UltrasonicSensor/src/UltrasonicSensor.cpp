@@ -6,6 +6,9 @@
 
 #include "UltrasonicSensor.hpp"
 
+static uint32_t Start_time                 = 0;
+static uint32_t sensor_return[SENSORS]     = {0};
+static double Detection_distances[SENSORS] = {0};
 
 void UltrasonicSensor_init() {
     std::cout << "Initilising ULTRASONIC SENSOR" << std::endl;
@@ -57,36 +60,36 @@ int UltrasonicSensor_main() {
     Sendpulse();            // SEND PULSE
     DistanceM();            // DISTANCE DETECTION
     printf("Out of DistanceM");
-    if (Detection_distances[0] <= RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        RFlag = 1;                             // SET OBJECT DETECTION FLAG
+    if (Ultrasonic::Detection_distances[0] <= RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
+        RFlag = 1;                                         // SET OBJECT DETECTION FLAG
     }
 
-    else if (Detection_distances[0] > RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        RFlag = 0;                                 // RESET OBJECT DETECTION FLAG
+    else if (Ultrasonic::Detection_distances[0] > RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
+        RFlag = 0;                                             // RESET OBJECT DETECTION FLAG
     }
 
-    if (Detection_distances[1] <= BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        BFlag = 1;                            // SET OBJECT DETECTION FLAG
+    if (Ultrasonic::Detection_distances[1] <= BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
+        BFlag = 1;                                        // SET OBJECT DETECTION FLAG
     }
 
-    else if (Detection_distances[1] > BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        BFlag = 0;                                // RESET OBJECT DETECTION FLAG
+    else if (Ultrasonic::Detection_distances[1] > BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
+        BFlag = 0;                                            // RESET OBJECT DETECTION FLAG
     }
 
-    if (Detection_distances[2] <= LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        LFlag = 1;                            // SET OBJECT DETECTION FLAG
+    if (Ultrasonic::Detection_distances[2] <= LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
+        LFlag = 1;                                        // SET OBJECT DETECTION FLAG
     }
 
-    else if (Detection_distances[2] > LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-        LFlag = 0;                                // RESET OBJECT DETECTION FLAG
+    else if (Ultrasonic::Detection_distances[2] > LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
+        LFlag = 0;                                            // RESET OBJECT DETECTION FLAG
     }
 
     // DEBUG DISTANCE CALCULATIONS
-    std::cout << "Right Sensor Distance " << Detection_distances[0] << " m"
+    std::cout << "Right Sensor Distance " << Ultrasonic::Detection_distances[0] << " m"
               << " Flag " << RFlag << std::endl;
-    std::cout << "Back Sensor Distance " << Detection_distances[1] << " m"
+    std::cout << "Back Sensor Distance " << Ultrasonic::Detection_distances[1] << " m"
               << " Flag " << BFlag << std::endl;
-    std::cout << "Left Sensor Distance " << Detection_distances[2] << " m"
+    std::cout << "Left Sensor Distance " << Ultrasonic::Detection_distances[2] << " m"
               << " Flag " << LFlag << std::endl;
     return 0;
 }
@@ -129,8 +132,8 @@ void Sendpulse() {
 // SENSOR DISTANCE CALCULATION
 void DistanceM() {
     for (int sensor = 0; sensor < SENSOR; sensor++) {
-        uint32_t traveltime         = Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time;  // TIME CALCULATION
-        double distance             = traveltime * 1.7;  // DISTANCE CALCULATION IN METRES
-        Detection_distances[sensor] = distance;          // SAVE SENSOR READINGS TO ARRAY
+        uint32_t traveltime = Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time;  // TIME CALCULATION
+        double distance     = traveltime * 1.7;              // DISTANCE CALCULATION IN METRES
+        Ultrasonic::Detection_distances[sensor] = distance;  // SAVE SENSOR READINGS TO ARRAY
     }
 }

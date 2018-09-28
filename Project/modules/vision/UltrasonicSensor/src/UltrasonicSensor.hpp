@@ -12,12 +12,17 @@
 
 class Ultrasonic {
 public:
-    uint32_t Start_time;              // START TIME (US)
-    uint32_t sensor_return[SENSORS];  // ECHO END TIME (US)
-    double Detection_distances[SENSORS];
+    static uint32_t Start_time;              // START TIME (US)
+    static uint32_t sensor_return[SENSORS];  // ECHO END TIME (US)
+    static double Detection_distances[SENSORS];
 };
 
 extern void UltrasonicSensor_init();
 extern int UltrasonicSensor_main();
+extern void myInterrupt0(void);
+extern void myInterrupt1(void);
+extern void myInterrupt2(void);
+extern void Sendpulse();
+extern void DistanceM();
 
 #endif /* ULTRASONIC_SENSOR_H_ */
