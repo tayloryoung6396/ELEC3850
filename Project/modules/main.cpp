@@ -106,6 +106,6 @@ int main() {
         //       MotorController();
         // Based on the above inputs come up with the gripper commands
         //       IKGripper_main(Gripper::Goal);
-        break;
+        // break;
     }
 }
