@@ -316,9 +316,9 @@ int IK_Calculate(double Goal_pos[3]) {
     }
     else {
         std::cout << "Legth within limits" << std::endl;
-        theta_elbow_pitch = SSS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, arm_len_3);
-        theta_wrist_pitch = SSS_triangle(Kinematics::arm_len_2, arm_len_3, Kinematics::arm_len_1);
-        theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3, Kinematics::arm_len_2);
+        theta_elbow_pitch = SSS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, arm_len_3 - DELTA_GRIP);
+        theta_wrist_pitch = SSS_triangle(Kinematics::arm_len_2, arm_len_3 - DELTA_GRIP, Kinematics::arm_len_1);
+        theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3 - DELTA_GRIP, Kinematics::arm_len_2);
     }
 
     Gripper_angles::base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
@@ -334,6 +334,7 @@ int IK_Calculate(double Goal_pos[3]) {
 double SSS_triangle(double a, double b, double c) {
     std::cout << "SSS_triangle function" << std::endl;
     //"C = acos((a,2 + b,2 - c,2)/(2 * a * b))"
+    std::cout << "a b c " << a << " " << b << " " << c << std::endl;
     return std::acos((std::pow(a, 2) + std::pow(b, 2) - std::pow(c, 2)) / (2.0 * a * b));
 }
 
