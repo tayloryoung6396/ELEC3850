@@ -42,10 +42,9 @@ int UltrasonicSensor_main() {
     int BackLim  = 0.1;   // BACK OBJECT AVOIDANCE LIMIT (10CM)
 
 
-    delayMicroseconds(60);  // DELAY BETWEEN READINGS
-    Sendpulse();            // SEND PULSE
-    DistanceM();            // DISTANCE DETECTION
-    printf("Out of DistanceM");
+    delayMicroseconds(60);                                 // DELAY BETWEEN READINGS
+    Sendpulse();                                           // SEND PULSE
+    DistanceM();                                           // DISTANCE DETECTION
     if (Ultrasonic::Detection_distances[0] <= RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
         RFlag = 1;                                         // SET OBJECT DETECTION FLAG
     }
@@ -93,8 +92,11 @@ void Sendpulse() {
 
         Ultrasonic::Start_time = micros();
         while (digitalRead(echo_pin[sensor]) == LOW && micros() - Ultrasonic::Start_time < TIMEOUT) {
-            Ultrasonic::sensor_return[sensor] = micros() - Ultrasonic::Start_time;
         }
+        Ultrasonic::sensor_return[sensor] = micros() - Ultrasonic::Start_time;
+
+        std::cout << "Start time " << Ultrasonic::Start_time << " Return time " << Ultrasonic::sensor_return
+                  << std::endl;
     }
 }
 

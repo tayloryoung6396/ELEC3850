@@ -43,32 +43,32 @@ int main() {
 
     // Loop forever to run robot
     // Execute all code here
-    double tmp[3]{0};
-    tmp[0] = 0.2;
-    tmp[1] = 0;
-    tmp[2] = 0.2;
-    IKGripper_move(tmp);
-    delay(5000);
-    tmp[0] = 0.25;
-    tmp[1] = 0;
-    tmp[2] = 0.25;
-    IKGripper_move(tmp);
-    delay(5000);
-    tmp[0] = 0;
-    tmp[1] = 0.25;
-    tmp[2] = 0.25;
-    IKGripper_move(tmp);
-    delay(5000);
-    tmp[0] = -0.25;
-    tmp[1] = 0;
-    tmp[2] = 0.25;
-    IKGripper_move(tmp);
-    delay(5000);
-    tmp[0] = 0.2;
-    tmp[1] = 0.2;
-    tmp[2] = 0.2;
-    IKGripper_move(tmp);
-    delay(5000);
+    // double tmp[3]{0};
+    // tmp[0] = 0.2;
+    // tmp[1] = 0;
+    // tmp[2] = 0.2;
+    // IKGripper_move(tmp);
+    // delay(5000);
+    // tmp[0] = 0.25;
+    // tmp[1] = 0;
+    // tmp[2] = 0.25;
+    // IKGripper_move(tmp);
+    // delay(5000);
+    // tmp[0] = 0;
+    // tmp[1] = 0.25;
+    // tmp[2] = 0.25;
+    // IKGripper_move(tmp);
+    // delay(5000);
+    // tmp[0] = -0.25;
+    // tmp[1] = 0;
+    // tmp[2] = 0.25;
+    // IKGripper_move(tmp);
+    // delay(5000);
+    // tmp[0] = 0.2;
+    // tmp[1] = 0.2;
+    // tmp[2] = 0.2;
+    // IKGripper_move(tmp);
+    // delay(5000);
 
     std::cout << "SENDING ULTRASONIC" << std::endl;
     UltrasonicSensor_main();
@@ -91,7 +91,7 @@ int main() {
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
-//        PS3Control_main();
+        PS3Control_main();
         // TODO This should be some mode variable
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
@@ -106,6 +106,6 @@ int main() {
         //       MotorController();
         // Based on the above inputs come up with the gripper commands
         //       IKGripper_main(Gripper::Goal);
-        //        break;
+        break;
     }
 }
