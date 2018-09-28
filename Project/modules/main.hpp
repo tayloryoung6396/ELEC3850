@@ -1,6 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
+#include <errno.h>
 #include <malloc.h>
 #include <math.h>
 #include <stdint.h>

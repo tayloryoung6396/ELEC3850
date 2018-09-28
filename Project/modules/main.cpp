@@ -14,6 +14,7 @@ int main() {
 
     // System Init
     wiringPiSetupSys();
+    // wiringPiSetupGpio();  // CHECK CORRECT WIRING PI SETUP FUNCTION
     UART();
 
     // Controll Init
