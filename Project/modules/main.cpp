@@ -70,6 +70,8 @@ int main() {
     IKGripper_move(tmp);
     delay(5000);
 
+    std::cout << "SENDING ULTRASONIC" << std::endl;
+    UltrasonicSensor_main();
     while (1) {
         //        std::cout << "time -> " << (double) millis() << std::endl;
 
@@ -89,7 +91,7 @@ int main() {
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
-        PS3Control_main();
+//        PS3Control_main();
         // TODO This should be some mode variable
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode

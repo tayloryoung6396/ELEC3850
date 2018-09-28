@@ -82,6 +82,7 @@ int UltrasonicSensor_main() {
 
 // SEND PULSE TO SENSORS
 void Sendpulse() {
+    int echo_pin[SENSORS] = {ECHO0, ECHO1, ECHO2};
     for (int sensor = 0; sensor < SENSORS; sensor++) {
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);  // 10us Delay
