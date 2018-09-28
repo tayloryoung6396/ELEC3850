@@ -164,8 +164,8 @@ int PS3Control_main() {
                             if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                                      << Gripper_Goal[2] << std::endl;
+                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                            //           << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
@@ -179,8 +179,8 @@ int PS3Control_main() {
                             if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                                      << Gripper_Goal[2] << std::endl;
+                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                            //           << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
@@ -194,8 +194,8 @@ int PS3Control_main() {
                             if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                                      << Gripper_Goal[2] << std::endl;
+                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                            //           << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
@@ -209,8 +209,8 @@ int PS3Control_main() {
                             if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                                      << Gripper_Goal[2] << std::endl;
+                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                            //           << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
@@ -235,8 +235,8 @@ int PS3Control_main() {
                             if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                                      << Gripper_Goal[2] << std::endl;
+                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                            //           << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
@@ -261,8 +261,8 @@ int PS3Control_main() {
                             if (IKGripper_move(Gripper_Goal) != 0) {
                                 std::cout << "ERROR: Could not move gripper" << std::endl;
                             }
-                            std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                                      << Gripper_Goal[2] << std::endl;
+                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
+                            //           << Gripper_Goal[2] << std::endl;
                         }
                     }
                     break;
