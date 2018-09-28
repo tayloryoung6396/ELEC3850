@@ -91,9 +91,14 @@ void Sendpulse() {
         delayMicroseconds(400);
 
         Ultrasonic::Start_time = micros();
-        while (digitalRead(echo_pin[sensor]) == LOW && micros() - Ultrasonic::Start_time < TIMEOUT) {
+        while (1) {
+            if (micros() - Ultrasonic::Start_time < TIMEOUT) {
+                break;
+            }
+            else if (digitalRead(echo_pin[sensor]) == HIGH) {
+                Ultrasonic::sensor_return[sensor] = micros() - Ultrasonic::Start_time;
+            }
         }
-        Ultrasonic::sensor_return[sensor] = micros() - Ultrasonic::Start_time;
 
         std::cout << "Start time " << Ultrasonic::Start_time << " Return time " << Ultrasonic::sensor_return
                   << std::endl;
