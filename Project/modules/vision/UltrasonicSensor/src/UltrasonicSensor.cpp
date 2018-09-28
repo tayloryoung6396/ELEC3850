@@ -6,9 +6,9 @@
 
 #include "UltrasonicSensor.hpp"
 
-static uint32_t Start_time                 = 0;
-static uint32_t sensor_return[SENSORS]     = {0};
-static double Detection_distances[SENSORS] = {0};
+uint32_t Ultrasonic::Start_time                 = 0;
+uint32_t Ultrasonic::sensor_return[SENSORS]     = {0};
+double Ultrasonic::Detection_distances[SENSORS] = {0};
 
 void UltrasonicSensor_init() {
     std::cout << "Initilising ULTRASONIC SENSOR" << std::endl;
@@ -22,20 +22,6 @@ void UltrasonicSensor_init() {
     pinMode(ECHO1, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 2
     pinMode(ECHO2, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 3
 
-    // SET UP INTERRUPTS
-    if (wiringPiISR(ECHO0, INT_EDGE_FALLING, &myInterrupt0) < 0) {
-        std::cout << "Unable to setup ISR 0: " << strerror(errno) << std::endl;
-    }
-
-    if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
-        std::cout << "Unable to setup ISR 1: " << strerror(errno) << std::endl;
-    }
-
-    if (wiringPiISR(ECHO2, INT_EDGE_FALLING, &myInterrupt2) < 0) {
-        std::cout << "Unable to setup ISR 2: " << strerror(errno) << std::endl;
-    }
-
-    // Initialisations
     digitalWrite(TRIG, LOW);  // TRIGGER PIN MUST START LOW
     delayMicroseconds(60);    // DELAY TO ALLOW PINS TO SET
 }
@@ -94,46 +80,27 @@ int UltrasonicSensor_main() {
     return 0;
 }
 
-// Interrupts
-void myInterrupt0(void) {  // INTERRUPT FOR SENSOR 1
-    Ultrasonic::sensor_return[0] = micros();
-}
-
-void myInterrupt1(void) {  // INTERRUPT FOR SENSOR 2
-    Ultrasonic::sensor_return[1] = micros();
-}
-
-void myInterrupt2(void) {  // INTERRUPT FOR SENSOR 3
-    Ultrasonic::sensor_return[2] = micros();
-}
-
 // SEND PULSE TO SENSORS
 void Sendpulse() {
-    // PULSE
-    digitalWrite(TRIG, HIGH);
-    delayMicroseconds(10);  // 10us Delay
-    digitalWrite(TRIG, LOW);
+    for (int sensor = 0; sensor < SENSORS; sensor++) {
+        digitalWrite(TRIG, HIGH);
+        delayMicroseconds(10);  // 10us Delay
+        digitalWrite(TRIG, LOW);
 
-    // WAIT FOR ECHO START
-    delayMicroseconds(400);
+        // WAIT FOR ECHO START
+        delayMicroseconds(400);
 
-    // WAIT FOR ECHO END
-    Ultrasonic::Start_time       = micros();
-    Ultrasonic::sensor_return[0] = 0;
-    Ultrasonic::sensor_return[1] = 0;
-    Ultrasonic::sensor_return[2] = 0;
-
-    while ((Ultrasonic::sensor_return[0] == 0 || Ultrasonic::sensor_return[1] == 0 || Ultrasonic::sensor_return[2] == 0)
-           && ((micros() - Ultrasonic::Start_time) < 23000)) {
-        delayMicroseconds(100);
+        Ultrasonic::Start_time = micros();
+        while (digitalRead(echo_pin[sensor]) == LOW && micros() - Ultrasonic::Start_time < TIMEOUT) {
+            Ultrasonic::sensor_return[sensor] = micros() - Ultrasonic::Start_time;
+        }
     }
 }
 
 // SENSOR DISTANCE CALCULATION
 void DistanceM() {
-    for (int sensor = 0; sensor < SENSOR; sensor++) {
-        uint32_t traveltime = Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time;  // TIME CALCULATION
-        double distance     = traveltime * 1.7;              // DISTANCE CALCULATION IN METRES
-        Ultrasonic::Detection_distances[sensor] = distance;  // SAVE SENSOR READINGS TO ARRAY
+    for (int sensor = 0; sensor < SENSORS; sensor++) {
+        Ultrasonic::Detection_distances[sensor] =
+            Ultrasonic::sensor_return[sensor] * 1.7;  // DISTANCE CALCULATION IN METRES
     }
 }

@@ -9,6 +9,7 @@
 #define ECHO0 31    // ECHO PINS FOR US SENSORS (1-3)
 #define ECHO1 33
 #define ECHO2 35
+#define TIMEOUT 23000
 
 class Ultrasonic {
 public:
@@ -19,9 +20,6 @@ public:
 
 extern void UltrasonicSensor_init();
 extern int UltrasonicSensor_main();
-extern void myInterrupt0(void);
-extern void myInterrupt1(void);
-extern void myInterrupt2(void);
 extern void Sendpulse();
 extern void DistanceM();
 
