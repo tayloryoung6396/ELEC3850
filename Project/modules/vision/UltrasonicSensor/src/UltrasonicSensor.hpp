@@ -4,10 +4,10 @@
 #include "main.hpp"
 
 #define SENSORS 3  // AMOUNT OF US SENSORS
-#define TRIG 29    // TRIGGER PIN FOR US SENSORS
-#define ECHO0 31   // ECHO PINS FOR US SENSORS (1-3)
-#define ECHO1 33
-#define ECHO2 35
+#define TRIG 21    // TRIGGER PIN FOR US SENSORS
+#define ECHO0 22   // ECHO PINS FOR US SENSORS (1-3)
+#define ECHO1 23
+#define ECHO2 24
 #define TIMEOUT 23000
 
 class Ultrasonic {

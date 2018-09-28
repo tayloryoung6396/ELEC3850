@@ -72,17 +72,17 @@ void Setup() {
     pinMode(ECHO2, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 3
 
     // SET UP INTERRUPTS
-    if (wiringPiISR(ECHO0, INT_EDGE_FALLING, &myInterrupt0) < 0) {
-        fprintf(stderr, "Unable to setup ISR 0: %s\n", strerror(errno));
-    }
+//    if (wiringPiISR(ECHO0, INT_EDGE_FALLING, &myInterrupt0) < 0) {
+ //       fprintf(stderr, "Unable to setup ISR 0: %s\n", strerror(errno));
+ //   }
 
-    if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
-        fprintf(stderr, "Unable to setup ISR 1: %s\n", strerror(errno));
-    }
+   // if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
+     //   fprintf(stderr, "Unable to setup ISR 1: %s\n", strerror(errno));
+  //  }
 
-    if (wiringPiISR(ECHO2, INT_EDGE_FALLING, &myInterrupt2) < 0) {
-        fprintf(stderr, "Unable to setup ISR 2: %s\n", strerror(errno));
-    }
+  //  if (wiringPiISR(ECHO2, INT_EDGE_FALLING, &myInterrupt2) < 0) {
+  //      fprintf(stderr, "Unable to setup ISR 2: %s\n", strerror(errno));
+  //  }
 
     // Initialisations
     digitalWrite(TRIG, LOW);  // TRIGGER PIN MUST START LOW

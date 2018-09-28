@@ -272,6 +272,7 @@ int PS3Control_main() {
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
                             std::cout << "BUTTON_TRIANGLE" << std::endl;
+			    Gripper_home();
                         }
                     }
                     break;

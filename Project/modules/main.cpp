@@ -13,8 +13,8 @@ int main() {
     printf("Starting Initilisation\n");
 
     // System Init
-    wiringPiSetupSys();
-    // wiringPiSetupGpio();  // CHECK CORRECT WIRING PI SETUP FUNCTION
+    // wiringPiSetupSys();
+    wiringPiSetup();  // CHECK CORRECT WIRING PI SETUP FUNCTION
     UART();
 
     // Controll Init
@@ -69,10 +69,10 @@ int main() {
     // tmp[2] = 0.2;
     // IKGripper_move(tmp);
     // delay(5000);
-
+    while(1){
     std::cout << "SENDING ULTRASONIC" << std::endl;
     UltrasonicSensor_main();
-    while (1) {
+    //while (1) {
         //        std::cout << "time -> " << (double) millis() << std::endl;
 
         // For each iteration
@@ -91,7 +91,7 @@ int main() {
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
-        PS3Control_main();
+        //PS3Control_main();
         // TODO This should be some mode variable
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode

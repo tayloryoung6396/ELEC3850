@@ -21,9 +21,13 @@ void UltrasonicSensor_init() {
     pinMode(ECHO0, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 1
     pinMode(ECHO1, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 2
     pinMode(ECHO2, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 3
-
+//    for(int i = 1; i < 30; i++){
+//    pinMode(i, OUTPUT);
+//    delayMicroseconds(2000000);
     digitalWrite(TRIG, LOW);  // TRIGGER PIN MUST START LOW
     delayMicroseconds(60);    // DELAY TO ALLOW PINS TO SET
+   // std::cout << i << std::endl;
+//}
 }
 
 int UltrasonicSensor_main() {
@@ -49,7 +53,7 @@ void Sendpulse() {
     int trig_pin[SENSORS] = {TRIG, TRIG, TRIG};
     for (int sensor = 0; sensor < SENSORS; sensor++) {
         digitalWrite(trig_pin[sensor], HIGH);
-        delayMicroseconds(10);  // 10us Delay
+        delayMicroseconds(100);  // 10us Delay
         digitalWrite(trig_pin[sensor], LOW);
 
         // WAIT FOR ECHO START
@@ -57,15 +61,17 @@ void Sendpulse() {
 
         Ultrasonic::Start_time = micros();
         while (1) {
-            if (micros() - Ultrasonic::Start_time < TIMEOUT) {
+            if (micros() - Ultrasonic::Start_time > TIMEOUT) {
+		std::cout << "TIMEOUT" << std::endl;
                 break;
             }
             else if (digitalRead(echo_pin[sensor]) == HIGH) {
                 Ultrasonic::sensor_return[sensor] = micros() - Ultrasonic::Start_time;
+		break;
             }
         }
 
-        std::cout << "Start time " << Ultrasonic::Start_time << " Return time " << Ultrasonic::sensor_return
+        std::cout << "Start time " << Ultrasonic::Start_time << " Return time " << Ultrasonic::sensor_return[sensor]
                   << std::endl;
     }
 }
@@ -73,7 +79,7 @@ void Sendpulse() {
 void DistanceM() {
     for (int sensor = 0; sensor < SENSORS; sensor++) {
         Ultrasonic::Detection_distances[sensor] =
-            Ultrasonic::sensor_return[sensor] * 1.7
+            Ultrasonic::sensor_return[sensor] * 0.00017
             + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
     }
 }
