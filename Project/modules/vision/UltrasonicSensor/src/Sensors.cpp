@@ -20,7 +20,7 @@ found objects by proximity. */
 #include <wiringPi.h>
 
 // DEFINITIONS
-#define SENSORS 4   // AMOUNT OF US SENSORS
+#define SENSORS 1   // AMOUNT OF US SENSORS
 #define READINGS 3  // AMOUNT OF EXPECTED READINGS FROM US SENSORS
 #define TRIG 21     // TRIGGER PIN FOR US SENSORS
 #define ECHO0 22    // ECHO PINS FOR US SENSORS (1-3)
@@ -48,42 +48,23 @@ unsigned long end[SENSORS];  // ECHO END TIME (US)
 // void delay();
 // void delayMicroseconds();
 
-// Interrupts
-void myInterrupt0(void) {  // INTERRUPT FOR SENSOR 1
-    end[0] = micros();
-}
-
 void myInterrupt1(void) {  // INTERRUPT FOR SENSOR 2
-    end[1] = micros();
-}
-
-void myInterrupt2(void) {  // INTERRUPT FOR SENSOR 3
-    end[2] = micros();
+    std::cout << "INT 1" << std::endl;
+    end[0] = micros();
 }
 
 // FUNCTIONS
 void Setup() {
     // SET UP GPIO
-    wiringPiSetupGpio();  // CHECK CORRECT WIRING PI SETUP FUNCTION
+    wiringPiSetup();
 
-    // DEFINE GPIO PINS FOR I/O MODE
-    pinMode(TRIG, OUTPUT);  // TRIGGER IS AN OUTPUT FOR RPI
-    pinMode(ECHO0, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 1
-    pinMode(ECHO1, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 2
-    pinMode(ECHO2, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 3
+    pinMode(TRIG, OUTPUT);
+    pinMode(ECHO1, INPUT);
 
     // SET UP INTERRUPTS
-    //    if (wiringPiISR(ECHO0, INT_EDGE_FALLING, &myInterrupt0) < 0) {
-    //       fprintf(stderr, "Unable to setup ISR 0: %s\n", strerror(errno));
-    //   }
-
-    // if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
-    //   fprintf(stderr, "Unable to setup ISR 1: %s\n", strerror(errno));
-    //  }
-
-    //  if (wiringPiISR(ECHO2, INT_EDGE_FALLING, &myInterrupt2) < 0) {
-    //      fprintf(stderr, "Unable to setup ISR 2: %s\n", strerror(errno));
-    //  }
+    if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
+        std::cout << "Unable to setup ISR 1: " << strerror(errno) << std::endl;
+    }
 
     // Initialisations
     digitalWrite(TRIG, LOW);  // TRIGGER PIN MUST START LOW
@@ -106,11 +87,8 @@ void Sendpulse() {
     Start    = micros();
     MaxedOut = 0;
     end[0]   = 0;
-    end[1]   = 0;
-    end[2]   = 0;
 
-    while ((end[0] == 0 || end[1] == 0 || end[2] == 0) && ((micros() - Start) < 23000)) {
-        delayMicroseconds(100);
+    while ((end[0] == 0) && ((micros() - Start) < 23000)) {
     }
     return;
 }
@@ -119,14 +97,13 @@ void Sendpulse() {
 void DistanceM() {
     Sendpulse();  // SEND PULSE
     sensor = 0;
-    while (sensor <= 2) {
+    while (sensor <= 0) {
         long traveltime   = end[sensor] - Start;  // TIME CALCULATION
         int distance      = traveltime * 1.7;     // DISTANCE CALCULATION IN METRES
         DETECTION[sensor] = distance;             // SAVE SENSOR READINGS TO ARRAY
         sensor++;
     }
-    printf("Out of while");
-    sensor = 0;  // RESET SENSOR STARTING POINT
+    printf("Out of while\n");
     return;
 }
 
@@ -140,7 +117,7 @@ int main() {
 
         delayMicroseconds(60);  // DELAY BETWEEN READINGS
         DistanceM();            // DISTANCE DETECTION
-        printf("Out of DistanceM");
+        printf("Out of DistanceM\n");
         if (DETECTION[0] <= RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
             RFlag = 1;                   // SET OBJECT DETECTION FLAG
         }
@@ -149,31 +126,9 @@ int main() {
             RFlag = 0;                  // RESET OBJECT DETECTION FLAG
         }
 
-        if (DETECTION[1] <= BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-            BFlag = 1;                  // SET OBJECT DETECTION FLAG
-        }
-
-        if (DETECTION[1] > BackLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-            BFlag = 0;                 // RESET OBJECT DETECTION FLAG
-        }
-
-        if (DETECTION[2] <= LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-            LFlag = 1;                  // SET OBJECT DETECTION FLAG
-        }
-
-        if (DETECTION[2] > LeftLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-            LFlag = 0;                 // RESET OBJECT DETECTION FLAG
-        }
 
         // DEBUG DISTANCE CALCULATIONS
-        printf(
-            "Right Sensor Distance \t %d \t m \n Back Sensor Distance \t %d \t m\n Left Sensor Distance \t %d \t m \n",
-            DETECTION[0],
-            DETECTION[1],
-            DETECTION[2]);
-
-        // DEBUG OBJECT DETECTION FLAGS
-        printf("\n Right flag status \t %d \n Back flag status \t %d \n Left flag status \t %d", RFlag, BFlag, LFlag);
+        printf("Right Sensor Distance \t %d m\n", DETECTION[0]);
     }
 
     return 0;
