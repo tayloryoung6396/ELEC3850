@@ -13,7 +13,8 @@ int main() {
     printf("Starting Initilisation\n");
 
     // System Init
-    wiringPiSetupSys();
+    // wiringPiSetupSys();
+    wiringPiSetup();  // CHECK CORRECT WIRING PI SETUP FUNCTION
     UART();
 
     // Controll Init
@@ -40,9 +41,8 @@ int main() {
 
     printf("Finished Initilisation\n");
 
-    // Loop forever to run robot
-    // Execute all code here
     while (1) {
+        // while (1) {
         //        std::cout << "time -> " << (double) millis() << std::endl;
 
         // For each iteration
@@ -50,7 +50,8 @@ int main() {
         //      Camera_main();
         //      InfraredSensor_main();
         //      Classifier_main();
-        //      UltrasonicSensor_main();
+        UltrasonicSensor_main();
+        delay(500);  // TODO Remove this
 
         // The motor director overseas the current status of the drive motors
         // It's job is to check whether the drive motors have reached the goal position
@@ -76,6 +77,6 @@ int main() {
         //       MotorController();
         // Based on the above inputs come up with the gripper commands
         //       IKGripper_main(Gripper::Goal);
-        //        break;
+        // break;
     }
 }

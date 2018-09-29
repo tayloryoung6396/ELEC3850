@@ -32,6 +32,8 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 template <typename T>
 int executeWriteSingle(uint8_t servo_ID, uint16_t address, const T& data) {
 
+    std::cout << "Writing servo " << (int) servo_ID << " to " << data << std::endl;
+
     auto buf = dynamixel::v2::WriteCommand<T>(servo_ID, address, data);
     if (uart.good()) {
         uart.write(&buf, sizeof(buf));
@@ -89,7 +91,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             }
             else {
                 // The result is pre initialized as a timeout
-                std::cout << "ERROR: Failed to sync servo " << servo_ID << std::endl;
+                std::cout << "ERROR: Failed to sync servo " << (int) servo_ID << std::endl;
                 return COMM_RX_TIMEOUT;
             }
         }
@@ -108,7 +110,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
             else {
                 // The result is pre initialized as a timeout
                 std::cout << "ERROR: Failed to read packet " << rx_length << " of " << sizeof(stat) - sizeof(stat.magic)
-                          << " servo " << servo_ID << std::endl;
+                          << " servo " << (int) servo_ID << std::endl;
                 return COMM_RX_TIMEOUT;
             }
         }
@@ -116,7 +118,7 @@ int executeReadSingle(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_d
         uint16_t crc = dynamixel::v2::calculateChecksum(&stat, 0);
         if (stat.checksum != crc) {
             std::cout << std::hex << "ERROR: Checksum corrupt " << stat.checksum << " calculated " << crc << " servo "
-                      << servo_ID << std::dec << std::endl;
+                      << (int) servo_ID << std::dec << std::endl;
             std::cout << std::hex << std::endl;
             std::cout << " stat.magic       " << (int) stat.magic << std::endl;
             std::cout << " stat.id          " << (int) stat.id << std::endl;
@@ -193,26 +195,26 @@ void Dynamixel_init() {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(10);
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 0);
             delay(10);
             // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 16000);
             // delay(10);
         }
         else {
-            std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
+            std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
         }
     }
     for (int servo_ID = 6; servo_ID < 8; servo_ID++) {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(10);
-            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 1);
+            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 0);
             delay(10);
             // executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(VELOCITY_P_GAIN), 16000);
             // delay(10);
         }
         else {
-            std::cout << "ERROR: Failed to ping servo " << servo_ID << std::endl;
+            std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
         }
     }
 }
@@ -220,6 +222,7 @@ void Dynamixel_init() {
 template int executeReadSingle<uint8_t>(uint8_t, uint16_t, uint16_t, uint8_t&);
 template int executeReadSingle<uint16_t>(uint8_t, uint16_t, uint16_t, uint16_t&);
 template int executeReadSingle<uint32_t>(uint8_t, uint16_t, uint16_t, uint32_t&);
+template int executeReadSingle<int32_t>(uint8_t, uint16_t, uint16_t, int32_t&);
 
 template int executeWriteSingle<uint8_t>(uint8_t, uint16_t, const uint8_t&);
 template int executeWriteSingle<uint16_t>(uint8_t, uint16_t, const uint16_t&);
