@@ -107,6 +107,11 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     return 0;
 }
 
+
+// TODO Overhaul this, it's missing some conversions
+
+// 0.48m per revolution
+
 int MotorDirector() {
     // Check all drive motors are in the last known position
     // And or check that we have reached our goal
