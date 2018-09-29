@@ -70,9 +70,6 @@ int main() {
     // IKGripper_move(tmp);
     // delay(5000);
     while (1) {
-        std::cout << "SENDING ULTRASONIC" << std::endl;
-        UltrasonicSensor_main();
-        delay(500);
         // while (1) {
         //        std::cout << "time -> " << (double) millis() << std::endl;
 
@@ -81,7 +78,8 @@ int main() {
         //      Camera_main();
         //      InfraredSensor_main();
         //      Classifier_main();
-        //      UltrasonicSensor_main();
+        UltrasonicSensor_main();
+        delay(500);  // TODO Remove this
 
         // The motor director overseas the current status of the drive motors
         // It's job is to check whether the drive motors have reached the goal position
@@ -92,7 +90,7 @@ int main() {
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
-        // PS3Control_main();
+        PS3Control_main();
         // TODO This should be some mode variable
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
