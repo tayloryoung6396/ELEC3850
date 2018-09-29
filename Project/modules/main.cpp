@@ -13,8 +13,7 @@ int main() {
     printf("Starting Initilisation\n");
 
     // System Init
-    // wiringPiSetupSys();
-    wiringPiSetup();  // CHECK CORRECT WIRING PI SETUP FUNCTION
+    wiringPiSetup();
     UART();
 
     // Odometry Init
@@ -41,17 +40,21 @@ int main() {
 
     printf("Finished Initilisation\n");
 
+    double previous_time = (double) millis();
+    double current_time  = (double) millis();
+
     while (1) {
         // while (1) {
-        //        std::cout << "time -> " << (double) millis() << std::endl;
+        current_time = (double) millis();
+        std::cout << "time -> " << (double) (current_time - previous_time) << std::endl;
+        previous_time = current_time;
 
         // For each iteration
         // Check sensors
-        //      Camera_main();
-        //      InfraredSensor_main();
-        //      Classifier_main();
+        // Camera_main();
+        // InfraredSensor_main();
+        // Classifier_main();
         UltrasonicSensor_main();
-        delay(500);  // TODO Remove this
 
         // The motor director overseas the current status of the drive motors
         // It's job is to check whether the drive motors have reached the goal position
@@ -63,7 +66,7 @@ int main() {
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
         PS3Control_main();
-        // TODO This should be some mode variable
+
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
