@@ -26,8 +26,8 @@
 class PS3Walk {
 public:
     // axes
-    static constexpr uint32_t AXIS_LEFT_JOYSTICK_HORIZONTAL  = 0;
-    static constexpr uint32_t AXIS_LEFT_JOYSTICK_VERTICAL    = 1;
+    static constexpr uint32_t AXIS_LEFT_JOYSTICK_HORIZONTAL  = 1;
+    static constexpr uint32_t AXIS_LEFT_JOYSTICK_VERTICAL    = 0;
     static constexpr uint32_t AXIS_RIGHT_JOYSTICK_HORIZONTAL = 3;
     static constexpr uint32_t AXIS_RIGHT_JOYSTICK_VERTICAL   = 4;
     static constexpr uint32_t AXIS_L2                        = 20;

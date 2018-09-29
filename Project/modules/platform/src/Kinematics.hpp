@@ -29,6 +29,8 @@ public:
     static double Servo_max_limit[5];
     static double Servo_min_limit[5];
     static double Servo_offset[5];
+
+    static double ultrasonic_offset[4];
 };
 
 

@@ -1,6 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
+#include <errno.h>
 #include <malloc.h>
 #include <math.h>
 #include <stdint.h>
@@ -40,5 +41,11 @@
 #define MX28_SIZE_VALUE(VAL) SIZE_VALUE(MX28_##VAL)
 #define MX64_ADDRESS_VALUE(VAL) ADDRESS_VALUE(MX64_##VAL)
 #define MX64_SIZE_VALUE(VAL) SIZE_VALUE(MX64_##VAL)
+
+class Input {
+public:
+    static bool Autonomous_Enabled;
+};
+
 
 #endif /* MAIN_H_ */
