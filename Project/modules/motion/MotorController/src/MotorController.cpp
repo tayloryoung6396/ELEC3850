@@ -73,9 +73,10 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         // // Set goal revolution
         // // Convert goal distance to number of revolutions
         // // This counts down to 0, so add it to our outstanding revolutions
-        // PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+        PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+        std::cout << "Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? 20 : -20));
         delay(10);
     }
     return 0;
@@ -115,11 +116,12 @@ int MotorDirector() {
     // Bulk read the 2 motor servos
     // MOTOR_T motor_data;
     // executeReadMulti(servo_ID, address, motor_data, size, count);
-    const int offset               = 200;
-    const uint16_t max_position[2] = {(uint16_t) std::numeric_limits<uint32_t>::max() / 2 - offset,
-                                      (uint16_t) std::numeric_limits<uint32_t>::min() / 2 + offset};
-    const uint16_t min_position[2] = {(uint16_t) std::numeric_limits<uint32_t>::min() / 2 + offset,
-                                      (uint16_t) std::numeric_limits<uint32_t>::max() / 2 - offset};
+    const int offset              = 200;
+    const int32_t max_position[2] = {std::numeric_limits<int32_t>::max() - offset,
+                                     std::numeric_limits<int32_t>::min() + offset};
+    const int32_t min_position[2] = {std::numeric_limits<int32_t>::min() + offset,
+                                     std::numeric_limits<int32_t>::max() - offset};
+
 
     uint8_t count       = 2;
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
@@ -144,12 +146,14 @@ int MotorDirector() {
             if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < max_position[i]
                 && PathPlanner::curr_pos[i] > min_position[i]) {
                 PathPlanner::curr_revolution[i]--;
-                std::cout << "1 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
+                std::cout << "Decrement revolutions " << (int) PathPlanner::curr_revolution[i] << " ID " << i
+                          << std::endl;
             }
             else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > min_position[i]
                      && PathPlanner::curr_pos[i] < max_position[i]) {
                 PathPlanner::curr_revolution[i]--;
-                std::cout << "2 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
+                std::cout << "Decrement revolutions " << (int) PathPlanner::curr_revolution[i] << " ID " << i
+                          << std::endl;
             }
             // were on the correct revolution
             if (PathPlanner::curr_revolution[i] == 0
