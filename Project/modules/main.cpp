@@ -71,6 +71,7 @@ int main() {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
             AutonomousControl_main();
+            Input::Autonomous_Enabled = !Input::Autonomous_Enabled;
         }
 
         // Neither of these directly control the driving or the gripper.

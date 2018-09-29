@@ -60,6 +60,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     // Now account for the forward distance required
     Goal_Dist[0] += Forward;
     Goal_Dist[1] += Forward;
+    Goal_Dist[1] = -Goal_Dist[1];
 
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
 
