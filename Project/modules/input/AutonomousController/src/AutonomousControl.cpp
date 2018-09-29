@@ -40,7 +40,7 @@ int AutonomousControl_main() {
             }
             else {
                 // go to the object path planner
-                SimplePathPlanner(Localistation::w_Goal_Position[0], Localistation::w_Goal_Position[1]);
+                SimplePathPlanner();
             }
         }
         // unknown object pos
@@ -64,7 +64,7 @@ int AutonomousControl_main() {
             }
             else {
                 // go to the goal path planner
-                SimplePathPlanner(Localistation::w_Goal_Position[0], Localistation::w_Goal_Position[1]);
+                SimplePathPlanner();
             }
         }
         // unknown goal pos
