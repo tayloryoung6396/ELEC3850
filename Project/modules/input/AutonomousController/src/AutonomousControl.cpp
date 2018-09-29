@@ -36,7 +36,7 @@ int AutonomousControl_main() {
                 // either use last image or do a whoe new classification?
                 // perform grab
 
-                IKGripper_Grab_Object(Goal_pos[3]);
+                IKGripper_Grab_Object(Goal_pos);
             }
             else {
                 // go to the object path planner
@@ -56,11 +56,11 @@ int AutonomousControl_main() {
         // If our goal is negative then it means we don't have a valid goal/don't know a goal
         if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
             // Check to see if we're at the goal or not
-            if ((Localistation::w_Goal_Position[0] == Localistation::w_tank_Position[0])
-                && (Localistation::w_Goal_Position[1] == Localistation::w_tank_Position[1])) {
+            if ((Localistation::w_Goal_Position[0] == Localistation::w_Tank_Position[0])
+                && (Localistation::w_Goal_Position[1] == Localistation::w_Tank_Position[1])) {
                 // Do something
                 // Figure out where we are putting it TODO
-                IKGripper_Place_Object(Goal_pos[3])
+                IKGripper_Place_Object(Goal_pos)
             }
             else {
                 // go to the goal path planner
