@@ -60,7 +60,7 @@ int AutonomousControl_main() {
                 && (Localistation::w_Goal_Position[1] == Localistation::w_Tank_Position[1])) {
                 // Do something
                 // Figure out where we are putting it TODO
-                IKGripper_Place_Object(Goal_pos)
+                IKGripper_Place_Object(Goal_pos);
             }
             else {
                 // go to the goal path planner

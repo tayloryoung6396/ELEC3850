@@ -9,8 +9,6 @@ extern int UltrasonicSensor_main();
 extern void Sendpulse();
 extern void DistanceM();
 
-#endif /* ULTRASONIC_SENSOR_H_ */
-
 #define SENSORS 4  // AMOUNT OF US SENSORS
 #define TRIG 21    // TRIGGER PIN FOR US SENSORS
 #define ECHO0 22   // ECHO PINS FOR US SENSORS (1-3)
@@ -25,3 +23,5 @@ public:
     static uint32_t sensor_return[SENSORS];  // ECHO END TIME (US)
     static double Detection_distances[SENSORS];
 };
+
+#endif /* ULTRASONIC_SENSOR_H_ */
