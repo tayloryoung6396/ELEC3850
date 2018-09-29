@@ -1,7 +1,7 @@
 SRCS := main.cpp \
 		behaviour/src/SimplePathPlanner.cpp \
 		input/AutonomousController/src/AutonomousControl.cpp \
-                input/PS3Controller/src/v2/Joystick.cpp \
+        input/PS3Controller/src/v2/Joystick.cpp \
 		input/PS3Controller/src/v2/PS3Walk.cpp \
 		localisation/src/Localisation.cpp \
 		platform/src/DynamixelProtocol.cpp \

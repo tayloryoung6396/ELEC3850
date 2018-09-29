@@ -3,11 +3,6 @@
 
 // LIBRARIES
 #include "main.hpp"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <wiringPi.h>
 
 extern void UltrasonicSensor_init();
 extern int UltrasonicSensor_main();
