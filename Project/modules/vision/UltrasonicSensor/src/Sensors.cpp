@@ -21,7 +21,7 @@ found objects by proximity. */
 #include <iostream>
 
 // DEFINITIONS
-#define SENSORS 1   // AMOUNT OF US SENSORS
+#define SENSORS 2   // AMOUNT OF US SENSORS
 #define READINGS 3  // AMOUNT OF EXPECTED READINGS FROM US SENSORS
 #define TRIG 21     // TRIGGER PIN FOR US SENSORS
 #define ECHO0 22    // ECHO PINS FOR US SENSORS (1-3)
@@ -49,9 +49,14 @@ unsigned long end[SENSORS];  // ECHO END TIME (US)
 // void delay();
 // void delayMicroseconds();
 
+void myInterrupt0(void) {  // INTERRUPT FOR SENSOR 2
+    std::cout << "INT 0" << std::endl;
+    end[0] = micros();
+}
+
 void myInterrupt1(void) {  // INTERRUPT FOR SENSOR 2
     std::cout << "INT 1" << std::endl;
-    end[0] = micros();
+    end[1] = micros();
 }
 
 // FUNCTIONS
@@ -60,18 +65,20 @@ void Setup() {
     wiringPiSetup();
 
     pinMode(TRIG, OUTPUT);
+    pinMode(ECHO0, INPUT);
     pinMode(ECHO1, INPUT);
 
     // SET UP INTERRUPTS
-    if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
+    if (wiringPiISR(ECHO0, INT_EDGE_FALLING, &myInterrupt0) < 0) {
+        std::cout << "Unable to setup ISR 0: " << strerror(errno) << std::endl;
+    }
+    else if (wiringPiISR(ECHO1, INT_EDGE_FALLING, &myInterrupt1) < 0) {
         std::cout << "Unable to setup ISR 1: " << strerror(errno) << std::endl;
     }
 
     // Initialisations
     digitalWrite(TRIG, LOW);  // TRIGGER PIN MUST START LOW
     delayMicroseconds(60);    // DELAY TO ALLOW PINS TO SET
-
-    return;
 }
 
 // SEND PULSE TO SENSORS
@@ -88,24 +95,22 @@ void Sendpulse() {
     Start    = micros();
     MaxedOut = 0;
     end[0]   = 0;
+    end[1]   = 0;
 
-    while ((end[0] == 0) && ((micros() - Start) < 23000)) {
+    while ((end[0] == 0 || end[1] == 0) && ((micros() - Start) < 23000)) {
     }
-    return;
 }
 
 // SENSOR DISTANCE CALCULATION
 void DistanceM() {
     Sendpulse();  // SEND PULSE
     sensor = 0;
-    while (sensor <= 0) {
+    while (sensor <= 1) {
         long traveltime   = end[sensor] - Start;   // TIME CALCULATION
         double distance   = traveltime * 0.00017;  // DISTANCE CALCULATION IN METRES
         DETECTION[sensor] = distance;              // SAVE SENSOR READINGS TO ARRAY
         sensor++;
     }
-    printf("Out of while\n");
-    return;
 }
 
 
@@ -118,18 +123,10 @@ int main() {
 
         delayMicroseconds(60);  // DELAY BETWEEN READINGS
         DistanceM();            // DISTANCE DETECTION
-        printf("Out of DistanceM\n");
-        if (DETECTION[0] <= RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-            RFlag = 1;                   // SET OBJECT DETECTION FLAG
-        }
-
-        if (DETECTION[0] > RightLim) {  // CHECK DISTANCES AGAINST MOVEMENT LIMITATIONS
-            RFlag = 0;                  // RESET OBJECT DETECTION FLAG
-        }
-
 
         // DEBUG DISTANCE CALCULATIONS
-        printf("Right Sensor Distance \t %lf m\n", DETECTION[0]);
+        printf("Sensor 0 Distance \t %lf m\n", DETECTION[0]);
+        printf("Sensor 1 Distance \t %lf m\n", DETECTION[1]);
     }
 
     return 0;
