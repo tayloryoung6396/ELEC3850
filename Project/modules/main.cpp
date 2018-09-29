@@ -46,7 +46,7 @@ int main() {
     while (1) {
         // while (1) {
         current_time = (double) millis();
-        std::cout << "time -> " << (double) (current_time - previous_time) << std::endl;
+        std::cout << "FPS -> " << (double) (1000.0 / (current_time - previous_time)) << std::endl;
         previous_time = current_time;
 
         // For each iteration
@@ -61,7 +61,7 @@ int main() {
         // Track the number of revolutions performed
         // Update the localisation model about where we currently are.
         // If need be, the motor director can perform the final positioning itself, independent of the loop
-        //      MotorDirector();
+        MotorDirector();
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
@@ -70,7 +70,7 @@ int main() {
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
-            //          AutonomousControl_main();
+            AutonomousControl_main();
         }
 
         // Neither of these directly control the driving or the gripper.
