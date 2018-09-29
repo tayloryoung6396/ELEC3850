@@ -21,7 +21,7 @@
 class utility::io::uart uart;
 
 UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
-    printf("Initilising UART\n");
+    std::cout << "Initilising UART" << std::endl;
     uart.open(device, baud);
     tx_time_per_byte = (1000.0 / (double) baud) * 10.0;
     std::cout << "Baud rate set to: " << baud << std::endl;

@@ -15,7 +15,9 @@ double Localistation::w_Tank_Rotation;  // Rotation about the w_Tank_Position in
 double Localistation::w_Goal_Position[2];  // X Y Goal position in world coordinates
 
 
-void Localisation_init() {}
+void Localisation_init() {
+    std::cout << "Initilising LOCALISATION" << std::endl;
+}
 
 int Localisation_main() {
     // Goal_pos vec2d

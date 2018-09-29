@@ -30,7 +30,7 @@ int AutonomousControl_main() {
         // known object pos
         if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
             // Check to see if we're at the goal or not
-            if (at goal) {
+            if (1) {  // at goal) {
                 // grab object TODO
                 // check where the object is exactly
                 // either use last image or do a whoe new classification?
@@ -45,7 +45,7 @@ int AutonomousControl_main() {
         }
         // unknown object pos
         // If our goal is negative then it means we don't have a valid goal/don't know a goal
-        else if (Localistation::w_Goal_Position[0] ! > 0 | Localistation::w_Goal_Position[1] ! > 0) {
+        else if (Localistation::w_Goal_Position[0] < 0 | Localistation::w_Goal_Position[1] < 0) {
             // search for it
             // TODO // weighted_search();
         }
@@ -68,7 +68,7 @@ int AutonomousControl_main() {
             }
         }
         // unknown goal pos
-        else if (Localistation::w_Goal_Position[0] ! > 0 | Localistation::w_Goal_Position[1] ! > 0) {
+        else if (Localistation::w_Goal_Position[0] < 0 | Localistation::w_Goal_Position[1] < 0) {
             // search for it
             // TODO // weighted_search();
         }

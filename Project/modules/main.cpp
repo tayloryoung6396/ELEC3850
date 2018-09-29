@@ -17,6 +17,10 @@ int main() {
     wiringPiSetup();  // CHECK CORRECT WIRING PI SETUP FUNCTION
     UART();
 
+    // Odometry Init
+    Localisation_init();
+    SimplePathPlanner_init();
+
     // Controll Init
     PS3Control_init();
     AutonomousControl_init();
@@ -27,10 +31,6 @@ int main() {
     MotorController_init();
     FKGripper_init();
     IKGripper_init();
-
-    // Odometry Init
-    Localisation_init();
-    SimplePathPlanner_init();
 
     // Sensors Init
     Camera_init();
