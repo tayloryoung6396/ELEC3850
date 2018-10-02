@@ -34,3 +34,7 @@ void Recalculate_path() {
     // So i didn't end up where i wanted to,
     // but i should be able to take my position and the goal and recalculate a new vector
 }
+
+// How do we use the occupancy map for path planning..
+// in grid space we can locate our current and end goal position
+//
