@@ -40,28 +40,31 @@ int main() {
 
     printf("Finished Initilisation\n");
 
+    static int frame_count = 0;   // This is a crude method for slowing some tasks
+    const int frame_max    = 15;  // LCM of all frame divisors
+
     double previous_time = (double) millis();
     double current_time  = (double) millis();
 
     while (1) {
-        // while (1) {
         current_time = (double) millis();
         std::cout << "FPS -> " << (double) (1000.0 / (current_time - previous_time)) << std::endl;
         previous_time = current_time;
 
         // For each iteration
         // Check sensors
-        // Camera_main();
-        // InfraredSensor_main();
-        // Classifier_main();
+        if (frame_count % 5 == 0) {
+            // Camera_main();
+            // InfraredSensor_main();
+            // Classifier_main();
+        }
+
         UltrasonicSensor_main();
 
-        // The motor director overseas the current status of the drive motors
-        // It's job is to check whether the drive motors have reached the goal position
-        // Track the number of revolutions performed
-        // Update the localisation model about where we currently are.
-        // If need be, the motor director can perform the final positioning itself, independent of the loop
-        MotorDirector();
+        if (frame_count % 5 == 0) {
+            // TODO We probably want to store the last 5 US readings
+            Localisation_main();  // TODO Maybe this should happen all of the time?
+        }
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
@@ -71,16 +74,22 @@ int main() {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
             AutonomousControl_main();
-            Input::Autonomous_Enabled = !Input::Autonomous_Enabled;
-        }
 
-        // Neither of these directly control the driving or the gripper.
-        // The driving is controlled by a vector of movement commands
-        // The gripper is controlled by seeting some goal position with velocity
-        // Based on the above inputs come up with the motor commands
-        //       MotorController();
-        // Based on the above inputs come up with the gripper commands
-        //       IKGripper_main(Gripper::Goal);
+            // The motor director overseas the current status of the drive motors
+            // It's job is to check whether the drive motors have reached the goal position
+            // Track the number of revolutions performed
+            // Update the localisation model about where we currently are.
+            // If need be, the motor director can perform the final positioning itself, independent of the loop
+            if (frame_count % 3 == 0) {
+                MotorDirector();
+            }
+
+            Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
+        }
         // break;
+        frame_count++;
+        if (frame_count % frame_max == 0) {
+            frame_count = 0;  // Reset frame count
+        }
     }
 }
