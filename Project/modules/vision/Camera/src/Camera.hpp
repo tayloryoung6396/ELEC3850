@@ -7,6 +7,6 @@
 #include <string>
 
 extern void Camera_init();
-extern int Camera_main();
+extern int Camera_main(int argc, const char **argv);
 
 #endif /* CAMERA_H_ */
