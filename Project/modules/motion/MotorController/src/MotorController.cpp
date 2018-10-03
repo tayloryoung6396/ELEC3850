@@ -74,9 +74,9 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         // // Convert goal distance to number of revolutions
         // // This counts down to 0, so add it to our outstanding revolutions
         PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
-        PathPlanner::goalpos[i] += ConvertDistanceToRotation_r(Goal_Dist[i]);
+        PathPlanner::goal_pos[i] += ConvertDistanceToRotation_r(Goal_Dist[i]);
         std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
-        std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goalpos[i] << std::endl;
+        std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goal_pos[i] << std::endl;
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? 20 : -20));
         delay(10);
