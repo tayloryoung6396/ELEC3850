@@ -51,19 +51,19 @@ int Camera_main(int argc, const char **argv)
 	}
 
 	Camera.retrieve(Red_data, raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
-	ofstream outFile("Red_Image.ppm", std::ios::binary); //Save Image
+	std::ofstream outFile("Red_Image.ppm", std::ios::binary); //Save Image
 	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() " 255\n";									//dont know
 	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
 	printf("Red Image Saved");
 
 	Camera.retrieve(Green_data, raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
-	outFile("Green_Image.ppm", std::ios::binary); //Save Image
+	std::ofstream outFile("Green_Image.ppm", std::ios::binary); //Save Image
 	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() " 255\n";									//dont know
 	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
 	printf("Green Image Saved");
 
 	Camera.retrieve(Blue_data, raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
-	outFile("Blue_Image.ppm", std::ios::binary); //Save Image
+	std::ofstream outFile("Blue_Image.ppm", std::ios::binary); //Save Image
 	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() " 255\n";									//dont know
 	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
 	printf("Blue Image Saved");
