@@ -194,7 +194,7 @@ double ConvertDistanceToRotation(double Goal_Dist) {
 }
 
 double ConvertDistanceToRotation_r(double Goal_Dist) {
-    return (Goal_Dist % DistToRev);  // Return revolutions
+    return (fmod(Goal_Dist, DistToRev));  // Return revolutions
 }
 
 double ConvertRotationToArclen(double Rotation) {
