@@ -3,8 +3,6 @@
 
 #include "main.hpp"
 
-#include <cstdio>
-#include <string>
 
 
 #define IMAGE_WIDTH 320			

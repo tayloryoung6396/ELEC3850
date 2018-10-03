@@ -20,6 +20,7 @@
 #include <limits>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 #include "behaviour/src/SimplePathPlanner.hpp"
 #include "dynamixel/v2/Dynamixel.hpp"
