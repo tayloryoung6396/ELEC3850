@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <malloc.h>
 #include <math.h>
+#include <raspicam/raspicam.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
