@@ -3,18 +3,11 @@
 
 // LIBRARIES
 #include "main.hpp"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <wiringPi.h>
 
 extern void UltrasonicSensor_init();
 extern int UltrasonicSensor_main();
 extern void Sendpulse();
 extern void DistanceM();
-
-#endif /* ULTRASONIC_SENSOR_H_ */
 
 #define SENSORS 4  // AMOUNT OF US SENSORS
 #define TRIG 21    // TRIGGER PIN FOR US SENSORS
@@ -30,3 +23,5 @@ public:
     static uint32_t sensor_return[SENSORS];  // ECHO END TIME (US)
     static double Detection_distances[SENSORS];
 };
+
+#endif /* ULTRASONIC_SENSOR_H_ */

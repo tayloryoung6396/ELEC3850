@@ -21,7 +21,7 @@
 class utility::io::uart uart;
 
 UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
-    printf("Initilising UART\n");
+    std::cout << "Initilising UART" << std::endl;
     uart.open(device, baud);
     tx_time_per_byte = (1000.0 / (double) baud) * 10.0;
     std::cout << "Baud rate set to: " << baud << std::endl;
@@ -208,7 +208,7 @@ void Dynamixel_init() {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(10);
-            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 0);
+            executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 1);
             delay(10);
             // executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(VELOCITY_P_GAIN), 16000);
             // delay(10);

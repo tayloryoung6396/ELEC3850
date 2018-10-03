@@ -12,7 +12,7 @@
 double Localistation::w_Tank_Position[2];  // X Y Current position in world coordinates
 double Localistation::w_Tank_Rotation;  // Rotation about the w_Tank_Position in the anticlockwise direction (radians)
 
-double Localistation::w_Goal_Position[2];  // X Y Goal position in world coordinates
+double Localistation::w_Goal_Position[2] = {0};  // X Y Goal position in world coordinates
 
 
 void Localisation_init() {}
@@ -24,6 +24,11 @@ int Localisation_main() {
 // convert tank to world
 void TankToWorld(double Goal_Dist[2]) {
 
+// // 2D Map
+// // This is a crude method of creating a 2D localisation map
+// // Given some fixed workspace, divide it into a square grid section
+// // For this implementation 1.5m x 1.5m with a grid spacing of 0.100- based off a tank diagonal size of 440mm
+//     double area_size=1.5;
 
     // }
 
@@ -58,6 +63,10 @@ void TankToWorld(double Goal_Dist[2]) {
     //     right corner -return a x and y for what cell we are looking at stuff in int
     //     tank_cell_m=floor(w_Tank_Position[0]/gridspace); int tank_cell_n=floor(w_Tank_Position[1]/gridspace);
 
+//     //LHS wrt tank sonic (array pos=1)
+//     sen_theta[1]=w_Tank_Rotation + M_PI_2;
+//     sen_hori[1]=gens_sonics[1]*cos(sen_theta[1]);
+//     sen_vert[1]=gens_sonics[1]*sin(sen_theta[1]);
 
     //     double sen_hori[4];
     //     double sen_vert[4];

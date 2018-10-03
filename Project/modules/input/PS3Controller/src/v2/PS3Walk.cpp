@@ -125,6 +125,8 @@ int PS3Control_main() {
                     // Change between autonomous and ps3
                     if (event.value > 0) {  // button down
                         std::cout << "BUTTON_SELECT" << std::endl;
+                        ip.Autonomous_Enabled = !ip.Autonomous_Enabled;
+                        std::cout << "Autonomous " << ip.Autonomous_Enabled << std::endl;
                     }
                     break;
                 case PS3Walk::BUTTON_LEFT_JOYSTICK:
@@ -272,7 +274,7 @@ int PS3Control_main() {
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
                             std::cout << "BUTTON_TRIANGLE" << std::endl;
-			    Gripper_home();
+                            Gripper_home();
                         }
                     }
                     break;

@@ -60,6 +60,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     // Now account for the forward distance required
     Goal_Dist[0] += Forward;
     Goal_Dist[1] += Forward;
+    Goal_Dist[1] = -Goal_Dist[1];
 
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
 
@@ -72,9 +73,12 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         // // Set goal revolution
         // // Convert goal distance to number of revolutions
         // // This counts down to 0, so add it to our outstanding revolutions
-        // PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+        PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
+        PathPlanner::goalpos[i] += ConvertDistanceToRotation_r(Goal_Dist[i]);
+        std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
+        std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goalpos[i] << std::endl;
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 20);
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? 20 : -20));
         delay(10);
     }
     return 0;
@@ -105,20 +109,24 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     return 0;
 }
 
+
+// TODO Overhaul this, it's missing some conversions
+
+// 0.48m per revolution
+
 int MotorDirector() {
     // Check all drive motors are in the last known position
     // And or check that we have reached our goal
     // The current revolution counts down to 0
 
-    // TODO
-    // Bulk read the 2 motor servos
-    // MOTOR_T motor_data;
-    // executeReadMulti(servo_ID, address, motor_data, size, count);
-    const int offset               = 200;
-    const uint16_t max_position[2] = {(uint16_t) std::numeric_limits<uint32_t>::max() / 2 - offset,
-                                      (uint16_t) std::numeric_limits<uint32_t>::min() / 2 + offset};
-    const uint16_t min_position[2] = {(uint16_t) std::numeric_limits<uint32_t>::min() / 2 + offset,
-                                      (uint16_t) std::numeric_limits<uint32_t>::max() / 2 - offset};
+    const int offset              = 200;  // TODO do i need this?
+    const int32_t max_position[2] = {std::numeric_limits<int32_t>::max() - offset,
+                                     std::numeric_limits<int32_t>::min() + offset};
+    const int32_t min_position[2] = {std::numeric_limits<int32_t>::min() + offset,
+                                     std::numeric_limits<int32_t>::max() - offset};
+    std::cout << "Servo 1 max: " << max_position[0] << " min: " << min_position[0] << std::endl;
+    std::cout << "Servo 2 max: " << max_position[1] << " min: " << min_position[1] << std::endl;
+
 
     uint8_t count       = 2;
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
@@ -143,12 +151,14 @@ int MotorDirector() {
             if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < max_position[i]
                 && PathPlanner::curr_pos[i] > min_position[i]) {
                 PathPlanner::curr_revolution[i]--;
-                std::cout << "1 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
+                std::cout << "Decrement positive revolutions " << (int) PathPlanner::curr_revolution[i] << " ID " << i
+                          << std::endl;
             }
             else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > min_position[i]
                      && PathPlanner::curr_pos[i] < max_position[i]) {
                 PathPlanner::curr_revolution[i]--;
-                std::cout << "2 Decrement revolutions " << PathPlanner::curr_revolution[i] << " ID " << i << std::endl;
+                std::cout << "Decrement negative revolutions " << (int) PathPlanner::curr_revolution[i] << " ID " << i
+                          << std::endl;
             }
             // were on the correct revolution
             if (PathPlanner::curr_revolution[i] == 0
@@ -181,6 +191,10 @@ int MotorDirector() {
 
 double ConvertDistanceToRotation(double Goal_Dist) {
     return (Goal_Dist / DistToRev);  // Return revolutions
+}
+
+double ConvertDistanceToRotation_r(double Goal_Dist) {
+    return (Goal_Dist % DistToRev);  // Return revolutions
 }
 
 double ConvertRotationToArclen(double Rotation) {
