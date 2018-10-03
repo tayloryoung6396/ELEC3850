@@ -17,7 +17,7 @@ void Camera_init() {
 	if (!camera.open()) {							//Error mesage if camera didnt open
 
 		printf("Error: Camera could not open");
-		return 1;
+		return ;
 	}
 
 	delay(3000);									//Delay 3 seconds camera to stabalise
@@ -38,7 +38,7 @@ int Camera_main(int argc, const char **argv)
 
 	for (int Height = 0; Height <= IMAGE_HEIGHT; Height++) {
 
-		for (int Width = 0; Width <= IMAGE_WIDTH) {
+		for (int Width = 0; Width <= IMAGE_WIDTH;) {
 
 			Red_data[Height][Width] = data[Height*Width];
 
@@ -55,19 +55,19 @@ int Camera_main(int argc, const char **argv)
 		 
 	}
 
-	Camera.retrieve(Red_data[Height][Width], rapicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
+	Camera.retrieve(Red_data[Height][Width], raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
 	std::ofstream outFile("Red_Image.ppm", std::ios::binary); //Save Image
 	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() " 255\n";									//dont know
 	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
 	printf("Red Image Saved");
 
-	Camera.retrieve(Green_data[Height][Width], rapicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
+	Camera.retrieve(Green_data[Height][Width], raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
 	std::ofstream outFile("Green_Image.ppm", std::ios::binary); //Save Image
 	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() " 255\n";									//dont know
 	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
 	printf("Green Image Saved");
 
-	Camera.retrieve(Blue_data[Height][Width], rapicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
+	Camera.retrieve(Blue_data[Height][Width], raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
 	std::ofstream outFile("Blue_Image.ppm", std::ios::binary); //Save Image
 	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() " 255\n";									//dont know
 	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
