@@ -54,7 +54,7 @@ int main() {
         // For each iteration
         // Check sensors
         if (frame_count % 5 == 0) {
-            // Camera_main();
+            Camera_main();
             // InfraredSensor_main();
             // Classifier_main();
         }
@@ -86,7 +86,7 @@ int main() {
 
             Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
         }
-        // break;
+        break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count

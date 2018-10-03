@@ -8,7 +8,7 @@
 
 void Camera_init() {
     std::cout << "Initilising CAMERA" << std::endl;
-	
+//	raspicam::RaspiCam Camera;	
 	if (!Camera.open()) {							//Error mesage if camera didnt open
 
 		printf("Error: Camera could not open");
@@ -18,7 +18,7 @@ void Camera_init() {
 	delay(3000);									//Delay 3 seconds camera to stabalise
 }
 
-int Camera_main(int argc, const char **argv)
+int Camera_main()
 {
 	//VARIABLES
 	unsigned char Red_data[IMAGE_HEIGHT][IMAGE_WIDTH] = { 0 };	//May need to be divided by 3
@@ -58,16 +58,16 @@ int Camera_main(int argc, const char **argv)
 	printf("Red Image Saved");
 
 	//Camera.retrieve(Green_data, raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
-	outFile("Green_Image.ppm", std::ios::binary); //Save Image
-	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";									//dont know
-	outFile.write((char*)Green_data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
-	printf("Green Image Saved");
+//	outFile("Green_Image.ppm", std::ios::binary); //Save Image
+//	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";									//dont know
+//	outFile.write((char*)Green_data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
+//	printf("Green Image Saved");
 
 	//Camera.retrieve(Blue_data, raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
-	outFile("Blue_Image.ppm", std::ios::binary); //Save Image
-	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";									//dont know
-	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
-	printf("Blue Image Saved");
+//	outFile("Blue_Image.ppm", std::ios::binary); //Save Image
+//	outFile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";									//dont know
+//	outFile.write((char*)data, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
+//	printf("Blue Image Saved");
 
 	return 0;
 }
