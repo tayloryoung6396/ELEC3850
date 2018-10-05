@@ -271,6 +271,20 @@ int IK_Calculate(double Goal_pos[3]) {
     // Calculate the straight line distance to the wrist servo
     double arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2)) - DELTA_GRIP;
 
+    // TODO this forces our min position to be 90 deg at the elbow
+    double min_dist = std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2));
+    if (arm_len_3 <= min_dist) {
+        // Find point on the same line
+        // Calculate the gradient
+        double grad = rGoal_xy / Goal_pos[2];
+        // Find the new rGoal_xy distance
+        rGoal_xy = rGoal_xy * min_dist / std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
+        // Find the new height
+        Goal_pos[2] = grad * rGoal_xy;
+        // Recalculate the arm length
+        arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2)) - DELTA_GRIP;
+    }
+
     // Our arm needs to be fully extended
     if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2) {
         std::cout << "Length too long" << std::endl;
@@ -286,6 +300,9 @@ int IK_Calculate(double Goal_pos[3]) {
     }
 
     double alpha = std::acos(rGoal_xy / arm_len_3);
+    if (isnan(alpha)) {
+        alpha = 0;
+    }
     if (Goal_pos[2] > 0) {
         alpha = -alpha;
     }
