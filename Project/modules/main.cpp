@@ -92,4 +92,133 @@ int main() {
             frame_count = 0;  // Reset frame count
         }
     }
+    double Goal_pos1[3] = {0, 0, 0};
+    IK_Calculate(Goal_pos1[3]);
+    std::cout << "x " << Goal_pos1[0] << " y " << Goal_pos1[1] << " z " << Goal_pos1[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos2[3] = {0.2, 0, 0};
+    IK_Calculate(Goal_pos2[3]);
+    std::cout << "x " << Goal_pos2[0] << " y " << Goal_pos2[1] << " z " << Goal_pos2[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos3[3] = {0, 0.2, 0};
+    IK_Calculate(Goal_pos3[3]);
+    std::cout << "x " << Goal_pos3[0] << " y " << Goal_pos3[1] << " z " << Goal_pos3[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos4[3] = {0, 0, 0.2};
+    IK_Calculate(Goal_pos4[3]);
+    std::cout << "x " << Goal_pos4[0] << " y " << Goal_pos4[1] << " z " << Goal_pos4[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos5[3] = {0.2, 0.2, 0};
+    IK_Calculate(Goal_pos5[3]);
+    std::cout << "x " << Goal_pos5[0] << " y " << Goal_pos5[1] << " z " << Goal_pos5[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos6[3] = {0.2, 0, 0.2};
+    IK_Calculate(Goal_pos6[3]);
+    std::cout << "x " << Goal_pos6[0] << " y " << Goal_pos6[1] << " z " << Goal_pos6[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos7[3] = {0, 0.2, 0.2};
+    IK_Calculate(Goal_pos7[3]);
+    std::cout << "x " << Goal_pos7[0] << " y " << Goal_pos7[1] << " z " << Goal_pos7[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+
+    double Goal_pos8[3] = {-0.2, 0, 0};
+    IK_Calculate(Goal_pos8[3]);
+    std::cout << "x " << Goal_pos8[0] << " y " << Goal_pos8[1] << " z " << Goal_pos8[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos9[3] = {0, -0.2, 0};
+    IK_Calculate(Goal_pos9[3]);
+    std::cout << "x " << Goal_pos9[0] << " y " << Goal_pos9[1] << " z " << Goal_pos9[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos10[3] = {0, 0, -0.2};
+    IK_Calculate(Goal_pos10[3]);
+    std::cout << "x " << Goal_pos10[0] << " y " << Goal_pos10[1] << " z " << Goal_pos10[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos11[3] = {-0.2, 0.2, 0};
+    IK_Calculate(Goal_pos11[3]);
+    std::cout << "x " << Goal_pos11[0] << " y " << Goal_pos11[1] << " z " << Goal_pos11[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos12[3] = {-0.2, 0, 0.2};
+    IK_Calculate(Goal_pos12[3]);
+    std::cout << "x " << Goal_pos12[0] << " y " << Goal_pos12[1] << " z " << Goal_pos12[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos13[3] = {0, -0.2, 0.2};
+    IK_Calculate(Goal_pos13[3]);
+    std::cout << "x " << Goal_pos13[0] << " y " << Goal_pos13[1] << " z " << Goal_pos13[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos14[3] = {0.2, 0.2, 0.2};
+    IK_Calculate(Goal_pos14[3]);
+    std::cout << "x " << Goal_pos14[0] << " y " << Goal_pos14[1] << " z " << Goal_pos14[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+
+    double Goal_pos15[3] = {0.2, -0.2, 0};
+    IK_Calculate(Goal_pos15[3]);
+    std::cout << "x " << Goal_pos15[0] << " y " << Goal_pos15[1] << " z " << Goal_pos15[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos16[3] = {0.2, 0, -0.2};
+    IK_Calculate(Goal_pos16[3]);
+    std::cout << "x " << Goal_pos16[0] << " y " << Goal_pos16[1] << " z " << Goal_pos16[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos17[3] = {0, 0.2, -0.2};
+    IK_Calculate(Goal_pos17[3]);
+    std::cout << "x " << Goal_pos17[0] << " y " << Goal_pos17[1] << " z " << Goal_pos17[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+
+    double Goal_pos18[3] = {-0.2, -0.2, 0};
+    IK_Calculate(Goal_pos18[3]);
+    std::cout << "x " << Goal_pos18[0] << " y " << Goal_pos18[1] << " z " << Goal_pos18[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos19[3] = {-0.2, 0, -0.2};
+    IK_Calculate(Goal_pos19[3]);
+    std::cout << "x " << Goal_pos19[0] << " y " << Goal_pos19[1] << " z " << Goal_pos19[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos20[3] = {0, -0.2, -0.2};
+    IK_Calculate(Goal_pos20[3]);
+    std::cout << "x " << Goal_pos20[0] << " y " << Goal_pos20[1] << " z " << Goal_pos20[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
+    double Goal_pos21[3] = {-0.2, -0.2, -0.2};
+    IK_Calculate(Goal_pos21[3]);
+    std::cout << "x " << Goal_pos21[0] << " y " << Goal_pos21[1] << " z " << Goal_pos21[2] << std::endl;
+    std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
+              << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 / M_PI
+              << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
 }
