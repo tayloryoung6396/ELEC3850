@@ -1,9 +1,12 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
+// #include <camera.h>
 #include <errno.h>
+// #include <graphics.h>
 #include <malloc.h>
 #include <math.h>
+#include <raspicam/raspicam.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +14,9 @@
 #include <time.h>
 #include <wiringPi.h>
 #include <cmath>
+#include <cstdio>
+#include <ctime>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <string>
