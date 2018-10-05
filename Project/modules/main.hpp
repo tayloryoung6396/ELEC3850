@@ -14,13 +14,13 @@
 #include <time.h>
 #include <wiringPi.h>
 #include <cmath>
+#include <cstdio>
 #include <ctime>
 #include <fstream>
 #include <iostream>
 #include <limits>
 #include <string>
 #include <vector>
-#include <cstdio>
 
 #include "behaviour/src/SimplePathPlanner.hpp"
 #include "dynamixel/v2/Dynamixel.hpp"
