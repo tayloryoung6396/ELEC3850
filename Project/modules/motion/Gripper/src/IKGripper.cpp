@@ -278,7 +278,7 @@ int IK_Calculate(double Goal_pos[3]) {
         // Find the new rGoal_xy distance
         rGoal_xy = rGoal_xy * min_dist / std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
         // Find the new height
-        Goal_pos[2] = rGoal_xy * min_dist / std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
+        Goal_pos[2] = Goal_pos[2] * min_dist / std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
         // Recalculate the arm length
         arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2)) - DELTA_GRIP;
     }
