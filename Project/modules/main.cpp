@@ -32,7 +32,7 @@ int main() {
     IKGripper_init();
 
     // Sensors Init
-    Camera_init();
+    // Camera_init();
     InfraredSensor_init();
     UltrasonicSensor_init();
     SensorFilter_init();
@@ -54,7 +54,7 @@ int main() {
         // For each iteration
         // Check sensors
         if (frame_count % 5 == 0) {
-            Camera_main();
+            // Camera_main();
             // InfraredSensor_main();
             // Classifier_main();
         }
