@@ -86,7 +86,7 @@ int main() {
 
             Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
         }
-        break;
+        // break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
@@ -242,32 +242,4 @@ int main() {
     //           << Gripper_angles::base_pitch * 180 / M_PI << " elbow_pitch " << Gripper_angles::elbow_pitch * 180 /
     //           M_PI
     //           << " wrist_pitch " << Gripper_angles::wrist_pitch * 180 / M_PI << std::endl;
-
-    PathPlanner::curr_pos[0] = 0;
-    PathPlanner::curr_pos[1] = 0;
-    MotorDriver_Distance(1, 0);
-
-    PathPlanner::curr_pos[0] = std::numeric_limits<int32_t>::max() - 10000;
-    PathPlanner::curr_pos[1] = std::numeric_limits<int32_t>::max() - 10000;
-    MotorDriver_Distance(1, 0);
-
-    PathPlanner::curr_pos[0] = std::numeric_limits<int32_t>::max() / 2.0;
-    PathPlanner::curr_pos[1] = std::numeric_limits<int32_t>::max() / 2.0;
-    MotorDriver_Distance(1, 0);
-
-    PathPlanner::curr_pos[0] = std::numeric_limits<int32_t>::max() / 3.0;
-    PathPlanner::curr_pos[1] = std::numeric_limits<int32_t>::max() / 3.0;
-    MotorDriver_Distance(1, 0);
-
-    PathPlanner::curr_pos[0] = std::numeric_limits<int32_t>::max() / 1.5;
-    PathPlanner::curr_pos[1] = std::numeric_limits<int32_t>::max() / 1.5;
-    MotorDriver_Distance(1, 0);
-
-    PathPlanner::curr_pos[0] = std::numeric_limits<int32_t>::max();
-    PathPlanner::curr_pos[1] = std::numeric_limits<int32_t>::max();
-    MotorDriver_Distance(1, 0);
-
-    PathPlanner::curr_pos[0] = -std::numeric_limits<int32_t>::max() + 10000;
-    PathPlanner::curr_pos[1] = -std::numeric_limits<int32_t>::max() + 10000;
-    MotorDriver_Distance(1, 0);
 }
