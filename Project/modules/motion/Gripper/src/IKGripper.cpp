@@ -275,12 +275,13 @@ int IK_Calculate(double Goal_pos[3]) {
     double min_dist = std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2));
     if (arm_len_3 <= min_dist) {
         // Find point on the same line
+        double curr_dist = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
         // Find the new rGoal_xy distance
-        rGoal_xy = rGoal_xy * min_dist / std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
+        rGoal_xy = rGoal_xy * min_dist / curr_dist;
         // Find the new height
-        Goal_pos[2] = Goal_pos[2] * min_dist / std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
+        Goal_pos[2] = Goal_pos[2] * min_dist / curr_dist;
         // Recalculate the arm length
-        arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2)) - DELTA_GRIP;
+        arm_len_3 = curr_dist - DELTA_GRIP;
     }
 
     // Our arm needs to be fully extended

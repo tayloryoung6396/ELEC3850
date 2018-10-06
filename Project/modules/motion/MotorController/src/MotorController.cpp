@@ -69,12 +69,26 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         // Set moving flag
         PathPlanner::moving_flag[i] = (Goal_Dist[i] == 0) ? 0 : ((Goal_Dist[i] < 0) ? (-1) : 1);
         // Set goal position
-        // PathPlanner::moving_flag[i] = Goal_Dist[i];
         // // Set goal revolution
         // // Convert goal distance to number of revolutions
         // // This counts down to 0, so add it to our outstanding revolutions
+
+        // TODO NOTE THIS DOES NOT WORK
+        // IT ONLY WORKS FOR THE POSITIVE CASE? NOT THE NEGATIVE ONE? MAYBE
+        executeReadSingle(servo_ID[i],
+                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
+                          MX64_SIZE_VALUE(PRESENT_POSITION),
+                          PathPlanner::curr_pos[i]);
+
         PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
-        PathPlanner::goal_pos[i] += ConvertDistanceToRotation_r(Goal_Dist[i]);
+        PathPlanner::goal_pos[i] += ConvertDistanceToRotation_r(Goal_Dist[i]) * std::numeric_limits<int32_t>::max();
+
+        if (PathPlanner::goal_pos[i] + PathPlanner::curr_pos[i] > std::numeric_limits<int32_t>::max()) {
+            PathPlanner::curr_revolution[i]++;
+            PathPlanner::goal_pos[i] -= std::numeric_limits<int32_t>::max();
+        }
+
+        std::cout << "Wheel " << i << " Current position" << (int) PathPlanner::curr_pos[i] << std::endl;
         std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
         std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goal_pos[i] << std::endl;
 
