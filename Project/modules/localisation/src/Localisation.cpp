@@ -21,8 +21,8 @@ const int Grid::n            = Grid::m;      //
 const int Grid::start_row    = Grid::m;      // assume starting position is in the middle bottom (for robot)
 const int Grid::start_column = Grid::m / 2;  //
 
-double Grid::area      = 1.5;    // this is the dimensions of the grid in Y*Y meters
-double Grid::gridspace = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
+double Grid::area                  = 1.5;    // this is the dimensions of the grid in Y*Y meters
+double Grid::gridspace             = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
 double Grid::map[Grid::m][Grid::n] = {0.5};  // m x n matrix that serves as the occupancy map
 
 
@@ -32,8 +32,8 @@ int Localisation_main() {
 
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
-    int tank_cell_m = floor(Localisation::w_Tank_Position[0] / Grid::gridspace);
-    int tank_cell_n = floor(Localisation::w_Tank_Position[1] / Grid::gridspace);
+    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace);
+    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace);
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4];
@@ -45,28 +45,28 @@ int Localisation_main() {
 
     // Front sonic (array pos=0)
     sen_theta[0] = Localisation::w_Tank_Rotation;
-    sen_hori[0]  = Ultrasonic::Detection_distances[0] * cos(sen_theta[0]);
-    sen_vert[0]  = Ultrasonic::Detection_distances[0] * sin(sen_theta[0]);
+    sen_hori[0]  = Ultrasonic::Detection_distances[0] * std::cos(sen_theta[0]);
+    sen_vert[0]  = Ultrasonic::Detection_distances[0] * std::sin(sen_theta[0]);
 
     // Right sonic (array pos=1)
     sen_theta[1] = Localisation::w_Tank_Rotation + M_PI + M_PI_2;
-    sen_hori[1]  = Ultrasonic::Detection_distances[1] * cos(sen_theta[1]);
-    sen_vert[1]  = Ultrasonic::Detection_distances[1] * sin(sen_theta[1]);
+    sen_hori[1]  = Ultrasonic::Detection_distances[1] * std::cos(sen_theta[1]);
+    sen_vert[1]  = Ultrasonic::Detection_distances[1] * std::sin(sen_theta[1]);
 
     // Back sonic (array pos=2)
     sen_theta[2] = Localisation::w_Tank_Rotation + M_PI;
-    sen_hori[2]  = Ultrasonic::Detection_distances[2] * cos(sen_theta[2]);
-    sen_vert[2]  = Ultrasonic::Detection_distances[2] * sin(sen_theta[2]);
+    sen_hori[2]  = Ultrasonic::Detection_distances[2] * std::cos(sen_theta[2]);
+    sen_vert[2]  = Ultrasonic::Detection_distances[2] * std::sin(sen_theta[2]);
 
     // Left sonic (array pos=3)
     sen_theta[3] = Localisation::w_Tank_Rotation + M_PI_2;
-    sen_hori[3]  = Ultrasonic::Detection_distances[3] * cos(sen_theta[3]);
-    sen_vert[3]  = Ultrasonic::Detection_distances[3] * sin(sen_theta[3]);
+    sen_hori[3]  = Ultrasonic::Detection_distances[3] * std::cos(sen_theta[3]);
+    sen_vert[3]  = Ultrasonic::Detection_distances[3] * std::sin(sen_theta[3]);
 
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
-        int object_cell_m = tank_cell_m + floor(sen_hori[i] / Grid::gridspace);
-        int object_cell_n = tank_cell_n + floor(sen_vert[i] / Grid::gridspace);
+        int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
+        int object_cell_n = tank_cell_n + std::floor(sen_vert[i] / Grid::gridspace);
 
         // startign closest to the tank, look at all the grid squares in the way by converting these points to a
         // straight line
@@ -80,7 +80,8 @@ int Localisation_main() {
             // need to access the list pairs seperately and save as cella(m) and cellb(n)
 
             // use pythagoras to calculate distance between tank and the cell we are looking at
-            double cell_dist = sqrt(((curr_cell_list->first - tank_cell_m) * Grid::gridspace) ^ 2 + ((curr_cell_list->second - tank_cell_n) * Grid::gridspace) ^ 2);
+            double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
+                                         + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
             // function to calculate probability
             probability(curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
@@ -102,15 +103,15 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
     double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1
-    double de = abs((dy / dx));                                  // de=abs(dy/dx)
+    double de = std::abs((dy / dx));                             // de=abs(dy/dx)
     double e  = 0;
     double y  = Localisation::w_Tank_Position[1];
 
     for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; Grid::gridspace) {
-        Grid::cell_list.emplace_back(std::make_pair(floor(x / Grid::gridspace), floor(y / Grid::gridspace)));
+        Grid::cell_list.emplace_back(std::make_pair(std::floor(x / Grid::gridspace), std::floor(y / Grid::gridspace)));
         e += de;
         if (e >= 0.5) {
-            y += (signbit(dy) == 1 ? 1 : -1) * Grid::gridspace;
+            y += (std::signbit(dy) == 1 ? 1 : -1) * Grid::gridspace;
             e -= Grid::gridspace;
         }
     }
