@@ -252,17 +252,14 @@ int IK_Calculate(double Goal_pos[3]) {
     double theta_wrist_pitch = 0;
     double theta_base_pitch  = 0;
 
-    Goal_pos[0] -= Kinematics::base_pos[0];
-    Goal_pos[1] -= Kinematics::base_pos[1];
-    Goal_pos[2] -= Kinematics::base_pos[2];
+    Goal_pos[0] -= Kinematics::base_pos[0];  // Some origin offset, currently 0
+    Goal_pos[1] -= Kinematics::base_pos[1];  // Some origin offset, currently 0
+    Goal_pos[2] -= Kinematics::base_pos[2];  // Some origin offset, currently 0
 
     Gripper_angles servo;
 
     // Calculate our base yaw rotation
     Gripper_angles::base_yaw = std::atan2(Goal_pos[1], Goal_pos[0]);
-
-    // std::cout << "IK Calculations" << std::endl;
-    // std::cout << "Goal " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
 
     // Now create a plane on this rotation and the z axis
     // Find our new horizontal goal point (To the wrist servo, ignore the gripper)
@@ -271,7 +268,8 @@ int IK_Calculate(double Goal_pos[3]) {
     // Calculate the straight line distance to the wrist servo
     double arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2)) - DELTA_GRIP;
 
-    // TODO this forces our min position to be 90 deg at the elbow
+    // This forces our closest position to be 90 deg at the elbow, as we can't bend more than that anyway
+    // Essentially forms a right angled triangle
     double min_dist = std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2));
     if (arm_len_3 <= min_dist) {
         // Find point on the same line
@@ -287,6 +285,7 @@ int IK_Calculate(double Goal_pos[3]) {
     // Our arm needs to be fully extended
     if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2) {
         std::cout << "Length too long" << std::endl;
+        // TODO This doesn't work, not sure why?
         theta_elbow_pitch = 0;
         theta_wrist_pitch = 0;
         theta_base_pitch  = 0;
@@ -310,11 +309,6 @@ int IK_Calculate(double Goal_pos[3]) {
     Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
     Gripper_angles::wrist_pitch = theta_elbow_pitch - theta_base_pitch + alpha;
 
-    // std::cout << "IK r_G " << rGoal_xy << " al3 " << arm_len_3 << " " << theta_elbow_pitch << " " <<
-    // theta_wrist_pitch
-    //           << " " << theta_base_pitch << std::endl;
-    // std::cout << "IK servo angles " << Gripper_angles::base_yaw << " " << Gripper_angles::base_pitch << " "
-    //           << Gripper_angles::elbow_pitch << " " << Gripper_angles::wrist_pitch << std::endl;
     return 0;
 }
 
