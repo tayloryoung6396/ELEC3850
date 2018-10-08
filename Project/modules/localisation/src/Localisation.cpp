@@ -23,7 +23,7 @@ const int Grid::start_column = Grid::m / 2;  //
 
 double Grid::area      = 1.5;    // this is the dimensions of the grid in Y*Y meters
 double Grid::gridspace = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
-double Grid::map[m][n] = {0.5};  // m x n matrix that serves as the occupancy map
+double Grid::map[Grid::m][Grid::n] = {0.5};  // m x n matrix that serves as the occupancy map
 
 
 void Localisation_init() {}
@@ -80,8 +80,7 @@ int Localisation_main() {
             // need to access the list pairs seperately and save as cella(m) and cellb(n)
 
             // use pythagoras to calculate distance between tank and the cell we are looking at
-            double cell_dist = sqrt(((curr_cell_list->first - tank_cell_m) * Grid::gridspace)
-                                    ^ 2 + ((curr_cell_list->second - tank_cell_n) * Grid::gridspace) ^ 2);
+            double cell_dist = sqrt(((curr_cell_list->first - tank_cell_m) * Grid::gridspace) ^ 2 + ((curr_cell_list->second - tank_cell_n) * Grid::gridspace) ^ 2);
 
             // function to calculate probability
             probability(curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
@@ -97,7 +96,7 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
 
     // use a straight line function to start however i believe tanh would work nicely
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
-    Grid::map[m][n] += prob;
+    Grid::map[cell_column][cell_row] += prob;
 }
 
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
@@ -111,7 +110,7 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
         Grid::cell_list.emplace_back(std::make_pair(floor(x / Grid::gridspace), floor(y / Grid::gridspace)));
         e += de;
         if (e >= 0.5) {
-            y += (signbit(dy) == 1 : 1 ? -1) * Grid::gridspace;
+            y += (signbit(dy) == 1 ? 1 : -1) * Grid::gridspace;
             e -= Grid::gridspace;
         }
     }
