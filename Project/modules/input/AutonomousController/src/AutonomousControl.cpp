@@ -16,23 +16,22 @@ void AutonomousControl_init() {
 
 int AutonomousControl_main() {
 
-    Localisation_main();  // TODO Maybe this should happen all of the time?
-
     // What do we want to do.. hence STATE MACHINE!
 
     // flags for conditions
-    bool have_object   = FALSE;
-    double Goal_pos[3] = {0};
+    bool have_object = FALSE;
 
-    Localistation::w_Goal_Position[0] = 1;
-    Localistation::w_Goal_Position[1] = 0;
+    double Goal_pos[3] = {0};  // TODO remove
 
-    SimplePathPlanner();
+    Localistation::w_Goal_Position[0] = 1;  // TODO remove
+    Localistation::w_Goal_Position[1] = 0;  // TODO remove
 
-    MotorController();
+    SimplePathPlanner();  // TODO remove
 
-    // TODO this is not optimized in any way.. you're an idiot
-    // TODO Account for being at the object already/goal and needing to do something
+    MotorController();  // TODO remove
+
+    // // TODO this is not optimized in any way.. you're an idiot
+    // // TODO Account for being at the object already/goal and needing to do something
     // if (!have_object) {
     //     // known object pos
     //     if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
@@ -85,7 +84,7 @@ int AutonomousControl_main() {
 }
 
 
-// TODO
+// // TODO
 // // weighted_search() {
 // // take the grid map and perform a weighted gradient over the map
 // // output a goal position to send to path planner

@@ -3,8 +3,10 @@
 
 #include "main.hpp"
 
-#include <cstdio>
-#include <string>
+#define IMAGE_WIDTH 320
+#define IMAGE_HEIGHT 520
+
+static raspicam::RaspiCam Camera;  // Open camera
 
 extern void Camera_init();
 extern int Camera_main();

@@ -274,9 +274,10 @@ int IK_Calculate(double Goal_pos[3]) {
     // Our arm needs to be fully extended
     if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2 + DELTA_GRIP) {
         std::cout << "Length too long" << std::endl;
-        theta_elbow_pitch = 0;
-        theta_wrist_pitch = 0;
-        theta_base_pitch  = 0;
+        // TODO, what should these be?
+        // theta_elbow_pitch = 0;
+        // theta_wrist_pitch = 0;
+        // theta_base_pitch  = 0;
     }
     else {
         // std::cout << "Length within limits" << std::endl;
@@ -285,9 +286,12 @@ int IK_Calculate(double Goal_pos[3]) {
         theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3 - DELTA_GRIP, Kinematics::arm_len_2);
     }
 
-    Gripper_angles::base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
+    Gripper_angles::base_pitch = M_PI_2 - std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
+    // Gripper_angles::base_pitch  = std::acos(rGoal_xy / arm_len_3) - theta_base_pitch;
     Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
-    Gripper_angles::wrist_pitch = Gripper_angles::base_pitch + Gripper_angles::elbow_pitch - M_PI / 2;
+    Gripper_angles::wrist_pitch = M_PI_2 - Gripper_angles::base_pitch - theta_elbow_pitch;
+    //  Gripper_angles::wrist_pitch = Gripper_angles::base_pitch + Gripper_angles::elbow_pitch - M_PI / 2;
+
     // std::cout << "IK r_G " << rGoal_xy << " al3 " << arm_len_3 << " " << theta_elbow_pitch << " " <<
     // theta_wrist_pitch
     //           << " " << theta_base_pitch << std::endl;

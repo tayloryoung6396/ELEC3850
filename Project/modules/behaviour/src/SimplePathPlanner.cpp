@@ -34,3 +34,15 @@ void Recalculate_path() {
     // So i didn't end up where i wanted to,
     // but i should be able to take my position and the goal and recalculate a new vector
 }
+
+// How do we use the occupancy map for path planning..
+// in grid space we can locate our current and end goal position
+//
+// The method currently conceptualised is a weighted 'bayer' style search.
+// Each cell is looked at and all surrounding cells also considered.
+// For each cell calculate how close that cell and the 8 surrounding cells are to the middle value (0.5)
+// To do this, any value in the 9 cells that is 0.5 +- some delta, is totalled to find the number of cells close to this
+// average weight, this is then continued over the whole space.
+
+// However the problem with this method is, it doesn't actually find where the clusters of unsearched space are, and
+// becomes recursive

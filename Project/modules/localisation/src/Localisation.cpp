@@ -14,9 +14,7 @@ double Localistation::w_Tank_Rotation = 0;       // Rotation about the w_Tank_Po
 double Localistation::w_Goal_Position[2] = {0};  // X Y Goal position in world coordinates
 
 
-void Localisation_init() {
-    std::cout << "Initilising LOCALISATION" << std::endl;
-}
+void Localisation_init() {}
 
 int Localisation_main() {
 
@@ -43,6 +41,14 @@ void TankToWorld(double Goal_Dist[2]) {
 // // Given some fixed workspace, divide it into a square grid section
 // // For this implementation 1.5m x 1.5m with a grid spacing of 0.100- based off a tank diagonal size of 440mm
     double area_size=1.5;
+
+// }
+
+// // 2D Map
+// // This is a crude method of creating a 2D localisation map
+// // Given some fixed workspace, divide it into a square grid section
+// // For this implementation 1.5m x 1.5m with a grid spacing of 0.100- based off a tank diagonal size of 440mm
+//     double area_size=1.5;
 
 // //note this will mean that you need 4 vacant grid spaces to pass through
 // //this may need to be changed based on run time
@@ -105,8 +111,8 @@ void TankToWorld(double Goal_Dist[2]) {
          int object_cell_m= tank_cell_m+ floor(sen_hori[i]/gridspace);
          int object_cell_n= tank_cell_n+ floor(sen_vert[i]/gridspace);
 
-//     //startign closest to the tank, look at all the grid squares in the way by converting these points to a straight
-//     line
+//     //startign closest to the tank, look at all the grid squares in the way by converting these points to a
+//     straight line
 //     // y=mx+b for now we are using Bresham's algorithim
         std::vector<std::pair<double, double>> cell_list = breshams_alg(i, sen_hori, sen_vert, w_Tank_Position)
             while (!cell_list.empty()) {   //this will give a list of grid ms and ns that need to be looked at,starting from closest to the tank
