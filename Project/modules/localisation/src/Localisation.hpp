@@ -3,12 +3,14 @@
 
 #include "main.hpp"
 
+#define Grid_m 15
+
 extern void Localisation_init();
 extern int Localisation_main();
 extern void probability(int cell_column, int cell_row, double cell_dist, double obj_dist);
-extern void breshams_alg(int i, double sen_hori[], double sen_vert[]);
+extern void breshams_alg(int i, double sen_hori, double sen_vert);
 
-class Localistation {
+class Localisation {
 public:
     static double w_Tank_Position[2];  // where i am in world, read in as {x,y} where x is forward and y si to the left.
     static double w_Tank_Rotation;     // angle in radians counterclockwise
@@ -25,7 +27,7 @@ public:
     static const int start_column;
     static double area_size;
     static double gridspace;
-    static double grid_map[m][n];
+    static double grid_map[Grid_m][Grid_m];
 
     static std::vector<std::pair<int, int>>::const_iterator cell_list;
 };

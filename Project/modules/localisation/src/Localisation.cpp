@@ -9,14 +9,14 @@
 #include "Localisation.hpp"
 
 // X Y Current position in world coordinates
-double Localistation::w_Tank_Position[2] = {0};
+double Localisation::w_Tank_Position[2] = {0};
 // Rotation about the w_Tank_Position in the anticlockwise direction (radians)
-double Localistation::w_Tank_Rotation = 0;
+double Localisation::w_Tank_Rotation = 0;
 // X Y Goal position in world coordinates
-double Localistation::w_Goal_Position[2] = {0};
+double Localisation::w_Goal_Position[2] = {0};
 
 
-int Grid::m            = 15;           // dimensions that are mxn
+int Grid::m            = Grid_m;       // dimensions that are mxn
 int Grid::n            = Grid::m;      //
 int Grid::start_row    = Grid::m;      // assume starting position is in the middle bottom (for robot)
 int Grid::start_column = Grid::m / 2;  //
@@ -100,7 +100,7 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
     Grid::map[m][n] += prob;
 }
 
-void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
+void breshams_alg(int i, double sen_hori, double sen_vert) {
     double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
     double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1
     double de = abs((dy / dx));                                  // de=abs(dy/dx)
