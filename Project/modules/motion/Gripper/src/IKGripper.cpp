@@ -307,7 +307,8 @@ int IK_Calculate(double Goal_pos[3]) {
 
     Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
     Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
-    Gripper_angles::wrist_pitch = theta_elbow_pitch - theta_base_pitch + alpha;
+    // Gripper_angles::wrist_pitch = theta_elbow_pitch - theta_base_pitch + alpha;
+    Gripper_angles::wrist_pitch = -(Gripper_angles::elbow_pitch - theta_base_pitch + alpha);
 
     return 0;
 }
