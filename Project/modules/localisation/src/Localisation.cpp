@@ -107,7 +107,7 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     double e  = 0;
     double y  = Localisation::w_Tank_Position[1];
 
-    for (double x = w_Tank_Position[0]; x <= sen_hori[i]; Grid::gridspace) {
+    for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; Grid::gridspace) {
         Grid::cell_list.emplace_back(std::make_pair(floor(x / Grid::gridspace), floor(y / Grid::gridspace)));
         e += de;
         if (e >= 0.5) {

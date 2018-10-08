@@ -19,16 +19,16 @@ public:
 
 class Grid {
 public:
-    const int m;
-    const int n;
-    const int start_row;
-    const int start_column;
+    static const int m;
+    static const int n;
+    static const int start_row;
+    static const int start_column;
     static double area_size;
     static double gridspace;
     static double grid_map[m][n];
 
     static std::vector<std::pair<int, int>>::const_iterator cell_list;
-}
+};
 
 
 #endif /* LOCALISATION_H_ */
