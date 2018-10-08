@@ -5,7 +5,8 @@
 
 extern void Localisation_init();
 extern int Localisation_main();
-extern void TankToWorld(double Goal_Dist[2]);
+extern void probability(int cell_column, int cell_row, double cell_dist, double obj_dist);
+extern void breshams_alg(int i, double sen_hori[], double sen_vert[]);
 
 class Localistation {
 public:
@@ -15,5 +16,19 @@ public:
     // wrt front of tank and the world static double gens_sonics[SENSORS];
     // this variable will need to be names and connected up with gens sonics
 };
+
+class Grid {
+public:
+    const int m;
+    const int n;
+    const int start_row;
+    const int start_column;
+    static double area_size;
+    static double gridspace;
+    static double grid_map[m][n];
+
+    static std::vector<std::pair<int, int>>::const_iterator cell_list;
+}
+
 
 #endif /* LOCALISATION_H_ */
