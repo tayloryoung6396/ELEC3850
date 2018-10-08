@@ -16,10 +16,10 @@ double Localisation::w_Tank_Rotation = 0;
 double Localisation::w_Goal_Position[2] = {0};
 
 
-int Grid::m            = Grid_m;       // dimensions that are mxn
-int Grid::n            = Grid::m;      //
-int Grid::start_row    = Grid::m;      // assume starting position is in the middle bottom (for robot)
-int Grid::start_column = Grid::m / 2;  //
+const int Grid::m            = Grid_m;       // dimensions that are mxn
+const int Grid::n            = Grid::m;      //
+const int Grid::start_row    = Grid::m;      // assume starting position is in the middle bottom (for robot)
+const int Grid::start_column = Grid::m / 2;  //
 
 double Grid::area      = 1.5;    // this is the dimensions of the grid in Y*Y meters
 double Grid::gridspace = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
@@ -71,23 +71,23 @@ int Localisation_main() {
         // startign closest to the tank, look at all the grid squares in the way by converting these points to a
         // straight line
         // y=mx+b for now we are using Bresham's algorithim
-        breshams_alg(i, &sen_hori, &sen_vert);
+        breshams_alg(i, sen_hori, sen_vert);
         std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
 
-        while (!curr_cell_list.empty()) {
+        while (!Grid::cell_list.empty()) {
             // this will give a list of grid ms and ns that need to be looked at,starting from
             // closest to the tank
             // need to access the list pairs seperately and save as cella(m) and cellb(n)
 
             // use pythagoras to calculate distance between tank and the cell we are looking at
-            double cell_dist =
-                sqrt(((cella - tank_cell_m) * Grid::gridspace) ^ 2 + ((cellb - tank_cell_n) * Grid::gridspace) ^ 2);
+            double cell_dist = sqrt(((curr_cell_list->first - tank_cell_m) * Grid::gridspace)
+                                    ^ 2 + ((curr_cell_list->second - tank_cell_n) * Grid::gridspace) ^ 2);
 
             // function to calculate probability
             probability(curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
 
             // Remove the element from the list
-            curr_cell_list.erase(curr_cell_list.begin());
+            Grid::cell_list.erase(Grid::cell_list.begin());
         }
     }
     return 0;
@@ -100,7 +100,7 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
     Grid::map[m][n] += prob;
 }
 
-void breshams_alg(int i, double sen_hori, double sen_vert) {
+void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
     double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1
     double de = abs((dy / dx));                                  // de=abs(dy/dx)

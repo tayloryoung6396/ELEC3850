@@ -8,7 +8,7 @@
 extern void Localisation_init();
 extern int Localisation_main();
 extern void probability(int cell_column, int cell_row, double cell_dist, double obj_dist);
-extern void breshams_alg(int i, double sen_hori, double sen_vert);
+extern void breshams_alg(int i, double sen_hori[], double sen_vert[]);
 
 class Localisation {
 public:
@@ -25,11 +25,11 @@ public:
     static const int n;
     static const int start_row;
     static const int start_column;
-    static double area_size;
+    static double area;
     static double gridspace;
-    static double grid_map[Grid_m][Grid_m];
+    static double map[Grid_m][Grid_m];
 
-    static std::vector<std::pair<int, int>>::const_iterator cell_list;
+    static std::vector<std::pair<int, int>> cell_list;
 };
 
 
