@@ -59,11 +59,11 @@ int main() {
             // Classifier_main();
         }
 
-        UltrasonicSensor_main();
+        // UltrasonicSensor_main();
 
         if (frame_count % 5 == 0) {
             // TODO We probably want to store the last 5 US readings
-            Localisation_main();  // TODO Maybe this should happen all of the time?
+            // Localisation_main();  // TODO Maybe this should happen all of the time?
         }
 
         // Check if we are connected, if we are then check the mode
