@@ -9,15 +9,15 @@
 void Camera_init() {
     std::cout << "Initilising CAMERA" << std::endl;
     //	raspicam::RaspiCam Camera;
-    Camera.set(CV_CAP_PROP_FORMAT, CV_8UC1);
+    Camera.set(CV_CAP_PROP_FORMAT, CV_8UC3);
 
     if (!Camera.open()) {  // Error mesage if camera didnt open
 
         printf("Error: Camera could not open\n");
         return;
     }
-    Camera.setHorizontalFlip(1);
-    Camera.setVerticalFlip(1);
+//    Camera.setHorizontalFlip(1);
+//    Camera.setVerticalFlip(1);
 
     delay(3000);  // Delay 3 seconds camera to stabalise
     // sleep(3);
@@ -129,7 +129,7 @@ int Camera_main() {
     Camera.grab();
     Camera.retrieve(image);
     cv::imwrite("raspicam_cv_image.jpg", image);
-    cout << "Image saved at raspicam_cv_image.jpg" << endl;
+    std::cout << "Image saved at raspicam_cv_image.jpg" << std::endl;
 
 
     return 0;
