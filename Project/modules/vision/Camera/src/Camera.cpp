@@ -9,6 +9,8 @@
 void Camera_init() {
     std::cout << "Initilising CAMERA" << std::endl;
     //	raspicam::RaspiCam Camera;
+	Camera.set(CV_CAP_PROP_FORMAT, CV_8UC1);
+
     if (!Camera.open()) {  // Error mesage if camera didnt open
 
         printf("Error: Camera could not open\n");
@@ -35,7 +37,7 @@ void Camera_init() {
 }
 
 int Camera_main() {
-    // VARIABLES
+ /*   // VARIABLES
     unsigned char Red_data[IMAGE_HEIGHT][IMAGE_WIDTH] = { 0 };	//May need to be divided by 3
     // unsigned char Green_data[IMAGE_HEIGHT][IMAGE_WIDTH] = { 0 };
     // unsigned char Blue_data[IMAGE_HEIGHT][IMAGE_WIDTH] = { 0 };
@@ -85,19 +87,19 @@ Red_data[Height][Width + 1] = 0;
 			 Green_data[Height][Width + 1] = 0;
     */
 
-             Width++;
+      //       Width++;
 	/*		 Blue_data[Height][Width - 2] = 0;
 			 Blue_data[Height][Width - 1] = 0;
 			 Blue_data[Height][Width] = data[Height*Width];
 */
-             Width++;
-        }
+       //      Width++;
+     //   }
 
-    }
+  //  } 
 
 //	 for 
 
-printf("Saving file\n");
+/* printf("Saving file\n");
      //Camera.retrieve(Red_data_array, raspicam::RASPICAM_FORMAT_RGB); //Extract image in rgb format
      std::ofstream outfile("Red_Image.ppm", std::ios::binary);                         // Save Image
      outfile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";  // dont know
@@ -118,6 +120,17 @@ printf("Saving file\n");
     // // know outFile2.write((char*)Blue_data_array, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
     // printf("Blue
     // // Image Saved");
+	 */
+
+
+	//OPEN CV 
+
+	cv::Mat image;
+	Camera.grab();
+	Camera.retrieve(image);
+	cv::imwrite("raspicam_cv_image.jpg", image);
+	cout << "Image saved at raspicam_cv_image.jpg" << endl;
+
 
     return 0;
 }
