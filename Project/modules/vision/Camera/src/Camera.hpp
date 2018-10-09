@@ -3,8 +3,8 @@
 
 #include "main.hpp"
 
-#define IMAGE_WIDTH 320
-#define IMAGE_HEIGHT 520
+#define IMAGE_WIDTH 1280
+#define IMAGE_HEIGHT 960
 
 static raspicam::RaspiCam Camera;  // Open camera
 
