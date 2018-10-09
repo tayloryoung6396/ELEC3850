@@ -25,6 +25,7 @@ double Grid::area                  = 1.5;    // this is the dimensions of the gr
 double Grid::gridspace             = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
 double Grid::map[Grid::m][Grid::n] = {0.5};  // m x n matrix that serves as the occupancy map
 
+std::vector<std::pair<int, int>> Grid::cell_list;
 
 void Localisation_init() {}
 
@@ -47,29 +48,29 @@ int Localisation_main() {
     sen_theta[0] = Localisation::w_Tank_Rotation;
     sen_hori[0]  = Ultrasonic::Detection_distances[0] * std::cos(sen_theta[0]);
     sen_vert[0]  = Ultrasonic::Detection_distances[0] * std::sin(sen_theta[0]);
-    std::cout << "Sensor rotation " << sen_theta[0] << " Sensor hori " << sen_hori[0] << " Sensor vert " << sen_vert[0]
-              << std::endl;
+    std::cout << "Sensor rotation \t" << sen_theta[0] << " Sensor hori \t" << sen_hori[0] << " Sensor vert \t"
+              << sen_vert[0] << std::endl;
 
     // Right sonic (array pos=1)
     sen_theta[1] = Localisation::w_Tank_Rotation + M_PI + M_PI_2;
     sen_hori[1]  = Ultrasonic::Detection_distances[1] * std::cos(sen_theta[1]);
     sen_vert[1]  = Ultrasonic::Detection_distances[1] * std::sin(sen_theta[1]);
-    std::cout << "Sensor rotation " << sen_theta[1] << " Sensor hori " << sen_hori[1] << " Sensor vert " << sen_vert[1]
-              << std::endl;
+    std::cout << "Sensor rotation \t" << sen_theta[1] << " Sensor hori \t" << sen_hori[1] << " Sensor vert \t"
+              << sen_vert[1] << std::endl;
 
     // Back sonic (array pos=2)
     sen_theta[2] = Localisation::w_Tank_Rotation + M_PI;
     sen_hori[2]  = Ultrasonic::Detection_distances[2] * std::cos(sen_theta[2]);
     sen_vert[2]  = Ultrasonic::Detection_distances[2] * std::sin(sen_theta[2]);
-    std::cout << "Sensor rotation " << sen_theta[2] << " Sensor hori " << sen_hori[2] << " Sensor vert " << sen_vert[2]
-              << std::endl;
+    std::cout << "Sensor rotation \t" << sen_theta[2] << " Sensor hori \t" << sen_hori[2] << " Sensor vert \t"
+              << sen_vert[2] << std::endl;
 
     // Left sonic (array pos=3)
     sen_theta[3] = Localisation::w_Tank_Rotation + M_PI_2;
     sen_hori[3]  = Ultrasonic::Detection_distances[3] * std::cos(sen_theta[3]);
     sen_vert[3]  = Ultrasonic::Detection_distances[3] * std::sin(sen_theta[3]);
-    std::cout << "Sensor rotation " << sen_theta[3] << " Sensor hori " << sen_hori[3] << " Sensor vert " << sen_vert[3]
-              << std::endl;
+    std::cout << "Sensor rotation \t" << sen_theta[3] << " Sensor hori \t" << sen_hori[3] << " Sensor vert \t"
+              << sen_vert[3] << std::endl;
 
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
@@ -87,6 +88,9 @@ int Localisation_main() {
         std::cout << "Calculating list of cells" << std::endl;
 
         breshams_alg(i, sen_hori, sen_vert);
+
+        std::cout << "Fininished calculating list" << std::endl;
+
         std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
 
         while (!Grid::cell_list.empty()) {
@@ -127,12 +131,23 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     double e  = 0;
     double y  = Localisation::w_Tank_Position[1];
 
+    std::cout << "dx " << dx << std::endl;
+    std::cout << "dy " << dy << std::endl;
+    std::cout << "de " << de << std::endl;
+    std::cout << "e  " << e << std::endl;
+    std::cout << "y  " << y << std::endl;
+
     for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; Grid::gridspace) {
         Grid::cell_list.emplace_back(std::make_pair(std::floor(x / Grid::gridspace), std::floor(y / Grid::gridspace)));
         e += de;
+
+        std::cout << "Position " << x << " of " << sen_hori[i] << std::endl;
+        std::cout << "Cell " << std::floor(x / Grid::gridspace) << " " << std::floor(y / Grid::gridspace) << std::endl;
+
         if (e >= 0.5) {
             y += (std::signbit(dy) == 1 ? 1 : -1) * Grid::gridspace;
             e -= Grid::gridspace;
+            std::cout << "e overflow: y = " << y << " e = " << e << std::endl;
         }
     }
 }
@@ -142,7 +157,7 @@ void Print_Occupancy_Map() {
         for (int cols = 0; cols < Grid::n; cols++) {
             std::cout << Grid::map[rows][cols] << "\t";
         }
-        std::endl;
+        std::cout << "\n" << std::endl;
     }
 }
 
