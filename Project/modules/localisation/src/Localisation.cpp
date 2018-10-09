@@ -119,48 +119,7 @@ float ObjectToWorld( ){
 
          }
 
-// ** now the matrixes have been used instead, can use a loop to calculate these, probs a bit neater
-//>>>>>
 
-//     //what cell are we looking at stuff in- we need to convert the dist and angle to y,x coorinates
-//     //front sonic (array pos=0)looks the same direction as the tank
-/*
-    sen_theta[0]=w_Tank_Rotation;
-    sen_hori[0]=Detection_distances[0]*cos(sen_theta[0]);
-    sen_vert[0]=Detection_distances[0]*sin(sen_theta[0]);
-
-//     //LHS wrt tank sonic (array pos=1)
-    sen_theta[1]=w_Tank_Rotation + M_PI_2;
-    sen_hori[1]=Detection_distances[1]*cos(sen_theta[1]);
-    sen_vert[1]=Detection_distances[1]*sin(sen_theta[1]);
-
-//     //back wrt tank sonic (array pos=2)
-    sen_theta[2]=w_Tank_Rotation +M_PI ;
-    sen_hori[2]=Detection_distances[2]*cos(sen_theta[2]);
-    sen_vert[2]=Detection_distances[2]*sin(sen_theta[2]);
-
-//     //rhs sonic (array pos=3)
-    sen_theta[3]=w_Tank_Rotation+M_PI+M_PI_2;
-    sen_hori[3]=Detection_distances[3]*cos(sen_theta[3]);
-    sen_vert[3]=Detection_distances[3]*sin(sen_theta[3]);
-      double sen_hori[4];
-        double sen_vert[4];
-        double sen_theta[4];
-        for(int i=0; i<4; i++){
-                //where array position 0 is front, array position 1 is
-        sen_theta[i]=w_Tank_Rotation+ M_PI_2*i;
-        sen_hori[i]=Detection_distances[i]*cos(sen_theta[i]);
-        sen_vert[i]=Detection_distances[i]*sin(sen_theta[i]);
-        }
-
-
-//     // convert all of these to grid spaces and within here update occupancy map
-//     //note, SENSORS is currently 3, but am assuming it will be changed to 4
-
-     for (int i=0; i<4; i++){
-         int object_cell_m= tank_cell_m+ floor(sen_hori[i]/gridspace);
-         int object_cell_n= tank_cell_n+ floor(sen_vert[i]/gridspace);
-*/
 //     //startign closest to the tank, look at all the grid squares in the way by converting these points to a straight
 //     line
 //     // y=mx+b for now we are using Bresham's algorithim
@@ -246,3 +205,46 @@ void probability(m, n, cell_dist, obj_dist){
 // // This grid spacing is the problem... do you make the grid the size of the radius of the robot
 // // which means for path planning you only need a single cell space to make it through,
 // // or do you make the size of the grid some smaller amount and need to do some harder path planning
+
+// ** now the matrixes have been used instead, can use a loop to calculate these, probs a bit neater
+//>>>>>
+
+//     //what cell are we looking at stuff in- we need to convert the dist and angle to y,x coorinates
+//     //front sonic (array pos=0)looks the same direction as the tank
+/*
+    sen_theta[0]=w_Tank_Rotation;
+    sen_hori[0]=Detection_distances[0]*cos(sen_theta[0]);
+    sen_vert[0]=Detection_distances[0]*sin(sen_theta[0]);
+
+//     //LHS wrt tank sonic (array pos=1)
+    sen_theta[1]=w_Tank_Rotation + M_PI_2;
+    sen_hori[1]=Detection_distances[1]*cos(sen_theta[1]);
+    sen_vert[1]=Detection_distances[1]*sin(sen_theta[1]);
+
+//     //back wrt tank sonic (array pos=2)
+    sen_theta[2]=w_Tank_Rotation +M_PI ;
+    sen_hori[2]=Detection_distances[2]*cos(sen_theta[2]);
+    sen_vert[2]=Detection_distances[2]*sin(sen_theta[2]);
+
+//     //rhs sonic (array pos=3)
+    sen_theta[3]=w_Tank_Rotation+M_PI+M_PI_2;
+    sen_hori[3]=Detection_distances[3]*cos(sen_theta[3]);
+    sen_vert[3]=Detection_distances[3]*sin(sen_theta[3]);
+      double sen_hori[4];
+        double sen_vert[4];
+        double sen_theta[4];
+        for(int i=0; i<4; i++){
+                //where array position 0 is front, array position 1 is
+        sen_theta[i]=w_Tank_Rotation+ M_PI_2*i;
+        sen_hori[i]=Detection_distances[i]*cos(sen_theta[i]);
+        sen_vert[i]=Detection_distances[i]*sin(sen_theta[i]);
+        }
+
+
+//     // convert all of these to grid spaces and within here update occupancy map
+//     //note, SENSORS is currently 3, but am assuming it will be changed to 4
+
+     for (int i=0; i<4; i++){
+         int object_cell_m= tank_cell_m+ floor(sen_hori[i]/gridspace);
+         int object_cell_n= tank_cell_n+ floor(sen_vert[i]/gridspace);
+*/
