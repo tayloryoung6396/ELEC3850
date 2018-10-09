@@ -36,9 +36,9 @@ int Localisation_main() {
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace);
 
     // these are some arrays to store "world" information based on sensors readings
-    double sen_hori[4];
-    double sen_vert[4];
-    double sen_theta[4];
+    double sen_hori[4]  = {0};
+    double sen_vert[4]  = {0};
+    double sen_theta[4] = {0};
 
     // now the matrixes have been used instead, can use a loop to calculate these, probs a bit neater
     // what cell are we looking at stuff in- we need to convert the dist and angle to y,x coorinates
@@ -47,30 +47,45 @@ int Localisation_main() {
     sen_theta[0] = Localisation::w_Tank_Rotation;
     sen_hori[0]  = Ultrasonic::Detection_distances[0] * std::cos(sen_theta[0]);
     sen_vert[0]  = Ultrasonic::Detection_distances[0] * std::sin(sen_theta[0]);
+    std::cout << "Sensor rotation " << sen_theta[0] << " Sensor hori " << sen_hori[0] << " Sensor vert " << sen_vert[0]
+              << std::endl;
 
     // Right sonic (array pos=1)
     sen_theta[1] = Localisation::w_Tank_Rotation + M_PI + M_PI_2;
     sen_hori[1]  = Ultrasonic::Detection_distances[1] * std::cos(sen_theta[1]);
     sen_vert[1]  = Ultrasonic::Detection_distances[1] * std::sin(sen_theta[1]);
+    std::cout << "Sensor rotation " << sen_theta[1] << " Sensor hori " << sen_hori[1] << " Sensor vert " << sen_vert[1]
+              << std::endl;
 
     // Back sonic (array pos=2)
     sen_theta[2] = Localisation::w_Tank_Rotation + M_PI;
     sen_hori[2]  = Ultrasonic::Detection_distances[2] * std::cos(sen_theta[2]);
     sen_vert[2]  = Ultrasonic::Detection_distances[2] * std::sin(sen_theta[2]);
+    std::cout << "Sensor rotation " << sen_theta[2] << " Sensor hori " << sen_hori[2] << " Sensor vert " << sen_vert[2]
+              << std::endl;
 
     // Left sonic (array pos=3)
     sen_theta[3] = Localisation::w_Tank_Rotation + M_PI_2;
     sen_hori[3]  = Ultrasonic::Detection_distances[3] * std::cos(sen_theta[3]);
     sen_vert[3]  = Ultrasonic::Detection_distances[3] * std::sin(sen_theta[3]);
+    std::cout << "Sensor rotation " << sen_theta[3] << " Sensor hori " << sen_hori[3] << " Sensor vert " << sen_vert[3]
+              << std::endl;
 
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
+
+        std::cout << "Sensor " << i << std::endl;
+
         int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
         int object_cell_n = tank_cell_n + std::floor(sen_vert[i] / Grid::gridspace);
+
+        std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
 
         // startign closest to the tank, look at all the grid squares in the way by converting these points to a
         // straight line
         // y=mx+b for now we are using Bresham's algorithim
+        std::cout << "Calculating list of cells" << std::endl;
+
         breshams_alg(i, sen_hori, sen_vert);
         std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
 
@@ -83,12 +98,16 @@ int Localisation_main() {
             double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
                                          + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
+            std::cout << "Cell " << curr_cell_list->first << " " curr_cell_list->second << std::endl;
+            std::cout << "Distance " << cell_dist << std::endl;
+
             // function to calculate probability
             probability(curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
 
             // Remove the element from the list
             Grid::cell_list.erase(Grid::cell_list.begin());
         }
+        std::cout << "Finished list" << std::endl;
     }
     return 0;
 }
@@ -98,6 +117,7 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
     // use a straight line function to start however i believe tanh would work nicely
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
     Grid::map[cell_column][cell_row] += prob;
+    std::cout << "Probability " << prob << std::endl;
 }
 
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
