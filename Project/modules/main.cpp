@@ -65,7 +65,7 @@ int main() {
         // TODO We probably want to store the last 5 US readings
         Localisation_main();  // TODO Maybe this should happen all of the time?
         //}
-
+        Print_Occupancy_Map();
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
         // PS3Control_main();
