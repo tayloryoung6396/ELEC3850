@@ -117,6 +117,15 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     }
 }
 
+void Print_Occupancy_Map() {
+    for (int rows = 0; rows < Grid::m; rows++) {
+        for (int cols = 0; cols < Grid::n; cols++) {
+            std::cout << Grid::map[rows][cols] << "\t";
+        }
+        std::endl;
+    }
+}
+
 
 // // 2D Map
 // // This is a crude method of creating a 2D localisation map
