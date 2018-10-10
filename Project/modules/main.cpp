@@ -58,7 +58,7 @@ int main() {
         // InfraredSensor_main();
         // Classifier_main();
         //}
-
+        break;
         UltrasonicSensor_main();
 
         // if (frame_count % 5 == 0) {
@@ -91,5 +91,15 @@ int main() {
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
         }
+    }
+    int it = 0;
+    while (it < 5) {
+        Ultrasonic::Detection_distances[0] = 0.5;
+        Ultrasonic::Detection_distances[1] = 0.23;
+        Ultrasonic::Detection_distances[2] = 0.17;
+        Ultrasonic::Detection_distances[3] = 0.23;
+        Localisation_main();
+        Print_Occupancy_Map();
+        it++;
     }
 }

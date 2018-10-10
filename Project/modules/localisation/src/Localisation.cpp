@@ -91,9 +91,10 @@ int Localisation_main() {
 
         std::cout << "Fininished calculating list" << std::endl;
 
-        std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
-
         while (!Grid::cell_list.empty()) {
+
+            std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
+
             // this will give a list of grid ms and ns that need to be looked at,starting from
             // closest to the tank
             // need to access the list pairs seperately and save as cella(m) and cellb(n)
