@@ -10,7 +10,7 @@ static raspicam::RaspiCam Camera;  // Open camera
 class Image {
 public:
     static int Height;
-    static int Width
+    static int Width;
 };
 
 
