@@ -37,12 +37,13 @@ int Camera_main() {
                                                            // for (int Height = 0; Height < Image::Height; Height++) {
     // for (int Width = 0; Width < Image::Width;) {
     for (int pixel = 0; pixel < Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB);) {
-        Red_data_array[pixel] = data[pixel]]; // Width * Image::Height + Height
+        Red_data_array[pixel] = data[pixel]; // Width * Image::Height + Height
         pixel++;
         Red_data_array[pixel] = 0;  // Width * Image::Height + Height
         pixel++;
         Red_data_array[pixel] = 0;  // Width * Image::Height + Height
         pixel++;
+    }
         //}
         //}
 
