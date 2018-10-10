@@ -18,18 +18,26 @@ double Localisation::w_Goal_Position[2] = {0};
 
 const int Grid::m            = Grid_m;       // dimensions that are mxn
 const int Grid::n            = Grid::m;      //
-const int Grid::start_row    = Grid::m;      // assume starting position is in the middle bottom (for robot)
-const int Grid::start_column = Grid::m / 2;  //
+const int Grid::start_row    = 7;      // assume starting position is in the middle bottom (for robot)
+const int Grid::start_column = 7;  //
 
 double Grid::area                  = 1.5;    // this is the dimensions of the grid in Y*Y meters
 double Grid::gridspace             = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
-double Grid::map[Grid::m][Grid::n] = {0.5};  // m x n matrix that serves as the occupancy map
+double Grid::map[Grid::m][Grid::n] = {0};  // m x n matrix that serves as the occupancy map
 
 std::vector<std::pair<int, int>> Grid::cell_list;
 
-void Localisation_init() {}
+void Localisation_init() {
+	for(int i = 0 ; i < Grid::m; i++){
+		for(int j = 0; j < Grid::n; j++){
+			Grid::map[i][j] = 0.5;
+		}
+	}
+}
 
 int Localisation_main() {
+
+    std::cout << "Start row " << (int)Grid::start_row << " Start column " << (int)Grid::start_column << std::endl;
 
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
@@ -103,7 +111,7 @@ int Localisation_main() {
             double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
                                          + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
-            std::cout << "Cell " << curr_cell_list->first << " " curr_cell_list->second << std::endl;
+            std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
             std::cout << "Distance " << cell_dist << std::endl;
 
             // function to calculate probability
