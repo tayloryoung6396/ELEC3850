@@ -16,28 +16,28 @@ double Localisation::w_Tank_Rotation = 0;
 double Localisation::w_Goal_Position[2] = {0};
 
 
-const int Grid::m            = Grid_m;       // dimensions that are mxn
-const int Grid::n            = Grid::m;      //
-const int Grid::start_row    = 7;      // assume starting position is in the middle bottom (for robot)
-const int Grid::start_column = 7;  //
+const int Grid::m            = Grid_m;   // dimensions that are mxn
+const int Grid::n            = Grid::m;  //
+const int Grid::start_row    = 7;        // assume starting position is in the middle bottom (for robot)
+const int Grid::start_column = 7;        //
 
-double Grid::area                  = 1.5;    // this is the dimensions of the grid in Y*Y meters
-double Grid::gridspace             = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
+double Grid::area                  = 1.5;  // this is the dimensions of the grid in Y*Y meters
+double Grid::gridspace             = 0.1;  // this is the dimensions of the gridsquares in Y*Y meters
 double Grid::map[Grid::m][Grid::n] = {0};  // m x n matrix that serves as the occupancy map
 
 std::vector<std::pair<int, int>> Grid::cell_list;
 
 void Localisation_init() {
-	for(int i = 0 ; i < Grid::m; i++){
-		for(int j = 0; j < Grid::n; j++){
-			Grid::map[i][j] = 0.5;
-		}
-	}
+    for (int i = 0; i < Grid::m; i++) {
+        for (int j = 0; j < Grid::n; j++) {
+            Grid::map[i][j] = 0.5;
+        }
+    }
 }
 
 int Localisation_main() {
 
-    std::cout << "Start row " << (int)Grid::start_row << " Start column " << (int)Grid::start_column << std::endl;
+    std::cout << "Start row " << (int) Grid::start_row << " Start column " << (int) Grid::start_column << std::endl;
 
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
@@ -168,6 +168,21 @@ void Print_Occupancy_Map() {
         }
         std::cout << "\n" << std::endl;
     }
+}
+
+void Image_Occupancy_Map() {
+    unsigned char* Map_Image = new unsigned char[1500 * 1500];
+    for (int rows = 0; rows < Grid::m; rows++) {
+        for (int cols = 0; cols < Grid::n; cols++) {
+            for (int pixel = 0; pixel < 100; pixel++) {
+                Map_Image [pixel * Grid:n + (cols * Grid::m + rows)] = Grid::map[rows][cols] * 255;
+            }
+        }
+    }
+    std::ofstream outFile("Map_Image.ppm", std::ios::binary);
+    outFile << "P6\n" << 1500 << " " << 1500 << " 255\n";
+    outFile.write((char*) Map_Image, 1500 * 1500);
+    std::cout << "Image saved at Map_Image.ppm" << std::endl;
 }
 
 
