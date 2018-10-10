@@ -6,6 +6,9 @@
 
 #include "Camera.hpp"
 
+int Image::Width  = 1280;
+int Image::Height = 960;
+
 void Camera_init() {
     std::cout << "Initilising CAMERA" << std::endl;
     //	raspicam::RaspiCam Camera;
@@ -16,6 +19,8 @@ void Camera_init() {
     }
     Camera.setHorizontalFlip(1);
     Camera.setVerticalFlip(1);
+    Image::Height = Camera.getHeight();
+    Image::Width  = Camera.getWidth();
 
     delay(3000);  // Delay 3 seconds camera to stabalise
 }
@@ -29,13 +34,14 @@ int Camera_main() {
     uint8_t* Red_data_array = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
 
     Camera.retrieve(data, raspicam::RASPICAM_FORMAT_RGB);  // Extract image in rgb format
-    for (int Height = 0; Height < IMAGE_HEIGHT; Height++) {
-        for (int Width = 0; Width < IMAGE_WIDTH;) {
-            Red_data_array[Width * IMAGE_HEIGHT + height] = data[Width * IMAGE_HEIGHT + height];
-            i++;
-            Red_data_array[Width * IMAGE_HEIGHT + height] = 0;
-            i++;
-            Red_data_array[Width * IMAGE_HEIGHT + height] = 0;
+    for (int Height = 0; Height < Image::Height; Height++) {
+        for (int Width = 0; Width < Image::Width;) {
+            Red_data_array[Width * Image::Height + Height] = data[Width * Image::Height + Height];
+            Width++;
+            Red_data_array[Width * Image::Height + Height] = 0;
+            Width++;
+            Red_data_array[Width * Image::Height + Height] = 0;
+            Width++;
         }
     }
 
