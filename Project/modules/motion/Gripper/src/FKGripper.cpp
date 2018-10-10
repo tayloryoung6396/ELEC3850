@@ -24,7 +24,7 @@ void FK_Calculate(double base_yaw, double base_pitch, double elbow_pitch, double
     // Cosine rule
     double arm_len_3 = SAS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, theta_elbow_pitch);
     // Sine rule
-    double theta_base_pitch = std::asin(arm_len_2 * std::sin(theta_elbow_pitch) / arm_len_3);
+    double theta_base_pitch = std::asin(Kinematics::arm_len_2 * std::sin(theta_elbow_pitch) / arm_len_3);
     // Angle sum
     double alpha = M_PI_2 - theta_base_pitch - base_pitch;
     // rGoal_xy to wrist pitch

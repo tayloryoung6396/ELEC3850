@@ -86,7 +86,7 @@ int main() {
 
             Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
         }
-        // break;
+        break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
@@ -106,7 +106,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos2[3] = {0.1, 0, 0};
+    double Goal_pos2[3] = {0.3, 0, 0};
     IK_Calculate(Goal_pos2);
     std::cout << "x " << Goal_pos2[0] << " y " << Goal_pos2[1] << " z " << Goal_pos2[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
@@ -119,7 +119,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos3[3] = {0, 0.1, 0};
+    double Goal_pos3[3] = {0, 0.3, 0};
     IK_Calculate(Goal_pos3);
     std::cout << "x " << Goal_pos3[0] << " y " << Goal_pos3[1] << " z " << Goal_pos3[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
@@ -132,7 +132,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos4[3] = {0, 0, 0.1};
+    double Goal_pos4[3] = {0, 0, 0.3};
     IK_Calculate(Goal_pos4);
     std::cout << "x " << Goal_pos4[0] << " y " << Goal_pos4[1] << " z " << Goal_pos4[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
@@ -145,7 +145,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos5[3] = {0.1, 0.1, 0};
+    double Goal_pos5[3] = {0.3, 0.3, 0};
     IK_Calculate(Goal_pos5);
     std::cout << "x " << Goal_pos5[0] << " y " << Goal_pos5[1] << " z " << Goal_pos5[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
@@ -158,7 +158,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos6[3] = {0.1, 0, 0.1};
+    double Goal_pos6[3] = {0.3, 0, 0.3};
     IK_Calculate(Goal_pos6);
     std::cout << "x " << Goal_pos6[0] << " y " << Goal_pos6[1] << " z " << Goal_pos6[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
@@ -171,7 +171,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos7[3] = {0, 0.1, 0.1};
+    double Goal_pos7[3] = {0, 0.3, 0.3};
     IK_Calculate(Goal_pos7);
     std::cout << "x " << Goal_pos7[0] << " y " << Goal_pos7[1] << " z " << Goal_pos7[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "
@@ -185,7 +185,7 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
-    double Goal_pos8[3] = {-0.1, 0, 0};
+    double Goal_pos8[3] = {-0.3, 0, 0};
     IK_Calculate(Goal_pos8);
     std::cout << "x " << Goal_pos8[0] << " y " << Goal_pos8[1] << " z " << Goal_pos8[2] << std::endl;
     std::cout << "base_yaw " << Gripper_angles::base_yaw * 180 / M_PI << " base_pitch "

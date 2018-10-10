@@ -7,10 +7,10 @@
 #include "MotorController.hpp"
 std::vector<std::pair<double, double>> PathPlanner::path_vec;  // Vector of pairs of X Y goal coordinates in tank space
 
-uint32_t PathPlanner::goal_pos[2]       = {0};
-uint32_t PathPlanner::prev_pos[2]       = {0};
-uint32_t PathPlanner::curr_pos[2]       = {0};
-uint8_t PathPlanner::curr_revolution[2] = {0};
+int32_t PathPlanner::goal_pos[2]       = {0};
+int32_t PathPlanner::prev_pos[2]       = {0};
+int32_t PathPlanner::curr_pos[2]       = {0};
+int8_t PathPlanner::curr_revolution[2] = {0};
 int PathPlanner::moving_flag[2]         = {0};
 
 void MotorController_init() {
