@@ -46,3 +46,28 @@ void Recalculate_path() {
 
 // However the problem with this method is, it doesn't actually find where the clusters of unsearched space are, and
 // becomes recursive
+
+
+// Lets talk A* and maze solving..
+
+// This aims to find a path from a known position to a known goal within out occupany map.
+// This is broken into two stages:
+
+// Stage 1 - Node conversion
+// Serach over the rows of our maze and find all cells that satisfy this set of rules:
+// TODO insert rules
+// The nodes will consist of the following structure:
+// struct {
+//     position[2];                 // Cell
+//     left_neighbour[3]   = {-1};  // Cell, distance
+//     right_neighbour[3]  = {-1};  // Cell, distance
+//     top_neighbour[3]    = {-1};  // Cell, distance
+//     bottom_neighbour[3] = {-1};  // Cell, distance
+//     goal_dist;
+// }
+// Then for each node calculate the euclidian distance to the goal
+// These will be stored as a vector of structs
+// This is then fed into stage 2
+
+// Stage 2 - A* Search alg
+// Should probably just google how this works..
