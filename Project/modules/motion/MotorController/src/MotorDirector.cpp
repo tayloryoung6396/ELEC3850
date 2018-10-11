@@ -101,15 +101,15 @@ int MotorDirector() {
         std::cout << "Servo " << (int) servo_ID[i] << " Present position " << (int) PathPlanner::curr_pos[i]
                   << std::endl;
         delay(10);
+    }
 
+    // For both motors the revolutions are position in the forward direction
+    // Read in the position
 
-        // For both motors the revolutions are position in the forward direction
-        // Read in the position
-
-        // TODO Don't think i need to invert this one
-        // // Invert our negative motor
-        // PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
-
+    // TODO Don't think i need to invert this one
+    // // Invert our negative motor
+    PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
+    for (int i = 0; i < count; i++) {
         // If we are moving forward, check if we have overflowed
         if (PathPlanner::moving_flag[i] > 0) {
             // Decrement revolutions
