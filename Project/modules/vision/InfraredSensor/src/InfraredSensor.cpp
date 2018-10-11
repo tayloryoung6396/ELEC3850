@@ -8,6 +8,7 @@
 
 void InfraredSensor_init() {
     std::cout << "Initilising INFRARED SENSOR" << std::endl;
+
 }
 
 int InfraredSensor_main() {

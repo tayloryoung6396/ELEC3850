@@ -32,7 +32,7 @@ int main() {
     IKGripper_init();
 
     // Sensors Init
-    Camera_init();
+    // Camera_init();
     InfraredSensor_init();
     UltrasonicSensor_init();
     SensorFilter_init();
@@ -53,22 +53,22 @@ int main() {
 
         // For each iteration
         // Check sensors
-        //if (frame_count % 5 == 0) {
-            Camera_main();
-            // InfraredSensor_main();
-            // Classifier_main();
+        // if (frame_count % 5 == 0) {
+        // Camera_main();
+        // InfraredSensor_main();
+        // Classifier_main();
         //}
-
+        break;
         UltrasonicSensor_main();
 
-        if (frame_count % 5 == 0) {
-            // TODO We probably want to store the last 5 US readings
-            Localisation_main();  // TODO Maybe this should happen all of the time?
-        }
-
+        // if (frame_count % 5 == 0) {
+        // TODO We probably want to store the last 5 US readings
+        Localisation_main();  // TODO Maybe this should happen all of the time?
+        //}
+        Print_Occupancy_Map();
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
-        PS3Control_main();
+        // PS3Control_main();
 
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
@@ -86,10 +86,20 @@ int main() {
 
             Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
         }
-        break;
+        // break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
         }
+    }
+    int it = 0;
+    while (it < 5) {
+        Ultrasonic::Detection_distances[0] = 0.5;
+        Ultrasonic::Detection_distances[1] = 0.23;
+        Ultrasonic::Detection_distances[2] = 0.17;
+        Ultrasonic::Detection_distances[3] = 0.23;
+        Localisation_main();
+        Print_Occupancy_Map();
+        it++;
     }
 }

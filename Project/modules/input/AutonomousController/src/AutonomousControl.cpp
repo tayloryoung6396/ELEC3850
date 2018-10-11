@@ -23,8 +23,8 @@ int AutonomousControl_main() {
 
     double Goal_pos[3] = {0};  // TODO remove
 
-    Localistation::w_Goal_Position[0] = 1;  // TODO remove
-    Localistation::w_Goal_Position[1] = 0;  // TODO remove
+    Localisation::w_Goal_Position[0] = 1;  // TODO remove
+    Localisation::w_Goal_Position[1] = 0;  // TODO remove
 
     SimplePathPlanner();  // TODO remove
 
@@ -34,7 +34,7 @@ int AutonomousControl_main() {
     // // TODO Account for being at the object already/goal and needing to do something
     // if (!have_object) {
     //     // known object pos
-    //     if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
+    //     if (Localisation::w_Goal_Position[0] >= 0 && Localisation::w_Goal_Position[1] >= 0) {
     //         // Check to see if we're at the goal or not
     //         if (1) {  // at goal) {
     //             // grab object TODO
@@ -51,7 +51,7 @@ int AutonomousControl_main() {
     //     }
     //     // unknown object pos
     //     // If our goal is negative then it means we don't have a valid goal/don't know a goal
-    //     else if (Localistation::w_Goal_Position[0] < 0 | Localistation::w_Goal_Position[1] < 0) {
+    //     else if (Localisation::w_Goal_Position[0] < 0 | Localisation::w_Goal_Position[1] < 0) {
     //         // search for it
     //         // TODO // weighted_search();
     //     }
@@ -60,10 +60,10 @@ int AutonomousControl_main() {
     // else if (have_object) {
     //     // known goal pos
     //     // If our goal is negative then it means we don't have a valid goal/don't know a goal
-    //     if (Localistation::w_Goal_Position[0] >= 0 && Localistation::w_Goal_Position[1] >= 0) {
+    //     if (Localisation::w_Goal_Position[0] >= 0 && Localisation::w_Goal_Position[1] >= 0) {
     //         // Check to see if we're at the goal or not
-    //         if ((Localistation::w_Goal_Position[0] == Localistation::w_Tank_Position[0])
-    //             && (Localistation::w_Goal_Position[1] == Localistation::w_Tank_Position[1])) {
+    //         if ((Localisation::w_Goal_Position[0] == Localisation::w_Tank_Position[0])
+    //             && (Localisation::w_Goal_Position[1] == Localisation::w_Tank_Position[1])) {
     //             // Do something
     //             // Figure out where we are putting it TODO
     //             IKGripper_Place_Object(Goal_pos);
@@ -74,7 +74,7 @@ int AutonomousControl_main() {
     //         }
     //     }
     //     // unknown goal pos
-    //     else if (Localistation::w_Goal_Position[0] < 0 | Localistation::w_Goal_Position[1] < 0) {
+    //     else if (Localisation::w_Goal_Position[0] < 0 | Localisation::w_Goal_Position[1] < 0) {
     //         // search for it
     //         // TODO // weighted_search();
     //     }
