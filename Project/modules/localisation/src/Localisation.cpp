@@ -34,9 +34,12 @@ int Localisation_main() {
     //     corner -return a x and y for what cell we are looking at stuff in
     int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace);
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace);
+<<<<<<< HEAD
     std::cout << "tank possi m (down) " << tank_cell_m << std::endl;
     std::cout << "tank possi n (across) " << tank_cell_n << std::endl;
 
+=======
+>>>>>>> test_branch_alex
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4];
@@ -66,6 +69,8 @@ int Localisation_main() {
     sen_hori[3]  = Ultrasonic::Detection_distances[3] * std::cos(sen_theta[3]);
     sen_vert[3]  = Ultrasonic::Detection_distances[3] * std::sin(sen_theta[3]);
 
+<<<<<<< HEAD
+
     //print some values for sensor meth
     for(int i=0; i<SENSORS; i++)
     {
@@ -74,6 +79,8 @@ int Localisation_main() {
         std::cout << "Sensor position" << i << "="<<  sen_vert[i]<< std::endl;
     }
 
+=======
+>>>>>>> test_branch_alex
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
         int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
@@ -107,11 +114,28 @@ int Localisation_main() {
 void probability(int cell_column, int cell_row, double cell_dist, double obj_dist) {
 
     // use a straight line function to start however i believe tanh would work nicely
+<<<<<<< HEAD
     std::cout << "old prob"  << "="<< Grid::map[cell_column][cell_row] << std::endl;
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
     std::cout << "added prob"  << "="<< prob << std::endl;
     Grid::map[cell_column][cell_row] += prob;
     std::cout << "new prob (old +added)"  << "="<< Grid::map[cell_column][cell_row] << std::endl;
+=======
+
+    double prob = (0.2 * cell_dist) / obj_dist - 0.1;
+    //set upper and lower prob lim
+    if((Grid::map[cell_column][cell_row]+prob)<1 && (Grid::map[cell_column][cell_row]+prob)>0){
+    Grid::map[cell_column][cell_row] += prob;
+    }
+    //cap upper at 1
+    else if (Grid::map[cell_column][cell_row]+prob>1){
+        Grid::map[cell_column][cell_row]=1;
+    }
+    //cap lower at 0
+    else(Grid::map[cell_column][cell_row]<0)
+        Grid::map[cell_column][cell_row]=0;
+    }
+>>>>>>> test_branch_alex
 }
 
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {

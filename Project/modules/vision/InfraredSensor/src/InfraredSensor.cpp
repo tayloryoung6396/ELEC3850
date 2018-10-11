@@ -20,7 +20,10 @@
 
 void InfraredSensor_init() {
     std::cout << "Initilising INFRARED SENSOR" << std::endl;
+<<<<<<< HEAD
     pinMode(IRTRIG, INPUT);  // IRTRIG IS AN INPUT FROM IR TO RPI
+=======
+>>>>>>> test_branch_alex
 
 }
 
