@@ -3,7 +3,7 @@
 
 #include "main.hpp"
 
-#define DistToRev 0.48  // Meters per rotation
+#define DistToRev 483232.0  // Meters per rotation
 
 class PathPlanner {
 

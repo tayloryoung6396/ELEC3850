@@ -89,16 +89,23 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     for (int i = 0; i < 2; i++) {
         // We currently have a goal distance in meters Goal_Dist
         // Convert this to the number of revolutions required
-        double rev_required = ConvertDistanceToRotation(Goal_Dist[i]);
+        double rev_required = ConvertDistanceToRotation(Goal_Dist[i]) * 2.0 * std::numeric_limits<int32_t>::max();
         // Convert our current position to the current amount through a revolution
         double rev_current =
-            ConvertDistanceToRotation(PathPlanner::curr_pos[i] / (2 * std::numeric_limits<int32_t>::max()));
+            ConvertDistanceToRotation(PathPlanner::curr_pos[i] / (2.0 * std::numeric_limits<int32_t>::max())) * 2.0 * std::numeric_limits<int32_t>::max();
         // Add these together to get the total amnount of revolutions
         double rev_total = rev_required + rev_current;
         // This value can then be converted to revolutions and remaining amount of revolution
-        PathPlanner::curr_revolution[i] += (std::floor(rev_total)) * std::numeric_limits<int32_t>::max();
+        PathPlanner::curr_revolution[i] += (std::floor(rev_total)); //* 2.0 * std::numeric_limits<int32_t>::max();
         // Convert this remaining amount into motor position goal
-        PathPlanner::goal_pos[i] = (rev_total - std::floor(rev_total)) * std::numeric_limits<int32_t>::max();
+        PathPlanner::goal_pos[i] = (rev_total - std::floor(rev_total));// * 2.0 * std::numeric_limits<int32_t>::max();
+
+	std::cout << "rev_required " << rev_required << std::endl;
+	std::cout << "rev_current " << rev_current << std::endl;
+	std::cout << "rev_ total " << rev_total << std::endl;
+	std::cout << "Current revolutions " << (int)PathPlanner::curr_revolution[i] << std::endl;
+	std::cout << "Goal position " << (int)PathPlanner::goal_pos[i] << std::endl;
+
     }
 
     // Reverse the flip of our negative motor
@@ -186,15 +193,15 @@ int MotorDirector() {
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
     for (int i = 0; i < count; i++) {
         // If we are moving forward, check if we have overflowed
-        if (PathPlanner::moving_flag[i] > 0 && PathPlanner::prev_pos[0] < max_position[0]
-            && PathPlanner::curr_pos[0] > min_position[0] && PathPlanner::curr_revolution[i] != 0) {
+        if (PathPlanner::moving_flag[i] > 0 && PathPlanner::prev_pos[i] < max_position[i]
+            && PathPlanner::curr_pos[i] > min_position[i] && PathPlanner::curr_revolution[i] != 0) {
             // Decrement revolutions
             std::cout << "Decrement servo " << i << " to " << PathPlanner::curr_revolution[i] - 1 << std::endl;
             PathPlanner::curr_revolution[i]--;
         }
         // If we are moving backwards, check if we have underflowed
-        if (PathPlanner::moving_flag[i] < 0 && PathPlanner::prev_pos[0] > min_position[0]
-            && PathPlanner::curr_pos[0] < max_position[0] && PathPlanner::curr_revolution[i] != 0) {
+        if (PathPlanner::moving_flag[i] < 0 && PathPlanner::prev_pos[i] > min_position[i]
+            && PathPlanner::curr_pos[i] < max_position[i] && PathPlanner::curr_revolution[i] != 0) {
             // Increment revolutions
             std::cout << "Increment servo " << i << " to " << PathPlanner::curr_revolution[i] + 1 << std::endl;
             PathPlanner::curr_revolution[i]++;
@@ -203,12 +210,13 @@ int MotorDirector() {
         if (PathPlanner::curr_revolution[i] == 0) {
             std::cout << "Servo " << i << " revolution 0" << std::endl;
             // If they are 0, then check to see if our goal is our current position
-            if ((PathPlanner::curr_pos[1] == PathPlanner::goal_pos[1] + 100)
-                | (PathPlanner::curr_pos[1] == PathPlanner::goal_pos[1] - 100)) {
+            if ((PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
+                | (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100)) {
                 // If that is satisfied then stop the motor
                 std::cout << "Servo " << i << " at goal position" << std::endl;
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
+		delay(10);
                 std::cout << "Stopped moving"
                           << " ID " << i << std::endl;
             }
