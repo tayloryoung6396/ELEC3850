@@ -256,6 +256,8 @@ int IK_Calculate(double Goal_pos[3]) {
     Goal_pos[1] -= Kinematics::base_pos[1];  // Some origin offset, currently 0
     Goal_pos[2] -= Kinematics::base_pos[2];  // Some origin offset, currently 0
 
+    std::cout << "Goal pos " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
+
     Gripper_angles servo;
 
     // Calculate our base yaw rotation
@@ -274,13 +276,13 @@ int IK_Calculate(double Goal_pos[3]) {
     double min_dist = std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2));
     if (arm_len_3 <= min_dist) {
         // Find point on the same line
-        double curr_dist = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
+   //     double curr_dist = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
         // Find the new rGoal_xy distance
-        rGoal_xy = rGoal_xy * min_dist / curr_dist;
+   //     rGoal_xy = rGoal_xy * min_dist / curr_dist;
         // Find the new height
-        Goal_pos[2] = Goal_pos[2] * min_dist / curr_dist;
+   //     Goal_pos[2] = Goal_pos[2] * min_dist / curr_dist;
         // Recalculate the arm length
-        arm_len_3 = curr_dist - DELTA_GRIP;
+ //       arm_len_3 = curr_dist - DELTA_GRIP;
     }
 
     // Our arm needs to be fully extended
@@ -306,7 +308,7 @@ int IK_Calculate(double Goal_pos[3]) {
     if (Goal_pos[2] > 0) {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha;
         Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
-        Gripper_angles::wrist_pitch = -M_PI_2 + theta_base_pitch + theta_elbow_pitch;
+        Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha; // -M_PI_2 + theta_base_pitch + theta_elbow_pitch;
     }
     else {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;

@@ -60,7 +60,7 @@ int main() {
         }
 
         // UltrasonicSensor_main();
-
+	MotorDirector();
         if (frame_count % 5 == 0) {
             // TODO We probably want to store the last 5 US readings
             // Localisation_main();  // TODO Maybe this should happen all of the time?
@@ -86,12 +86,13 @@ int main() {
 
             Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
         }
-        break;
+  //      break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
         }
     }
+/*
     double Pres_pos[3]  = {0};
     double Goal_pos1[3] = {0, 0, 0};
     IK_Calculate(Goal_pos1);
@@ -368,4 +369,5 @@ int main() {
                  Gripper_angles::wrist_pitch,
                  Pres_pos);
     std::cout << "x " << Pres_pos[0] << " y " << Pres_pos[1] << " z " << Pres_pos[2] << std::endl;
+*/
 }
