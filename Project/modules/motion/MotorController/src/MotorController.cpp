@@ -11,7 +11,7 @@ int32_t PathPlanner::goal_pos[2]       = {0};
 int32_t PathPlanner::prev_pos[2]       = {0};
 int32_t PathPlanner::curr_pos[2]       = {0};
 int8_t PathPlanner::curr_revolution[2] = {0};
-int PathPlanner::moving_flag[2]         = {0};
+int PathPlanner::moving_flag[2]        = {0};
 
 void MotorController_init() {
     std::cout << "Initilising MOTOR CONTROLLER" << std::endl;
@@ -62,31 +62,52 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     Goal_Dist[1] += Forward;
     Goal_Dist[1] = -Goal_Dist[1];
 
+    // Set moving flag
+    PathPlanner::moving_flag[0] = (Goal_Dist[0] == 0) ? 0 : ((Goal_Dist[0] < 0) ? (-1) : 1);
+    PathPlanner::moving_flag[1] = (Goal_Dist[1] == 0) ? 0 : ((Goal_Dist[1] < 0) ? (1) : -1);
+
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
 
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
-        // Set moving flag
-        PathPlanner::moving_flag[i] = (Goal_Dist[i] == 0) ? 0 : ((Goal_Dist[i] < 0) ? (-1) : 1);
         // Set goal position
         // // Set goal revolution
         // // Convert goal distance to number of revolutions
-        // // This counts down to 0, so add it to our outstanding revolutions
+        // // This counts down to 0
 
-        // TODO NOTE THIS DOES NOT WORK
-        // IT ONLY WORKS FOR THE POSITIVE CASE? NOT THE NEGATIVE ONE? MAYBE
         executeReadSingle(servo_ID[i],
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
                           MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        PathPlanner::curr_revolution[i] += ConvertDistanceToRotation(Goal_Dist[i]);
-        PathPlanner::goal_pos[i] += ConvertDistanceToRotation_r(Goal_Dist[i]) * std::numeric_limits<int32_t>::max();
+    // Flip our negative motor to be positive
 
-        if (PathPlanner::goal_pos[i] + PathPlanner::curr_pos[i] > std::numeric_limits<int32_t>::max()) {
-            PathPlanner::curr_revolution[i]++;
-            PathPlanner::goal_pos[i] -= std::numeric_limits<int32_t>::max();
-        }
+    PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
+
+    for (int i = 0; i < 2; i++) {
+        // We currently have a goal distance in meters Goal_Dist
+        // Convert this to the number of revolutions required
+        double rev_required = ConvertDistanceToRotation(Goal_Dist[i]);
+        // Convert our current position to the current amount through a revolution
+        double rev_current =
+            ConvertDistanceToRotation(PathPlanner::curr_pos[i] / (2 * std::numeric_limits<int32_t>::max()));
+        // Add these together to get the total amnount of revolutions
+        double rev_total = rev_required + rev_current;
+        // This value can then be converted to revolutions and remaining amount of revolution
+        PathPlanner::curr_revolution[i] += (std::floor(rev_total)) * std::numeric_limits<int32_t>::max();
+        // Convert this remaining amount into motor position goal
+        PathPlanner::goal_pos[i] = (rev_total - std::floor(rev_total)) * std::numeric_limits<int32_t>::max();
+    }
+
+    // Reverse the flip of our negative motor
+    // Remember that our revolutions are both positive in the forward direction
+    PathPlanner::goal_pos[1] = -PathPlanner::goal_pos[1];
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    for (int i = 0; i < 2; i++) {
 
         std::cout << "Wheel " << i << " Current position" << (int) PathPlanner::curr_pos[i] << std::endl;
         std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
@@ -129,22 +150,24 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
 // 0.48m per revolution
 
 int MotorDirector() {
-    // Check all drive motors are in the last known position
-    // And or check that we have reached our goal
-    // The current revolution counts down to 0
-
-    const int offset              = 200;  // TODO do i need this?
-    const int32_t max_position[2] = {std::numeric_limits<int32_t>::max() - offset,
-                                     std::numeric_limits<int32_t>::min() + offset};
-    const int32_t min_position[2] = {std::numeric_limits<int32_t>::min() + offset,
-                                     std::numeric_limits<int32_t>::max() - offset};
-    std::cout << "Servo 1 max: " << max_position[0] << " min: " << min_position[0] << std::endl;
-    std::cout << "Servo 2 max: " << max_position[1] << " min: " << min_position[1] << std::endl;
 
 
-    uint8_t count       = 2;
+    // When heading in a forward rotation, these are the last values we see
+    const int32_t max_position[2] = {std::numeric_limits<int32_t>::max(), std::numeric_limits<int32_t>::min()};
+    // These are the other end of that rotation
+    const int32_t min_position[2] = {std::numeric_limits<int32_t>::min(), std::numeric_limits<int32_t>::max()};
+
+    // Sanity check my directions
+    // std::cout << "Servo 1 max: " << max_position[0] << " min: " << min_position[0] << std::endl;
+    // std::cout << "Servo 2 max: " << max_position[1] << " min: " << min_position[1] << std::endl;
+
+    // For each servo, lets run the director
+    uint8_t count = 2;
+    // The left servo is conventional with positive rotation forward
+    // The right servo is reversed
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
 
+    // Get the current position of each servo should be between min and max position
     for (int i = 0; i < count; i++) {
         executeReadSingle(servo_ID[i],
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
@@ -155,51 +178,41 @@ int MotorDirector() {
         delay(10);
     }
 
+    // For both motors the revolutions are position in the forward direction
+    // Read in the position
 
-    // Check the current servo position
-    if (PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
-        std::cout << "Moving flag " << (int) PathPlanner::moving_flag[0] << " " << (int) PathPlanner::moving_flag[1]
-                  << std::endl;
-        for (int i = 0; i < 2; i++) {
-            // update the number of revolutions weve done
-            if (PathPlanner::moving_flag[i] == 1 && PathPlanner::prev_pos[i] < max_position[i]
-                && PathPlanner::curr_pos[i] > min_position[i]) {
-                PathPlanner::curr_revolution[i]--;
-                std::cout << "Decrement positive revolutions " << (int) PathPlanner::curr_revolution[i] << " ID " << i
-                          << std::endl;
-            }
-            else if (PathPlanner::moving_flag[i] == -1 && PathPlanner::prev_pos[i] > min_position[i]
-                     && PathPlanner::curr_pos[i] < max_position[i]) {
-                PathPlanner::curr_revolution[i]--;
-                std::cout << "Decrement negative revolutions " << (int) PathPlanner::curr_revolution[i] << " ID " << i
-                          << std::endl;
-            }
-            // were on the correct revolution
-            if (PathPlanner::curr_revolution[i] == 0
-                && ((PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
-                    || (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100))) {  // Goal pos +- some delta
-                // stop driving update moving = 0
+    // TODO Don't think i need to invert this one
+    // // Invert our negative motor
+    PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
+    for (int i = 0; i < count; i++) {
+        // If we are moving forward, check if we have overflowed
+        if (PathPlanner::moving_flag[i] > 0) {
+            // Decrement revolutions
+            std::cout << "Decrement servo " << i << " to " << PathPlanner::curr_revolution[i] - 1 << std::endl;
+            PathPlanner::curr_revolution[i]--;
+        }
+        // If we are moving backwards, check if we have underflowed
+        if (PathPlanner::moving_flag[i] > 0) {
+            // Increment revolutions
+            std::cout << "Increment servo " << i << " to " << PathPlanner::curr_revolution[i] + 1 << std::endl;
+            PathPlanner::curr_revolution[i]++;
+        }
+        // For each motor check to see if our revolutions are 0
+        if (PathPlanner::curr_revolution[i] == 0) {
+            std::cout << "Servo " << i << " revolution 0" << std::endl;
+            // If they are 0, then check to see if our goal is our current position
+            if ((PathPlanner::curr_pos[1] == PathPlanner::goal_pos[1] + 100)
+                | (PathPlanner::curr_pos[1] == PathPlanner::goal_pos[1] - 100)) {
+                // If that is satisfied then stop the motor
+                std::cout << "Servo " << i << " at goal position" << std::endl;
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
                 std::cout << "Stopped moving"
                           << " ID " << i << std::endl;
             }
-            // TODO Implement this
-            // else if (PathPlanner::curr_revolution[i] == 0) {
-            //     // maybe take control and watch ?
-            //     while (PathPlanner::curr_pos[i] != PathPlanner::goal_pos[i]) {  // TODO Goal pos +- some delta
-            //         // keep polling etc
-            //         break;
-            //     }
-            // }
         }
     }
-    // TODO update locatisation with the actual position we finished at
-    // Localisation::w_Tank_Position[0] =
-    // Need to somehow convert a change in rotation to a vector?
-    else {
-        // TODO check we are where we think we are
-    }
+
     return 0;
 }
 
