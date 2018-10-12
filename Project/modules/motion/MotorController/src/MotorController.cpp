@@ -186,13 +186,15 @@ int MotorDirector() {
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
     for (int i = 0; i < count; i++) {
         // If we are moving forward, check if we have overflowed
-        if (PathPlanner::moving_flag[i] > 0) {
+        if (PathPlanner::moving_flag[i] > 0 && PathPlanner::prev_pos[0] < max_position[0]
+            && PathPlanner::curr_pos[0] > min_position[0] && PathPlanner::curr_revolution[i] != 0) {
             // Decrement revolutions
             std::cout << "Decrement servo " << i << " to " << PathPlanner::curr_revolution[i] - 1 << std::endl;
             PathPlanner::curr_revolution[i]--;
         }
         // If we are moving backwards, check if we have underflowed
-        if (PathPlanner::moving_flag[i] > 0) {
+        if (PathPlanner::moving_flag[i] < 0 && PathPlanner::prev_pos[0] > min_position[0]
+            && PathPlanner::curr_pos[0] < max_position[0] && PathPlanner::curr_revolution[i] != 0) {
             // Increment revolutions
             std::cout << "Increment servo " << i << " to " << PathPlanner::curr_revolution[i] + 1 << std::endl;
             PathPlanner::curr_revolution[i]++;
