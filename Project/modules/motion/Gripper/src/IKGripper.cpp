@@ -268,6 +268,7 @@ int IK_Calculate(double Goal_pos[3]) {
     // Calculate the straight line distance to the wrist servo
     double arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2)) - DELTA_GRIP;
 
+    std::cout << "arm 3 " << arm_len_3 << std::endl;
     // This forces our closest position to be 90 deg at the elbow, as we can't bend more than that anyway
     // Essentially forms a right angled triangle
     double min_dist = std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2));
@@ -309,6 +310,10 @@ int IK_Calculate(double Goal_pos[3]) {
     Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
     // Gripper_angles::wrist_pitch = theta_elbow_pitch - theta_base_pitch + alpha;
     Gripper_angles::wrist_pitch = -(Gripper_angles::elbow_pitch - theta_base_pitch + alpha);
+
+
+    std::cout << "Theta bp " << theta_base_pitch << " ep " << theta_elbow_pitch << " wp " << theta_wrist_pitch
+              << std::endl;
 
     return 0;
 }
