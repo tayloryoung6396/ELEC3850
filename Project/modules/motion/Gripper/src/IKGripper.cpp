@@ -302,15 +302,17 @@ int IK_Calculate(double Goal_pos[3]) {
     if (isnan(alpha)) {
         alpha = 0;
     }
+
     if (Goal_pos[2] > 0) {
-        alpha = -alpha;
+        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha;
+        Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
+        Gripper_angles::wrist_pitch = -M_PI_2 + theta_base_pitch + theta_elbow_pitch;
     }
-
-    Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
-    Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
-    // Gripper_angles::wrist_pitch = theta_elbow_pitch - theta_base_pitch + alpha;
-    Gripper_angles::wrist_pitch = -(Gripper_angles::elbow_pitch - theta_base_pitch + alpha);
-
+    else {
+        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
+        Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
+        Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
+    }
 
     std::cout << "Theta bp " << theta_base_pitch << " ep " << theta_elbow_pitch << " wp " << theta_wrist_pitch
               << std::endl;
