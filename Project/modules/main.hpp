@@ -14,6 +14,7 @@
 #include <time.h>
 #include <wiringPi.h>
 #include <cmath>
+#include <csignal>
 #include <cstdio>
 #include <ctime>
 #include <fstream>
@@ -21,6 +22,7 @@
 #include <limits>
 #include <string>
 #include <vector>
+
 
 #include "behaviour/src/SimplePathPlanner.hpp"
 #include "dynamixel/v2/Dynamixel.hpp"
