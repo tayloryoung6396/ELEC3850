@@ -88,29 +88,24 @@ int MotorDriver_Distance(double Forward, double Rotation) {
 
     for (int i = 0; i < 2; i++) {
         // We currently have a goal distance in meters Goal_Dist
-        // Convert this to the number of revolutions required
-        double rev_required = ConvertDistanceToRotation(Goal_Dist[i]) * 2.0 * std::numeric_limits<int32_t>::max();
-        // Convert our current position to the current amount through a revolution
-        double rev_current =
-            ConvertDistanceToRotation(PathPlanner::curr_pos[i] / (2.0 * std::numeric_limits<int32_t>::max())) * 2.0 * std::numeric_limits<int32_t>::max();
-        // Add these together to get the total amnount of revolutions
-        double rev_total = rev_required + rev_current;
-        // This value can then be converted to revolutions and remaining amount of revolution
-        PathPlanner::curr_revolution[i] += (std::floor(rev_total)); //* 2.0 * std::numeric_limits<int32_t>::max();
-        // Convert this remaining amount into motor position goal
-        PathPlanner::goal_pos[i] = (rev_total - std::floor(rev_total));// * 2.0 * std::numeric_limits<int32_t>::max();
+        // Convert the meter to a position end value
+        double Pos_required = ConvertDistanceToPosition(Goal_Dist[i]);
+        // Add this to the current position
+        double Pos_total = Pos_required + PathPlanner::curr_pos[i];
+        // If this is greater than the end limit account for that..
+        if (Pos_total > std::numeric_limits<uint32_t>::max()) {
+            Pos_total = std::numeric_limits<int32_t>::min() + Pos_total - std::numeric_limits<uint32_t>::max();
+        }
+        PathPlanner::goal_pos[i] = Pos_total;
 
-	std::cout << "rev_required " << rev_required << std::endl;
-	std::cout << "rev_current " << rev_current << std::endl;
-	std::cout << "rev_ total " << rev_total << std::endl;
-	std::cout << "Current revolutions " << (int)PathPlanner::curr_revolution[i] << std::endl;
-	std::cout << "Goal position " << (int)PathPlanner::goal_pos[i] << std::endl;
-
+        std::cout << "Pos_required " << Pos_required << std::endl;
+        std::cout << "Pos_current " << PathPlanner::curr_pos[i] << std::endl;
+        std::cout << "Pos_total " << Pos_total << std::endl;
+        std::cout << "Goal position " << (int) PathPlanner::goal_pos[i] << std::endl;
     }
 
     // Reverse the flip of our negative motor
     // Remember that our revolutions are both positive in the forward direction
-    PathPlanner::goal_pos[1] = -PathPlanner::goal_pos[1];
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -158,16 +153,6 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
 
 int MotorDirector() {
 
-
-    // When heading in a forward rotation, these are the last values we see
-    const int32_t max_position[2] = {std::numeric_limits<int32_t>::max(), std::numeric_limits<int32_t>::min()};
-    // These are the other end of that rotation
-    const int32_t min_position[2] = {std::numeric_limits<int32_t>::min(), std::numeric_limits<int32_t>::max()};
-
-    // Sanity check my directions
-    // std::cout << "Servo 1 max: " << max_position[0] << " min: " << min_position[0] << std::endl;
-    // std::cout << "Servo 2 max: " << max_position[1] << " min: " << min_position[1] << std::endl;
-
     // For each servo, lets run the director
     uint8_t count = 2;
     // The left servo is conventional with positive rotation forward
@@ -188,35 +173,18 @@ int MotorDirector() {
     // For both motors the revolutions are position in the forward direction
     // Read in the position
 
-    // TODO Don't think i need to invert this one
     // // Invert our negative motor
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
     for (int i = 0; i < count; i++) {
-        // If we are moving forward, check if we have overflowed
-        if (PathPlanner::moving_flag[i] > 0 && PathPlanner::prev_pos[i] < max_position[i]
-            && PathPlanner::curr_pos[i] > min_position[i] && PathPlanner::curr_revolution[i] != 0) {
-            // Decrement revolutions
-            std::cout << "Decrement servo " << i << " to " << PathPlanner::curr_revolution[i] - 1 << std::endl;
-            PathPlanner::curr_revolution[i]--;
-        }
-        // If we are moving backwards, check if we have underflowed
-        if (PathPlanner::moving_flag[i] < 0 && PathPlanner::prev_pos[i] > min_position[i]
-            && PathPlanner::curr_pos[i] < max_position[i] && PathPlanner::curr_revolution[i] != 0) {
-            // Increment revolutions
-            std::cout << "Increment servo " << i << " to " << PathPlanner::curr_revolution[i] + 1 << std::endl;
-            PathPlanner::curr_revolution[i]++;
-        }
-        // For each motor check to see if our revolutions are 0
-        if (PathPlanner::curr_revolution[i] == 0) {
-            std::cout << "Servo " << i << " revolution 0" << std::endl;
-            // If they are 0, then check to see if our goal is our current position
+        if (PathPlanner::moving_flag[i] != 0) {
+            // Check to see if our goal is our current position
             if ((PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
                 | (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100)) {
                 // If that is satisfied then stop the motor
                 std::cout << "Servo " << i << " at goal position" << std::endl;
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
-		delay(10);
+                delay(10);
                 std::cout << "Stopped moving"
                           << " ID " << i << std::endl;
             }
@@ -226,8 +194,8 @@ int MotorDirector() {
     return 0;
 }
 
-double ConvertDistanceToRotation(double Goal_Dist) {
-    return (Goal_Dist / DistToRev);  // Return revolutions
+double ConvertDistanceToPosition(double Goal_Dist) {
+    return (Goal_Dist / DistToRev * std::numeric_limits<uint32_t>::max());  // Return revolutions
 }
 
 double ConvertDistanceToRotation_r(double Goal_Dist) {
