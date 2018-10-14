@@ -16,32 +16,6 @@ int Maze::map[Map_m][Map_n] = {0};
 
 void SimplePathPlanner_init() {}
 
-// int SimplePathPlanner() {
-//     // TODO use the occupancy map to find an appropriate path
-
-//     // Calculate path from w_Tank_Position to w_Goal_Position
-//     // This will be a vector of pairs X Y in tank space
-//     double t_Goal_Position[2] = {Localisation::w_Goal_Position[0] - Localisation::w_Tank_Position[0],
-//                                  Localisation::w_Goal_Position[1] - Localisation::w_Tank_Position[1]};
-//     // Calculate the rotation difference
-//     double t_Goal_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
-
-//     // Convert into a forward and rotation command
-//     double Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
-//     double Rotation = Localisation::w_Tank_Rotation - t_Goal_Rotation;
-//     PathPlanner pplanner;
-
-//     // Rotation is relative to the vehicle, not the world
-//     pplanner.emplace_path(Forward, Rotation);
-//     return 0;
-// }
-
-// void Recalculate_path() {
-//     // So i didn't end up where i wanted to,
-//     // but i should be able to take my position and the goal and recalculate a new vector
-// }
-
-
 // Lets make out grid into a B&W matrix
 void Flatten_Map(double threshold) {
     for (int rows = 0; rows < Map_m; rows++) {
@@ -126,6 +100,19 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
         std::pair<int, int> p = Path.top();
         Path.pop();
         std::cout << "-> (" << p.first << ", " << p.second << ")" << std::endl;
+        // TODO here i should add it to a list like before, remember to do the rotation stuff
+        //     double t_Goal_Position[2] = {Localisation::w_Goal_Position[0] - Localisation::w_Tank_Position[0],
+        //                                  Localisation::w_Goal_Position[1] - Localisation::w_Tank_Position[1]};
+        //     // Calculate the rotation difference
+        //     double t_Goal_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
+
+        //     // Convert into a forward and rotation command
+        //     double Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
+        //     double Rotation = Localisation::w_Tank_Rotation - t_Goal_Rotation;
+        //     PathPlanner pplanner;
+
+        //     // Rotation is relative to the vehicle, not the world
+        //     pplanner.emplace_path(Forward, Rotation);
     }
 
     return;
