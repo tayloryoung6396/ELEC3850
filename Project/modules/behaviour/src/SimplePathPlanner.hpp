@@ -3,17 +3,6 @@
 
 #include "main.hpp"
 
-extern void SimplePathPlanner_init();
-extern int SimplePathPlanner();
-extern void Flatten_Map(double threshold);
-extern bool isValid(int row, int col);
-extern bool isUnBlocked(int grid[][Grid::n], int row, int col);
-extern bool isDestination(int row, int col, Pair dest);
-extern double calculateHValue(int row, int col, Pair dest);
-extern void tracePath(cell cellDetails[][Grid::n], Pair dest);
-extern void aStarSearch(int grid[][Grid::n], Pair src, Pair dest);
-
-
 class Maze {
 public:
     static int map[Grid::m][Grid::n];
@@ -34,5 +23,15 @@ struct cell {
     // f = g + h
     double f, g, h;
 };
+
+extern void SimplePathPlanner_init();
+extern int SimplePathPlanner();
+extern void Flatten_Map(double threshold);
+extern bool isValid(int row, int col);
+extern bool isUnBlocked(int grid[][Grid::n], int row, int col);
+extern bool isDestination(int row, int col, Pair dest);
+extern double calculateHValue(int row, int col, Pair dest);
+extern void tracePath(cell cellDetails[][Grid::n], Pair dest);
+extern void aStarSearch(int grid[][Grid::n], Pair src, Pair dest);
 
 #endif /* SIMPLE_PATH_PLANNER_H_ */
