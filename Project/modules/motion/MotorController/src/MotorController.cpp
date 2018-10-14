@@ -60,14 +60,14 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     // Now account for the forward distance required
     Goal_Dist[0] += Forward;
     Goal_Dist[1] += Forward;
-    Goal_Dist[1] = -Goal_Dist[1];
+    Goal_Dist[1] = Goal_Dist[1];
 
     // Set moving flag
     PathPlanner::moving_flag[0] = (Goal_Dist[0] == 0) ? 0 : ((Goal_Dist[0] < 0) ? (-1) : 1);
     PathPlanner::moving_flag[1] = (Goal_Dist[1] == 0) ? 0 : ((Goal_Dist[1] < 0) ? (1) : -1);
 
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
-
+    std::cout << "Moving flag " << PathPlanner::moving_flag[0] << " " << PathPlanner::moving_flag[1] << std::endl;
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
         // Set goal position
@@ -170,6 +170,10 @@ int MotorDirector() {
         delay(10);
     }
 
+
+    if(PathPlanner::curr_pos[0] > PathPlanner::goal_pos[0]){
+	std::cout << "This makes no sense" << std::endl;
+    }
     // For both motors the revolutions are position in the forward direction
     // Read in the position
 
@@ -178,8 +182,8 @@ int MotorDirector() {
     for (int i = 0; i < count; i++) {
         if (PathPlanner::moving_flag[i] != 0) {
             // Check to see if our goal is our current position
-            if ((PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] + 100)
-                | (PathPlanner::curr_pos[i] == PathPlanner::goal_pos[i] - 100)) {
+            if ((PathPlanner::curr_pos[i] <= PathPlanner::goal_pos[i] + 10)
+                && (PathPlanner::curr_pos[i] >= PathPlanner::goal_pos[i] - 10)) {
                 // If that is satisfied then stop the motor
                 std::cout << "Servo " << i << " at goal position" << std::endl;
                 PathPlanner::moving_flag[i] = 0;
