@@ -4,6 +4,7 @@
 // #include <camera.h>
 #include <errno.h>
 // #include <graphics.h>
+#include <bits/stdc++.h>
 #include <malloc.h>
 #include <math.h>
 #include <raspicam/raspicam_cv.h>
