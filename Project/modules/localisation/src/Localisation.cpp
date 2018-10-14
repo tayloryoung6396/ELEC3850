@@ -175,7 +175,7 @@ void Image_Occupancy_Map() {
     for (int rows = 0; rows < Grid::m; rows++) {
         for (int cols = 0; cols < Grid::n; cols++) {
             for (int pixel = 0; pixel < 100; pixel++) {
-                Map_Image [pixel * Grid:n + (cols * Grid::m + rows)] = Grid::map[rows][cols] * 255;
+                Map_Image[pixel * Grid::n + (cols * Grid::m + rows)] = Grid::map[rows][cols] * 255;
             }
         }
     }
