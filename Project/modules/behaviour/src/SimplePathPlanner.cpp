@@ -12,7 +12,7 @@
 
 #include "SimplePathPlanner.hpp"
 
-int map[Grid::m][Grid::n] = {0};
+int map[Maze::m][Maze::n] = {0};
 
 void SimplePathPlanner_init() {}
 
@@ -44,9 +44,9 @@ void SimplePathPlanner_init() {}
 
 // Lets make out grid into a B&W matrix
 void Flatten_Map(double threshold) {
-    for (int rows = 0; rows < Grid::m; rows++) {
-        for (int cols = 0; cols < Grid::n; cols++) {
-            Maze::map = Grid::map[Grid::m][Grid::n] > threshold ? 1 : 0;
+    for (int rows = 0; rows < Maze::m; rows++) {
+        for (int cols = 0; cols < Maze::n; cols++) {
+            Maze::map = Grid::map[Maze::m][Maze::n] > threshold ? 1 : 0;
         }
     }
 }
@@ -77,12 +77,12 @@ int SimplePathPlanner() {
 bool isValid(int row, int col) {
     // Returns true if row number and column number
     // is in range
-    return (row >= 0) && (row < Grid::m) && (col >= 0) && (col < Grid::n);
+    return (row >= 0) && (row < Maze::m) && (col >= 0) && (col < Maze::n);
 }
 
 // A Utility Function to check whether the given cell is
 // blocked or not
-bool isUnBlocked(int grid[][Grid::n], int row, int col) {
+bool isUnBlocked(int grid[][Maze::n], int row, int col) {
     // Returns true if the cell is not blocked else false
     if (grid[row][col] == 1)
         return (true);
@@ -107,7 +107,7 @@ double calculateHValue(int row, int col, Pair dest) {
 
 // A Utility Function to trace the path from the source
 // to destination
-void tracePath(cell cellDetails[][Grid::n], Pair dest) {
+void tracePath(cell cellDetails[][Maze::n], Pair dest) {
     printf("\nThe Path is ");
     int row = dest.first;
     int col = dest.second;
@@ -136,7 +136,7 @@ void tracePath(cell cellDetails[][Grid::n], Pair dest) {
 // A Function to find the shortest path between
 // a given source cell to a destination cell according
 // to A* Search Algorithm
-void aStarSearch(int grid[][Grid::n], Pair src, Pair dest) {
+void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
     // If the source is out of range
     if (isValid(src.first, src.second) == false) {
         printf("Source is invalid\n");
@@ -164,17 +164,17 @@ void aStarSearch(int grid[][Grid::n], Pair src, Pair dest) {
     // Create a closed list and initialise it to false which means
     // that no cell has been included yet
     // This closed list is implemented as a boolean 2D array
-    bool closedList[Grid::m][Grid::n];
+    bool closedList[Maze::m][Maze::n];
     memset(closedList, false, sizeof(closedList));
 
     // Declare a 2D array of structure to hold the details
     // of that cell
-    cell cellDetails[Grid::m][Grid::n];
+    cell cellDetails[Maze::m][Maze::n];
 
     int i, j;
 
-    for (i = 0; i < Grid::m; i++) {
-        for (j = 0; j < Grid::n; j++) {
+    for (i = 0; i < Maze::m; i++) {
+        for (j = 0; j < Maze::n; j++) {
             cellDetails[i][j].f        = FLT_MAX;
             cellDetails[i][j].g        = FLT_MAX;
             cellDetails[i][j].h        = FLT_MAX;
