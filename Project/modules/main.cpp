@@ -12,14 +12,17 @@ void signalHandler(int signum) {
 
     // cleanup and close up stuff here
     std::cout << "Velocity reset" << std::endl;
+    uint8_t count       = 2;
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < count; i++) {
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
         delay(10);
     }
     std::cout << "Disabling torque" << std::endl;
+    uint8_t data;
     for (int servo_ID = 6; servo_ID < 8; servo_ID++) {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
-        if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
+        if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == 0) {
             delay(10);
             executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 0);
             delay(10);
