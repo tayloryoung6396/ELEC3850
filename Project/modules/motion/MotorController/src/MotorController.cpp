@@ -60,14 +60,13 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     // Now account for the forward distance required
     Goal_Dist[0] += Forward;
     Goal_Dist[1] += Forward;
-    Goal_Dist[1] = Goal_Dist[1];
 
     // Set moving flag
     PathPlanner::moving_flag[0] = (Goal_Dist[0] == 0) ? 0 : ((Goal_Dist[0] < 0) ? (-1) : 1);
     PathPlanner::moving_flag[1] = (Goal_Dist[1] == 0) ? 0 : ((Goal_Dist[1] < 0) ? (1) : -1);
 
     std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
-    std::cout << "Moving flag " << PathPlanner::moving_flag[0] << " " << PathPlanner::moving_flag[1] << std::endl;
+
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
         // Set goal position
@@ -165,15 +164,11 @@ int MotorDirector() {
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
                           MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
-        std::cout << "Servo " << (int) servo_ID[i] << " Present position " << (int) PathPlanner::curr_pos[i]
-                  << std::endl;
+        // std::cout << "Servo " << (int) servo_ID[i] << " Present position " << (int) PathPlanner::curr_pos[i]
+        //           << std::endl;
         delay(10);
     }
 
-
-    if(PathPlanner::curr_pos[0] > PathPlanner::goal_pos[0]){
-	std::cout << "This makes no sense" << std::endl;
-    }
     // For both motors the revolutions are position in the forward direction
     // Read in the position
 
@@ -185,7 +180,7 @@ int MotorDirector() {
             if ((PathPlanner::curr_pos[i] <= PathPlanner::goal_pos[i] + 10)
                 && (PathPlanner::curr_pos[i] >= PathPlanner::goal_pos[i] - 10)) {
                 // If that is satisfied then stop the motor
-                std::cout << "Servo " << i << " at goal position" << std::endl;
+                // std::cout << "Servo " << i << " at goal position" << std::endl;
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
                 delay(10);
