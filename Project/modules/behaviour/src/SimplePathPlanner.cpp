@@ -12,7 +12,9 @@
 
 #include "SimplePathPlanner.hpp"
 
-int map[Maze::m][Maze::n] = {0};
+const int Maze::m = Grid::m;
+const int Maze::n = Grid::n;
+int Maze::map[Maze::m][Maze::n] = {0};
 
 void SimplePathPlanner_init() {}
 

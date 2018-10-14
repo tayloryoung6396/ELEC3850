@@ -3,10 +3,14 @@
 
 #include "main.hpp"
 
+#define Grid_m 15
+
 class Maze {
 public:
-    static int map[Maze::m][Maze::n];
-}
+    static const int m;
+    static const int n;
+    static int map[Grid_m][Grid_m];
+};
 
 // Creating a shortcut for int, int pair type
 typedef std::pair<int, int>
