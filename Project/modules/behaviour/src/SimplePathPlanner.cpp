@@ -6,6 +6,10 @@
  * Outputs: Path to follow as some sort of vector function
  */
 
+// A C++ Program to implement A* Search Algorithm
+// https://www.geeksforgeeks.org/a-search-algorithm/
+
+
 #include "SimplePathPlanner.hpp"
 
 void SimplePathPlanner_init() {}
