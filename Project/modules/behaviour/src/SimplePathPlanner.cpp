@@ -12,6 +12,8 @@
 
 #include "SimplePathPlanner.hpp"
 
+int map[Grid::m][Grid::n] = {0};
+
 void SimplePathPlanner_init() {}
 
 // int SimplePathPlanner() {
@@ -56,7 +58,8 @@ int SimplePathPlanner() {
      1--> The cell is not blocked
      0--> The cell is blocked    */
 
-    Flatten_Map(double threshold);
+    Flatten_Map(0.7);
+
 
     // Source is the left-most bottom-most corner
     Pair src = std::make_pair(8, 0);

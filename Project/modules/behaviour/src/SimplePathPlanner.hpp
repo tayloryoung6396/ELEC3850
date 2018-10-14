@@ -5,6 +5,7 @@
 
 extern void SimplePathPlanner_init();
 extern int SimplePathPlanner();
+extern void Flatten_Map(double threshold);
 extern bool isValid(int row, int col);
 extern bool isUnBlocked(int grid[][Grid::n], int row, int col);
 extern bool isDestination(int row, int col, Pair dest);
