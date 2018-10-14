@@ -12,9 +12,7 @@
 
 #include "SimplePathPlanner.hpp"
 
-const int Maze::m = Grid::m;
-const int Maze::n = Grid::n;
-int Maze::map[Maze::m][Maze::n] = {0};
+int Maze::map[Map_m][Map_n] = {0};
 
 void SimplePathPlanner_init() {}
 
@@ -46,9 +44,9 @@ void SimplePathPlanner_init() {}
 
 // Lets make out grid into a B&W matrix
 void Flatten_Map(double threshold) {
-    for (int rows = 0; rows < Maze::m; rows++) {
-        for (int cols = 0; cols < Maze::n; cols++) {
-            Maze::map = Grid::map[Maze::m][Maze::n] > threshold ? 1 : 0;
+    for (int rows = 0; rows < Map_m; rows++) {
+        for (int cols = 0; cols < Map_n; cols++) {
+            Map_map = Grid::map[Map_m][Map_n] > threshold ? 1 : 0;
         }
     }
 }
@@ -62,14 +60,13 @@ int SimplePathPlanner() {
 
     Flatten_Map(0.7);
 
-
     // Source is the left-most bottom-most corner
     Pair src = std::make_pair(8, 0);
 
     // Destination is the left-most top-most corner
     Pair dest = std::make_pair(0, 0);
 
-    aStarSearch(Maze::map, src, dest);
+    aStarSearch(Map_map, src, dest);
 
     return (0);
 }
@@ -79,12 +76,12 @@ int SimplePathPlanner() {
 bool isValid(int row, int col) {
     // Returns true if row number and column number
     // is in range
-    return (row >= 0) && (row < Maze::m) && (col >= 0) && (col < Maze::n);
+    return (row >= 0) && (row < Map_m) && (col >= 0) && (col < Map_n);
 }
 
 // A Utility Function to check whether the given cell is
 // blocked or not
-bool isUnBlocked(int grid[][Maze::n], int row, int col) {
+bool isUnBlocked(int grid[][Map_n], int row, int col) {
     // Returns true if the cell is not blocked else false
     if (grid[row][col] == 1)
         return (true);
@@ -104,13 +101,13 @@ bool isDestination(int row, int col, Pair dest) {
 // A Utility Function to calculate the 'h' heuristics.
 double calculateHValue(int row, int col, Pair dest) {
     // Return using the distance formula
-    return ((double) sqrt((row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
+    return ((double) std::sqrt((row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
 }
 
 // A Utility Function to trace the path from the source
 // to destination
-void tracePath(cell cellDetails[][Maze::n], Pair dest) {
-    printf("\nThe Path is ");
+void tracePath(cell cellDetails[][Map_n], Pair dest) {
+    std::cout << "The Path is " << std::endl;
     int row = dest.first;
     int col = dest.second;
 
@@ -128,9 +125,8 @@ void tracePath(cell cellDetails[][Maze::n], Pair dest) {
     while (!Path.empty()) {
         std::pair<int, int> p = Path.top();
         Path.pop();
-        printf("-> (%d,%d) ", p.first, p.second);
+        std::cout << "-> (" << p.first << ", " << p.second << ")" << std::endl;
     }
-    printf("\n");
 
     return;
 }
@@ -138,45 +134,45 @@ void tracePath(cell cellDetails[][Maze::n], Pair dest) {
 // A Function to find the shortest path between
 // a given source cell to a destination cell according
 // to A* Search Algorithm
-void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
+void aStarSearch(int grid[][Map_n], Pair src, Pair dest) {
     // If the source is out of range
     if (isValid(src.first, src.second) == false) {
-        printf("Source is invalid\n");
+        std::cout << "Source is invalid" << std::endl;
         return;
     }
 
     // If the destination is out of range
     if (isValid(dest.first, dest.second) == false) {
-        printf("Destination is invalid\n");
+        std::cout << "Destination is invalid" << std::endl;
         return;
     }
 
     // Either the source or the destination is blocked
     if (isUnBlocked(grid, src.first, src.second) == false || isUnBlocked(grid, dest.first, dest.second) == false) {
-        printf("Source or the destination is blocked\n");
+        std::cout << "Source or the destination is blocked" << std::endl;
         return;
     }
 
     // If the destination cell is the same as source cell
     if (isDestination(src.first, src.second, dest) == true) {
-        printf("We are already at the destination\n");
+        std::cout << "We are already at the destination" << std::endl;
         return;
     }
 
     // Create a closed list and initialise it to false which means
     // that no cell has been included yet
     // This closed list is implemented as a boolean 2D array
-    bool closedList[Maze::m][Maze::n];
+    bool closedList[Map_m][Map_n];
     memset(closedList, false, sizeof(closedList));
 
     // Declare a 2D array of structure to hold the details
     // of that cell
-    cell cellDetails[Maze::m][Maze::n];
+    cell cellDetails[Map_m][Map_n];
 
     int i, j;
 
-    for (i = 0; i < Maze::m; i++) {
-        for (j = 0; j < Maze::n; j++) {
+    for (i = 0; i < Map_m; i++) {
+        for (j = 0; j < Map_n; j++) {
             cellDetails[i][j].f        = FLT_MAX;
             cellDetails[i][j].g        = FLT_MAX;
             cellDetails[i][j].h        = FLT_MAX;
@@ -255,7 +251,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i - 1][j].parent_i = i;
                 cellDetails[i - 1][j].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -299,7 +295,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i + 1][j].parent_i = i;
                 cellDetails[i + 1][j].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -342,7 +338,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i][j + 1].parent_i = i;
                 cellDetails[i][j + 1].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -387,7 +383,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i][j - 1].parent_i = i;
                 cellDetails[i][j - 1].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -432,7 +428,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i - 1][j + 1].parent_i = i;
                 cellDetails[i - 1][j + 1].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -477,7 +473,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i - 1][j - 1].parent_i = i;
                 cellDetails[i - 1][j - 1].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -521,7 +517,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i + 1][j + 1].parent_i = i;
                 cellDetails[i + 1][j + 1].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -566,7 +562,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
                 // Set the Parent of the destination cell
                 cellDetails[i + 1][j - 1].parent_i = i;
                 cellDetails[i + 1][j - 1].parent_j = j;
-                printf("The destination cell is found\n");
+                std::cout << "The destination cell is found" << std::endl;
                 tracePath(cellDetails, dest);
                 foundDest = true;
                 return;
@@ -606,7 +602,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
     // list is empty, then we conclude that we failed to
     // reach the destiantion cell. This may happen when the
     // there is no way to destination cell (due to blockages)
-    if (foundDest == false) printf("Failed to find the Destination Cell\n");
+    if (foundDest == false) std::cout << "Failed to find the Destination Cell" << std::endl;
 
     return;
 }
@@ -683,7 +679,7 @@ void aStarSearch(int grid[][Maze::n], Pair src, Pair dest) {
 //                     // Add the cell to the open list
 //                     Maze::Open_list.emplace_back();
 //                 }
-//                 else if (Maze::map[rows][cols] == 0) {
+//                 else if (Map_map[rows][cols] == 0) {
 //                     // If the cell isnt the parent
 //                     if (rows != Current_cell[0] && cols != Current_cell[1]) {
 //                         // If the cell isn't in the closed list

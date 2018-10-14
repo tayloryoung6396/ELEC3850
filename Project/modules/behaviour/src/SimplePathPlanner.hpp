@@ -3,18 +3,16 @@
 
 #include "main.hpp"
 
-#define Grid_m 15
+#define Map_m 15
+#define Map_n 15
 
 class Maze {
 public:
-    static const int m;
-    static const int n;
-    static int map[Grid_m][Grid_m];
+    static int map[Map_m][Map_n];
 };
 
 // Creating a shortcut for int, int pair type
-typedef std::pair<int, int>
-    Pair;
+typedef std::pair<int, int> Pair;
 
 // Creating a shortcut for pair<int, pair<int, int>> type
 typedef std::pair<double, std::pair<int, int>> pPair;
@@ -32,10 +30,10 @@ extern void SimplePathPlanner_init();
 extern int SimplePathPlanner();
 extern void Flatten_Map(double threshold);
 extern bool isValid(int row, int col);
-extern bool isUnBlocked(int grid[][Maze::n], int row, int col);
+extern bool isUnBlocked(int grid[][Map_n], int row, int col);
 extern bool isDestination(int row, int col, Pair dest);
 extern double calculateHValue(int row, int col, Pair dest);
-extern void tracePath(cell cellDetails[][Maze::n], Pair dest);
-extern void aStarSearch(int grid[][Maze::n], Pair src, Pair dest);
+extern void tracePath(cell cellDetails[][Map_n], Pair dest);
+extern void aStarSearch(int grid[][Map_n], Pair src, Pair dest);
 
 #endif /* SIMPLE_PATH_PLANNER_H_ */
