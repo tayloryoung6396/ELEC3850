@@ -46,7 +46,7 @@ void SimplePathPlanner_init() {}
 void Flatten_Map(double threshold) {
     for (int rows = 0; rows < Map_m; rows++) {
         for (int cols = 0; cols < Map_n; cols++) {
-            Maze::map[rows][cols] = Grid::map[rows][cols] > threshold ? 1 : 0;
+            Maze::map[rows][cols] = Grid::map[rows][cols] > threshold ? 0 : 1;
         }
     }
 }
