@@ -53,12 +53,12 @@ int main() {
 
         // For each iteration
         // Check sensors
-        // if (frame_count % 5 == 0) {
-        // Camera_main();
-        // InfraredSensor_main();
-        // Classifier_main();
+        //if (frame_count % 5 == 0) {
+            Camera_main();
+            // InfraredSensor_main();
+            // Classifier_main();
         //}
-        break;
+
         UltrasonicSensor_main();
 
         // if (frame_count % 5 == 0) {
