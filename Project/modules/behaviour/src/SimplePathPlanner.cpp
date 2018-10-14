@@ -61,10 +61,10 @@ int SimplePathPlanner() {
     Flatten_Map(0.7);
 
     // Source is the left-most bottom-most corner
-    Pair src = std::make_pair(8, 0);
+    std::pair<int, int> src = std::make_pair(8, 0);
 
     // Destination is the left-most top-most corner
-    Pair dest = std::make_pair(0, 0);
+    std::pair<int, int> dest = std::make_pair(0, 0);
 
     aStarSearch(Map_map, src, dest);
 
@@ -91,7 +91,7 @@ bool isUnBlocked(int grid[][Map_n], int row, int col) {
 
 // A Utility Function to check whether destination cell has
 // been reached or not
-bool isDestination(int row, int col, Pair dest) {
+bool isDestination(int row, int col, std::pair<int, int> dest) {
     if (row == dest.first && col == dest.second)
         return (true);
     else
@@ -99,19 +99,19 @@ bool isDestination(int row, int col, Pair dest) {
 }
 
 // A Utility Function to calculate the 'h' heuristics.
-double calculateHValue(int row, int col, Pair dest) {
+double calculateHValue(int row, int col, std::pair<int, int> dest) {
     // Return using the distance formula
     return ((double) std::sqrt((row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
 }
 
 // A Utility Function to trace the path from the source
 // to destination
-void tracePath(cell cellDetails[][Map_n], Pair dest) {
+void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
     std::cout << "The Path is " << std::endl;
     int row = dest.first;
     int col = dest.second;
 
-    std::stack<Pair> Path;
+    std::stack<std::pair<int, int>> Path;
 
     while (!(cellDetails[row][col].parent_i == row && cellDetails[row][col].parent_j == col)) {
         Path.push(std::make_pair(row, col));
@@ -134,7 +134,7 @@ void tracePath(cell cellDetails[][Map_n], Pair dest) {
 // A Function to find the shortest path between
 // a given source cell to a destination cell according
 // to A* Search Algorithm
-void aStarSearch(int grid[][Map_n], Pair src, Pair dest) {
+void aStarSearch(int grid[][Map_n], std::pair<int, int> src, std::pair<int, int> dest) {
     // If the source is out of range
     if (isValid(src.first, src.second) == false) {
         std::cout << "Source is invalid" << std::endl;
@@ -196,7 +196,7 @@ void aStarSearch(int grid[][Map_n], Pair src, Pair dest) {
      and i, j are the row and column index of that cell
      Note that 0 <= i <= ROW-1 & 0 <= j <= COL-1
      This open list is implenented as a set of pair of pair.*/
-    std::set<pPair> openList;
+    std::set<std::pair<double, std::pair<int, int>>> openList;
 
     // Put the starting cell on the open list and set its
     // 'f' as 0
@@ -207,7 +207,7 @@ void aStarSearch(int grid[][Map_n], Pair src, Pair dest) {
     bool foundDest = false;
 
     while (!openList.empty()) {
-        pPair p = *openList.begin();
+        std::pair<double, std::pair<int, int>> p = *openList.begin();
 
         // Remove this vertex from the open list
         openList.erase(openList.begin());
