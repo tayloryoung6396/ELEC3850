@@ -46,7 +46,7 @@ void SimplePathPlanner_init() {}
 void Flatten_Map(double threshold) {
     for (int rows = 0; rows < Map_m; rows++) {
         for (int cols = 0; cols < Map_n; cols++) {
-            Map_map = Grid::map[Map_m][Map_n] > threshold ? 1 : 0;
+            Maze::map = Grid::map[Map_m][Map_n] > threshold ? 1 : 0;
         }
     }
 }
@@ -66,7 +66,7 @@ int SimplePathPlanner() {
     // Destination is the left-most top-most corner
     std::pair<int, int> dest = std::make_pair(0, 0);
 
-    aStarSearch(Map_map, src, dest);
+    aStarSearch(Maze::map, src, dest);
 
     return (0);
 }
@@ -679,7 +679,7 @@ void aStarSearch(int grid[][Map_n], std::pair<int, int> src, std::pair<int, int>
 //                     // Add the cell to the open list
 //                     Maze::Open_list.emplace_back();
 //                 }
-//                 else if (Map_map[rows][cols] == 0) {
+//                 else if (Maze::map[rows][cols] == 0) {
 //                     // If the cell isnt the parent
 //                     if (rows != Current_cell[0] && cols != Current_cell[1]) {
 //                         // If the cell isn't in the closed list
