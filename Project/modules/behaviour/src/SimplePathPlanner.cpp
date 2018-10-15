@@ -27,18 +27,21 @@ void Flatten_Map(double threshold) {
 
 
 // Driver program to test above function
-int SimplePathPlanner() {
+int SimplePathPlanner(Start, End) {
     /* Description of the Grid-
      1--> The cell is not blocked
      0--> The cell is blocked    */
 
     Flatten_Map(0.7);
 
-    // Source is the left-most bottom-most corner
-    std::pair<int, int> src = std::make_pair(8, 0);
 
-    // Destination is the left-most top-most corner
-    std::pair<int, int> dest = std::make_pair(0, 0);
+    // Calculate which cell we are in
+    std::pair<int, int> src = std::make_pair(std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace),
+                                             std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace));
+
+    // Calculate which cell we want to finish in
+    std::pair<int, int> dest = std::make_pair(std::floor(Localisation::w_Goal_Position[0] / Grid::gridspace),
+                                              std::floor(Localisation::w_Goal_Position[1] / Grid::gridspace));
 
     aStarSearch(Maze::map, src, dest);
 
@@ -140,8 +143,8 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
     pplanner.popback();
 
     // Convert the grid cell to a world coordinate
-    Next_Position[0] = ret_vec.first * Grid::gridspace + Grid::gridspace / 2.0;
-    Next_Position[1] = ret_vec.second * Grid::gridspace + Grid::gridspace / 2.0;
+    Next_Position[0] = Localisation::w_Goal_Postition[0];
+    Next_Position[1] = Localisation::w_Goal_Postition[1];
 
     // Find the vector from my previous position to my next position
     Next_Position[0] = Next_Position[0] - Prev_Position[0];
