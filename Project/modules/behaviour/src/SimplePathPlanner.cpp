@@ -27,7 +27,7 @@ void Flatten_Map(double threshold) {
 
 
 // Driver program to test above function
-int SimplePathPlanner(Start, End) {
+int SimplePathPlanner() {
     /* Description of the Grid-
      1--> The cell is not blocked
      0--> The cell is blocked    */

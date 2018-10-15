@@ -83,38 +83,25 @@ int AutonomousControl_main() {
     return 0;
 }
 
+// TODO Account for the end being all 1
+// void weighted_search(int Search_cell[]) {
+//     int weighted_map = 0;
+//     int prev_weight  = 0;
 
-// // TODO
-// // weighted_search() {
-// // take the grid map and perform a weighted gradient over the map
-// // output a goal position to send to path planner
-
-// #define OBSTACLE 1
-// #define GRID_X 60  // TODO these are defined already in localisation
-// #define GRID_Y 60  // TODO these are defined already in localisation
-
-// // TODO this is slow, find a way to avoid the pow and sqrt
-// int* weighted_search() {
-//     int goal_x      = 0;
-//     int goal_y      = 0;
-//     double max_dist = 0;
-//     curr_max_grid   = 0;
-
-//     int tank_grid_x = 0;  // TODO populate from localisation
-//     int tank_grid_x = 0;  // TODO populate from localisation
-
-//     // Search each vertical column
-//     for (int x = 0; x < GRID_X; x++) {
-//         // Search each horizontal row
-//         for (int y = 0; y < GRID_Y; y++) {
-//             // If the cell doesnt have an obstacle curently in it
-//             if (grid_map[x][y] != OBSTACLE) {
-//                 max_dist = std::sqrt(std::pow(x - tank_grid_x, 2) + std::pow(y - tank_grid_y, 2));
-//                 if (max_dist > curr_max_grid) {
-//                     curr_max_grid = max_dist;
-//                     goal_x        = x;
-//                     goal_y        = y;
-//                 }
+//     for (int rows = 0; rows < Map_m; rows++) {
+//         for (int cols = 0; cols < Map_n; cols++) {
+//             weighted_map = (int) Grid::map[rows - 1][cols - 1] * 10;
+//             weighted_map += (int) Grid::map[rows - 1][cols] * 14;
+//             weighted_map += (int) Grid::map[rows - 1][cols + 1] * 10;
+//             weighted_map += (int) Grid::map[rows][cols - 1] * 14;
+//             weighted_map += (int) Grid::map[rows][cols] * 20;
+//             weighted_map += (int) Grid::map[rows][cols + 1] * 14;
+//             weighted_map += (int) Grid::map[rows + 1][cols - 1] * 10;
+//             weighted_map += (int) Grid::map[rows + 1][cols] * 14;
+//             weighted_map += (int) Grid::map[rows + 1][cols + 1] * 10;
+//             if (weighted_map > prev_weight) {
+//                 Search_cell[0] = rows;
+//                 Search_cell[0] = cols;
 //             }
 //         }
 //     }
