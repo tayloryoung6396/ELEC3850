@@ -34,7 +34,6 @@ int SimplePathPlanner(Start, End) {
 
     Flatten_Map(0.7);
 
-
     // Calculate which cell we are in
     std::pair<int, int> src = std::make_pair(std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace),
                                              std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace));

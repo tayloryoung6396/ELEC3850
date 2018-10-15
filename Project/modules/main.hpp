@@ -1,10 +1,8 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-// #include <camera.h>
-#include <errno.h>
-// #include <graphics.h>
 #include <bits/stdc++.h>
+#include <errno.h>
 #include <malloc.h>
 #include <math.h>
 #include <raspicam/raspicam.h>

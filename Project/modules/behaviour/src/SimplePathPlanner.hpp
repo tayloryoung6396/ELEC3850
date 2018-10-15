@@ -11,12 +11,6 @@ public:
     static int map[Map_m][Map_n];
 };
 
-// Creating a shortcut for int, int pair type
-// typedef std::pair<int, int> Pair;
-
-// Creating a shortcut for pair<int, pair<int, int>> type
-// typedef std::pair<double, std::pair<int, int>> pPair;
-
 // A structure to hold the neccesary parameters
 struct cell {
     // Row and Column index of its parent
