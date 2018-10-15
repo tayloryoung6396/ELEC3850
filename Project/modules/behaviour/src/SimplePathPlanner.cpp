@@ -95,26 +95,67 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
         col          = temp_col;
     }
 
+    PathPlanner pplanner;
+
+    double Forward  = 0;
+    double Rotation = 0;
+
+    double Prev_Position[2] = {Localisation::w_Tank_Position[0], Localisation::w_Tank_Position[1]};
+    double Next_Position[2] = {0};
+
+    double Previous_Rotation = Localisation::w_Tank_Rotation;
+    double Next_Rotation     = Localisation::w_Tank_Rotation;
+
     Path.push(std::make_pair(row, col));
+    std::pair<int, int> p = Path.top();
+    Path.pop();
+
     while (!Path.empty()) {
+
         std::pair<int, int> p = Path.top();
         Path.pop();
         std::cout << "-> (" << p.first << ", " << p.second << ")" << std::endl;
-        // TODO here i should add it to a list like before, remember to do the rotation stuff
-        //     double t_Goal_Position[2] = {Localisation::w_Goal_Position[0] - Localisation::w_Tank_Position[0],
-        //                                  Localisation::w_Goal_Position[1] - Localisation::w_Tank_Position[1]};
-        //     // Calculate the rotation difference
-        //     double t_Goal_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
 
-        //     // Convert into a forward and rotation command
-        //     double Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
-        //     double Rotation = Localisation::w_Tank_Rotation - t_Goal_Rotation;
-        //     PathPlanner pplanner;
+        // Convert the grid cell to a world coordinate
+        Next_Position[0] = p.first * Grid::gridspace + Grid::gridspace / 2.0;
+        Next_Position[1] = p.second * Grid::gridspace + Grid::gridspace / 2.0;
 
-        //     // Rotation is relative to the vehicle, not the world
-        //     pplanner.emplace_path(Forward, Rotation);
+        // Find the vector from my previous position to my next position
+        Next_Position[0] = Next_Position[0] - Prev_Position[0];
+        Next_Position[1] = Next_Position[1] - Prev_Position[1];
+        // Calculate the rotation difference
+        Next_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
+
+        // Convert into a forward and rotation command
+        Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
+        Rotation = Previous_Rotation - Next_Rotation;
+
+        // Add the polar vector to my list
+        // Rotation is relative to the vehicle, not the world
+        pplanner.emplace_path(Forward, Rotation);
     }
 
+    // Remove that last member and replace it with the final goal
+    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.back();
+    pplanner.popback();
+
+    // Convert the grid cell to a world coordinate
+    Next_Position[0] = ret_vec.first * Grid::gridspace + Grid::gridspace / 2.0;
+    Next_Position[1] = ret_vec.second * Grid::gridspace + Grid::gridspace / 2.0;
+
+    // Find the vector from my previous position to my next position
+    Next_Position[0] = Next_Position[0] - Prev_Position[0];
+    Next_Position[1] = Next_Position[1] - Prev_Position[1];
+    // Calculate the rotation difference
+    Next_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
+
+    // Convert into a forward and rotation command
+    Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
+    Rotation = Previous_Rotation - Next_Rotation;
+
+    // Add the polar vector to my list
+    // Rotation is relative to the vehicle, not the world
+    pplanner.emplace_path(Forward, Rotation);
     return;
 }
 
@@ -593,122 +634,3 @@ void aStarSearch(int grid[][Map_n], std::pair<int, int> src, std::pair<int, int>
 
     return;
 }
-
-// struct {
-//     node_num;
-//     position[2];  // Cell
-//     G_cost;       // Cost to travel from start node to current node (Don't think i need this)
-//     H_cost;       // Cost to travel from current node to end node
-//     F_cost;       // Cost of G + H
-//     parent_num;
-// }
-
-// static std::vector<std::pair<int, int>>
-//     Open_set;
-// static std::vector<std::pair<int, int>> Closed_set;
-
-// void A_star_search() {
-
-//     // Start with current node
-//     Node new_node;
-//     new_node.node_num   = Convert_cell_node_num();  // TODO
-//     new_node.parent_num = Convert_cell_node_num();  // TODO
-//     new_node.H_cost     = Calculate_H_cost();       // TODO
-//     new_node.G_cost     = Calculate_G_cost();       // TODO
-//     new_node.F_cost     = Calculate_F_cost();       // TODO
-
-//     Child_nodes(new_node.position, new_node, Goal_cell);  // TODO
-
-//     // Now we look at our list
-//     // Find the first smallest F_cost on our list
-//     while () {
-//         int min_F_cost = 100;
-//         Node min_node;
-//         for (auto& open_node : Maze::Open_list) {
-//             if (open_node.F_cost < min_F_cost) {
-//                 min_node = open_node;
-//             }
-//         }
-//         Child_nodes(new_node.position, new_node, Goal_cell);
-//     }
-// }
-
-// int Calculate_H_cost(int Current_cell[], int End_cell[]) {
-
-//     int H_cost = std::abs(End_cell[0] - Current_cell[0]) + std::abs(End_cell[1] - Current_cell[1]);
-//     return (H_cost);
-// }
-
-// int Calculate_G_cost(int Current_cell[], int Next_cell[]) {
-
-//     if (Current_cell[0] != Next_cell[0] && Current_cell[1] != Next_cell[1]) {
-//         // If we are a diagonal pair
-//         return 14;
-//     }
-//     // Else we are horizontally or vertically a pair
-//     return 10;
-// }
-
-// void Child_nodes(int Current_cell[], Node Parent_node, Goal_cell) {
-//     for (int rows = Current_cell[0] - 1; rows < 3; rows++) {
-//         for (int cols = Current_cell[1] - 1; cols < 3; cols++) {
-//             // If our node is valid
-//             if (rows >= 0 && cols >= 0) {
-//                 if (rows == Goal_cell[0] && cols == Goal_cell[1]) {
-//                     // We have found our goal node
-//                     // Go to the goal node and parent
-//                     Node new_node;
-//                     new_node.node_num   = Convert_cell_node_num(rows, cols);
-//                     new_node.parent_num = Convert_cell_node_num(Current_cell[0], Current_cell[1]);
-//                     new_node.H_cost     = Calculate_H_cost(Next_cell, Goal_cell);
-//                     new_node.G_cost     = Parent_node.F_cost + Calculate_G_cost(Current_cell, Next_cell);
-//                     new_node.F_cost     = new_node.G_cost + new_node.H_cost;
-//                     // Add the cell to the open list
-//                     Maze::Open_list.emplace_back();
-//                 }
-//                 else if (Maze::map[rows][cols] == 0) {
-//                     // If the cell isnt the parent
-//                     if (rows != Current_cell[0] && cols != Current_cell[1]) {
-//                         // If the cell isn't in the closed list
-//                         if (Check_closed_list(Convert_cell_node_num(rows, cols)) == 0) {
-//                             int Next_cell[2] = {rows, cols};
-//                             if (Check_open_list(Convert_cell_node_num(rows, cols)) == 1) {
-//                                 // See is the movement is better or worse
-//                                 if (Parent_node.G_cost + Calculate_G_cost(Current_cell, Next_cell)
-//                                     < Get_G_cost(Convert_cell_node_num(Next_cell[0], Next_cell[1]))) {
-//                                     // Reparent our node
-//                                     for (auto& open_node : Maze::Open_list) {
-//                                         if (open_node.node_num == Cell_num) {
-//                                             open_node.parent_num =
-//                                                 Convert_cell_node_num(Current_cell[0], Current_cell[1]);
-//                                         }
-//                                     }
-//                                 }
-//                             }
-//                             else {
-//                                 // Make a new struct
-//                                 Node new_node;
-//                                 new_node.node_num   = Convert_cell_node_num(rows, cols);
-//                                 new_node.parent_num = Convert_cell_node_num(Current_cell[0], Current_cell[1]);
-//                                 new_node.H_cost     = Calculate_H_cost(Next_cell, Goal_cell);
-//                                 new_node.G_cost     = Parent_node.F_cost + Calculate_G_cost(Current_cell, Next_cell);
-//                                 new_node.F_cost     = new_node.G_cost + new_node.H_cost;
-//                                 // Add the cell to the open list
-//                                 Maze::Open_list.emplace_back();
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     Maze::Closed_list.emplace_back(Convert_cell_node_num(Current_cell[0], Current_cell[1]));
-// }
-
-// int Get_G_cost(int Cell_num) {
-//     for (auto& open_node : Maze::Open_list) {
-//         if (open_node.node_num == Cell_num) {
-//             return open_node.G_cost;
-//         }
-//     }
-// }
