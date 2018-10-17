@@ -195,10 +195,23 @@ void Dynamixel_init() {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(10);
+            // Enable torque
             executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
             delay(10);
-            // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 16000);
+            // Change gain
+            // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);
             // delay(10);
+            /*
+            // Change Acceleration Profile
+            // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), 16000);
+            // delay(10);
+            */
+            // Change Velocity Limit Unit is 0.229 RPM from 0 ~1023
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
+            delay(10);
+            // Change Velocity Profile Unit is 0.229 RPM from 0 ~1023
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
+            delay(10);
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
