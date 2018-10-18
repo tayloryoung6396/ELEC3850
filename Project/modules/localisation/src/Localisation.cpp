@@ -41,8 +41,8 @@ int Localisation_main() {
 
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
-    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace);
-    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace);
+    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row;
+    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column;
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4]  = {0};
@@ -129,7 +129,18 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
 
     // use a straight line function to start however i believe tanh would work nicely
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
-    Grid::map[cell_column][cell_row] += prob;
+    // set upper and lower prob lim
+    // cap upper at 1
+    if (Grid::map[cell_column][cell_row] + prob > 1) {
+        Grid::map[cell_column][cell_row] = 1;
+    }
+    // cap lower at 0
+    else if (Grid::map[cell_column][cell_row] < 0) {
+        Grid::map[cell_column][cell_row] = 0;
+    }
+    else {
+        Grid::map[cell_column][cell_row] += prob;
+    }
     std::cout << "Probability " << prob << std::endl;
 }
 
