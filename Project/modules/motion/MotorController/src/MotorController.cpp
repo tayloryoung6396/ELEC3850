@@ -27,18 +27,19 @@ int MotorController() {
     // Convert it to a polar vector and execute it - all in tank space
     PathPlanner pplanner;
 
-    if (!pplanner.check_path()) {
-        std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
-        pplanner.path_erase_first();
+    // If we're not moving
+    if (PathPlanner::moving_flag[0] == 0 && PathPlanner::moving_flag[1] == 0) {
+        if (!pplanner.check_path()) {
+            std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
+            pplanner.path_erase_first();
 
-        if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
-            std::cout << "Error Could not calculate motor driver" << std::endl;
-            return -1;
+            std::cout << "New point " << ret_vec->first << ", " << ret_vec->second << std::endl;
+
+            if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
+                std::cout << "Error Could not calculate motor driver" << std::endl;
+                return -1;
+            }
         }
-    }
-    else {
-        // We must be at our goal?
-        // Or we don't have a goal
     }
     return 0;
 }
@@ -186,6 +187,20 @@ int MotorDirector() {
                 delay(10);
                 std::cout << "Stopped moving"
                           << " ID " << i << std::endl;
+
+                // Check to see if there's more path info
+                PathPlanner pplanner;
+                if (!pplanner.check_path()) {
+                    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
+                    pplanner.path_erase_first();
+
+                    std::cout << "New point " << ret_vec->first << ", " << ret_vec->second << std::endl;
+
+                    if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
+                        std::cout << "Error Could not calculate motor driver" << std::endl;
+                        return -1;
+                    }
+                }
             }
         }
     }
