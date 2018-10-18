@@ -29,9 +29,9 @@ double Kinematics::Servo_min_limit[5] = {-M_PI, -M_PI / 2.0, -M_PI / 2.0, -M_PI 
 double Kinematics::Servo_offset[5]    = {0, 0, 0, 0, 0};
 
 double Kinematics::ultrasonic_offset[4] = {Kinematics::tank_width / 2.0,
-                                                 Kinematics::tank_length / 2.0,
-                                                 Kinematics::tank_width / 2.0,
-                                                 Kinematics::tank_length / 2.0};  // R, B, L, F
+                                           Kinematics::tank_length / 2.0,
+                                           Kinematics::tank_width / 2.0,
+                                           Kinematics::tank_length / 2.0};  // R, B, L, F
 
 void Kinematics_init() {
     std::cout << "Initilising KINEMATICS" << std::endl;

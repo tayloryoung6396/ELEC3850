@@ -146,11 +146,6 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     return 0;
 }
 
-
-// TODO Overhaul this, it's missing some conversions
-
-// 0.48m per revolution
-
 int MotorDirector() {
 
     // For each servo, lets run the director
@@ -165,8 +160,6 @@ int MotorDirector() {
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
                           MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
-        // std::cout << "Servo " << (int) servo_ID[i] << " Present position " << (int) PathPlanner::curr_pos[i]
-        //           << std::endl;
         delay(10);
     }
 

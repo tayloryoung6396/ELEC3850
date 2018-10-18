@@ -12,22 +12,18 @@ double Ultrasonic::Detection_distances[SENSORS] = {0};
 
 // Interrupts
 void myInterrupt0(void) {  // INTERRUPT FOR SENSOR 1
-    // std::cout << "INT 1" << std::endl;
     Ultrasonic::sensor_return[0] = micros();
 }
 
 void myInterrupt1(void) {  // INTERRUPT FOR SENSOR 2
-    // std::cout << "INT 2" << std::endl;
     Ultrasonic::sensor_return[1] = micros();
 }
 
 void myInterrupt2(void) {  // INTERRUPT FOR SENSOR 3
-    // std::cout << "INT 3" << std::endl;
     Ultrasonic::sensor_return[2] = micros();
 }
 
 void myInterrupt3(void) {  // INTERRUPT FOR SENSOR 4
-    // std::cout << "INT 4" << std::endl;
     Ultrasonic::sensor_return[3] = micros();
 }
 
@@ -38,7 +34,6 @@ void UltrasonicSensor_init() {
     // Set inputs/outputs
     // Set and ISR functions etc.
 
-    // DEFINE GPIO PINS FOR I/O MODE
     pinMode(TRIG, OUTPUT);  // TRIGGER IS AN OUTPUT FOR RPI
     pinMode(ECHO0, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 1
     pinMode(ECHO1, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 2

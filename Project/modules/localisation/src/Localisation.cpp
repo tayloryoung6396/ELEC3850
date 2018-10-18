@@ -11,7 +11,7 @@
 // X Y Current position in world coordinates
 double Localisation::w_Tank_Position[2] = {0};
 // Rotation about the w_Tank_Position in the anticlockwise direction (radians)
-double Localisation::w_Tank_Rotation    =  0;
+double Localisation::w_Tank_Rotation = 0;
 // X Y Goal position in world coordinates
 double Localisation::w_Goal_Position[2] = {0};
 
@@ -44,14 +44,8 @@ int Localisation_main() {
     int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row;
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column;
 
-    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace)+Grid::start_row ;
-    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace)+Grid::start_column;
-<<<<<<< HEAD
-    std::cout << "tank possi m (down) " << tank_cell_m << std::endl;
-    std::cout << "tank possi n (across) " << tank_cell_n << std::endl;
-
-=======
->>>>>>> test_branch_alex
+    std::cout << "Tank cell x " << tank_cell_m << std::endl;
+    std::cout << "Tank cell y " << tank_cell_n << std::endl;
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4]  = {0};
@@ -89,18 +83,6 @@ int Localisation_main() {
     std::cout << "Sensor rotation \t" << sen_theta[3] << " Sensor hori \t" << sen_hori[3] << " Sensor vert \t"
               << sen_vert[3] << std::endl;
 
-<<<<<<< HEAD
-
-    //print some values for sensor meth
-    for(int i=0; i<SENSORS; i++)
-    {
-        std::cout << "Sensor position" << i << "="<<  sen_theta[i]<< std::endl;
-        std::cout << "Sensor position" << i << "="<<  sen_hori[i]<< std::endl;
-        std::cout << "Sensor position" << i << "="<<  sen_vert[i]<< std::endl;
-    }
-
-=======
->>>>>>> test_branch_alex
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
 
@@ -149,8 +131,8 @@ int Localisation_main() {
 void probability(int cell_column, int cell_row, double cell_dist, double obj_dist) {
 
     // use a straight line function to start however i believe tanh would work nicely
-<<<<<<< HEAD
-    std::cout << "old prob"  << "="<< Grid::map[cell_column][cell_row] << std::endl;
+    std::cout << "Previous probability " << Grid::map[cell_column][cell_row] << std::endl;
+
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
     // set upper and lower prob lim
     // cap upper at 1
@@ -174,12 +156,6 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     double e  = 0;
     double y  = Localisation::w_Tank_Position[1];
 
-    std::cout << "dx " << dx << std::endl;
-    std::cout << "dy " << dy << std::endl;
-    std::cout << "de " << de << std::endl;
-    std::cout << "e  " << e << std::endl;
-    std::cout << "y  " << y << std::endl;
-
     for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; x += Grid::gridspace) {
         Grid::cell_list.emplace_back(std::make_pair(std::floor(x / Grid::gridspace), std::floor(y / Grid::gridspace)));
         e += de;
@@ -190,7 +166,6 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
         if (e >= 0.5) {
             y += (std::signbit(dy) == 1 ? 1 : -1) * Grid::gridspace;
             e -= Grid::gridspace;
-            std::cout << "e overflow: y = " << y << " e = " << e << std::endl;
         }
     }
 }
@@ -218,74 +193,3 @@ void Image_Occupancy_Map() {
     outFile.write((char*) Map_Image, 1500 * 1500);
     std::cout << "Image saved at Map_Image.ppm" << std::endl;
 }
-
-
-// // 2D Map
-// // This is a crude method of creating a 2D localisation map
-// // Given some fixed workspace, divide it into a square grid section
-// // For this implementation 1.5m x 1.5m with a grid spacing of 0.100- based off a tank diagonal size of 440mm
-// double area = 1.5;
-
-// // }
-
-// // // 2D Map
-// // // This is a crude method of creating a 2D localisation map
-// // // Given some fixed workspace, divide it into a square grid section
-// // // For this implementation 1.5m x 1.5m with a grid spacing of 0.100- based off a tank diagonal size of 440mm
-// //     double area=1.5;
-
-// // //note this will mean that you need 4 vacant grid spaces to pass through
-// // //this may need to be changed based on run time
-// double gridspace = 0.1;
-
-// // // map[15][15]
-// // //for a grid tht is x[m][n]
-// int m = 15;
-// int n = m;
-// // //this is a square :)
-// // // create m by n matrix- note this needs to be a double as we are looking at probabilities- could change if this
-// is
-// // too slow
-// double map[m][n] = {0.5};
-
-
-// // //assume starting position is in the middle bottom
-// int start_row    = m;
-// int start_column = m / 2;
-
-// // map[x][y] = transform_us_world(us_id, get_dist(us_id));
-
-// // int transfor_us_world(int us_id, double dist){
-// //     	using kinematics for the specific us pos
-// //		using the current odometry position of the tank
-// //		transform the distance of the us_id to world coordinates
-// //		populate the cell closest to that x,y pos
-// //		return cell id
-// // }
-
-// // TODO this doesnt handle a changing environment
-// // need to account for objects that were on the map that have now been moved
-// // if we had an object beentween us and the new object, then clearly it's not there anymore
-
-// // TODO this doesnt account for objects seen..
-// // maybe there needs to be a second layer to the map that contains visually seen objects
-// // or another map
-
-// // Occupancy mapping - apparently the name for doing ^^
-// // Suppose we build a grid fixed to the world.
-// // We start at some position withing the grid (probably initilise to some rough estimation of the center)
-// // Now we fill the grid with all equally weighted probabilities of an object being in that location
-// // Lets call this 0.5
-// // When we detect an object at a distance D on for instance or left hand side.
-// // Take the current grid position of the tank
-// // Figure out the grid position of the object (its probably somewhere relative to the known position)
-// // Now for each cell between us and the object position, calculate a new probability for that cell to be occupied
-// // Essentially make a function that takes these inputs:
-// // - Distance between the robot and the obstacle / the cell
-// // - Previous probability of the cell
-// // And outputs an updated probability
-// // This function might work over some exponential of the distance or something
-
-// // This grid spacing is the problem... do you make the grid the size of the radius of the robot
-// // which means for path planning you only need a single cell space to make it through,
-// // or do you make the size of the grid some smaller amount and need to do some harder path planning
