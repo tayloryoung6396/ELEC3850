@@ -1,8 +1,12 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
+// #include <camera.h>
+#include <errno.h>
+// #include <graphics.h>
 #include <malloc.h>
 #include <math.h>
+#include <raspicam/raspicam.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +14,9 @@
 #include <time.h>
 #include <wiringPi.h>
 #include <cmath>
+#include <cstdio>
+#include <ctime>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <string>
@@ -40,5 +47,11 @@
 #define MX28_SIZE_VALUE(VAL) SIZE_VALUE(MX28_##VAL)
 #define MX64_ADDRESS_VALUE(VAL) ADDRESS_VALUE(MX64_##VAL)
 #define MX64_SIZE_VALUE(VAL) SIZE_VALUE(MX64_##VAL)
+
+class Input {
+public:
+    static bool Autonomous_Enabled;
+};
+
 
 #endif /* MAIN_H_ */

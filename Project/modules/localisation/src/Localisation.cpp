@@ -11,19 +11,19 @@
 // X Y Current position in world coordinates
 double Localisation::w_Tank_Position[2] = {0};
 // Rotation about the w_Tank_Position in the anticlockwise direction (radians)
-double Localisation::w_Tank_Rotation = 0;
+double Localisation::w_Tank_Rotation    =  0;
 // X Y Goal position in world coordinates
 double Localisation::w_Goal_Position[2] = {0};
 
 
-const int Grid::m            = Grid_m;       // dimensions that are mxn
-const int Grid::n            = Grid::m;      //
-const int Grid::start_row    = Grid::m;      // assume starting position is in the middle bottom (for robot)
-const int Grid::start_column = Grid::m / 2;  //
+const int Grid::m                       = Grid_m;       // dimensions that are mxn
+const int Grid::n                       = Grid::m;      //
+const int Grid::start_row               = Grid::m;      // assume starting position is in the middle bottom (for robot)
+const int Grid::start_column            = Grid::m / 2;  //
 
-double Grid::area                  = 1.5;    // this is the dimensions of the grid in Y*Y meters
-double Grid::gridspace             = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
-double Grid::map[Grid::m][Grid::n] = {0.5};  // m x n matrix that serves as the occupancy map
+double Grid::area                       = 1.5;    // this is the dimensions of the grid in Y*Y meters
+double Grid::gridspace                  = 0.1;    // this is the dimensions of the gridsquares in Y*Y meters
+double Grid::map[Grid::m][Grid::n]      = {0.5};  // m x n matrix that serves as the occupancy map
 
 
 void Localisation_init() {}
@@ -32,8 +32,13 @@ int Localisation_main() {
 
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
-    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace);
-    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace);
+    //so this now says we start in the bottom middle?
+    //then adds the tank movements on?
+    std::cout << "tank pos[0] " << Localisation::w_Tank_Position[0] << std::endl;
+    std::cout << "tank pos[1] " << Localisation::w_Tank_Position[1] << std::endl;
+
+    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace)+Grid::start_row ;
+    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace)+Grid::start_column;
 <<<<<<< HEAD
     std::cout << "tank possi m (down) " << tank_cell_m << std::endl;
     std::cout << "tank possi n (across) " << tank_cell_n << std::endl;

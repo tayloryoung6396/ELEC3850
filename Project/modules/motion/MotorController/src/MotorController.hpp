@@ -3,7 +3,7 @@
 
 #include "main.hpp"
 
-#define DistToRev 1  // Meters per rotation
+#define DistToRev 0.48  // Meters per rotation
 
 class PathPlanner {
 
@@ -25,8 +25,10 @@ public:
 extern int MotorController();
 extern void MotorController_init();
 extern int MotorDriver_Distance(double Forward, double Rotation);
+extern int MotorDriver_Velocity(double Forward, double Rotation);
 extern int MotorDirector();
 extern double ConvertDistanceToRotation(double Goal_Dist);
+extern double ConvertDistanceToRotation_r(double Goal_Dist);
 extern double ConvertRotationToArclen(double Rotation);
 
 #endif /* MOTOR_CONTROLLER_H_ */

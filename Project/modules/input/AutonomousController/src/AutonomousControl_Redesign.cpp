@@ -27,13 +27,13 @@ std::vector<std::pair<double, double>> PathPlanner::path_vec;  // Vector of pair
 Simple_Path_Planner(double w_Goal_Position[2]) {
     // Calculate path from w_Tank_Position to w_Goal_Position
     // This will be a vector of pairs X Y in tank space
-    double t_Goal_Position[2] = {w_Goal_Position[0] - Localistation::w_Tank_Position[0], w_Goal_Position[1] - Localistation::w_Tank_Position[1]};
+    double t_Goal_Position[2] = {w_Goal_Position[0] - Localisation::w_Tank_Position[0], w_Goal_Position[1] - Localisation::w_Tank_Position[1]};
 	// Calculate the rotation difference
     double t_Goal_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
 
     // Convert into a forward and rotation command
     double Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
-    double Rotation = Localistation::wTank_theta - t_Goal_Rotation;
+    double Rotation = Localisation::wTank_theta - t_Goal_Rotation;
     PathPlanner pplanner;
 
     // Rotation is relative to the vehicle, not the world

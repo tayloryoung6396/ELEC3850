@@ -1,7 +1,7 @@
 SRCS := main.cpp \
 		behaviour/src/SimplePathPlanner.cpp \
 		input/AutonomousController/src/AutonomousControl.cpp \
-                input/PS3Controller/src/v2/Joystick.cpp \
+        input/PS3Controller/src/v2/Joystick.cpp \
 		input/PS3Controller/src/v2/PS3Walk.cpp \
 		localisation/src/Localisation.cpp \
 		platform/src/DynamixelProtocol.cpp \
@@ -15,7 +15,7 @@ SRCS := main.cpp \
 		motion/Gripper/src/FKGripper.cpp \
 		vision/InfraredSensor/src/InfraredSensor.cpp \
 		vision/UltrasonicSensor/src/UltrasonicSensor.cpp
-FLAGS := -lm -lwiringPi -ggdb -O0 -I.
+FLAGS := -lm -lwiringPi -lraspicam -ggdb -O0 -L/opt/vc/lib -lmmal -lmmal_core -lmmal_util -I.
 
 all: $(SRCS)
 	g++ -std=c++11 -o main $(SRCS) $(FLAGS)
