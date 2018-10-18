@@ -11,7 +11,7 @@
 // X Y Current position in world coordinates
 double Localisation::w_Tank_Position[2] = {0};
 // Rotation about the w_Tank_Position in the anticlockwise direction (radians)
-double Localisation::w_Tank_Rotation = 0;
+double Localisation::w_Tank_Rotation    =  0;
 // X Y Goal position in world coordinates
 double Localisation::w_Goal_Position[2] = {0};
 
@@ -43,6 +43,15 @@ int Localisation_main() {
     //     corner -return a x and y for what cell we are looking at stuff in
     int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row;
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column;
+
+    int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace)+Grid::start_row ;
+    int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace)+Grid::start_column;
+<<<<<<< HEAD
+    std::cout << "tank possi m (down) " << tank_cell_m << std::endl;
+    std::cout << "tank possi n (across) " << tank_cell_n << std::endl;
+
+=======
+>>>>>>> test_branch_alex
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4]  = {0};
@@ -80,6 +89,18 @@ int Localisation_main() {
     std::cout << "Sensor rotation \t" << sen_theta[3] << " Sensor hori \t" << sen_hori[3] << " Sensor vert \t"
               << sen_vert[3] << std::endl;
 
+<<<<<<< HEAD
+
+    //print some values for sensor meth
+    for(int i=0; i<SENSORS; i++)
+    {
+        std::cout << "Sensor position" << i << "="<<  sen_theta[i]<< std::endl;
+        std::cout << "Sensor position" << i << "="<<  sen_hori[i]<< std::endl;
+        std::cout << "Sensor position" << i << "="<<  sen_vert[i]<< std::endl;
+    }
+
+=======
+>>>>>>> test_branch_alex
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
 
@@ -128,6 +149,8 @@ int Localisation_main() {
 void probability(int cell_column, int cell_row, double cell_dist, double obj_dist) {
 
     // use a straight line function to start however i believe tanh would work nicely
+<<<<<<< HEAD
+    std::cout << "old prob"  << "="<< Grid::map[cell_column][cell_row] << std::endl;
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
     // set upper and lower prob lim
     // cap upper at 1
