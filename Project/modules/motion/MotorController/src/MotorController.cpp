@@ -133,12 +133,14 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     Goal_Vel[1] += Forward;
     Goal_Vel[1] = -Goal_Vel[1];
 
+    // Set moving flag
+    PathPlanner::moving_flag[0] = (Goal_Dist[0] == 0) ? 0 : ((Goal_Dist[0] < 0) ? (-1) : 1);
+    PathPlanner::moving_flag[1] = (Goal_Dist[1] == 0) ? 0 : ((Goal_Dist[1] < 0) ? (1) : -1);
+
     std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
 
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
-        // Set moving flag
-        PathPlanner::moving_flag[i] = (Goal_Vel[i] == 0) ? 0 : ((Goal_Vel[i] < 0) ? (-1) : 1);
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (int32_t) Goal_Vel[i]);
         delay(20);
@@ -165,6 +167,9 @@ int MotorDirector() {
 
     // For both motors the revolutions are position in the forward direction
     // Read in the position
+
+    // TODO Need to update localisation Position
+    // TODO Modify this to handle PS3 control motoring for localisation
 
     // // Invert our negative motor
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
