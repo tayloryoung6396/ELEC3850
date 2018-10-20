@@ -28,7 +28,7 @@
 #include "dynamixel/v2/MX_28.hpp"
 #include "dynamixel/v2/MX_64.hpp"
 #include "input/AutonomousController/src/AutonomousControl.hpp"
-#include "input/PS3Controller/src/PS3Control.hpp"
+#include "input/PS3Controller/src/v2/PS3Walk.hpp"
 #include "localisation/src/Localisation.hpp"
 #include "motion/Gripper/src/FKGripper.hpp"
 #include "motion/Gripper/src/IKGripper.hpp"

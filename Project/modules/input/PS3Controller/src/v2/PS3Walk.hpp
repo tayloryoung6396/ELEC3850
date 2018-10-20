@@ -20,7 +20,7 @@
 #ifndef PS3_CONTROL_H_
 #define PS3_CONTROL_H_
 
-#include "Joystick.h"
+#include "Joystick.hpp"
 #include "main.hpp"
 
 class PS3Walk {

@@ -126,10 +126,10 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
         Next_Position[0] = Next_Position[0] - Prev_Position[0];
         Next_Position[1] = Next_Position[1] - Prev_Position[1];
         // Calculate the rotation difference
-        Next_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
+        Next_Rotation = std::atan2(Next_Position[1], Next_Position[0]);
 
         // Convert into a forward and rotation command
-        Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
+        Forward  = std::sqrt(std::pow(Next_Position[0], 2) + std::pow(Next_Position[1], 2));
         Rotation = Previous_Rotation - Next_Rotation;
 
         // Add the polar vector to my list
@@ -149,10 +149,10 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
     Next_Position[0] = Next_Position[0] - Prev_Position[0];
     Next_Position[1] = Next_Position[1] - Prev_Position[1];
     // Calculate the rotation difference
-    Next_Rotation = std::atan2(t_Goal_Position[1], t_Goal_Position[0]);
+    Next_Rotation = std::atan2(Next_Position[1], Next_Position[0]);
 
     // Convert into a forward and rotation command
-    Forward  = std::sqrt(std::pow(t_Goal_Position[0], 2) + std::pow(t_Goal_Position[1], 2));
+    Forward  = std::sqrt(std::pow(Next_Position[0], 2) + std::pow(Next_Position[1], 2));
     Rotation = Previous_Rotation - Next_Rotation;
 
     // Add the polar vector to my list

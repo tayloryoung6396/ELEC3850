@@ -17,7 +17,7 @@
  * Copyright 2013 NUbots <nubots@nubots.net>
  */
 
-#include "PS3Walk.h"
+#include "PS3Walk.hpp"
 
 #define AXIS_MAX_LIMIT 32768
 #define AXIS_MIN_LIMIT -32767
