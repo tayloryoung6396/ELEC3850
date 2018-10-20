@@ -86,7 +86,7 @@ int main() {
         // For each iteration
         // Check sensors
         // if (frame_count % 5 == 0) {
-        //Camera_main();
+        // Camera_main();
         // InfraredSensor_main();
         // Classifier_main();
         //}

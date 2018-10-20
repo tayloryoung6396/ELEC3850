@@ -32,7 +32,7 @@ UART::UART() : device(UART_DEVICE), baud(UART_BAUD) {
 template <typename T>
 int executeWriteSingle(uint8_t servo_ID, uint16_t address, const T& data) {
 
-    std::cout << "Writing servo " << (int) servo_ID << " to " << data << std::endl;
+    // std::cout << "Writing servo " << (int) servo_ID << " to " << data << std::endl;
 
     auto buf = dynamixel::v2::WriteCommand<T>(servo_ID, address, data);
     if (uart.good()) {

@@ -2,9 +2,6 @@
 #define MAIN_H_
 
 //#include <bits/stdc++.h>
-#include <set>
-#include <cfloat>
-#include <stack>
 #include <errno.h>
 #include <malloc.h>
 #include <math.h>
@@ -15,6 +12,7 @@
 #include <string.h>
 #include <time.h>
 #include <wiringPi.h>
+#include <cfloat>
 #include <cmath>
 #include <csignal>
 #include <cstdio>
@@ -22,6 +20,8 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <set>
+#include <stack>
 #include <string>
 #include <vector>
 
