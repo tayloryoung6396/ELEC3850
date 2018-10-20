@@ -138,7 +138,7 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
     }
 
     // Remove that last member and replace it with the final goal
-    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.end();
+//    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.end();
     pplanner.path_erase_last();
 
     // Convert the grid cell to a world coordinate

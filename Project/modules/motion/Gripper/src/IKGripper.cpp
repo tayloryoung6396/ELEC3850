@@ -182,16 +182,16 @@ int IKGripper_move(double Goal_pos[3]) {
     // << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
     executeWriteSingle(
         Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch));
-    delay(10);
+    delay(20);
     return 0;
 }
 
@@ -305,14 +305,14 @@ int IK_Calculate(double Goal_pos[3]) {
     }
 
     if (Goal_pos[2] > 0) {
-        Gripper_servo::base_pitch  = M_PI_2 - theta_base_pitch - alpha;
-        Gripper_servo::elbow_pitch = M_PI - theta_elbow_pitch;
-        Gripper_servo::wrist_pitch = -M_PI_2 + theta_base_pitch + theta_elbow_pitch - alpha;
+        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha;
+        Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
+        Gripper_angles::wrist_pitch = -M_PI_2 + theta_base_pitch + theta_elbow_pitch - alpha;
     }
     else {
-        Gripper_servo::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
-        Gripper_servo::elbow_pitch = M_PI - theta_elbow_pitch;
-        Gripper_servo::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
+        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
+        Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
+        Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
     }
     return 0;
 }

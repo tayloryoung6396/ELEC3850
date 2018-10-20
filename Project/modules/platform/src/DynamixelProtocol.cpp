@@ -207,11 +207,11 @@ void Dynamixel_init() {
             // delay(10);
             */
             // Change Velocity Limit Unit is 0.229 RPM from 0 ~1023
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
-            delay(10);
+            //executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
+            //delay(10);
             // Change Velocity Profile Unit is 0.229 RPM from 0 ~1023
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
-            delay(10);
+            //executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
+            //delay(10);
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
