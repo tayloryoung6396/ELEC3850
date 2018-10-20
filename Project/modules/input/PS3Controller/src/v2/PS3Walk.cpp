@@ -39,6 +39,63 @@ int PS3Control_main() {
     // TODO, I know this is not a good implementation, but time is short
     static double Gripper_Goal[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
 
+    // Do these if the values aren't zero
+    if (axis_left_joystick_horizontal != 0) {
+        // Call some function probably or something
+        // Call motor function
+        // Need some scaled values
+        Forward = -(double) map_values(
+            axis_left_joystick_horizontal, FORWARD_MAX_LIMIT, FORWARD_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT);
+        // std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
+        MotorDriver_Velocity(Forward, Rotation);
+    }
+    if (axis_left_joystick_vertical != 0) {
+        // Call some function probably or something
+        // Call motor function
+        // Need some scaled values
+        Rotation = -(double) map_values(
+            axis_left_joystick_vertical, ROTATION_MAX_LIMIT, ROTATION_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT);
+        // std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
+        MotorDriver_Velocity(Forward, Rotation);
+    }
+    if (axis_right_joystick_vertical != 0) {
+        // Call some function probably or something
+        // Gripper forward backwards
+        // Need some intermediate variable to be incrememted
+        // Move it positive
+        /*if (axis_right_joystick_vertical < 0) {
+            Gripper_Goal[1] +=
+                (double) axis_right_joystick_vertical / std::numeric_limits<int32_t>::max() * 0.0001;
+        }
+        else if (axis_right_joystick_vertical > 0) {
+            Gripper_Goal[1] -=
+                (double) axis_right_joystick_vertical / std::numeric_limits<int32_t>::max() * 0.0001;
+        }
+        std::cout << "Goal " << Gripper_Goal[0] << "\t" << Gripper_Goal[1] << std::endl;
+        if (IKGripper_move(Gripper_Goal) != 0) {
+            std::cout << "ERROR: Could not move gripper" << std::endl;
+        }
+        */
+    }
+    if (axis_right_joystick_horizontal != 0) {
+        // Call some function probably or something
+        // Gripper either left right or rotate
+        // Need some intermediate variable to be incrememted
+        // Move it positive
+        std::cout << "Axis " << axis_right_joystick_horizontal << "\t" << std::numeric_limits<int16_t>::max()
+                  << std::endl;
+        if (axis_right_joystick_horizontal < 0) {
+            Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
+        }
+        else if (axis_right_joystick_horizontal > 0) {
+            Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
+        }
+        std::cout << "Goal " << Gripper_Goal[0] << "\t" << Gripper_Goal[1] << std::endl;
+        if (IKGripper_move(Gripper_Goal) != 0) {
+            std::cout << "ERROR: Could not move gripper" << std::endl;
+        }
+    }
+
     JoystickEvent event;
     Input ip;
     // read from joystick
@@ -49,72 +106,22 @@ int PS3Control_main() {
                 case PS3Walk::AXIS_LEFT_JOYSTICK_HORIZONTAL:
                     // std::cout << "AXIS_LEFT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
                     axis_left_joystick_horizontal = (int) event.value;
-                    // Call some function probably or something
-                    // Call motor function
-                    // Need some scaled values
-                    Forward = -(double) map_values(axis_left_joystick_horizontal,
-                                                   FORWARD_MAX_LIMIT,
-                                                   FORWARD_MIN_LIMIT,
-                                                   AXIS_MAX_LIMIT,
-                                                   AXIS_MIN_LIMIT);
-                    // std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
-                    MotorDriver_Velocity(Forward, Rotation);
+
                     break;
                 case PS3Walk::AXIS_LEFT_JOYSTICK_VERTICAL:
                     // std::cout << "AXIS_LEFT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
                     axis_left_joystick_vertical = (int) event.value;
-                    // Call some function probably or something
-                    // Call motor function
-                    // Need some scaled values
-                    Rotation = -(double) map_values(axis_left_joystick_vertical,
-                                                    ROTATION_MAX_LIMIT,
-                                                    ROTATION_MIN_LIMIT,
-                                                    AXIS_MAX_LIMIT,
-                                                    AXIS_MIN_LIMIT);
-                    // std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
-                    MotorDriver_Velocity(Forward, Rotation);
+
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_VERTICAL:
                     // std::cout << "AXIS_RIGHT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
                     axis_right_joystick_vertical = (int) event.value;
-                    // Call some function probably or something
-                    // Gripper forward backwards
-                    // Need some intermediate variable to be incrememted
-                    // Move it positive
-                    /*if (axis_right_joystick_vertical < 0) {
-                        Gripper_Goal[1] +=
-                            (double) axis_right_joystick_vertical / std::numeric_limits<int32_t>::max() * 0.0001;
-                    }
-                    else if (axis_right_joystick_vertical > 0) {
-                        Gripper_Goal[1] -=
-                            (double) axis_right_joystick_vertical / std::numeric_limits<int32_t>::max() * 0.0001;
-                    }
-                    std::cout << "Goal " << Gripper_Goal[0] << "\t" << Gripper_Goal[1] << std::endl;
-                    if (IKGripper_move(Gripper_Goal) != 0) {
-                        std::cout << "ERROR: Could not move gripper" << std::endl;
-                    }
-*/
+
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_HORIZONTAL:
                     // std::cout << "AXIS_RIGHT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
                     axis_right_joystick_horizontal = (int) event.value;
-                    // Call some function probably or something
-                    // Gripper either left right or rotate
-                    // Need some intermediate variable to be incrememted
-                    // Move it positive
-		    std::cout << "Axis " << axis_right_joystick_horizontal << "\t" << std::numeric_limits<int16_t>::max() << std::endl;
-                    if (axis_right_joystick_horizontal < 0) {
-                        Gripper_Goal[0] -=
-                            (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
-                    }
-                    else if (axis_right_joystick_horizontal > 0) {
-                        Gripper_Goal[0] -=
-                            (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
-                    }
-		    std::cout << "Goal " << Gripper_Goal[0] << "\t" << Gripper_Goal[1] << std::endl;
-                    if (IKGripper_move(Gripper_Goal) != 0) {
-                        std::cout << "ERROR: Could not move gripper" << std::endl;
-                    }
+
                     break;
             }
         }
