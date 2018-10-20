@@ -68,11 +68,11 @@ int Gripper_home() {
 
     // TODO This should probably be a bulk read
     executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
-    delay(10);
+    delay(20);
     executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
-    delay(10);
+    delay(20);
     executeReadSingle(3, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), elbow_pitch);
-    delay(10);
+    delay(20);
     executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
 
     // Do FK to figure out where we are
@@ -104,16 +104,16 @@ int Gripper_home() {
     // TODO This should probably be a bulk write
     executeWriteSingle(
         Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch));
-    delay(10);
+    delay(20);
     Close_Gripper();
 
     return 0;
@@ -141,16 +141,16 @@ int IKGripper_Grab_Object(double Goal_pos[3]) {
     }
     executeWriteSingle(
         Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch));
-    delay(10);
+    delay(20);
     if (Grip_Object() != 0) {
         std::cout << "Error could not Grip Object" << std::endl;
         return -1;
@@ -209,16 +209,16 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
     }
     executeWriteSingle(
         Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch));
-    delay(10);
+    delay(20);
     executeWriteSingle(
         Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch));
-    delay(10);
+    delay(20);
     if (Open_Gripper() != 0) {
         std::cout << "Error could not open Gripper" << std::endl;
         return -1;
@@ -236,7 +236,7 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
     // // TODO Bulkwrite
     // for (int i = 0; i < count; i++) {
     //     executeWriteSingle(servo_ID[count], address, data[count]);
-    //     delay(10);
+    //     delay(20);
     // }
 
     if (Close_Gripper() != 0) {
@@ -342,7 +342,7 @@ int Grip_Object() {
                 std::cout << "Error: Gripper failed to grab object" << std::endl;
                 return -1;
             }
-            delay(10);
+            delay(20);
         }
     }
     return 0;
@@ -355,7 +355,7 @@ int Open_Gripper() {
     int32_t data     = convert_rad_pos(servo_ID, Kinematics::grip_open);
     std::cout << "Open_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
-    delay(10);
+    delay(20);
     return 0;
 }
 
@@ -366,7 +366,7 @@ int Close_Gripper() {
     int32_t data     = convert_rad_pos(servo_ID, Kinematics::grip_closed);
     std::cout << "Close_Gripper " << data << std::endl;
     executeWriteSingle(servo_ID, address, data);
-    delay(10);
+    delay(20);
     return 0;
 }
 

@@ -116,7 +116,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goal_pos[i] << std::endl;
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? 20 : -20));
-        delay(10);
+        delay(20);
     }
     return 0;
 }
@@ -141,7 +141,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
         PathPlanner::moving_flag[i] = (Goal_Vel[i] == 0) ? 0 : ((Goal_Vel[i] < 0) ? (-1) : 1);
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (int32_t) Goal_Vel[i]);
-        delay(10);
+        delay(20);
     }
     return 0;
 }
@@ -160,7 +160,7 @@ int MotorDirector() {
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
                           MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
-        delay(10);
+        delay(20);
     }
 
     // For both motors the revolutions are position in the forward direction
@@ -177,7 +177,7 @@ int MotorDirector() {
                 // std::cout << "Servo " << i << " at goal position" << std::endl;
                 PathPlanner::moving_flag[i] = 0;
                 executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
-                delay(10);
+                delay(20);
                 std::cout << "Stopped moving"
                           << " ID " << i << std::endl;
 

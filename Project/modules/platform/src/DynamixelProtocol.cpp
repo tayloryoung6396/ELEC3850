@@ -150,7 +150,7 @@ int executeReadMulti(uint8_t servo_ID, uint16_t address, uint16_t size, T& rx_da
     // }
     // for (int i = 0; i < count; i++) {
     //     executeReadSingle(uint8_t servo_ID[i], uint16_t address, uint16_t size, T & rx_data);
-    //     delay(10);
+    //     delay(20);
     // }
     return -1;
 }
@@ -194,24 +194,24 @@ void Dynamixel_init() {
     for (int servo_ID = 1; servo_ID < 6; servo_ID++) {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
-            delay(10);
+            delay(20);
             // Enable torque
             executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
-            delay(10);
+            delay(20);
             // Change gain
             // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);
-            // delay(10);
+            // delay(20);
             /*
             // Change Acceleration Profile
             // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), 16000);
-            // delay(10);
+            // delay(20);
             */
             // Change Velocity Limit Unit is 0.229 RPM from 0 ~1023
-            //executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
-            //delay(10);
+            // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
+            // delay(20);
             // Change Velocity Profile Unit is 0.229 RPM from 0 ~1023
-            //executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
-            //delay(10);
+            // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
+            // delay(20);
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
@@ -220,11 +220,11 @@ void Dynamixel_init() {
     for (int servo_ID = 6; servo_ID < 8; servo_ID++) {
         // TODO This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
-            delay(10);
+            delay(20);
             executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 1);
-            delay(10);
+            delay(20);
             // executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(VELOCITY_P_GAIN), 16000);
-            // delay(10);
+            // delay(20);
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
