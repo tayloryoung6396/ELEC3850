@@ -40,7 +40,7 @@ int PS3Control_main() {
     static double Gripper_Goal[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
 
     // Do these if the values aren't zero
-    if (axis_left_joystick_horizontal != 0) {
+    if (axis_left_joystick_horizontal != 0 | PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
         // Call some function probably or something
         // Call motor function
         // Need some scaled values
@@ -49,7 +49,7 @@ int PS3Control_main() {
         // std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
         MotorDriver_Velocity(Forward, Rotation);
     }
-    if (axis_left_joystick_vertical != 0) {
+    if (axis_left_joystick_vertical != 0 | PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
         // Call some function probably or something
         // Call motor function
         // Need some scaled values
@@ -85,10 +85,10 @@ int PS3Control_main() {
         std::cout << "Axis " << axis_right_joystick_horizontal << "\t" << std::numeric_limits<int16_t>::max()
                   << std::endl;
         if (axis_right_joystick_horizontal < 0) {
-            Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
+            Gripper_Goal[1] -= (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
         }
         else if (axis_right_joystick_horizontal > 0) {
-            Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
+            Gripper_Goal[1] -= (double) axis_right_joystick_horizontal / std::numeric_limits<int16_t>::max() * 0.001;
         }
         std::cout << "Goal " << Gripper_Goal[0] << "\t" << Gripper_Goal[1] << std::endl;
         if (IKGripper_move(Gripper_Goal) != 0) {
