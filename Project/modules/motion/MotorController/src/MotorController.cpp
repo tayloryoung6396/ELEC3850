@@ -247,3 +247,7 @@ std::vector<std::pair<double, double>>::const_iterator PathPlanner::get_first_pa
 void PathPlanner::path_erase_first() {
     path_vec.erase(path_vec.begin());
 }
+
+void PathPlanner::path_erase_last() {
+    path_vec.erase(path_vec.end());
+}

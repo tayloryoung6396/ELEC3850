@@ -14,6 +14,7 @@ public:
     bool check_path();
     std::vector<std::pair<double, double>>::const_iterator get_first_path();
     void path_erase_first();
+    void path_erase_last();
 
     static int32_t goal_pos[2];
     static int32_t prev_pos[2];

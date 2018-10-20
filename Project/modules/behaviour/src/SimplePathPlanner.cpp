@@ -138,12 +138,12 @@ void tracePath(cell cellDetails[][Map_n], std::pair<int, int> dest) {
     }
 
     // Remove that last member and replace it with the final goal
-    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.back();
-    pplanner.popback();
+    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.end();
+    pplanner.path_erase_last();
 
     // Convert the grid cell to a world coordinate
-    Next_Position[0] = Localisation::w_Goal_Postition[0];
-    Next_Position[1] = Localisation::w_Goal_Postition[1];
+    Next_Position[0] = Localisation::w_Goal_Position[0];
+    Next_Position[1] = Localisation::w_Goal_Position[1];
 
     // Find the vector from my previous position to my next position
     Next_Position[0] = Next_Position[0] - Prev_Position[0];
