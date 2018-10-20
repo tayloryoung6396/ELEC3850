@@ -82,10 +82,10 @@ int PS3Control_main() {
                     // Need some intermediate variable to be incrememted
                     // Move it positive
                     if (axis_right_joystick_vertical < 0) {
-                        Gripper_Goal[1] += (double) axis_right_joystick_vertical / 10000.0;
+                        Gripper_Goal[1] += (double) axis_right_joystick_vertical / (std::numeric_limits<int32_t>::max()) * 0.0001;
                     }
                     else if (axis_right_joystick_vertical > 0) {
-                        Gripper_Goal[1] -= (double) axis_right_joystick_vertical / 10000.0;
+                        Gripper_Goal[1] -= (double) axis_right_joystick_vertical / (std::numeric_limits<int32_t>::max()) * 0.0001;
                     }
                     if (IKGripper_move(Gripper_Goal) != 0) {
                         std::cout << "ERROR: Could not move gripper" << std::endl;
@@ -101,10 +101,10 @@ int PS3Control_main() {
                     // Need some intermediate variable to be incrememted
                     // Move it positive
                     if (axis_right_joystick_horizontal < 0) {
-                        Gripper_Goal[0] += (double) axis_right_joystick_horizontal / 10000.0;
+                        Gripper_Goal[0] += (double) axis_right_joystick_horizontal / (std::numeric_limits<int32_t>::max()) * 0.0001;
                     }
                     else if (axis_right_joystick_horizontal > 0) {
-                        Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / 10000.0;
+                        Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / (std::numeric_limits<int32_t>::max()) * 0.0001;
                     }
                     if (IKGripper_move(Gripper_Goal) != 0) {
                         std::cout << "ERROR: Could not move gripper" << std::endl;

@@ -1,7 +1,10 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
+#include <set>
+#include <cfloat>
+#include <stack>
 #include <errno.h>
 #include <malloc.h>
 #include <math.h>
