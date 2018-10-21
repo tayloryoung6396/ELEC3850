@@ -55,75 +55,75 @@ int Localisation_main() {
     // now the matrixes have been used instead, can use a loop to calculate these, probs a bit neater
     // what cell are we looking at stuff in- we need to convert the dist and angle to y,x coorinates
 
+
+    // TODO account for the possibility of getting an invlid sensor reading, the distance will read -1
+
+
     // Front sonic (array pos=0)
     sen_theta[0] = Localisation::w_Tank_Rotation;
-    sen_hori[0]  = Ultrasonic::Detection_distances[0] * std::cos(sen_theta[0]);
-    sen_vert[0]  = Ultrasonic::Detection_distances[0] * std::sin(sen_theta[0]);
-    std::cout << "Sensor rotation \t" << sen_theta[0] << " Sensor hori \t" << sen_hori[0] << " Sensor vert \t"
-              << sen_vert[0] << std::endl;
 
     // Right sonic (array pos=1)
     sen_theta[1] = Localisation::w_Tank_Rotation + M_PI + M_PI_2;
-    sen_hori[1]  = Ultrasonic::Detection_distances[1] * std::cos(sen_theta[1]);
-    sen_vert[1]  = Ultrasonic::Detection_distances[1] * std::sin(sen_theta[1]);
-    std::cout << "Sensor rotation \t" << sen_theta[1] << " Sensor hori \t" << sen_hori[1] << " Sensor vert \t"
-              << sen_vert[1] << std::endl;
 
     // Back sonic (array pos=2)
     sen_theta[2] = Localisation::w_Tank_Rotation + M_PI;
-    sen_hori[2]  = Ultrasonic::Detection_distances[2] * std::cos(sen_theta[2]);
-    sen_vert[2]  = Ultrasonic::Detection_distances[2] * std::sin(sen_theta[2]);
-    std::cout << "Sensor rotation \t" << sen_theta[2] << " Sensor hori \t" << sen_hori[2] << " Sensor vert \t"
-              << sen_vert[2] << std::endl;
 
     // Left sonic (array pos=3)
     sen_theta[3] = Localisation::w_Tank_Rotation + M_PI_2;
-    sen_hori[3]  = Ultrasonic::Detection_distances[3] * std::cos(sen_theta[3]);
-    sen_vert[3]  = Ultrasonic::Detection_distances[3] * std::sin(sen_theta[3]);
-    std::cout << "Sensor rotation \t" << sen_theta[3] << " Sensor hori \t" << sen_hori[3] << " Sensor vert \t"
-              << sen_vert[3] << std::endl;
 
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
 
         std::cout << "Sensor " << i << std::endl;
 
-        int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
-        int object_cell_n = tank_cell_n + std::floor(sen_vert[i] / Grid::gridspace);
+        if (Ultrasonic::Detection_distances[i] != -1) {
+            sen_hori[i] = Ultrasonic::Detection_distances[i] * std::cos(sen_theta[i]);
+            sen_vert[i] = Ultrasonic::Detection_distances[i] * std::sin(sen_theta[i]);
+            std::cout << "Sensor rotation \t" << sen_theta[i] << " Sensor hori \t" << sen_hori[i] << " Sensor vert \t"
+                      << sen_vert[i] << std::endl;
 
-        std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
 
-        // startign closest to the tank, look at all the grid squares in the way by converting these points to a
-        // straight line
-        // y=mx+b for now we are using Bresham's algorithim
-        std::cout << "Calculating list of cells" << std::endl;
+            int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
+            int object_cell_n = tank_cell_n + std::floor(sen_vert[i] / Grid::gridspace);
 
-        breshams_alg(i, sen_hori, sen_vert);
+            std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
 
-        std::cout << "Fininished calculating list" << std::endl;
+            // startign closest to the tank, look at all the grid squares in the way by converting these points to a
+            // straight line
+            // y=mx+b for now we are using Bresham's algorithim
+            std::cout << "Calculating list of cells" << std::endl;
 
-        while (!Grid::cell_list.empty()) {
+            breshams_alg(i, sen_hori, sen_vert);
 
-            std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
+            std::cout << "Fininished calculating list" << std::endl;
 
-            // this will give a list of grid ms and ns that need to be looked at,starting from
-            // closest to the tank
-            // need to access the list pairs seperately and save as cella(m) and cellb(n)
+            while (!Grid::cell_list.empty()) {
 
-            // use pythagoras to calculate distance between tank and the cell we are looking at
-            double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
-                                         + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
+                std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
 
-            std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
-            std::cout << "Distance " << cell_dist << std::endl;
+                // this will give a list of grid ms and ns that need to be looked at,starting from
+                // closest to the tank
+                // need to access the list pairs seperately and save as cella(m) and cellb(n)
 
-            // function to calculate probability
-            probability(curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
+                // use pythagoras to calculate distance between tank and the cell we are looking at
+                double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
+                                             + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
-            // Remove the element from the list
-            Grid::cell_list.erase(Grid::cell_list.begin());
+                std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
+                std::cout << "Distance " << cell_dist << std::endl;
+
+                // function to calculate probability
+                probability(
+                    curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
+
+                // Remove the element from the list
+                Grid::cell_list.erase(Grid::cell_list.begin());
+            }
+            std::cout << "Finished list" << std::endl;
         }
-        std::cout << "Finished list" << std::endl;
+        else {
+            std::cout << "Sensor reading invalid" << std::endl;
+        }
     }
     return 0;
 }
@@ -149,6 +149,7 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
     std::cout << "Probability " << prob << std::endl;
 }
 
+// TODO this doesn't use the vertical distance
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
     double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
     double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1

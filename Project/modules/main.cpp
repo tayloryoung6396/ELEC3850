@@ -7,6 +7,8 @@
 
 bool Input::Autonomous_Enabled FALSE;
 
+std::ofstream myfile;  // TODO Remove
+
 void signalHandler(int signum) {
     std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
 
@@ -47,7 +49,6 @@ int main() {
 
     signal(SIGINT, signalHandler);
 
-    std::ofstream myfile;            // TODO Remove
     myfile.open("Sample_time.txt");  // TODO Remove
 
     // Initialise all modules
