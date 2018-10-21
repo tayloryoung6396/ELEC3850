@@ -171,25 +171,23 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
 }
 
 void Print_Occupancy_Map() {
+    int pixel_cols_max       = 100;
+    int pixel_row_max        = 100;
+    unsigned char* Map_Image = new unsigned char[Grid::m * pixel_row_max * Grid::n * pixel_cols_max];
     for (int rows = 0; rows < Grid::m; rows++) {
-        for (int cols = 0; cols < Grid::n; cols++) {
-            std::cout << Grid::map[rows][cols] << "\t";
-        }
-        std::cout << "\n" << std::endl;
-    }
-}
-
-void Image_Occupancy_Map() {
-    unsigned char* Map_Image = new unsigned char[1500 * 1500];
-    for (int rows = 0; rows < Grid::m; rows++) {
-        for (int cols = 0; cols < Grid::n; cols++) {
-            for (int pixel = 0; pixel < 100; pixel++) {
-                Map_Image[pixel * Grid::n + (cols * Grid::m + rows)] = Grid::map[rows][cols] * 255;
+        for (int pixel_rows = 0; pixel_rows < pixel_row_max; pixel_rows++) {
+            for (int cols = 0; cols < Grid::n; cols++) {
+                for (int pixel_cols = 0; pixel_cols < pixel_cols_max; pixel_cols++) {
+                    Map_Image[Grid::m * pixel_row_max * pixel_cols_max * rows
+                              + (Grid::n * pixel_row_max * pixel_rows + (pixel_cols + cols * pixel_cols_max))] =
+                        map[rows][cols] * 255;
+                }
             }
         }
     }
-    std::ofstream outFile("Map_Image.ppm", std::ios::binary);
-    outFile << "P6\n" << 1500 << " " << 1500 << " 255\n";
-    outFile.write((char*) Map_Image, 1500 * 1500);
-    std::cout << "Image saved at Map_Image.ppm" << std::endl;
+    std::ofstream outFile("Map_Image.pgm", std::ios::binary);
+    outFile << "P5\n" << Grid::m * pixel_row_max << " " << Grid::n * pixel_cols_max << " 255\n";
+    outFile.write((char*) Map_Image, Grid::m * pixel_row_max * Grid::n * pixel_cols_max);
+    std::cout << "Image saved at Map_Image. " << std::endl;
+    delete Map_Image;
 }
