@@ -66,7 +66,7 @@ int Gripper_home() {
     int32_t elbow_pitch;
     int32_t wrist_pitch;
 
-    // TODO This should probably be a bulk read
+    // NOTE This should probably be a bulk read
     executeReadSingle(1, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_yaw);
     delay(20);
     executeReadSingle(2, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), base_pitch);
@@ -101,7 +101,7 @@ int Gripper_home() {
     // << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
 
     // Send servos to positions
-    // TODO This should probably be a bulk write
+    // NOTE This should probably be a bulk write
     executeWriteSingle(
         Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw));
     delay(20);
@@ -233,7 +233,7 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
     // data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
     // data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
     // data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
-    // // TODO Bulkwrite
+    // // NOTE Bulkwrite
     // for (int i = 0; i < count; i++) {
     //     executeWriteSingle(servo_ID[count], address, data[count]);
     //     delay(20);
@@ -258,7 +258,7 @@ int IK_Calculate(double Goal_pos[3]) {
     Gripper_angles servo;
 
     // Check to see if our z position is in the ground..
-    // TODO These should probably be thrown out in the validation
+    // These should probably be thrown out in the validation
     if (Goal_pos[2] < -0.1) {
         std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
         std::cout << "Arm in gorund" << std::endl;
@@ -287,7 +287,7 @@ int IK_Calculate(double Goal_pos[3]) {
         }
         // return -1;
     }
-    // TODO These should probably be thrown out in the validation
+    // These should probably be thrown out in the validation
     else if (arm_len_3 < std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2))) {
         std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
         std::cout << "Length too short" << std::endl;
@@ -375,8 +375,6 @@ int32_t convert_rad_pos(uint8_t servo_ID, double angle) {
 
     // Get the limits for the specific servo
     // Get the offset for the servo
-    // TODO actually read limits
-    // TODO convert to use radians
     double max_limit = Kinematics::Servo_max_limit[servo_ID - 1];
     double min_limit = Kinematics::Servo_min_limit[servo_ID - 1];
     double offset    = Kinematics::Servo_offset[servo_ID - 1];

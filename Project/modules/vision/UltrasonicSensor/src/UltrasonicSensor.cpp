@@ -104,9 +104,8 @@ void DistanceM() {
         // Only calculate it if the distance was not a timeout
         if (Ultrasonic::sensor_return[sensor] != -1) {
             Ultrasonic::Detection_distances[sensor] =
-                (Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time) * 0.00017;
-            // TODO Add this back in and check the kinematics line up with the sensor position
-            // + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
+                (Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time) * 0.00017
+                + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
         }
         else {
             Ultrasonic::Detection_distances[sensor] = -1;

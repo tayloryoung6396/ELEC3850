@@ -21,7 +21,7 @@ void signalHandler(int signum) {
     std::cout << "Disabling torque" << std::endl;
     uint8_t data;
     for (int servo_ID = 1; servo_ID < 8; servo_ID++) {
-        // TODO This should probably be a ping, but i dont think i have a function to handle it
+        // NOTE This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == 0) {
             delay(20);
             executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 0);
@@ -116,7 +116,7 @@ int main() {
 
         if (frame_count % 5 == 0) {
             // TODO We probably want to store the last 5 US readings
-            Localisation_main();  // TODO Maybe this should happen all of the time?
+            Localisation_main();
         }
 
         // Check if we are connected, if we are then check the mode

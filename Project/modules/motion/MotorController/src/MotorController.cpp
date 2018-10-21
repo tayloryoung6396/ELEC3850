@@ -177,7 +177,6 @@ int MotorDirector() {
     // Invert our negative motor
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
 
-    // TODO Check that this works
     // Update our localisation model
     int Left_Position  = PathPlanner::curr_pos[0] - PathPlanner::prev_pos[0];
     int Right_Position = PathPlanner::curr_pos[1] - PathPlanner::prev_pos[1];

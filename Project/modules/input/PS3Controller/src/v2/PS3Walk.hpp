@@ -68,23 +68,21 @@ static int32_t axis_left_joystick_vertical    = 0;
 static int32_t axis_left_joystick_horizontal  = 0;
 static int32_t axis_right_joystick_vertical   = 0;
 static int32_t axis_right_joystick_horizontal = 0;
-static uint8_t button_select                   = 0;
-static uint8_t button_left_joystick            = 0;
-static uint8_t button_right_joystick           = 0;
-static uint8_t button_start                    = 0;
-static uint8_t button_dpad_up                  = 0;
-static uint8_t button_dpad_right               = 0;
-static uint8_t button_dpad_down                = 0;
-static uint8_t button_dpad_left                = 0;
-static uint8_t button_l2                       = 0;
-static uint8_t button_r2                       = 0;
-static uint8_t button_l1                       = 0;
-static uint8_t button_r1                       = 0;
-static uint8_t button_triangle                 = 0;
-static uint8_t button_circle                   = 0;
-static uint8_t button_cross                    = 0;
-static uint8_t button_square                   = 0;
-
-// Joystick joystick;  // TODO: make configurable
+static uint8_t button_select                  = 0;
+static uint8_t button_left_joystick           = 0;
+static uint8_t button_right_joystick          = 0;
+static uint8_t button_start                   = 0;
+static uint8_t button_dpad_up                 = 0;
+static uint8_t button_dpad_right              = 0;
+static uint8_t button_dpad_down               = 0;
+static uint8_t button_dpad_left               = 0;
+static uint8_t button_l2                      = 0;
+static uint8_t button_r2                      = 0;
+static uint8_t button_l1                      = 0;
+static uint8_t button_r1                      = 0;
+static uint8_t button_triangle                = 0;
+static uint8_t button_circle                  = 0;
+static uint8_t button_cross                   = 0;
+static uint8_t button_square                  = 0;
 
 #endif /* PS3_CONTROL_H_ */

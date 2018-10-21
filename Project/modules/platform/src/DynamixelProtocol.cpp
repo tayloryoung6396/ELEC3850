@@ -192,7 +192,7 @@ void Dynamixel_init() {
     // Set gains and torque
     uint8_t data;
     for (int servo_ID = 1; servo_ID < 6; servo_ID++) {
-        // TODO This should probably be a ping, but i dont think i have a function to handle it
+        // NOTE This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(20);
             // Enable torque
@@ -218,7 +218,7 @@ void Dynamixel_init() {
         }
     }
     for (int servo_ID = 6; servo_ID < 8; servo_ID++) {
-        // TODO This should probably be a ping, but i dont think i have a function to handle it
+        // NOTE This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX64_ADDRESS_VALUE(ID), MX64_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(20);
             executeWriteSingle(servo_ID, MX64_ADDRESS_VALUE(TORQUE_ENABLE), 1);

@@ -1,7 +1,7 @@
 /*
  * This should handle the initial processing of the IR images.
  * Inputs:  Camera Images - IR
- * Outputs: TODO
+ * Outputs:
  */
 
 #include "InfraredSensor.hpp"
