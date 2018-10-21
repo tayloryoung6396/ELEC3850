@@ -73,7 +73,7 @@ int main() {
     printf("Finished Initilisation\n");
 
     static int frame_count = 0;   // This is a crude method for slowing some tasks
-    const int frame_max    = 15;  // LCM of all frame divisors
+    const int frame_max    = 15000;  // LCM of all frame divisors
 
     double previous_time = (double) millis();
     double current_time  = (double) millis();
@@ -92,11 +92,14 @@ int main() {
         // InfraredSensor_main();
         // Classifier_main();
         //}
+
+	if(frame_count % 15000 == 0){
         if (PathPlanner::moving_flag[0] == 0 && PathPlanner::moving_flag[1] == 0) {
             std::cout << "Localisation::w_Tank_Position[0] " << Localisation::w_Tank_Position[0] << std::endl;
             std::cout << "Localisation::w_Tank_Position[1] " << Localisation::w_Tank_Position[1] << std::endl;
             std::cout << "Localisation::w_Tank_Rotation " << Localisation::w_Tank_Rotation << std::endl;
         }
+	}
 
         // UltrasonicSensor_main();
 
@@ -127,7 +130,7 @@ int main() {
             // Update the localisation model about where we currently are.
             // If need be, the motor director can perform the final positioning itself, independent of the loop
 
-            Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
+//            Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
 
             // TODO Remove
             temp = FALSE;

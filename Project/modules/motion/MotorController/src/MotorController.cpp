@@ -136,17 +136,39 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     Goal_Vel[1] += Forward;
     Goal_Vel[1] = -Goal_Vel[1];
 
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
+    for (int i = 0; i < 2; i++) {
+        // Set goal position
+        // // Set goal revolution
+        // // Convert goal distance to number of revolutions
+        // // This counts down to 0
+
+        executeReadSingle(servo_ID[i],
+                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
+                          MX64_SIZE_VALUE(PRESENT_POSITION),
+                          PathPlanner::curr_pos[i]);
+	delay(20);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Flip our negative motor to be positive
+
+    PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
+
     // Set moving flag
-    PathPlanner::moving_flag[0] = (Goal_Dist[0] == 0) ? 0 : ((Goal_Dist[0] < 0) ? (-1) : 1);
-    PathPlanner::moving_flag[1] = (Goal_Dist[1] == 0) ? 0 : ((Goal_Dist[1] < 0) ? (1) : -1);
+    PathPlanner::moving_flag[0] = (Goal_Vel[0] == 0) ? 0 : ((Goal_Vel[0] < 0) ? (-1) : 1);
+    PathPlanner::moving_flag[1] = (Goal_Vel[1] == 0) ? 0 : ((Goal_Vel[1] < 0) ? (1) : -1);
 
     std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
 
-    uint8_t servo_ID[2] = {Motor_L, Motor_R};
+    // uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (int32_t) Goal_Vel[i]);
         delay(20);
+
+	// Store our position
+        PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
     return 0;
 }
@@ -199,11 +221,16 @@ int MotorDirector() {
         Right_Position = -std::numeric_limits<uint32_t>::max() - Right_Position;
     }
 
-    double Forward  = (Left_Position + Right_Position) * 0.5;
-    double Rotation = (Forward - Left_Position) / (Kinematics::tank_width * 0.5);
+//    double Forward  = (Left_Position + Right_Position) * 0.5 * DistToRev / std::numeric_limits<uint32_t>::max();
+    double Forward = Left_Position * DistToRev / std::numeric_limits<uint32_t>::max();
+    double Rotation = (Forward - Left_Position * DistToRev / std::numeric_limits<uint32_t>::max()) / (Kinematics::tank_width * 0.5);
 
-    Localisation::w_Tank_Position[0] = F * std::cos(Rotation);
-    Localisation::w_Tank_Position[1] = F * std::sin(Rotation);
+    std::cout << "L Curr " << PathPlanner::curr_pos[0] << "\t Prev " << PathPlanner::prev_pos[0] << std::endl;
+    std::cout << "R Curr " << PathPlanner::curr_pos[1] << "\t Prev " << PathPlanner::prev_pos[1] << std::endl;
+    std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
+
+    Localisation::w_Tank_Position[0] += Forward; //* std::cos(Rotation);
+    Localisation::w_Tank_Position[1] += Forward * std::sin(Rotation);
     Localisation::w_Tank_Rotation    = Rotation;
 
     // If we are in autonomous mode then do the normal thing
