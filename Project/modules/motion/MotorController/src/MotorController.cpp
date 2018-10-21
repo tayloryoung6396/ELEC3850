@@ -20,6 +20,8 @@ void MotorController_init() {
         Motor_L, MX64_ADDRESS_VALUE(PRESENT_POSITION), MX64_SIZE_VALUE(PRESENT_POSITION), PathPlanner::curr_pos[0]);
     executeReadSingle(
         Motor_R, MX64_ADDRESS_VALUE(PRESENT_POSITION), MX64_SIZE_VALUE(PRESENT_POSITION), PathPlanner::curr_pos[1]);
+    PathPlanner::prev_pos[0] = PathPlanner::curr_pos[0];
+    PathPlanner::prev_pos[1] = -PathPlanner::curr_pos[1];
 }
 
 int MotorController() {
@@ -104,7 +106,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Goal position " << (int) PathPlanner::goal_pos[i] << std::endl;
 
         // Store our position
-        PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
+        // PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
 
     // Reverse the flip of our negative motor
@@ -137,18 +139,18 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     Goal_Vel[1] = -Goal_Vel[1];
 
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
-    for (int i = 0; i < 2; i++) {
+    // for (int i = 0; i < 2; i++) {
         // Set goal position
         // // Set goal revolution
         // // Convert goal distance to number of revolutions
         // // This counts down to 0
 
-        executeReadSingle(servo_ID[i],
-                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
-                          MX64_SIZE_VALUE(PRESENT_POSITION),
-                          PathPlanner::curr_pos[i]);
-        delay(20);
-    }
+        //executeReadSingle(servo_ID[i],
+        //                  MX64_ADDRESS_VALUE(PRESENT_POSITION),
+        //                  MX64_SIZE_VALUE(PRESENT_POSITION),
+        //                  PathPlanner::curr_pos[i]);
+        //delay(20);
+   // }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Flip our negative motor to be positive
@@ -168,7 +170,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
         delay(20);
 
         // Store our position
-        PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
+     //   PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
     return 0;
 }
