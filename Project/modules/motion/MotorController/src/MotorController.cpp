@@ -147,7 +147,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
                           MX64_ADDRESS_VALUE(PRESENT_POSITION),
                           MX64_SIZE_VALUE(PRESENT_POSITION),
                           PathPlanner::curr_pos[i]);
-	delay(20);
+        delay(20);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -167,7 +167,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (int32_t) Goal_Vel[i]);
         delay(20);
 
-	// Store our position
+        // Store our position
         PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
     return 0;
@@ -221,17 +221,19 @@ int MotorDirector() {
         Right_Position = -std::numeric_limits<uint32_t>::max() - Right_Position;
     }
 
-//    double Forward  = (Left_Position + Right_Position) * 0.5 * DistToRev / std::numeric_limits<uint32_t>::max();
+    //    double Forward  = (Left_Position + Right_Position) * 0.5 * DistToRev / std::numeric_limits<uint32_t>::max();
     double Forward = Left_Position * DistToRev / std::numeric_limits<uint32_t>::max();
-    double Rotation = (Forward - Left_Position * DistToRev / std::numeric_limits<uint32_t>::max()) / (Kinematics::tank_width * 0.5);
+    double Rotation =
+        (Forward - Left_Position * DistToRev / std::numeric_limits<uint32_t>::max()) / (Kinematics::tank_width * 0.5);
 
     std::cout << "L Curr " << PathPlanner::curr_pos[0] << "\t Prev " << PathPlanner::prev_pos[0] << std::endl;
     std::cout << "R Curr " << PathPlanner::curr_pos[1] << "\t Prev " << PathPlanner::prev_pos[1] << std::endl;
+    std::cout << Left_Position << " * " << DistToRev << " / " << std::numeric_limits<uint32_t>::max() << std::endl;
     std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
 
-    Localisation::w_Tank_Position[0] += Forward; //* std::cos(Rotation);
+    Localisation::w_Tank_Position[0] += Forward;  //* std::cos(Rotation);
     Localisation::w_Tank_Position[1] += Forward * std::sin(Rotation);
-    Localisation::w_Tank_Rotation    = Rotation;
+    Localisation::w_Tank_Rotation = Rotation;
 
     // If we are in autonomous mode then do the normal thing
     if (!Input::Autonomous_Enabled) {
