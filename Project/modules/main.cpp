@@ -32,6 +32,10 @@ void signalHandler(int signum) {
         }
     }
 
+    // TODO Remove probably
+    std::cout << "Printing occupancy map" << std::endl;
+    Print_Occupancy_Map();
+
     // terminate program
 
     exit(signum);
@@ -72,8 +76,8 @@ int main() {
 
     printf("Finished Initilisation\n");
 
-    static int frame_count = 0;   // This is a crude method for slowing some tasks
-    const int frame_max    = 15000;  // LCM of all frame divisors
+    static int frame_count = 0;      // This is a crude method for slowing some tasks
+    const int frame_max    = 60000;  // LCM of all frame divisors
 
     double previous_time = (double) millis();
     double current_time  = (double) millis();
@@ -93,15 +97,15 @@ int main() {
         // Classifier_main();
         //}
 
-	if(frame_count % 15000 == 0){
-        if (PathPlanner::moving_flag[0] == 0 && PathPlanner::moving_flag[1] == 0) {
-            std::cout << "Localisation::w_Tank_Position[0] " << Localisation::w_Tank_Position[0] << std::endl;
-            std::cout << "Localisation::w_Tank_Position[1] " << Localisation::w_Tank_Position[1] << std::endl;
-            std::cout << "Localisation::w_Tank_Rotation " << Localisation::w_Tank_Rotation << std::endl;
+        if (frame_count % 60000 == 0) {
+            if (PathPlanner::moving_flag[0] == 0 && PathPlanner::moving_flag[1] == 0) {
+                std::cout << "Localisation::w_Tank_Position[0] " << Localisation::w_Tank_Position[0] << std::endl;
+                std::cout << "Localisation::w_Tank_Position[1] " << Localisation::w_Tank_Position[1] << std::endl;
+                std::cout << "Localisation::w_Tank_Rotation " << Localisation::w_Tank_Rotation << std::endl;
+            }
         }
-	}
 
-        // UltrasonicSensor_main();
+        UltrasonicSensor_main();
 
         if (frame_count % 3 == 0) {
             // If we are moving
@@ -112,7 +116,7 @@ int main() {
 
         if (frame_count % 5 == 0) {
             // TODO We probably want to store the last 5 US readings
-            // Localisation_main();  // TODO Maybe this should happen all of the time?
+            Localisation_main();  // TODO Maybe this should happen all of the time?
         }
 
         // Check if we are connected, if we are then check the mode
@@ -129,8 +133,6 @@ int main() {
             // Track the number of revolutions performed
             // Update the localisation model about where we currently are.
             // If need be, the motor director can perform the final positioning itself, independent of the loop
-
-//            Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
 
             // TODO Remove
             temp = FALSE;

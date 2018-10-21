@@ -104,9 +104,6 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Pos_current " << PathPlanner::curr_pos[i] << std::endl;
         std::cout << "Pos_total " << Pos_total << std::endl;
         std::cout << "Goal position " << (int) PathPlanner::goal_pos[i] << std::endl;
-
-        // Store our position
-        // PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
 
     // Reverse the flip of our negative motor
@@ -138,23 +135,9 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     Goal_Vel[1] += Forward;
     Goal_Vel[1] = -Goal_Vel[1];
 
-    uint8_t servo_ID[2] = {Motor_L, Motor_R};
-    // for (int i = 0; i < 2; i++) {
-        // Set goal position
-        // // Set goal revolution
-        // // Convert goal distance to number of revolutions
-        // // This counts down to 0
-
-        //executeReadSingle(servo_ID[i],
-        //                  MX64_ADDRESS_VALUE(PRESENT_POSITION),
-        //                  MX64_SIZE_VALUE(PRESENT_POSITION),
-        //                  PathPlanner::curr_pos[i]);
-        //delay(20);
-   // }
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Flip our negative motor to be positive
-
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
 
     // Set moving flag
@@ -163,14 +146,11 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
 
     std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
 
-    // uint8_t servo_ID[2] = {Motor_L, Motor_R};
+    uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
 
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (int32_t) Goal_Vel[i]);
         delay(20);
-
-        // Store our position
-     //   PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
     return 0;
 }
@@ -197,16 +177,8 @@ int MotorDirector() {
     // Invert our negative motor
     PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
 
-    // TODO Need to update localisation Position
-    // TODO Modify this to handle PS3 control motoring for localisation
-
-    // Update our localisation
-    // Get our previous localisation position => Localisation::w_Tank_Position
-    // Find how far we have moved
-    // PathPlanner::curr_pos[0] - PathPlanner::prev_pos[0];
-    // PathPlanner::curr_pos[1] - PathPlanner::prev_pos[1];
-    // Convert this into an amount forward and rotated
-    // Update w_Tank_Position
+    // TODO Check that this works
+    // Update our localisation model
     int Left_Position  = PathPlanner::curr_pos[0] - PathPlanner::prev_pos[0];
     int Right_Position = PathPlanner::curr_pos[1] - PathPlanner::prev_pos[1];
 
@@ -223,17 +195,16 @@ int MotorDirector() {
         Right_Position = -std::numeric_limits<uint32_t>::max() - Right_Position;
     }
 
-    //    double Forward  = (Left_Position + Right_Position) * 0.5 * DistToRev / std::numeric_limits<uint32_t>::max();
-    double Forward = Left_Position * DistToRev / std::numeric_limits<uint32_t>::max();
+    double Forward = (Left_Position + Right_Position) * 0.5 * DistToRev / std::numeric_limits<uint32_t>::max();
     double Rotation =
         (Forward - Left_Position * DistToRev / std::numeric_limits<uint32_t>::max()) / (Kinematics::tank_width * 0.5);
 
-    std::cout << "L Curr " << PathPlanner::curr_pos[0] << "\t Prev " << PathPlanner::prev_pos[0] << std::endl;
-    std::cout << "R Curr " << PathPlanner::curr_pos[1] << "\t Prev " << PathPlanner::prev_pos[1] << std::endl;
-    std::cout << Left_Position << " * " << DistToRev << " / " << std::numeric_limits<uint32_t>::max() << std::endl;
-    std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
+    // std::cout << "L Curr " << PathPlanner::curr_pos[0] << "\t Prev " << PathPlanner::prev_pos[0] << std::endl;
+    // std::cout << "R Curr " << PathPlanner::curr_pos[1] << "\t Prev " << PathPlanner::prev_pos[1] << std::endl;
+    // std::cout << Left_Position << " * " << DistToRev << " / " << std::numeric_limits<uint32_t>::max() << std::endl;
+    // std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
 
-    Localisation::w_Tank_Position[0] += Forward;  //* std::cos(Rotation);
+    Localisation::w_Tank_Position[0] += Forward * std::cos(Rotation);
     Localisation::w_Tank_Position[1] += Forward * std::sin(Rotation);
     Localisation::w_Tank_Rotation = Rotation;
 
