@@ -78,6 +78,8 @@ int main() {
     double previous_time = (double) millis();
     double current_time  = (double) millis();
 
+    bool temp = TRUE;
+
     while (1) {
         current_time = (double) millis();
         // std::cout << "FPS -> " << (double) (1000.0 / (current_time - previous_time)) << std::endl;
@@ -90,18 +92,31 @@ int main() {
         // InfraredSensor_main();
         // Classifier_main();
         //}
+        if (PathPlanner::moving_flag[0] == 0 && PathPlanner::moving_flag[1] == 0) {
+            std::cout << "Localisation::w_Tank_Position[0] " << Localisation::w_Tank_Position[0] << std::endl;
+            std::cout << "Localisation::w_Tank_Position[1] " << Localisation::w_Tank_Position[1] << std::endl;
+            std::cout << "Localisation::w_Tank_Rotation " << Localisation::w_Tank_Rotation << std::endl;
+        }
 
-        UltrasonicSensor_main();
+        // UltrasonicSensor_main();
+
+        if (frame_count % 3 == 0) {
+            // If we are moving
+            if (PathPlanner::moving_flag[0] != 0 || PathPlanner::moving_flag[1] != 0) {
+                MotorDirector();
+            }
+        }
+
         if (frame_count % 5 == 0) {
             // TODO We probably want to store the last 5 US readings
-            Localisation_main();  // TODO Maybe this should happen all of the time?
+            // Localisation_main();  // TODO Maybe this should happen all of the time?
         }
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
         PS3Control_main();
 
-        if (Input::Autonomous_Enabled) {
+        if (Input::Autonomous_Enabled && temp) {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
             AutonomousControl_main();
@@ -111,11 +126,11 @@ int main() {
             // Track the number of revolutions performed
             // Update the localisation model about where we currently are.
             // If need be, the motor director can perform the final positioning itself, independent of the loop
-            if (frame_count % 3 == 0) {
-                MotorDirector();
-            }
 
             Input::Autonomous_Enabled = !Input::Autonomous_Enabled;  // TODO remove
+
+            // TODO Remove
+            temp = FALSE;
         }
         //      break;
         frame_count++;

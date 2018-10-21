@@ -102,6 +102,9 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Pos_current " << PathPlanner::curr_pos[i] << std::endl;
         std::cout << "Pos_total " << Pos_total << std::endl;
         std::cout << "Goal position " << (int) PathPlanner::goal_pos[i] << std::endl;
+
+        // Store our position
+        PathPlanner::prev_pos[i] = PathPlanner::curr_pos[i];
     }
 
     // Reverse the flip of our negative motor
@@ -167,41 +170,77 @@ int MotorDirector() {
 
     // For both motors the revolutions are position in the forward direction
     // Read in the position
+    // Invert our negative motor
+    PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
 
     // TODO Need to update localisation Position
     // TODO Modify this to handle PS3 control motoring for localisation
 
-    // // Invert our negative motor
-    PathPlanner::curr_pos[1] = -PathPlanner::curr_pos[1];
-    for (int i = 0; i < count; i++) {
-        if (PathPlanner::moving_flag[i] != 0) {
-            // Check to see if our goal is our current position
-            if ((PathPlanner::curr_pos[i] <= PathPlanner::goal_pos[i] + 10)
-                && (PathPlanner::curr_pos[i] >= PathPlanner::goal_pos[i] - 10)) {
-                // If that is satisfied then stop the motor
-                // std::cout << "Servo " << i << " at goal position" << std::endl;
-                PathPlanner::moving_flag[i] = 0;
-                executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
-                delay(20);
-                std::cout << "Stopped moving"
-                          << " ID " << i << std::endl;
+    // Update our localisation
+    // Get our previous localisation position => Localisation::w_Tank_Position
+    // Find how far we have moved
+    // PathPlanner::curr_pos[0] - PathPlanner::prev_pos[0];
+    // PathPlanner::curr_pos[1] - PathPlanner::prev_pos[1];
+    // Convert this into an amount forward and rotated
+    // Update w_Tank_Position
+    int Left_Position  = PathPlanner::curr_pos[0] - PathPlanner::prev_pos[0];
+    int Right_Position = PathPlanner::curr_pos[1] - PathPlanner::prev_pos[1];
 
-                // Check to see if there's more path info
-                PathPlanner pplanner;
-                if (!pplanner.check_path()) {
-                    std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
-                    pplanner.path_erase_first();
+    if (Left_Position > std::numeric_limits<uint32_t>::max()) {
+        Left_Position = std::numeric_limits<uint32_t>::max() - Left_Position;
+    }
+    else if (Left_Position < -std::numeric_limits<uint32_t>::max()) {
+        Left_Position = -std::numeric_limits<uint32_t>::max() - Left_Position;
+    }
+    if (Right_Position > std::numeric_limits<uint32_t>::max()) {
+        Right_Position = std::numeric_limits<uint32_t>::max() - Right_Position;
+    }
+    else if (Right_Position < -std::numeric_limits<uint32_t>::max()) {
+        Right_Position = -std::numeric_limits<uint32_t>::max() - Right_Position;
+    }
 
-                    std::cout << "New point " << ret_vec->first << ", " << ret_vec->second << std::endl;
+    double Forward  = (Left_Position + Right_Position) * 0.5;
+    double Rotation = (Forward - Left_Position) / (Kinematics::tank_width * 0.5);
 
-                    if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
-                        std::cout << "Error Could not calculate motor driver" << std::endl;
-                        return -1;
+    Localisation::w_Tank_Position[0] = F * std::cos(Rotation);
+    Localisation::w_Tank_Position[1] = F * std::sin(Rotation);
+    Localisation::w_Tank_Rotation    = Rotation;
+
+    // If we are in autonomous mode then do the normal thing
+    if (!Input::Autonomous_Enabled) {
+        for (int i = 0; i < count; i++) {
+            if (PathPlanner::moving_flag[i] != 0) {
+                // Check to see if our goal is our current position
+                if ((PathPlanner::curr_pos[i] <= PathPlanner::goal_pos[i] + 10)
+                    && (PathPlanner::curr_pos[i] >= PathPlanner::goal_pos[i] - 10)) {
+                    // If that is satisfied then stop the motor
+                    // std::cout << "Servo " << i << " at goal position" << std::endl;
+                    PathPlanner::moving_flag[i] = 0;
+                    executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
+                    delay(20);
+                    std::cout << "Stopped moving"
+                              << " ID " << i << std::endl;
+
+                    // Check to see if there's more path info
+                    PathPlanner pplanner;
+                    if (!pplanner.check_path()) {
+                        std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
+                        pplanner.path_erase_first();
+
+                        std::cout << "New point " << ret_vec->first << ", " << ret_vec->second << std::endl;
+
+                        if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
+                            std::cout << "Error Could not calculate motor driver" << std::endl;
+                            return -1;
+                        }
                     }
                 }
             }
         }
     }
+    // Store our position
+    PathPlanner::prev_pos[0] = PathPlanner::curr_pos[0];
+    PathPlanner::prev_pos[1] = PathPlanner::curr_pos[1];
 
     return 0;
 }
