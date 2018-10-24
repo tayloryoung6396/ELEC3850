@@ -196,7 +196,7 @@ void Dynamixel_init() {
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(20);
             // Enable torque
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 0);
             delay(20);
             // Change gain
             // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);

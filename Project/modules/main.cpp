@@ -72,7 +72,12 @@ int main() {
     Dynamixel_init();
     MotorController_init();
     FKGripper_init();
-    IKGripper_init();
+    while(1){
+	int x = 0;
+        std::cout << "Next " << x << std::endl;;
+	std::cin >> x;
+        IKGripper_init();
+    }
 
     // Sensors Init
     // Camera_init();
