@@ -93,27 +93,27 @@ int Gripper_home() {
     IK_Calculate(Goal_pos);
 
     std::cout << "IK Result: b_y " << Gripper_angles::base_yaw << " b_p " << Gripper_angles::base_pitch << " e_p "
-    << Gripper_angles::elbow_pitch << " w_p " << Gripper_angles::wrist_pitch << std::endl;
+              << Gripper_angles::elbow_pitch << " w_p " << Gripper_angles::wrist_pitch << std::endl;
 
     std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-    << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-    << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-    << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
 
     // Send servos to positions
     // NOTE This should probably be a bulk write
-    //executeWriteSingle(
+    // executeWriteSingle(
     //    Base_Yaw, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw));
-    //delay(20);
-    //executeWriteSingle(
+    // delay(20);
+    // executeWriteSingle(
     //    Base_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch));
-    //delay(20);
-    //executeWriteSingle(
+    // delay(20);
+    // executeWriteSingle(
     //    Elbow_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch));
-    //delay(20);
-    //executeWriteSingle(
+    // delay(20);
+    // executeWriteSingle(
     //    Wrist_Pitch, MX28_ADDRESS_VALUE(GOAL_POSITION), convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch));
-    //delay(20);
+    // delay(20);
     Close_Gripper();
 
     return 0;
@@ -257,20 +257,13 @@ int IK_Calculate(double Goal_pos[3]) {
 
     Gripper_angles servo;
 
-    // Check to see if our z position is in the ground..
-    // These should probably be thrown out in the validation
-    if (Goal_pos[2] < -0.1) {
-        std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
-        std::cout << "Arm in ground" << std::endl;
+    // TODO x must always be positive
+    if (Goal_pos[0] < 0) {
+        std::cout << "X pos < 0" << std::endl;
         return -1;
     }
 
-    double rGoal_xy = std::sqrt(std::pow(Goal_pos[0], 2) + std::pow(Goal_pos[1], 2)) - Kinematics::grip_cen;
-    //if (rGoal_xy < 0.1) {
-    //    std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
-    //    std::cout << "Arm in itself" << std::endl;
-        //return -1;
-    //}
+    double rGoal_xy = std::sqrt(std::pow(Goal_pos[0], 2) + std::pow(Goal_pos[1], 2));  // - Kinematics::grip_cen;
 
     double arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
 
@@ -278,10 +271,9 @@ int IK_Calculate(double Goal_pos[3]) {
 
     // Our arm needs to be fully extended
     if (arm_len_3 > Kinematics::arm_len_1 + Kinematics::arm_len_2) {
-        std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
         std::cout << "Length too long" << std::endl;
         theta_base_pitch  = 0;
-        theta_elbow_pitch = 0;
+        theta_elbow_pitch = M_PI;
         theta_wrist_pitch = 0;
 
         // just Calculate the triangle straight from this hypotinuse
@@ -292,12 +284,12 @@ int IK_Calculate(double Goal_pos[3]) {
         }
         // return -1;
     }
-    // These should probably be thrown out in the validation
-    //else if (arm_len_3 < std::sqrt(std::pow(Kinematics::arm_len_1, 2) + std::pow(Kinematics::arm_len_2, 2))) {
-    //    std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
-    //    std::cout << "Length too short" << std::endl;
-    //    return -1;
-    //}
+    // Arm can never be this close
+    else if (arm_len_3 < 0.05) {
+        std::cout << "Arm too close" << std::endl;
+        // Throw this out
+        return -1;
+    }
     else {
         theta_base_pitch  = SSS_triangle(Kinematics::arm_len_1, arm_len_3, Kinematics::arm_len_2);
         theta_elbow_pitch = SSS_triangle(Kinematics::arm_len_1, Kinematics::arm_len_2, arm_len_3);
@@ -310,12 +302,12 @@ int IK_Calculate(double Goal_pos[3]) {
     }
 
     if (Goal_pos[2] > 0) {
-        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha;
+        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha - 0.1745;  // Account for weird arm
         Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
         Gripper_angles::wrist_pitch = theta_base_pitch + theta_elbow_pitch - alpha;
     }
     else {
-        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
+        Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha - 0.1745;  // Account for weird arm
         Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
         Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
     }
@@ -433,5 +425,8 @@ int Validate_Pos(double Goal_pos[3]) {
     std::cout << "Goal Y " << Goal_pos[1] << ", " << y_limits[0] << ", " << y_limits[1] << std::endl;
     std::cout << "Goal Z " << Goal_pos[2] << ", " << z_limits[0] << ", " << z_limits[1] << std::endl;
     std::cout << "Error goal position invalid" << std::endl;
-    return -1;
+
+    // TODO Fix validation
+    return 0;
+    // return -1;
 }
