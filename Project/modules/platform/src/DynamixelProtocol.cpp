@@ -191,12 +191,13 @@ void Dynamixel_init() {
     // Report back on any servos that failed to connect
     // Set gains and torque
     uint8_t data;
+/*
     for (int servo_ID = 1; servo_ID < 6; servo_ID++) {
         // NOTE This should probably be a ping, but i dont think i have a function to handle it
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
             delay(20);
             // Enable torque
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 0);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
             delay(20);
             // Change gain
             // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);
@@ -212,10 +213,68 @@ void Dynamixel_init() {
             // Change Velocity Profile Unit is 0.229 RPM from 0 ~1023
             // executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
             // delay(20);
+//        }
+//        else {
+//            std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
+//        }
+//    }
+for (int servo_ID = 1; servo_ID < 6; servo_ID++) {
+        // NOTE This should probably be a ping, but i dont think i have a function to handle it
+        if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(ID), MX28_SIZE_VALUE(ID), data) == COMM_SUCCESS) {
+            delay(20);
+            // Enable torque
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(TORQUE_ENABLE), 1);
+            delay(20);
+            uint16_t data1 = 0;
+            executeReadSingle(1, MX28_ADDRESS_VALUE(POSITION_P_GAIN), MX28_SIZE_VALUE(POSITION_P_GAIN), data1);
+            delay(20);
+            std::cout << "POSITION_P_GAIN " << data1 << std::endl;
+            // Change gain
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);
+            delay(20);
+            executeReadSingle(1, MX28_ADDRESS_VALUE(POSITION_P_GAIN), MX28_SIZE_VALUE(POSITION_P_GAIN), data1);
+            delay(20);
+            std::cout << "POSITION_P_GAIN " << data1 << std::endl;
+
+            uint32_t data2 = 0;
+            executeReadSingle(
+                1, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), MX28_SIZE_VALUE(PROFILE_ACCELERATION), data2);
+            delay(20);
+            std::cout << "PROFILE_ACCELERATION " << data2 << std::endl;
+            // Change Acceleration Profile
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), 16000);
+            delay(20);
+            executeReadSingle(
+                1, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), MX28_SIZE_VALUE(PROFILE_ACCELERATION), data2);
+            delay(20);
+            std::cout << "PROFILE_ACCELERATION " << data2 << std::endl;
+
+            uint32_t data3 = 0;
+            executeReadSingle(1, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), MX28_SIZE_VALUE(VELOCITY_LIMIT), data3);
+            delay(20);
+            std::cout << "VELOCITY_LIMIT " << data3 << std::endl;
+            // Change Velocity Limit Unit is 0.229 RPM from 0 ~1023
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
+            delay(20);
+            executeReadSingle(1, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), MX28_SIZE_VALUE(VELOCITY_LIMIT), data3);
+            delay(20);
+            std::cout << "VELOCITY_LIMIT " << data3 << std::endl;
+
+            uint32_t data4 = 0;
+            executeReadSingle(1, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), MX28_SIZE_VALUE(PROFILE_VELOCITY), data4);
+            delay(20);
+            std::cout << "PROFILE_VELOCITY " << data4 << std::endl;
+            // Change Velocity Profile Unit is 0.229 RPM from 0 ~1023
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
+            delay(20);
+            executeReadSingle(1, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), MX28_SIZE_VALUE(PROFILE_VELOCITY), data4);
+            delay(20);
+            std::cout << "PROFILE_VELOCITY " << data4 << std::endl;
         }
         else {
             std::cout << "ERROR: Failed to ping servo " << (int) servo_ID << std::endl;
         }
+//        servo_ID = 6;
     }
     for (int servo_ID = 6; servo_ID < 8; servo_ID++) {
         // NOTE This should probably be a ping, but i dont think i have a function to handle it
