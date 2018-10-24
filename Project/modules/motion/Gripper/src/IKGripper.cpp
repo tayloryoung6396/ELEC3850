@@ -224,20 +224,20 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
         return -1;
     }
 
-    // TODO make rest position
-    else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
-        std::cout << "Error could not calculate Gripper IK" << std::endl;
-        return -1;
-    }
-    data[0] = convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw);
-    data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
-    data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
-    data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
-    // NOTE Bulkwrite
-    for (int i = 0; i < count; i++) {
-        executeWriteSingle(servo_ID[count], address, data[count]);
-        delay(DELAY_TIME);
-    }
+    // // TODO make rest position
+    // else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
+    //     std::cout << "Error could not calculate Gripper IK" << std::endl;
+    //     return -1;
+    // }
+    // data[0] = convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw);
+    // data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
+    // data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
+    // data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
+    // // NOTE Bulkwrite
+    // for (int i = 0; i < count; i++) {
+    //     executeWriteSingle(servo_ID[count], address, data[count]);
+    //     delay(DELAY_TIME);
+    // }
 
     if (Close_Gripper() != 0) {
         std::cout << "Error could not Grip Object" << std::endl;
@@ -305,7 +305,7 @@ int IK_Calculate(double Goal_pos[3]) {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha - 0.1745;  // Account for weird arm
         Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
         // Gripper_angles::wrist_pitch = theta_base_pitch - theta_elbow_pitch + alpha - 0.1745;
-        Gripper_angles::wrist_pitch = -(theta_wrist_pitch - alpha);
+        Gripper_angles::wrist_pitch = -(theta_wrist_pitch - alpha) - 0.1745;
     }
     else {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha - 0.1745;  // Account for weird arm
