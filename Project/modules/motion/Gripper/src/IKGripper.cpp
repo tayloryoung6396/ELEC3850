@@ -261,11 +261,16 @@ int IK_Calculate(double Goal_pos[3]) {
     // These should probably be thrown out in the validation
     if (Goal_pos[2] < -0.1) {
         std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
-        std::cout << "Arm in gorund" << std::endl;
+        std::cout << "Arm in ground" << std::endl;
         return -1;
     }
 
     double rGoal_xy = std::sqrt(std::pow(Goal_pos[0], 2) + std::pow(Goal_pos[1], 2)) - Kinematics::grip_cen;
+    if (rGoal_xy < 0.1) {
+        std::cout << "Goal Pos " << Goal_pos[0] << ", " << Goal_pos[1] << ", " << Goal_pos[2] << std::endl;
+        std::cout << "Arm in itself" << std::endl;
+        return -1;
+    }
 
     double arm_len_3 = std::sqrt(std::pow(rGoal_xy, 2) + std::pow(Goal_pos[2], 2));
 
@@ -306,12 +311,12 @@ int IK_Calculate(double Goal_pos[3]) {
 
     if (Goal_pos[2] > 0) {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha;
-        Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
+        Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
         Gripper_angles::wrist_pitch = -M_PI_2 + theta_base_pitch + theta_elbow_pitch - alpha;
     }
     else {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha;
-        Gripper_angles::elbow_pitch = M_PI - theta_elbow_pitch;
+        Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
         Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
     }
     return 0;

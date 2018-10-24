@@ -93,6 +93,7 @@ int Localisation_main() {
             // y=mx+b for now we are using Bresham's algorithim
             std::cout << "Calculating list of cells" << std::endl;
 
+            // TODO Fix this
             breshams_alg(i, sen_hori, sen_vert);
 
             std::cout << "Fininished calculating list" << std::endl;
