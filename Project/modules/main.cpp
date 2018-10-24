@@ -117,7 +117,7 @@ int main() {
         //     }
         // }
         prev_time = (double) millis();  // TODO Remove
-        UltrasonicSensor_main();
+//        UltrasonicSensor_main();
         myfile << "UltrasonicSensor_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
 
         if (frame_count % 3 == 0) {
@@ -132,7 +132,7 @@ int main() {
         if (frame_count % 5 == 0) {
             // TODO We probably want to store the last 5 US readings
             prev_time = (double) millis();  // TODO Remove
-            Localisation_main();
+  //          Localisation_main();
             myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
         }
 
