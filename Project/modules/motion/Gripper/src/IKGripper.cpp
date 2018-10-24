@@ -76,8 +76,8 @@ int Gripper_home() {
     executeReadSingle(4, MX28_ADDRESS_VALUE(PRESENT_POSITION), MX28_SIZE_VALUE(PRESENT_POSITION), wrist_pitch);
 
     // Do FK to figure out where we are
-    std::cout << "FK Read: base_yaw" << base_yaw << " base_pitch " << base_pitch << " elbow_pitch " << elbow_pitch
-              << " wrist_pitch " << wrist_pitch << std::endl;
+    // std::cout << "FK Read: base_yaw" << base_yaw << " base_pitch " << base_pitch << " elbow_pitch " << elbow_pitch
+    //           << " wrist_pitch " << wrist_pitch << std::endl;
     double Pres_pos[3];
     FK_Calculate(convert_pos_rad(Base_Yaw, double(base_yaw)),
                  convert_pos_rad(Base_Pitch, double(base_pitch)),
@@ -89,16 +89,16 @@ int Gripper_home() {
 
     // Plan a path to the homing positions
     double Goal_pos[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
-    std::cout << "Goal Position Homing " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
+    // std::cout << "Goal Position Homing " << Goal_pos[0] << " " << Goal_pos[1] << " " << Goal_pos[2] << std::endl;
     IK_Calculate(Goal_pos);
 
-    std::cout << "IK Result: b_y " << Gripper_angles::base_yaw << " b_p " << Gripper_angles::base_pitch << " e_p "
-              << Gripper_angles::elbow_pitch << " w_p " << Gripper_angles::wrist_pitch << std::endl;
+    // std::cout << "IK Result: b_y " << Gripper_angles::base_yaw << " b_p " << Gripper_angles::base_pitch << " e_p "
+    // << Gripper_angles::elbow_pitch << " w_p " << Gripper_angles::wrist_pitch << std::endl;
 
-    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+    // << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+    // << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+    // << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
 
     // Send servos to positions
     // NOTE This should probably be a bulk write
@@ -304,12 +304,14 @@ int IK_Calculate(double Goal_pos[3]) {
     if (Goal_pos[2] > 0) {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch - alpha - 0.1745;  // Account for weird arm
         Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
-        Gripper_angles::wrist_pitch = theta_base_pitch - theta_elbow_pitch + alpha - 0.1745;
+        // Gripper_angles::wrist_pitch = theta_base_pitch - theta_elbow_pitch + alpha - 0.1745;
+        Gripper_angles::wrist_pitch = -(theta_wrist_pitch - alpha);
     }
     else {
         Gripper_angles::base_pitch  = M_PI_2 - theta_base_pitch + alpha - 0.1745;  // Account for weird arm
         Gripper_angles::elbow_pitch = M_PI_2 - theta_elbow_pitch;
-        Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
+        // Gripper_angles::wrist_pitch = -M_PI + theta_base_pitch + theta_elbow_pitch - alpha;
+        Gripper_angles::wrist_pitch = -(theta_wrist_pitch + alpha);
     }
     return 0;
 }

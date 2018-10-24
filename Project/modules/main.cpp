@@ -165,61 +165,60 @@ int main() {
             frame_count = 0;  // Reset frame count
         }
     }
-    /*
-        double Goal_pos1[3] = {0.3, 0, -0.2};
-        double Goal_pos2[3] = {0.3, 0, -0.1};
-        double Goal_pos3[3] = {0.3, 0, 0};
-        double Goal_pos4[3] = {0.25, 0, 0.1};
-        double Goal_pos5[3] = {0.2, 0, 0.1};
-        double Goal_pos6[3] = {0.15, 0, 0.1};
-        double Goal_pos7[3] = {0.05, 0, 0.05};
-        // IK_Calculate(Goal_pos1);
-        IKGripper_move(Goal_pos1);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-        delay(1000);
-        // IK_Calculate(Goal_pos2);
-        IKGripper_move(Goal_pos2);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-        delay(1000);
-        // IK_Calculate(Goal_pos3);
-        IKGripper_move(Goal_pos3);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-        delay(1000);
-        // IK_Calculate(Goal_pos4);
-        IKGripper_move(Goal_pos4);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-        delay(1000);
-        // IK_Calculate(Goal_pos5);
-        IKGripper_move(Goal_pos5);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-        delay(1000);
-        // IK_Calculate(Goal_pos6);
-        IKGripper_move(Goal_pos6);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-        delay(1000);
-        // IK_Calculate(Goal_pos7);
-        IKGripper_move(Goal_pos7);
-            std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
-        << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
-        << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
-        << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
-    */
+
+    double Goal_pos1[3] = {0.3, 0, -0.2};
+    double Goal_pos2[3] = {0.3, 0, -0.1};
+    double Goal_pos3[3] = {0.3, 0, 0};
+    double Goal_pos4[3] = {0.25, 0, 0.1};
+    double Goal_pos5[3] = {0.2, 0, 0.1};
+    double Goal_pos6[3] = {0.15, 0, 0.1};
+    double Goal_pos7[3] = {0.05, 0, 0.05};
+    // IK_Calculate(Goal_pos1);
+    IKGripper_move(Goal_pos1);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // delay(1000);
+    IK_Calculate(Goal_pos2);
+    // IKGripper_move(Goal_pos2);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // delay(1000);
+    IK_Calculate(Goal_pos3);
+    // IKGripper_move(Goal_pos3);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // delay(1000);
+    IK_Calculate(Goal_pos4);
+    // IKGripper_move(Goal_pos4);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // delay(1000);
+    IK_Calculate(Goal_pos5);
+    // IKGripper_move(Goal_pos5);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // delay(1000);
+    IK_Calculate(Goal_pos6);
+    // IKGripper_move(Goal_pos6);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
+    // delay(1000);
+    IK_Calculate(Goal_pos7);
+    // IKGripper_move(Goal_pos7);
+    std::cout << "Converted Result: b_y " << convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw) << " b_p "
+              << convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch) << " e_p "
+              << convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch) << " w_p "
+              << convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch) << std::endl;
 }
