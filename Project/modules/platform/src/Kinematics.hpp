@@ -20,6 +20,8 @@ public:
     static double grip_load;
     static double grip_home[3];
 
+    static double Rest_Gripper[3];
+
     // Tank specific parameters
     static double origin_offset[3];
     static double tank_length;

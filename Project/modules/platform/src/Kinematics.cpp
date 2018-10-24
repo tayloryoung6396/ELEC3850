@@ -15,11 +15,12 @@ double Kinematics::grip_closed = M_PI / 4.0;
 double Kinematics::grip_open   = -M_PI / 4.0;
 double Kinematics::grip_load   = 0;
 
-double Kinematics::grip_home[3] = {0, 0, 0.2};
+double Kinematics::grip_home[3]    = {0, 0, 0.2};
+double Kinematics::Rest_Gripper[3] = {0, 0, 0.05};
 
 // Tank specific parameters
 // TODO Actually measure these
-double Kinematics::origin_offset[3] = {0};  // Mid point of each axis
+double Kinematics::origin_offset[3] = {0.05, 0, 0.05};  // Mid point of each axis
 double Kinematics::tank_length      = 0.355;
 double Kinematics::tank_width       = 0.180;
 double Kinematics::tank_height      = 0.150;

@@ -55,10 +55,6 @@ int Localisation_main() {
     // now the matrixes have been used instead, can use a loop to calculate these, probs a bit neater
     // what cell are we looking at stuff in- we need to convert the dist and angle to y,x coorinates
 
-
-    // TODO account for the possibility of getting an invlid sensor reading, the distance will read -1
-
-
     // Front sonic (array pos=0)
     sen_theta[0] = Localisation::w_Tank_Rotation;
 
@@ -76,6 +72,7 @@ int Localisation_main() {
 
         std::cout << "Sensor " << i << std::endl;
 
+        // account for the possibility of getting an invlid sensor reading, the distance will read -1
         if (Ultrasonic::Detection_distances[i] != -1) {
             sen_hori[i] = Ultrasonic::Detection_distances[i] * std::cos(sen_theta[i]);
             sen_vert[i] = Ultrasonic::Detection_distances[i] * std::sin(sen_theta[i]);
@@ -173,6 +170,7 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
 }
 
 void Print_Occupancy_Map() {
+    // Number of pixels each grid space is scaled to
     int pixel_cols_max       = 100;
     int pixel_row_max        = 100;
     unsigned char* Map_Image = new unsigned char[Grid::m * pixel_row_max * Grid::n * pixel_cols_max];

@@ -52,6 +52,9 @@
 #define MX64_ADDRESS_VALUE(VAL) ADDRESS_VALUE(MX64_##VAL)
 #define MX64_SIZE_VALUE(VAL) SIZE_VALUE(MX64_##VAL)
 
+// Servo delay time
+#define DELAY_TIME 20
+
 class Input {
 public:
     static bool Autonomous_Enabled;
