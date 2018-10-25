@@ -144,13 +144,15 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
 }
 
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
+    std::cout << "x1"  << "="<< sen_hori[i]  << std::endl;
+    std::cout << "x0"  << "="<< Localisation::w_Tank_Position[0] << std::endl;
     double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
     double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1
-    double de = std::abs((dy / dx));                             // de=abs(dy/dx)
-    double e  = 0;
+    double de = std::abs((dy / dx));   //assume delta error does not equal zero and line isnt vertical                          // de=abs(dy/dx)
+    double e  = 0;                     //at start there will be no error
     double y  = Localisation::w_Tank_Position[1];
 
-    for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; Grid::gridspace) {
+    for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; Grid::gridspace) {      // from the object to the tank, incrementing by a gridspace each time---**not sure if this should be one**
         Grid::cell_list.emplace_back(std::make_pair(std::floor(x / Grid::gridspace), std::floor(y / Grid::gridspace)));
         e += de;
         if (e >= 0.5) {
@@ -158,9 +160,46 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
             e -= Grid::gridspace;
         }
     }
+
+
 }
 
+void nonbresh(int i, double sen_hori[], double sen_vert[]){      //this is not breshams algorithim, this is a crude mx+b approx that should work ok
+                                                                 //accuracy of this method can be improved by decreasing the size of cells
 
+    double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
+    double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1
+    double inc=abs(dx/dy);                                            //this is used to increment because it will help account for differing slopes
+    if(inc<0.2 && inc>0){                                       //this will account for the situation when the gradient is zero (horizontal to RHS)
+        inc=Grid::gridspace;
+    }
+    if(inc<=0 && inc>-0.2){                                     //this will account for the situation when the gradient is zero (horizontal to LHS)
+        inc=Grid::gridspace;
+    }
+    //need if statement here to account for the situation where it is straight ahead and dx/dy=infinity
+    if(Localisation::w_Tank_Position[0]>sen_hor[i]){
+       int multiplier=0;
+       for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; inc){
+            double xval=Localisation::w_Tank_Position[0]+multiplier*inc;
+            double yval=(1/inc)*xval+sen_hori[i]-(1/inc)*sen_vert[i];
+            Grid::cell_list.emplace_back(std::make_pair(std::floor(xval), std::floor(yval)));
+
+       multiplier++;
+       }
+       }
+
+    else(Localisation::w_Tank_Position[0]>sen_hor[i]){
+       int multiplier=0;
+       for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; -inc){
+            double xval=Localisation::w_Tank_Position[0]+multiplier*inc;
+            double yval=(1/inc)*xval+sen_hori[i]-(1/inc)*sen_vert[i];
+            Grid::cell_list.emplace_back(std::make_pair(std::floor(xval), std::floor(yval)));
+
+       multiplier++;
+       }
+       }
+
+}
 // // 2D Map
 // // This is a crude method of creating a 2D localisation map
 // // Given some fixed workspace, divide it into a square grid section
