@@ -153,8 +153,17 @@ int IKGripper_Grab_Object(double Goal_pos[3]) {
     delay(DELAY_TIME);
     if (Grip_Object() != 0) {
         std::cout << "Error could not Grip Object" << std::endl;
+
+        // I couldn't grab it
+        AutoState::have_object = FALSE;
+
+        // TODO Have some retry function
         return -1;
     }
+
+    // I probably grabbed the object fine
+    AutoState::have_object = TRUE;
+
     return 0;
 }
 
@@ -224,20 +233,21 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
         return -1;
     }
 
-    // // TODO make rest position
-    // else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
-    //     std::cout << "Error could not calculate Gripper IK" << std::endl;
-    //     return -1;
-    // }
-    // data[0] = convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw);
-    // data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
-    // data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
-    // data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
-    // // NOTE Bulkwrite
-    // for (int i = 0; i < count; i++) {
-    //     executeWriteSingle(servo_ID[count], address, data[count]);
-    //     delay(DELAY_TIME);
-    // }
+    // TODO Test rest position
+    else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
+        std::cout << "Error could not calculate Gripper IK" << std::endl;
+        return -1;
+    }
+    int32_t data[4] = {0};
+    data[0]         = convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw);
+    data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
+    data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
+    data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
+    // NOTE Bulkwrite
+    for (int i = 0; i < count; i++) {
+        executeWriteSingle(servo_ID[count], address, data[count]);
+        delay(DELAY_TIME);
+    }
 
     if (Close_Gripper() != 0) {
         std::cout << "Error could not Grip Object" << std::endl;
@@ -258,6 +268,7 @@ int IK_Calculate(double Goal_pos[3]) {
     Gripper_angles servo;
 
     // TODO x must always be positive
+    // TODO add this to the validation
     if (Goal_pos[0] < 0) {
         std::cout << "X pos < 0" << std::endl;
         return -1;
@@ -282,9 +293,9 @@ int IK_Calculate(double Goal_pos[3]) {
         if (isnan(alpha)) {
             alpha = 0;
         }
-        // return -1;
     }
     // Arm can never be this close
+    // TODO add this to the validation
     else if (arm_len_3 < 0.05) {
         std::cout << "Arm too close" << std::endl;
         // Throw this out
@@ -318,7 +329,6 @@ int IK_Calculate(double Goal_pos[3]) {
 
 double SSS_triangle(double a, double b, double c) {
     //"C = acos((a,2 + b,2 - c,2)/(2 * a * b))"
-    // std::cout << "a b c " << a << " " << b << " " << c << std::endl;
     return std::acos((std::pow(a, 2) + std::pow(b, 2) - std::pow(c, 2)) / (2.0 * a * b));
 }
 
@@ -417,7 +427,7 @@ int Validate_Pos(double Goal_pos[3]) {
     std::cout << "Goal Z " << Goal_pos[2] << ", " << z_limits[0] << ", " << z_limits[1] << std::endl;
     std::cout << "Error goal position invalid" << std::endl;
 
-    // TODO Fix validation
+    // TODO Test fix validation
     // return 0;
     return -1;
 }

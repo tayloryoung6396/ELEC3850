@@ -41,6 +41,8 @@ int MotorController() {
                 std::cout << "Error Could not calculate motor driver" << std::endl;
                 return -1;
             }
+            AutoState::on_route = TRUE;
+            AutoState::at_goal  = FALSE;
         }
     }
     return 0;
@@ -68,7 +70,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
     PathPlanner::moving_flag[0] = (Goal_Dist[0] == 0) ? 0 : ((Goal_Dist[0] < 0) ? (-1) : 1);
     PathPlanner::moving_flag[1] = (Goal_Dist[1] == 0) ? 0 : ((Goal_Dist[1] < 0) ? (1) : -1);
 
-    std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
+    // std::cout << "Left wheel " << Goal_Dist[0] << ", Right wheel " << Goal_Dist[1] << std::endl;
 
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
@@ -144,7 +146,7 @@ int MotorDriver_Velocity(double Forward, double Rotation) {
     PathPlanner::moving_flag[0] = (Goal_Vel[0] == 0) ? 0 : ((Goal_Vel[0] < 0) ? (-1) : 1);
     PathPlanner::moving_flag[1] = (Goal_Vel[1] == 0) ? 0 : ((Goal_Vel[1] < 0) ? (1) : -1);
 
-    std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
+    // std::cout << "Left wheel " << Goal_Vel[0] << ", Right wheel " << Goal_Vel[1] << std::endl;
 
     uint8_t servo_ID[2] = {Motor_L, Motor_R};
     for (int i = 0; i < 2; i++) {
@@ -221,29 +223,38 @@ int MotorDirector() {
                     delay(DELAY_TIME);
                     std::cout << "Stopped moving"
                               << " ID " << i << std::endl;
-
-                    // Check to see if there's more path info
-                    PathPlanner pplanner;
-                    if (!pplanner.check_path()) {
-                        std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
-                        pplanner.path_erase_first();
-
-                        std::cout << "New point " << ret_vec->first << ", " << ret_vec->second << std::endl;
-
-                        if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
-                            std::cout << "Error Could not calculate motor driver" << std::endl;
-                            return -1;
-                        }
-                    }
                 }
             }
         }
-    }
-    // Store our position
-    PathPlanner::prev_pos[0] = PathPlanner::curr_pos[0];
-    PathPlanner::prev_pos[1] = PathPlanner::curr_pos[1];
+        // If both wheels have reached the end of that vector
+        if (PathPlanner::moving_flag[0] == 0 && PathPlanner::moving_flag[1] == 0) {
+            // Check to see if there's more path info
+            PathPlanner pplanner;
+            if (!pplanner.check_path()) {
+                std::vector<std::pair<double, double>>::const_iterator ret_vec = pplanner.get_first_path();
+                pplanner.path_erase_first();
 
-    return 0;
+                std::cout << "New point " << ret_vec->first << ", " << ret_vec->second << std::endl;
+
+                if (MotorDriver_Distance(ret_vec->first, ret_vec->second) != 0) {
+                    std::cout << "Error Could not calculate motor driver" << std::endl;
+                    return -1;
+                }
+                AutoState::on_route = TRUE;
+                AutoState::at_goal  = FALSE;
+            }
+            // If the path has finished, tell the state machine that we are no longer on route
+            else {
+                AutoState::on_route = FALSE;
+                AutoState::at_goal  = TRUE;
+            }
+        }
+        // Store our position
+        PathPlanner::prev_pos[0] = PathPlanner::curr_pos[0];
+        PathPlanner::prev_pos[1] = PathPlanner::curr_pos[1];
+
+        return 0;
+    }
 }
 
 double ConvertDistanceToPosition(double Goal_Dist) {
