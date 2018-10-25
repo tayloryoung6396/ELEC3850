@@ -163,7 +163,7 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
 
 
 }
-
+/*
 void nonbresh(int i, double sen_hori[], double sen_vert[]){      //this is not breshams algorithim, this is a crude mx+b approx that should work ok
                                                                  //accuracy of this method can be improved by decreasing the size of cells
 
@@ -200,6 +200,7 @@ void nonbresh(int i, double sen_hori[], double sen_vert[]){      //this is not b
        }
 
 }
+*/
 // // 2D Map
 // // This is a crude method of creating a 2D localisation map
 // // Given some fixed workspace, divide it into a square grid section
