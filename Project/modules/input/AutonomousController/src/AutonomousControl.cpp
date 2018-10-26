@@ -106,3 +106,20 @@ int AutonomousControl_main() {
 
     return 0;
 }
+
+// void weighted_search() {
+//     // Not so weighted search
+//     // Grid::map[Grid::m][Grid::n
+
+//     int x_pos = ;  // Cell we are currently in
+//     int y_pos = ;  // Cell we are currently in
+
+//     int x_step = 1;
+//     int y_step = 1;
+//     // Check until we find a cell that hasn't been seen
+//     while (Grid::map[][] != 0.5) {
+//         for (x = x_pos; x < x_pos + x_step; x++) {
+//             // if () }
+//         }
+//     }
+// }
