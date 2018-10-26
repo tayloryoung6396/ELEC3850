@@ -103,7 +103,7 @@ int main() {
         // Check sensors
         if (frame_count % 5 == 0) {
             Camera_main();
-            InfraredSensor_main();
+            // InfraredSensor_main();
             Classifier_main();
         }
 

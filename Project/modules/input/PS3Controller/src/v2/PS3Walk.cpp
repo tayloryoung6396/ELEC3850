@@ -36,7 +36,7 @@ int PS3Control_main() {
     static double Forward  = 0;
     static double Rotation = 0;
 
-    // TODO, I know this is not a good implementation, but time is short
+    // NOTE, I know this is not a good implementation, but time is short
     static double Gripper_Goal[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
 
     // Do these if the values aren't zero
