@@ -9,6 +9,12 @@
 int Image::Width  = 1280;
 int Image::Height = 960;
 
+const double Camera::pixel_x      = 1.12;  // um
+const double Camera::pixel_y      = 1.12;  // um
+const double Camera::resolution_x = 3280;
+const double Camera::resolution_y = 2464;
+const double Camera::focal_len    = 3.04;  // mm
+
 void Camera_init() {
     std::cout << "Initilising CAMERA" << std::endl;
 

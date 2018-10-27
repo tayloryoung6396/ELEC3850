@@ -33,6 +33,10 @@ public:
     static double Servo_offset[5];
 
     static double ultrasonic_offset[4];
+
+    static const double cam_phi;
+    static const double cam_pos[3];
+    static const double cam_height;
 };
 
 

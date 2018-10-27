@@ -10,6 +10,14 @@ public:
     static int Width;
 };
 
+class Camera {
+public:
+    static const double pixel_x;
+    static const double pixel_y;
+    static const double resolution_x;
+    static const double resolution_y;
+    static const double focal_len;
+};
 
 extern void Camera_init();
 extern int Camera_main();
