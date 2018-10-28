@@ -91,7 +91,8 @@ int Localisation_main() {
             std::cout << "Calculating list of cells" << std::endl;
 
             // TODO Fix this
-            breshams_alg(i, sen_hori, sen_vert);
+            // breshams_alg(i, sen_hori, sen_vert);
+            Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
 
             std::cout << "Fininished calculating list" << std::endl;
 
@@ -167,6 +168,43 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
             e -= Grid::gridspace;
         }
     }
+}
+
+
+void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, double tank_cell_m, double tank_cell_n) {
+    double x;
+    double y;
+    double x1 = tank_cell_n;
+    double y1 = tank_cell_m;
+    double x2 = object_cell_n;
+    double y2 = object_cell_m;
+    double dx;
+    double dy;
+    double step;
+    int i;
+
+    dx = (x2 - x1);
+    dy = (y2 - y1);
+    if (std::abs(dx) >= std::abs(dy)) {
+        step = std::abs(dx);
+    }
+    else {
+        step = std::abs(dy);
+    }
+    dx = dx / step;
+    dy = dy / step;
+    x  = x1;
+    y  = y1;
+    i  = 1;
+    while (i <= step) {
+        std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+        Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
+        x = x + dy;
+        y = y + dx;
+        i = i + 1;
+    }
+    std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+    Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
 }
 
 void Print_Occupancy_Map() {
