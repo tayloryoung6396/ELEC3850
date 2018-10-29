@@ -15,7 +15,7 @@ SRCS := main.cpp \
 		motion/Gripper/src/FKGripper.cpp \
 		vision/InfraredSensor/src/InfraredSensor.cpp \
 		vision/UltrasonicSensor/src/UltrasonicSensor.cpp
-# FLAGS := -lm -lwiringPi -ggdb -O0 -L/opt/vc/lib -I/usr/local/include/ -lraspicam -lraspicam_cv -lmmal -lmmal_core -lmmal_util -lopencv_core -lopencv_highgui -I.
+FLAGS_CV := -lm -lwiringPi -L/opt/vc/lib -I/usr/local/include/ -lraspicam -lraspicam_cv -lmmal -lmmal_core -lmmal_util -lopencv_core -lopencv_highgui -I.
 FLAGS := -lm -lwiringPi -L/opt/vc/lib -I/usr/local/include/ -lraspicam -lmmal -lmmal_core -lmmal_util -I.
 FLAGS_D := -lm -lwiringPi -ggdb -O0 -L/opt/vc/lib -I/usr/local/include/ -lraspicam -lmmal -lmmal_core -lmmal_util -I.
 make: $(SRCS)
@@ -23,3 +23,6 @@ make: $(SRCS)
 
 debug: $(SRCS)
 	g++ -std=c++11 -o main $(SRCS) $(FLAGS_D)
+
+cv: $(SRCS)
+	g++ -std=c++11 -o main $(SRCS) $(FLAGS_CV)
