@@ -51,6 +51,12 @@ int main() {
 
     myfile.open("Sample_time.txt");  // TODO Remove
 
+
+    double prev_time = 0;  // TODO Remove
+
+    double previous_time = (double) millis();
+    double current_time  = (double) millis();
+
     // Initialise all modules
     myfile << "Starting Initilisation .\n";
     printf("Starting Initilisation\n");
@@ -75,7 +81,9 @@ int main() {
     IKGripper_init();
 
     // Sensors Init
-    // Camera_init();
+    prev_time = (double) millis();  // TODO Remove
+    Camera_init();
+    myfile << "Camera Init() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
     InfraredSensor_init();
     UltrasonicSensor_init();
     SensorFilter_init();
@@ -84,60 +92,52 @@ int main() {
     printf("Finished Initilisation\n");
     myfile << "Finished Initilisation.\n";
 
-    static int frame_count = 0;      // This is a crude method for slowing some tasks
-    const int frame_max    = 60000;  // LCM of all frame divisors
+    static int frame_count = 0;   // This is a crude method for slowing some tasks
+    const int frame_max    = 10;  // LCM of all frame divisors
 
-    double previous_time = (double) millis();
-    double current_time  = (double) millis();
-
-    double prev_time = 0;  // TODO Remove
 
     while (1) {
-        break;
         current_time = (double) millis();
         // std::cout << "FPS -> " << (double) (1000.0 / (current_time - previous_time)) << std::endl;
-        // myfile << "Current time " << current_time << ",\tFPS " << 1000.0 / (current_time - previous_time) << "\n"; //
+        myfile << "Current time " << current_time << ",\tFPS " << 1000.0 / (current_time - previous_time) << "\n";  //
         // TODO Remove
         previous_time = current_time;
 
         // Check sensors
-        if (frame_count % 5 == 0) {
-            Camera_main();
-            // InfraredSensor_main();
-            Classifier_main();
-        }
+        prev_time = (double) millis();  // TODO Remove
+        Camera_main();
+        myfile << "Camera_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
 
-        // prev_time = (double) millis();  // TODO Remove
+
+        prev_time = (double) millis();  // TODO Remove
         UltrasonicSensor_main();
-        // myfile << "UltrasonicSensor_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
+        myfile << "UltrasonicSensor_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
 
-        if (frame_count % 3 == 0) {
-            // If we are moving
-            if (PathPlanner::moving_flag[0] != 0 || PathPlanner::moving_flag[1] != 0) {
-                // The motor director overseas the current status of the drive motors
-                // It's job is to check whether the drive motors have reached the goal position
-                // Track the number of revolutions performed
-                // Update the localisation model about where we currently are.
-                // If need be, the motor director can perform the final positioning itself, independent of the loop
+        // If we are moving
+        if (PathPlanner::moving_flag[0] != 0 || PathPlanner::moving_flag[1] != 0) {
+            // The motor director overseas the current status of the drive motors
+            // It's job is to check whether the drive motors have reached the goal position
+            // Track the number of revolutions performed
+            // Update the localisation model about where we currently are.
+            // If need be, the motor director can perform the final positioning itself, independent of the loop
 
-                // prev_time = (double) millis();  // TODO Remove
-                MotorDirector();
-                // myfile << "MotorDirector() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
-            }
-        }
-
-        if (frame_count % 5 == 0) {
-            // TODO We probably want to store the last 5 US readings
             // prev_time = (double) millis();  // TODO Remove
-            Localisation_main();
-            // myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
+            MotorDirector();
+            // myfile << "MotorDirector() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
         }
+
+
+        // TODO We probably want to store the last 5 US readings
+        prev_time = (double) millis();  // TODO Remove
+        Localisation_main();
+        myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
+
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
-        // prev_time = (double) millis();  // TODO Remove
+        prev_time = (double) millis();  // TODO Remove
         PS3Control_main();
-        // myfile << "PS3Control_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
+        myfile << "PS3Control_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
 
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
@@ -147,10 +147,10 @@ int main() {
             // myfile << "AutonomousControl_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO
             // Remove
         }
-        break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
+            break;
         }
     }
 }
