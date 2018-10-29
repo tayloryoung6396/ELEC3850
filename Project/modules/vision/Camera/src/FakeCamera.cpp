@@ -70,26 +70,62 @@ void Output_Segmentation(uint8_t* seg_image_array,
 
     // Find the start of our lines to draw
     int top_line[3] = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_width};
-
     int start_pixel = (top_line[0] + top_line[1] * img_width) * 3;
-    std::cout << top_line[0] << " " << top_line[1] << " " << img_width << std::endl;
-    int end_pixel = (start_pixel) + top_line[2] * 3;
+    int end_pixel   = (start_pixel) + top_line[2] * 3;
 
-    std::cout << "Start pixel " << start_pixel << std::endl;
-    std::cout << "End pixel " << end_pixel << std::endl;
     // Draw rectangle around our object
     for (int pixel = start_pixel; pixel < end_pixel;) {
         seg_image_array[pixel] = 255;  // TODO select a colour
         pixel++;
-        seg_image_array[pixel] = 255;  // TODO select a colour
+        seg_image_array[pixel] = 0;  // TODO select a colour
         pixel++;
         seg_image_array[pixel] = 0;  // TODO select a colour
         pixel++;
     }
 
     int bottom_line[3] = {center[0] - obj_width / 2.0, center[1] + obj_height / 2.0, obj_width};
-    int left_line[3]   = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
-    int right_line[3]  = {center[0] + obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
+    start_pixel        = (bottom_line[0] + bottom_line[1] * img_width) * 3;
+    end_pixel          = (start_pixel) + bottom_line[2] * 3;
+
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+    }
+
+    int left_line[3] = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
+    start_pixel      = (left_line[0] + left_line[1] * img_width) * 3;
+    end_pixel        = (start_pixel) + (left_line[2] * img_width * 3);
+
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        pixel += img_width * 3 - 3;
+    }
+
+    int right_line[3] = {center[0] + obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
+    start_pixel       = (right_line[0] + right_line[1] * img_width) * 3;
+    end_pixel         = (start_pixel) + (right_line[2] * img_width * 3);
+
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        pixel += img_width * 3 - 3;
+    }
 }
 
 
@@ -112,9 +148,9 @@ int main() {
     // classifier returns a list of objects, and some information about them
     // segmentation can draw debug rectangles around them
 
-    int obj_width     = 100;        // Pixel values
-    int obj_height    = 100;        // Pixel values
-    int obj_center[2] = {100, 50};  // Pixel values
+    int obj_width     = 100;         // Pixel values
+    int obj_height    = 100;         // Pixel values
+    int obj_center[2] = {100, 500};  // Pixel values
 
     // uint8_t* seg_image_array = new uint8_t[(Image::Height * Image::Width * 3)];
 
