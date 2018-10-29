@@ -15,7 +15,7 @@ const double Camera::resolution_x = 3280;
 const double Camera::resolution_y = 2464;
 const double Camera::focal_len    = 3.04;  // mm
 
-unsigned char* readPPM(const char* fileName, char* pSix, int* width, int* height, int* maximum) {
+uint8_t* readPPM(const char* fileName, char* pSix, int* width, int* height, int* maximum) {
 
     // open the file to read just the header reading
     FILE* fr = fopen(fileName, "rb");
@@ -46,7 +46,7 @@ unsigned char* readPPM(const char* fileName, char* pSix, int* width, int* height
     // int size = 423800;
     printf("Size: %d\n", size);
     // allocate array for pixels
-    unsigned char* pixels = new unsigned char[size];
+    uint8_t* pixels = new uint8_t[size];
 
     // unformatted read of binary pixel data
     while (fread(pixels, sizeof(uint8_t), size, fr)) {
@@ -61,30 +61,31 @@ unsigned char* readPPM(const char* fileName, char* pSix, int* width, int* height
 
 }  // end of readPPM
 
-unsigned char* Output_Segmentation(uint8_t* seg_image_array,
-                                   int img_width,
-                                   int img_height,
-                                   int obj_width,
-                                   int obj_height,
-                                   int center[2]) {
+void Output_Segmentation(uint8_t* seg_image_array,
+                         int img_width,
+                         int img_height,
+                         int obj_width,
+                         int obj_height,
+                         int center[2]) {
 
     // Find the start of our lines to draw
     int top_line[3] = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_width};
 
     int start_pixel = (top_line[0] + top_line[1] * img_width) * 3;
-    int end_pixel   = (start_pixel + top_line[2]) * 3;
+    std::cout << top_line[0] << " " << top_line[1] << " " << img_width << std::endl;
+    int end_pixel = (start_pixel) + top_line[2] * 3;
 
     std::cout << "Start pixel " << start_pixel << std::endl;
     std::cout << "End pixel " << end_pixel << std::endl;
-    // // Draw rectangle around our object
-    // for (int pixel = start_pixel; pixel < end_pixel;) {
-    //     seg_image_array[pixel] = 255;  // TODO select a colour
-    //     pixel++;
-    //     seg_image_array[pixel] = 255;  // TODO select a colour
-    //     pixel++;
-    //     seg_image_array[pixel] = 0;  // TODO select a colour
-    //     pixel++;
-    // }
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+    }
 
     int bottom_line[3] = {center[0] - obj_width / 2.0, center[1] + obj_height / 2.0, obj_width};
     int left_line[3]   = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
@@ -102,7 +103,7 @@ int main() {
     int size    = 128;  // size of the array
 
     // read the PPM file and store its contents inside an array and return the pointer to that array to pixelArray
-    unsigned char* data = readPPM(fileName, pSix, &width, &height, &maximum);
+    uint8_t* data = readPPM(fileName, pSix, &width, &height, &maximum);
 
     Image::Height = height;
     Image::Width  = width;
@@ -111,13 +112,13 @@ int main() {
     // classifier returns a list of objects, and some information about them
     // segmentation can draw debug rectangles around them
 
-    int obj_width     = 100;         // Pixel values
-    int obj_height    = 100;         // Pixel values
-    int obj_center[2] = {200, 200};  // Pixel values
+    int obj_width     = 100;        // Pixel values
+    int obj_height    = 100;        // Pixel values
+    int obj_center[2] = {100, 50};  // Pixel values
 
     // uint8_t* seg_image_array = new uint8_t[(Image::Height * Image::Width * 3)];
 
-    Output_Segmentation(&data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
+    Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
 
     printf("Saving file\n");
     std::ofstream outfile("Segmented_Image.ppm", std::ios::binary);
