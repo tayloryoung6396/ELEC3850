@@ -4,6 +4,7 @@
 // #include "main.hpp"
 
 // static raspicam::RaspiCam Camera;  // Open camera
+#include <malloc.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
