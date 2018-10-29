@@ -1,29 +1,68 @@
-int Output_Segmentation(uint8_t* seg_image_array, int width, int height, int center[2]) {
+void Output_Segmentation(uint8_t* seg_image_array,
+                         int img_width,
+                         int img_height,
+                         int obj_width,
+                         int obj_height,
+                         int center[2]) {
 
     // Find the start of our lines to draw
-    int top_line[3] = {center[0] - width / 2.0, center[1] - height / 2.0, width};
+    int top_line[3] = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_width};
+    int start_pixel = (top_line[0] + top_line[1] * img_width) * 3;
+    int end_pixel   = (start_pixel) + top_line[2] * 3;
 
     // Draw rectangle around our object
-    for (int pixel = (); pixel < (top_line[3] * 3) + ;) {
+    for (int pixel = start_pixel; pixel < end_pixel;) {
         seg_image_array[pixel] = 255;  // TODO select a colour
         pixel++;
-        seg_image_array[pixel] = 255;  // TODO select a colour
+        seg_image_array[pixel] = 0;  // TODO select a colour
         pixel++;
-        seg_image_array[pixel] = 255;  // TODO select a colour
+        seg_image_array[pixel] = 0;  // TODO select a colour
         pixel++;
     }
 
-    int bottom_line[3] = {center[0] - width / 2.0, center[1] + height / 2.0, width};
-    int left_line[3]   = {center[0] - width / 2.0, center[1] - height / 2.0, heigth};
-    int right_line[3]  = {center[0] + width / 2.0, center[1] - height / 2.0, heigth};
+    int bottom_line[3] = {center[0] - obj_width / 2.0, center[1] + obj_height / 2.0, obj_width};
+    start_pixel        = (bottom_line[0] + bottom_line[1] * img_width) * 3;
+    end_pixel          = (start_pixel) + bottom_line[2] * 3;
 
-    printf("Saving file\n");
-    std::ofstream outfile("Segmented_image.ppm", std::ios::binary);                   // Save Image
-    outfile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";  // dont know
-    outfile.write((char*) seg_image_array, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
-    printf("Segmented Image Saved\n");
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+    }
 
-    delete seg_image_array;
+    int left_line[3] = {center[0] - obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
+    start_pixel      = (left_line[0] + left_line[1] * img_width) * 3;
+    end_pixel        = (start_pixel) + (left_line[2] * img_width * 3);
+
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        pixel += img_width * 3 - 3;
+    }
+
+    int right_line[3] = {center[0] + obj_width / 2.0, center[1] - obj_height / 2.0, obj_height};
+    start_pixel       = (right_line[0] + right_line[1] * img_width) * 3;
+    end_pixel         = (start_pixel) + (right_line[2] * img_width * 3);
+
+    // Draw rectangle around our object
+    for (int pixel = start_pixel; pixel < end_pixel;) {
+        seg_image_array[pixel] = 255;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        seg_image_array[pixel] = 0;  // TODO select a colour
+        pixel++;
+        pixel += img_width * 3 - 3;
+    }
 }
 
 // Camera rotation stuffs
