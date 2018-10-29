@@ -5,8 +5,8 @@
 #include <errno.h>
 #include <malloc.h>
 #include <math.h>
-#include <raspicam/raspicam.h>
-// #include <raspicam/raspicam_cv.h>
+//#include <raspicam/raspicam.h>
+#include <raspicam/raspicam_cv.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,7 +32,7 @@
 #include "dynamixel/v2/MX_28.hpp"
 #include "dynamixel/v2/MX_64.hpp"
 #include "input/AutonomousController/src/AutonomousControl.hpp"
-#include "input/PS3Controller/src/v2/PS3Walk.hpp"
+#include "input/PS3Controller/src/v2/PS3Walk.h"
 #include "localisation/src/Localisation.hpp"
 #include "motion/Gripper/src/FKGripper.hpp"
 #include "motion/Gripper/src/IKGripper.hpp"
@@ -41,8 +41,8 @@
 #include "platform/src/Kinematics.hpp"
 #include "platform/src/SensorFilter.hpp"
 #include "platform/src/uart.hpp"
-#include "vision/Camera/src/Camera.hpp"
-// #include "vision/Camera/src/CameraCV.hpp"
+// #include "vision/Camera/src/Camera.hpp"
+#include "vision/Camera/src/CameraCV.hpp"
 #include "vision/Classifier/src/Classifier.hpp"
 #include "vision/InfraredSensor/src/InfraredSensor.hpp"
 #include "vision/UltrasonicSensor/src/UltrasonicSensor.hpp"

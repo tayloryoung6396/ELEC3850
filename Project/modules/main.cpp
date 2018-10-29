@@ -36,7 +36,7 @@ void signalHandler(int signum) {
 
     // TODO Remove probably
     std::cout << "Printing occupancy map" << std::endl;
-    Print_Occupancy_Map();
+//    Print_Occupancy_Map();
 
     myfile.close();  // TODO Remove
 
@@ -49,7 +49,7 @@ int main() {
 
     signal(SIGINT, signalHandler);
 
-    myfile.open("Sample_time.txt");  // TODO Remove
+    myfile.open("Sample_time_cv.txt");  // TODO Remove
 
 
     double prev_time = 0;  // TODO Remove

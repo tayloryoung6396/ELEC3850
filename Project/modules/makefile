@@ -9,7 +9,7 @@ SRCS := main.cpp \
 		platform/src/Kinematics.cpp \
 		platform/src/uart.cpp \
 		platform/src/SensorFilter.cpp \
-		vision/Camera/src/Camera.cpp \
+		vision/Camera/src/CameraCV.cpp \
 		vision/Classifier/src/Classifier.cpp \
 		motion/Gripper/src/IKGripper.cpp \
 		motion/Gripper/src/FKGripper.cpp \
