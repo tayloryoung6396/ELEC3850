@@ -47,7 +47,7 @@ int AutonomousControl_main() {
                 // I must be at the place
                 // Lets place the object down
                 std::cout << "At Goal" << std::endl;
-                IKGripper_Place_Object(Goal_pos);
+                // IKGripper_Place_Object(Goal_pos);
             }
             else {
                 // I'm not at the place
@@ -83,7 +83,7 @@ int AutonomousControl_main() {
                 // I must be at the object
                 // Lets pick it up
                 std::cout << "At Goal" << std::endl;
-                IKGripper_Grab_Object(Goal_pos);
+                // IKGripper_Grab_Object(Goal_pos);
             }
             else {
                 // I'm not at the object

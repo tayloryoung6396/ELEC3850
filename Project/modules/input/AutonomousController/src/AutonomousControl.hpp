@@ -6,13 +6,13 @@
 extern void AutonomousControl_init();
 extern int AutonomousControl_main();
 
-class AutoStates {
+class AutoState {
 public:
-    static bool AutoState::have_object;
-    static bool AutoState::known_object;
-    static bool AutoState::at_goal;
-    static bool AutoState::known_goal;
-    static bool AutoState::on_route;
+    static bool have_object;
+    static bool known_object;
+    static bool at_goal;
+    static bool known_goal;
+    static bool on_route;
 };
 
 #endif /* AUTONOMOUS_CONTROL_H_ */

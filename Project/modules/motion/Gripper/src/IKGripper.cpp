@@ -232,7 +232,7 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
         std::cout << "Error could not open Gripper" << std::endl;
         return -1;
     }
-
+/*
     // TODO Test rest position
     else if (IK_Calculate(Kinematics::Rest_Gripper) != 0) {
         std::cout << "Error could not calculate Gripper IK" << std::endl;
@@ -240,9 +240,9 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
     }
     int32_t data[4] = {0};
     data[0]         = convert_rad_pos(Base_Yaw, Gripper_angles::base_yaw);
-    data[1] convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
-    data[2] convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
-    data[3] convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
+    data[1] =convert_rad_pos(Base_Pitch, Gripper_angles::base_pitch);
+    data[2] =convert_rad_pos(Elbow_Pitch, Gripper_angles::elbow_pitch);
+    data[3] =convert_rad_pos(Wrist_Pitch, Gripper_angles::wrist_pitch);
     // NOTE Bulkwrite
     for (int i = 0; i < count; i++) {
         executeWriteSingle(servo_ID[count], address, data[count]);
@@ -253,7 +253,8 @@ int IKGripper_Place_Object(double Goal_pos[3]) {
         std::cout << "Error could not Grip Object" << std::endl;
         return -1;
     }
-    return 0;
+*/  
+  return 0;
 }
 
 int IK_Calculate(double Goal_pos[3]) {
