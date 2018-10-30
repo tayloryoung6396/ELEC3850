@@ -93,7 +93,6 @@ int main() {
     double prev_time = 0;  // TODO Remove
 
     while (1) {
-        break;
         current_time = (double) millis();
         // std::cout << "FPS -> " << (double) (1000.0 / (current_time - previous_time)) << std::endl;
         // myfile << "Current time " << current_time << ",\tFPS " << 1000.0 / (current_time - previous_time) << "\n"; //
@@ -147,7 +146,7 @@ int main() {
             // myfile << "AutonomousControl_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO
             // Remove
         }
-        break;
+        // break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count

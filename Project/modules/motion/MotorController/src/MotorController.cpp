@@ -5,6 +5,9 @@
  */
 
 #include "MotorController.hpp"
+
+#define MAX_VELOCITY 20
+
 std::vector<std::pair<double, double>> PathPlanner::path_vec;  // Vector of pairs of X Y goal coordinates in tank space
 
 int32_t PathPlanner::goal_pos[2]       = {0};
@@ -119,7 +122,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
         std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goal_pos[i] << std::endl;
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? 20 : -20));
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? MAX_VELOCITY : -MAX_VELOCITY));
         delay(DELAY_TIME);
     }
     return 0;

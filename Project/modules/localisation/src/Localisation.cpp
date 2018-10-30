@@ -37,15 +37,15 @@ void Localisation_init() {
 
 int Localisation_main() {
 
-    std::cout << "Start row " << (int) Grid::start_row << " Start column " << (int) Grid::start_column << std::endl;
+    // std::cout << "Start row " << (int) Grid::start_row << " Start column " << (int) Grid::start_column << std::endl;
 
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
     int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row;
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column;
 
-    std::cout << "Tank cell x " << tank_cell_m << std::endl;
-    std::cout << "Tank cell y " << tank_cell_n << std::endl;
+    // std::cout << "Tank cell x " << tank_cell_m << std::endl;
+    // std::cout << "Tank cell y " << tank_cell_n << std::endl;
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4]  = {0};
@@ -70,31 +70,32 @@ int Localisation_main() {
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
 
-        std::cout << "Sensor " << i << std::endl;
+        // std::cout << "Sensor " << i << std::endl;
 
         // account for the possibility of getting an invlid sensor reading, the distance will read -1
         if (Ultrasonic::Detection_distances[i] != -1) {
             sen_hori[i] = Ultrasonic::Detection_distances[i] * std::cos(sen_theta[i]);
             sen_vert[i] = Ultrasonic::Detection_distances[i] * std::sin(sen_theta[i]);
-            std::cout << "Sensor rotation \t" << sen_theta[i] << " Sensor hori \t" << sen_hori[i] << " Sensor vert \t"
-                      << sen_vert[i] << std::endl;
+            // std::cout << "Sensor rotation \t" << sen_theta[i] << " Sensor hori \t" << sen_hori[i] << " Sensor vert
+            // \t"
+            //<< sen_vert[i] << std::endl;
 
 
             int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
             int object_cell_n = tank_cell_n + std::floor(sen_vert[i] / Grid::gridspace);
 
-            std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
+            // std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
 
             // startign closest to the tank, look at all the grid squares in the way by converting these points to a
             // straight line
             // y=mx+b for now we are using Bresham's algorithim
-            std::cout << "Calculating list of cells" << std::endl;
+            // std::cout << "Calculating list of cells" << std::endl;
 
             // TODO Fix this
             // breshams_alg(i, sen_hori, sen_vert);
             Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
 
-            std::cout << "Fininished calculating list" << std::endl;
+            // std::cout << "Fininished calculating list" << std::endl;
 
             while (!Grid::cell_list.empty()) {
 
@@ -108,8 +109,8 @@ int Localisation_main() {
                 double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
                                              + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
-                std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
-                std::cout << "Distance " << cell_dist << std::endl;
+                // std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
+                // std::cout << "Distance " << cell_dist << std::endl;
 
                 // function to calculate probability
                 probability(
@@ -118,10 +119,10 @@ int Localisation_main() {
                 // Remove the element from the list
                 Grid::cell_list.erase(Grid::cell_list.begin());
             }
-            std::cout << "Finished list" << std::endl;
+            // std::cout << "Finished list" << std::endl;
         }
         else {
-            std::cout << "Sensor reading invalid" << std::endl;
+            // std::cout << "Sensor reading invalid" << std::endl;
         }
     }
     return 0;
@@ -130,7 +131,7 @@ int Localisation_main() {
 void probability(int cell_column, int cell_row, double cell_dist, double obj_dist) {
 
     // use a straight line function to start however i believe tanh would work nicely
-    std::cout << "Previous probability " << Grid::map[cell_column][cell_row] << std::endl;
+    // std::cout << "Previous probability " << Grid::map[cell_column][cell_row] << std::endl;
 
     double prob = (0.2 * cell_dist) / obj_dist - 0.1;
     // set upper and lower prob lim
@@ -145,7 +146,7 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
     else {
         Grid::map[cell_column][cell_row] += prob;
     }
-    std::cout << "Probability " << prob << std::endl;
+    // std::cout << "Probability " << prob << std::endl;
 }
 
 // TODO this doesn't use the vertical distance
@@ -160,8 +161,9 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
         Grid::cell_list.emplace_back(std::make_pair(std::floor(x / Grid::gridspace), std::floor(y / Grid::gridspace)));
         e += de;
 
-        std::cout << "Position " << x << " of " << sen_hori[i] << std::endl;
-        std::cout << "Cell " << std::floor(x / Grid::gridspace) << " " << std::floor(y / Grid::gridspace) << std::endl;
+        // std::cout << "Position " << x << " of " << sen_hori[i] << std::endl;
+        // std::cout << "Cell " << std::floor(x / Grid::gridspace) << " " << std::floor(y / Grid::gridspace) <<
+        // std::endl;
 
         if (e >= 0.5) {
             y += (std::signbit(dy) == 1 ? 1 : -1) * Grid::gridspace;
@@ -197,13 +199,19 @@ void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, d
     y  = y1;
     i  = 1;
     while (i <= step) {
-        std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+        // std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
         Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
         x = x + dy;
         y = y + dx;
         i = i + 1;
+        if (x > Grid::n || y > Grid::n) {
+            break;
+        }
+        else if (x < Grid::n || y < Grid::n) {
+            break;
+        }
     }
-    std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+    // std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
     Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
 }
 
@@ -226,6 +234,6 @@ void Print_Occupancy_Map() {
     std::ofstream outFile("Map_Image.pgm", std::ios::binary);
     outFile << "P5\n" << Grid::m * pixel_row_max << " " << Grid::n * pixel_cols_max << " 255\n";
     outFile.write((char*) Map_Image, Grid::m * pixel_row_max * Grid::n * pixel_cols_max);
-    std::cout << "Image saved at Map_Image. " << std::endl;
+    // std::cout << "Image saved at Map_Image. " << std::endl;
     delete Map_Image;
 }

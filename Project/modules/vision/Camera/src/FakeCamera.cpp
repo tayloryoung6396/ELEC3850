@@ -131,7 +131,7 @@ void Output_Segmentation(uint8_t* seg_image_array,
 
 int main() {
 
-    char fileName[50] = "test.ppm";
+    char fileName[50] = "Red_Image.ppm";
     char pSix[10];      // indicates this is a PPM image
     int width   = 0;    // width of the image
     int height  = 0;    // heigt of the image
@@ -148,16 +148,30 @@ int main() {
     // classifier returns a list of objects, and some information about them
     // segmentation can draw debug rectangles around them
 
-    int obj_width     = 100;         // Pixel values
-    int obj_height    = 100;         // Pixel values
-    int obj_center[2] = {100, 500};  // Pixel values
+    int obj_width     = 79;          // Pixel values
+    int obj_height    = 105;         // Pixel values
+    int obj_center[2] = {447, 218};  // Pixel values
 
     // uint8_t* seg_image_array = new uint8_t[(Image::Height * Image::Width * 3)];
 
-    Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
+    // Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
+
+    obj_width     = 62;     // Pixel values
+    obj_height    = 89;     // Pixel values
+    obj_center[0] = {756};  // Pixel values
+    obj_center[1] = {227};  // Pixel values
+
+    // Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
+
+    obj_width     = 35;     // Pixel values
+    obj_height    = 47;     // Pixel values
+    obj_center[0] = {911};  // Pixel values
+    obj_center[1] = {194};  // Pixel values
+
+    // Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
 
     printf("Saving file\n");
-    std::ofstream outfile("Segmented_Image.ppm", std::ios::binary);
+    std::ofstream outfile("Segmented_Image_3.ppm", std::ios::binary);
     outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
     outfile.write((char*) data, (Image::Height * Image::Width * 3));
     printf("Segmented_Image Saved\n");
