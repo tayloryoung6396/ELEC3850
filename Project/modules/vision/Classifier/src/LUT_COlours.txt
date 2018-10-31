@@ -33,3 +33,15 @@ Red
 :{95, 26, 28}
 :{97, 48, 47}
 :{88, 21, 23}
+
+Green : {5, 29, 25}		// Average value
+GMax  : {9,	49,	44} 	// Max value
+GMin  : {1,	11,	8}		// Min value
+
+Blue  : {23, 54, 98}	// Average value
+BMax  : {33, 61, 111}   // Max value
+BMin  : {14, 44, 79}	// Min value
+
+Red   : {85, 27, 28}	// Average value
+RMax  : {97, 48, 47}    // Max value
+RMin  : {64, 19, 19}	// Min value
