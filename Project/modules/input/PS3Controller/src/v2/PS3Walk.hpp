@@ -53,6 +53,10 @@ public:
     static constexpr uint8_t BUTTON_CIRCLE         = 1;
     static constexpr uint8_t BUTTON_CROSS          = 0;
     static constexpr uint8_t BUTTON_SQUARE         = 3;
+
+    static double Forward;
+    static double Rotation;
+    static bool drive_flag;
 };
 
 extern void PS3Control_init();

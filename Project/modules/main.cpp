@@ -110,7 +110,7 @@ int main() {
         UltrasonicSensor_main();
         // myfile << "UltrasonicSensor_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
 
-        if (frame_count % 3 == 0) {
+        if (frame_count % 10 == 0) {
             // If we are moving
             if (PathPlanner::moving_flag[0] != 0 || PathPlanner::moving_flag[1] != 0) {
                 // The motor director overseas the current status of the drive motors
@@ -125,7 +125,7 @@ int main() {
             }
         }
 
-        if (frame_count % 5 == 0) {
+        if (frame_count % 50 == 0) {
             // TODO We probably want to store the last 5 US readings
             // prev_time = (double) millis();  // TODO Remove
             Localisation_main();
@@ -137,7 +137,14 @@ int main() {
         // prev_time = (double) millis();  // TODO Remove
         PS3Control_main();
         // myfile << "PS3Control_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
-
+        if (!Input::Autonomous_Enabled) {
+            // Force the system to update less often
+            if (frame_count % 10 == 0) {
+                if (PS3Walk::drive_flag | PathPlanner::moving_flag[0] != 0 | PathPlanner::moving_flag[1] != 0) {
+                    MotorDriver_Velocity(PS3Walk::Forward, PS3Walk::Rotation);
+                }
+            }
+        }
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
             // But we still need to check the remote, if it's connected, for a mode change command
