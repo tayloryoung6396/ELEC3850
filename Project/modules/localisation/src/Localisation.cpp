@@ -31,19 +31,9 @@ std::vector<std::pair<int, int>> Grid::cell_list;
 void Localisation_init() {
     for (int i = 0; i < Grid::m; i++) {
         for (int j = 0; j < Grid::n; j++) {
-            //    std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
-            Grid::map[i][j] = 0.7;
-            // std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
+            Grid::map[i][j] = 0.5;
         }
     }
-    for (int i = 0; i < Grid::m; i++) {
-        for (int j = 0; j < Grid::n; j++) {
-            //    std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
-            // Grid::map[i][j] = 0.7;
-            // std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
-        }
-    }
-    Print_Occupancy_Map();
 }
 
 int Localisation_main() {
