@@ -236,7 +236,7 @@ void Print_Occupancy_Map() {
                 for (int pixel_cols = 0; pixel_cols < pixel_cols_max; pixel_cols++) {
                     Map_Image[Grid::m * pixel_row_max * pixel_cols_max * rows
                               + (Grid::n * pixel_row_max * pixel_rows + (pixel_cols + cols * pixel_cols_max))] =
-                        (1 - Grid::map[Grid::m - rows][Grid::n - cols]) * 255;
+                        (1 - Grid::map[rows][cols]) * 255;
                 }
             }
         }
