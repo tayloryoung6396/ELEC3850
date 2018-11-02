@@ -62,7 +62,8 @@ int main() {
     // Odometry Init
     Localisation_init();
     SimplePathPlanner_init();
-
+	Print_Occupancy_Map();
+//    return(0);
     // Controll Init
     PS3Control_init();
     AutonomousControl_init();
@@ -101,9 +102,9 @@ int main() {
 
         // Check sensors
         if (frame_count % 5 == 0) {
-            Camera_main();
+  //          Camera_main();
             // InfraredSensor_main();
-            Classifier_main();
+  //          Classifier_main();
         }
 
         // prev_time = (double) millis();  // TODO Remove
@@ -125,12 +126,12 @@ int main() {
             }
         }
 
-        if (frame_count % 50 == 0) {
+//        if (frame_count % 50 == 0) {
             // TODO We probably want to store the last 5 US readings
             // prev_time = (double) millis();  // TODO Remove
             Localisation_main();
             // myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
-        }
+  //      }
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
@@ -153,10 +154,11 @@ int main() {
             // myfile << "AutonomousControl_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO
             // Remove
         }
-        // break;
+        break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
         }
     }
+    signalHandler(2);
 }

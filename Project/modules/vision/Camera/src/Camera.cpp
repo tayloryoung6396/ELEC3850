@@ -48,11 +48,11 @@ int Camera_main() {
         pixel++;
     }
 
-    printf("Saving file\n");
-    std::ofstream outfile("Red_Image.ppm", std::ios::binary);                         // Save Image
-    outfile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";  // dont know
-    outfile.write((char*) Red_data_array, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
-    printf("Red Image Saved\n");
+//    printf("Saving file\n");
+//    std::ofstream outfile("Red_Image.ppm", std::ios::binary);                         // Save Image
+//    outfile << "P6\n" << Camera.getWidth() << " " << Camera.getHeight() << " 255\n";  // dont know
+//    outfile.write((char*) Red_data_array, Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
+//    printf("Red Image Saved\n");
 
     delete Red_data_array;
     delete data;

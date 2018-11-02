@@ -1,3 +1,4 @@
+
 /*
  * This should take the Ultrasonic readings and the current position and populate an occupancy map of the surroundings
  * Inputs:  Ultrasonic sensor readings
@@ -23,16 +24,26 @@ const int Grid::start_column = 7;        //
 
 double Grid::area                  = 1.5;  // this is the dimensions of the grid in Y*Y meters
 double Grid::gridspace             = 0.1;  // this is the dimensions of the gridsquares in Y*Y meters
-double Grid::map[Grid::m][Grid::n] = {0};  // m x n matrix that serves as the occupancy map
+float Grid::map[Grid::m][Grid::n] = {0};  // m x n matrix that serves as the occupancy map
 
 std::vector<std::pair<int, int>> Grid::cell_list;
 
 void Localisation_init() {
     for (int i = 0; i < Grid::m; i++) {
         for (int j = 0; j < Grid::n; j++) {
-            Grid::map[i][j] = 0.5;
+	//    std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
+            Grid::map[i][j] = 0.7;
+	    std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
         }
     }
+    for (int i = 0; i < Grid::m; i++) {
+        for (int j = 0; j < Grid::n; j++) {
+        //    std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
+            //Grid::map[i][j] = 0.7;
+            std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
+        }
+    }
+    Print_Occupancy_Map();
 }
 
 int Localisation_main() {
@@ -44,8 +55,8 @@ int Localisation_main() {
     int tank_cell_m = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row;
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column;
 
-    // std::cout << "Tank cell x " << tank_cell_m << std::endl;
-    // std::cout << "Tank cell y " << tank_cell_n << std::endl;
+    std::cout << "Tank cell x " << tank_cell_m << std::endl;
+    std::cout << "Tank cell y " << tank_cell_n << std::endl;
 
     // these are some arrays to store "world" information based on sensors readings
     double sen_hori[4]  = {0};
@@ -70,32 +81,30 @@ int Localisation_main() {
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
 
-        // std::cout << "Sensor " << i << std::endl;
+        std::cout << "Sensor " << i << std::endl;
 
         // account for the possibility of getting an invlid sensor reading, the distance will read -1
         if (Ultrasonic::Detection_distances[i] != -1) {
             sen_hori[i] = Ultrasonic::Detection_distances[i] * std::cos(sen_theta[i]);
             sen_vert[i] = Ultrasonic::Detection_distances[i] * std::sin(sen_theta[i]);
-            // std::cout << "Sensor rotation \t" << sen_theta[i] << " Sensor hori \t" << sen_hori[i] << " Sensor vert
-            // \t"
-            //<< sen_vert[i] << std::endl;
+            std::cout << "Sensor rotation " << sen_theta[i] << " Sensor hori " << sen_hori[i] << " Sensor vert " << sen_vert[i] << std::endl;
 
 
             int object_cell_m = tank_cell_m + std::floor(sen_hori[i] / Grid::gridspace);
             int object_cell_n = tank_cell_n + std::floor(sen_vert[i] / Grid::gridspace);
 
-            // std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
+            std::cout << "Cell " << object_cell_m << " " << object_cell_n << std::endl;
 
             // startign closest to the tank, look at all the grid squares in the way by converting these points to a
             // straight line
             // y=mx+b for now we are using Bresham's algorithim
-            // std::cout << "Calculating list of cells" << std::endl;
+            std::cout << "Calculating list of cells" << std::endl;
 
             // TODO Fix this
             // breshams_alg(i, sen_hori, sen_vert);
             Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
 
-            // std::cout << "Fininished calculating list" << std::endl;
+            std::cout << "Fininished calculating list" << std::endl;
 
             while (!Grid::cell_list.empty()) {
 
@@ -109,8 +118,8 @@ int Localisation_main() {
                 double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
                                              + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
-                // std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
-                // std::cout << "Distance " << cell_dist << std::endl;
+                std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
+                std::cout << "Distance " << cell_dist << std::endl;
 
                 // function to calculate probability
                 probability(
@@ -119,10 +128,10 @@ int Localisation_main() {
                 // Remove the element from the list
                 Grid::cell_list.erase(Grid::cell_list.begin());
             }
-            // std::cout << "Finished list" << std::endl;
+            std::cout << "Finished list" << std::endl;
         }
         else {
-            // std::cout << "Sensor reading invalid" << std::endl;
+            std::cout << "Sensor reading invalid" << std::endl;
         }
     }
     return 0;
@@ -199,7 +208,7 @@ void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, d
     y  = y1;
     i  = 1;
     while (i <= step) {
-        // std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+        std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
         Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
         x = x + dy;
         y = y + dx;
@@ -207,11 +216,11 @@ void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, d
         if (x > Grid::n || y > Grid::n) {
             break;
         }
-        else if (x < Grid::n || y < Grid::n) {
+        else if (x < 0 || y < 0) {
             break;
         }
     }
-    // std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+    std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
     Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
 }
 
@@ -226,9 +235,19 @@ void Print_Occupancy_Map() {
                 for (int pixel_cols = 0; pixel_cols < pixel_cols_max; pixel_cols++) {
                     Map_Image[Grid::m * pixel_row_max * pixel_cols_max * rows
                               + (Grid::n * pixel_row_max * pixel_rows + (pixel_cols + cols * pixel_cols_max))] =
-                        Grid::map[Grid::m - rows][Grid::n - cols] * 255;
-                }
+                        (1 - Grid::map[Grid::m - rows][Grid::n - cols]) * 255;
+		    if(pixel_rows == 0 && pixel_cols == 0){
+		   std::cout << "Grid value " << Grid::map[Grid::m - rows][Grid::n - cols]  << " cell " << rows << " " << cols << std::endl;
+		    }  
+              }
             }
+        }
+    }
+for (int i = 0; i < Grid::m; i++) {
+        for (int j = 0; j < Grid::n; j++) {
+        //    std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
+            //Grid::map[i][j] = 0.7;
+            std::cout << "Grid " << i << " " << j << " " << Grid::map[i][j] << std::endl;
         }
     }
     std::ofstream outFile("Map_Image.pgm", std::ios::binary);

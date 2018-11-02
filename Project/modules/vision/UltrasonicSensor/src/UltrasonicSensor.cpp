@@ -70,10 +70,10 @@ int UltrasonicSensor_main() {
     DistanceM();  // DISTANCE DETECTION
 
     // DEBUG DISTANCE CALCULATIONS
-    std::cout << "Sensor 0 'Front' Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
-    std::cout << "Sensor 1 'Right' Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
-    std::cout << "Sensor 2 'Back'  Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
-    std::cout << "Sensor 3 'Left'  Distance " << Ultrasonic::Detection_distances[3] << " m" << std::endl;
+//    std::cout << "Sensor 0 'Front' Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
+//    std::cout << "Sensor 1 'Right' Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
+//    std::cout << "Sensor 2 'Back'  Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
+//    std::cout << "Sensor 3 'Left'  Distance " << Ultrasonic::Detection_distances[3] << " m" << std::endl;
     return 0;
 }
 

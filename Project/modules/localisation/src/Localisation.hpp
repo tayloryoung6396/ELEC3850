@@ -27,7 +27,7 @@ public:
     static const int start_column;
     static double area;
     static double gridspace;
-    static double map[Grid_m][Grid_m];
+    static float map[Grid_m][Grid_m];
 
     static std::vector<std::pair<int, int>> cell_list;
 };
