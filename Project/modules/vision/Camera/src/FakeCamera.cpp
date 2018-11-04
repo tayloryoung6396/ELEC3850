@@ -128,6 +128,31 @@ void Output_Segmentation(uint8_t* seg_image_array,
     }
 }
 
+void find_distance(int u, int v) {
+    // int u;  // Some pixel that you are interested in
+    // int v;  // Some pixel that you are interested in
+
+    double p = (Camera::pixel_x * 0.000001) * (u - Image::Width / 2.0);   // The screen coordinates returned
+    double q = (Camera::pixel_y * 0.000001) * (v - Image::Height / 2.0);  // The screen coordinates returned
+
+    // Now find the angle the pixel is offset from the screen origin
+    double theta = std::atan(p / Camera::focal_len);  // The vertical angle
+    double phi   = std::atan(q / Camera::focal_len);  // The horizontal angle
+
+    // Now convert the offsets into world coordinates
+    // Vertical
+    double plane_offset = 0;
+    double dist_x       = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
+    std::cout << "Distance x " << dist_x << std::endl;
+
+    // Horizontal
+    double dist_y =
+        (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
+    std::cout << "Distance y " << dist_y << std::endl;
+
+    // These should be the components of x and y of the object from a pixel
+}
+
 
 int main() {
 
@@ -152,23 +177,9 @@ int main() {
     int obj_height    = 105;         // Pixel values
     int obj_center[2] = {447, 218};  // Pixel values
 
-    // uint8_t* seg_image_array = new uint8_t[(Image::Height * Image::Width * 3)];
+    find_distance(obj_center[0], obj_center[1]);
 
-    // Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
-
-    obj_width     = 62;     // Pixel values
-    obj_height    = 89;     // Pixel values
-    obj_center[0] = {756};  // Pixel values
-    obj_center[1] = {227};  // Pixel values
-
-    // Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
-
-    obj_width     = 35;     // Pixel values
-    obj_height    = 47;     // Pixel values
-    obj_center[0] = {911};  // Pixel values
-    obj_center[1] = {194};  // Pixel values
-
-    // Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
+    Output_Segmentation(data, Image::Width, Image::Height, obj_width, obj_height, obj_center);
 
     printf("Saving file\n");
     std::ofstream outfile("Segmented_Image_3.ppm", std::ios::binary);

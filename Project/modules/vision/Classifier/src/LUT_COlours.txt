@@ -1,38 +1,39 @@
+/*
 Green
-:{4, 43, 37}
-:{9, 49, 44}
-:{6, 20, 18}
-:{4, 13, 13}
-:{1, 11, 8}
-:{8, 44, 39}
-:{6, 38, 32}
-:{2, 17, 15}
-:{6, 30, 25}
-:{5, 21, 16}
+:{4, 43, 37};
+:{9, 49, 44};
+:{6, 20, 18};
+:{4, 13, 13};
+:{1, 11, 8};
+:{8, 44, 39};
+:{6, 38, 32};
+:{2, 17, 15};
+:{6, 30, 25};
+:{5, 21, 16};
 
 Blue
-:{21, 56, 107}
-:{29, 61, 105}
-:{22, 57, 110}
-:{19, 56, 106}
-:{33, 54, 80}
-:{22, 47, 82}
-:{20, 44, 79}
-:{25, 60, 111}
-:{23, 56, 104}
-:{14, 51, 99}
+:{21, 56, 107};
+:{29, 61, 105};
+:{22, 57, 110};
+:{19, 56, 106};
+:{33, 54, 80};
+:{22, 47, 82};
+:{20, 44, 79};
+:{25, 60, 111};
+:{23, 56, 104};
+:{14, 51, 99};
 
 Red
-:{74, 19, 19}
-:{93, 22, 25}
-:{77, 28, 29
-:{94, 27, 29}
-:{93, 28, 29}
-:{72, 21, 23}
-:{64, 29, 31}
-:{95, 26, 28}
-:{97, 48, 47}
-:{88, 21, 23}
+:{74, 19, 19};
+:{93, 22, 25};
+:{77, 28, 29};
+:{94, 27, 29};
+:{93, 28, 29};
+:{72, 21, 23};
+:{64, 29, 31};
+:{95, 26, 28};
+:{97, 48, 47};
+:{88, 21, 23};
 
 Green : {5, 29, 25}		// Average value
 GMax  : {9,	49,	44} 	// Max value
@@ -45,3 +46,33 @@ BMin  : {14, 44, 79}	// Min value
 Red   : {85, 27, 28}	// Average value
 RMax  : {97, 48, 47}    // Max value
 RMin  : {64, 19, 19}	// Min value
+*/
+
+int step = 30;  // Some number of pixels to step by
+// remember this value is actually 3 times less, each element is R G B
+
+int n     = 3;  // Number of colours
+int depth = 3;  // RGB image
+
+// clang-format off
+int obj[n][depth][2] = {{{5,  4},  {29, 20}, {25, 19}},
+                        {{23, 10}, {54, 7},  {98, 13}},
+                        {{85, 12}, {27, 21}, {28, 19}}};
+// clang-format on
+for (pixel = 0; pixel = TOTAL_PIXELS; pixel += step) {
+    for (colour = 0; colour < n; colour++) {
+        if ((image[pixel] <= obj[colour][0][0] + obj[colour][0][1]
+             || image[pixel] >= obj[colour][0][0] - obj[colour][0][1])
+            && (image[pixel] <= obj[colour][1][0] + obj[colour][1][1]
+                || image[pixel] >= obj[colour][1][0] - obj[colour][1][1])
+            && (image[pixel] <= obj[colour][2][0] + obj[colour][2][1]
+                || image[pixel] >= obj[colour][2][0] - obj[colour][2][1])) {
+            // colour is correct
+            // add it to the seed points
+            break;  // No need to search the other colours
+        }
+        else {
+            // Not one of our colours
+        }
+    }
+}
