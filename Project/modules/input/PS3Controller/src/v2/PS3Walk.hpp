@@ -57,6 +57,9 @@ public:
     static double Forward;
     static double Rotation;
     static bool drive_flag;
+
+    static double Gripper_Goal[3];
+    static bool Gripper_flag;
 };
 
 extern void PS3Control_init();

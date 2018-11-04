@@ -144,6 +144,14 @@ int main() {
                     MotorDriver_Velocity(PS3Walk::Forward, PS3Walk::Rotation);
                 }
             }
+            if (frame_count % 10 == 0) {
+                if (PS3Walk::Gripper_flag) {
+                    if (IKGripper_move(PS3Walk::Gripper_Goal) != 0) {
+                        std::cout << "ERROR: Could not move gripper" << std::endl;
+                    }
+                    PS3Walk::Gripper_flag = FALSE;
+                }
+            }
         }
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
