@@ -14,6 +14,7 @@ SRCS := main.cpp \
 		motion/Gripper/src/IKGripper.cpp \
 		motion/Gripper/src/FKGripper.cpp \
 		vision/InfraredSensor/src/InfraredSensor.cpp \
+		vision/LedStatus/src/LedStatus.cpp \
 		vision/UltrasonicSensor/src/UltrasonicSensor.cpp
 # FLAGS := -lm -lwiringPi -ggdb -O0 -L/opt/vc/lib -I/usr/local/include/ -lraspicam -lraspicam_cv -lmmal -lmmal_core -lmmal_util -lopencv_core -lopencv_highgui -I.
 FLAGS := -lm -lwiringPi -L/opt/vc/lib -I/usr/local/include/ -lraspicam -lmmal -lmmal_core -lmmal_util -I.

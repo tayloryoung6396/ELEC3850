@@ -15,4 +15,7 @@ extern void Disable_BLUE();
 extern void Enable_GREEN();
 extern void Disable_GREEN();
 
+extern void LedStatus_init();
+extern void Light_Sequence();
+
 #endif /* LED_STATUS_H_ */
