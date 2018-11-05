@@ -156,7 +156,7 @@ int PS3Control_main() {
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_DPAD_UP" << std::endl;
-                            Gripper_Goal[0] += 0.01;
+                            PS3Walk::Gripper_Goal[0] += 0.01;
                             PS3Walk::Gripper_flag = TRUE;
                         }
                     }
@@ -167,7 +167,7 @@ int PS3Control_main() {
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_DPAD_RIGHT" << std::endl;
-                            Gripper_Goal[1] -= 0.01;
+                            PS3Walk::Gripper_Goal[1] -= 0.01;
                             PS3Walk::Gripper_flag = TRUE;
                         }
                     }
@@ -178,7 +178,7 @@ int PS3Control_main() {
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_DPAD_DOWN" << std::endl;
-                            Gripper_Goal[0] -= 0.01;
+                            PS3Walk::Gripper_Goal[0] -= 0.01;
                             PS3Walk::Gripper_flag = TRUE;
                         }
                     }
@@ -189,7 +189,7 @@ int PS3Control_main() {
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_DPAD_LEFT" << std::endl;
-                            Gripper_Goal[1] += 0.01;
+                            PS3Walk::Gripper_Goal[1] += 0.01;
                             PS3Walk::Gripper_flag = TRUE;
                         }
                     }
@@ -211,7 +211,7 @@ int PS3Control_main() {
                         // Need some intermediate variable to be incrememted
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_R2" << std::endl;
-                            Gripper_Goal[2] -= 0.01;
+                            PS3Walk::Gripper_Goal[2] -= 0.01;
                             PS3Walk::Gripper_flag = TRUE;
                         }
                     }
@@ -233,7 +233,7 @@ int PS3Control_main() {
                         // Need some intermediate variable to be incrememted
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_R1" << std::endl;
-                            Gripper_Goal[2] += 0.01;
+                            PS3Walk::Gripper_Goal[2] += 0.01;
                             PS3Walk::Gripper_flag = TRUE;
                         }
                     }

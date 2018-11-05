@@ -151,12 +151,14 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
 
 // TODO this doesn't use the vertical distance
 void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
-    std::cout << "x1"  << "="<< sen_hori[i]  << std::endl;
-    std::cout << "x0"  << "="<< Localisation::w_Tank_Position[0] << std::endl;
+    std::cout << "x1"
+              << "=" << sen_hori[i] << std::endl;
+    std::cout << "x0"
+              << "=" << Localisation::w_Tank_Position[0] << std::endl;
     double dx = sen_hori[i] - Localisation::w_Tank_Position[0];  // dx=x2-x1
     double dy = sen_vert[i] - Localisation::w_Tank_Position[1];  // dy=y2-y1
-    double de = std::abs((dy / dx));   //assume delta error does not equal zero and line isnt vertical                          // de=abs(dy/dx)
-    double e  = 0;                     //at start there will be no error
+    double de = std::abs((dy / dx));  // assume delta error does not equal zero and line isnt vertical // de=abs(dy/dx)
+    double e  = 0;                    // at start there will be no error
     double y  = Localisation::w_Tank_Position[1];
 
     for (double x = Localisation::w_Tank_Position[0]; x <= sen_hori[i]; x += Grid::gridspace) {
@@ -172,37 +174,38 @@ void breshams_alg(int i, double sen_hori[], double sen_vert[]) {
             e -= Grid::gridspace;
         }
     }
-
-
 }
 
-void nonbresh(int i, double object_cell_n, double object_cell_m, double tank_cell_m, double tank_cell_n){      //this is not breshams algorithim, this is a crude mx+b approx that should work ok
-                                                                 //accuracy of this method can be improved by decreasing the size of cell
-    double dx = object_cell_n - tank_cell_n;  // dx=x2-x1
-    double dy = object_cell_m- tank_cell_m;  // dy=y2-y1
-    double inc=(dx/dy);
-    double xval=0, yval=0;                                          //this is used to increment because it will help account for differing slopes
-    int multiplier=0;
-    if(dx=0){                                       //this will account for the situation when the gradient is zero (horizontal to RHS)
-        ////
-        for (double x = object_cell_n; x <= tank_cell_n; x++){
-        xval= object_cell_n;
-        yval= object_cell_m+multiplier;
-        Grid::cell_list.emplace_back(std::make_pair(xval, yval);
-        multiplier++;
-    }
-    }
-    else if(dy=0){                                     //this will account for the situation when the gradient is zero (horizontal to LHS)
-        for (double x = object_cell_n; x <= tank_cell_n; x++){
-        yval=object_cell_m;
-        xval=object_cell_n+multiplier;
-        Grid::cell_list.emplace_back(std::make_pair(xval,yval));
-        ////
-        multiplier++;
-    }
-    }
-    //need if statement here to account for the situation where it is straight ahead and dx/dy=infinity
-    else {
+// void nonbresh(int i, double object_cell_n, double object_cell_m, double tank_cell_m, double tank_cell_n){      //this
+// is not breshams algorithim, this is a crude mx+b approx that should work ok
+//                                                                  //accuracy of this method can be improved by
+//                                                                  decreasing the size of cell
+//     double dx = object_cell_n - tank_cell_n;  // dx=x2-x1
+//     double dy = object_cell_m- tank_cell_m;  // dy=y2-y1
+//     double inc=(dx/dy);
+//     double xval=0, yval=0;                                          //this is used to increment because it will help
+//     account for differing slopes int multiplier=0; if(dx=0){                                       //this will
+//     account for the situation when the gradient is zero (horizontal to RHS)
+//         ////
+//         for (double x = object_cell_n; x <= tank_cell_n; x++){
+//         xval= object_cell_n;
+//         yval= object_cell_m+multiplier;
+//         Grid::cell_list.emplace_back(std::make_pair(xval, yval);
+//         multiplier++;
+//     }
+//     }
+//     else if(dy=0){                                     //this will account for the situation when the gradient is
+//     zero (horizontal to LHS)
+//         for (double x = object_cell_n; x <= tank_cell_n; x++){
+//         yval=object_cell_m;
+//         xval=object_cell_n+multiplier;
+//         Grid::cell_list.emplace_back(std::make_pair(xval,yval));
+//         ////
+//         multiplier++;
+//     }
+//     }
+//     //need if statement here to account for the situation where it is straight ahead and dx/dy=infinity
+//     else {
 
 void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, double tank_cell_m, double tank_cell_n) {
     double x;

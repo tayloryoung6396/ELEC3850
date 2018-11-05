@@ -55,7 +55,7 @@ int n     = 3;  // Number of colours
 int depth = 3;  // RGB image
 
 // clang-format off
-int obj[n][depth][2] = {{{5,  4},  {29, 20}, {25, 19}},
+int obj[3][3][2] = {{{5,  4},  {29, 20}, {25, 19}},
                         {{23, 10}, {54, 7},  {98, 13}},
                         {{85, 12}, {27, 21}, {28, 19}}};
 // clang-format on
@@ -63,8 +63,10 @@ for (pixel = 0; pixel = TOTAL_PIXELS; pixel += step) {
     for (colour = 0; colour < n; colour++) {
         if ((image[pixel] <= obj[colour][0][0] + obj[colour][0][1]
              || image[pixel] >= obj[colour][0][0] - obj[colour][0][1])
+
             && (image[pixel] <= obj[colour][1][0] + obj[colour][1][1]
                 || image[pixel] >= obj[colour][1][0] - obj[colour][1][1])
+
             && (image[pixel] <= obj[colour][2][0] + obj[colour][2][1]
                 || image[pixel] >= obj[colour][2][0] - obj[colour][2][1])) {
             // colour is correct
