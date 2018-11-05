@@ -1,7 +1,6 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-//#include <bits/stdc++.h>
 #include <errno.h>
 #include <malloc.h>
 #include <math.h>

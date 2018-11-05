@@ -12,6 +12,8 @@ std::ofstream myfile;  // TODO Remove
 void signalHandler(int signum) {
     std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
 
+    Light_Sequence();
+
     // cleanup and close up stuff here
     std::cout << "Velocity reset" << std::endl;
     uint8_t count       = 2;
