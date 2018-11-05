@@ -9,9 +9,9 @@ extern int InfraredSensor_main();
 
 class IRsense {
 public:
-    int IR_attempts=3;
-    int IR_sensor_return[IR_attempts];
-    double meanIR;
-    bool IRpresent;
+    static int IR_attempts;
+    static int IR_sensor_return[IR_attempts];
+    static double meanIR;
+    static bool IRpresent;
 };
 #endif /* INFRARED_SENSOR_H_ */

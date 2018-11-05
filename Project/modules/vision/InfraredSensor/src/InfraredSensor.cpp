@@ -5,39 +5,28 @@
  */
 
 #include "InfraredSensor.hpp"
-// LIBRARIES
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <wiringPi.h>
 
 #define IRTRIG 4
 
 //4 is the IR trig
 //this is 16 on the map
 
+int IRsense::IR_attempts = 3;
+
 void InfraredSensor_init() {
     std::cout << "Initilising INFRARED SENSOR" << std::endl;
-<<<<<<< HEAD
     pinMode(IRTRIG, INPUT);  // IRTRIG IS AN INPUT FROM IR TO RPI
-
-
-    digitalRead(IR_TRIG);
-    delayMicroseconds(60);  // 60us Delay
-
-
-=======
->>>>>>> test_branch_alex
-
 }
 
 int InfraredSensor_main() {
 
     IRdetect();
-    if (IRsense::meanIR>=2)
+    if (IRsense::meanIR>=2){
         IRsense::IRpresent= 1;
-    else IRsense::IRpresent=0;
+    }
+    else {
+        IRsense::IRpresent=0;
+    }
 
     return 0;
 }
@@ -57,7 +46,7 @@ void IRdetect() {
 
             if (IRsense::IR_sensor_return[i]=-1)
             {
-                std::cout << "Error w/ IR" ; }
+                std::cout << "Error w/ IR" <<std::endl; }
             else
                 IRsense::meanIR+=IRsense::IR_sensor_return[sensor];
         }
