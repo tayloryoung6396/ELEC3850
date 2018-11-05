@@ -121,6 +121,12 @@ int PS3Control_main() {
                         std::cout << "BUTTON_SELECT" << std::endl;
                         ip.Autonomous_Enabled = !ip.Autonomous_Enabled;
                         std::cout << "Autonomous " << ip.Autonomous_Enabled << std::endl;
+                        if (ip.Autonomous_Enabled) {
+                            Enable_GREEN();
+                        }
+                        else {
+                            Disable_GREEN();
+                        }
                     }
                     break;
                 // case PS3Walk::BUTTON_LEFT_JOYSTICK:
