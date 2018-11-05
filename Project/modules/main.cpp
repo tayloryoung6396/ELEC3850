@@ -57,6 +57,7 @@ int main() {
 
     // System Init
     wiringPiSetup();
+    LedStatus_init();
     UART();
 
     // Odometry Init
