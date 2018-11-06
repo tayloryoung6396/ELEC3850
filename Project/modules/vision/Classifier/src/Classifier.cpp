@@ -248,7 +248,7 @@ void Classifier(uint8_t* data)
 				left++;
 				pixel = pixel - 3;
 			}
-			printf("New up\n");
+			//printf("New up\n");
 			//cluster up
 			pixel = seed[j][1];
 			while (R_min <= data[pixel] && R_max >= data[pixel]
