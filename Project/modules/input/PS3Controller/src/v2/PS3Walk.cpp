@@ -32,10 +32,15 @@ double PS3Walk::Forward  = 0;
 double PS3Walk::Rotation = 0;
 bool PS3Walk::drive_flag = FALSE;
 
+bool PS3Walk::Gripper_flag = FALSE;
+
 double PS3Walk::Gripper_Goal[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
 
 void PS3Control_init() {
     std::cout << "Initilising PS3 CONTROLLER" << std::endl;
+    if (joystick.found()) {
+        Enable_BLUE();
+    }
 }
 
 int PS3Control_main() {

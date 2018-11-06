@@ -10,6 +10,9 @@
 // this is 16 on the map
 
 int IRsense::IR_attempts = IR_ATTEMPTS;
+int IR_sensor_return[4]  = {0};
+double meanIR            = 0;
+bool IRpresent           = 0;
 
 void InfraredSensor_init() {
     std::cout << "Initilising INFRARED SENSOR" << std::endl;
@@ -39,9 +42,9 @@ void IRdetect() {
     IRsense::meanIR              = 0;
 
     for (int sensor = 0; sensor < IRsense::IR_attempts; sensor++) {
-        IRsense::IR_sensor_return[sensor] = digitalRead(IR_TRIG);
+        IRsense::IR_sensor_return[sensor] = digitalRead(IRTRIG);
 
-        if (IRsense::IR_sensor_return[i] = -1) {
+        if (IRsense::IR_sensor_return[sensor] = -1) {
             std::cout << "Error w/ IR" << std::endl;
         }
         else

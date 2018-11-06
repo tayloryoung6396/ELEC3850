@@ -32,7 +32,6 @@ Joystick::Joystick(std::string) : _fd(-1), path(path) {
 void Joystick::openPath(std::string devicePath) {
     std::cout << "Connecting to " << devicePath << std::endl;
     _fd = open(devicePath.c_str(), O_RDONLY | O_NONBLOCK);
-    Enable_BLUE();
 }
 
 bool Joystick::sample(JoystickEvent* event) {

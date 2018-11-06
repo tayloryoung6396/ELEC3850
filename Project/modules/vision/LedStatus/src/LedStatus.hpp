@@ -3,10 +3,9 @@
 
 #include "main.hpp"
 
-// 17 27 22
-#define LED_RED 17
-#define LED_BLUE 22
-#define LED_GREEN 27
+#define LED_RED 28
+#define LED_BLUE 27
+#define LED_GREEN 29
 
 extern void Enable_RED();
 extern void Disable_RED();
