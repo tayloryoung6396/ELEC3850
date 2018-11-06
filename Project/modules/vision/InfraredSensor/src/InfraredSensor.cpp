@@ -6,8 +6,10 @@
 
 #include "InfraredSensor.hpp"
 
-// 4 is the IR trig
-// this is 16 on the map
+// Looking front on
+// OUT, GND, VCC
+// Physical pins
+// 32,  34,  17
 
 int IRsense::IR_attempts = IR_ATTEMPTS;
 int IR_sensor_return[4]  = {0};

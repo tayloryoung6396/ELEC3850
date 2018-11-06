@@ -4,7 +4,7 @@
 #include "main.hpp"
 
 #define IR_ATTEMPTS 4
-#define IRTRIG 4
+#define IRTRIG 26
 
 extern void InfraredSensor_init();
 extern int InfraredSensor_main();
