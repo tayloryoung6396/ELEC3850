@@ -11,10 +11,10 @@
 // Physical pins
 // 32,  34,  17
 
-int IRsense::IR_attempts = IR_ATTEMPTS;
-int IR_sensor_return[4]  = {0};
-double meanIR            = 0;
-bool IRpresent           = 0;
+int IRsense::IR_attempts         = IR_ATTEMPTS;
+int IRsense::IR_sensor_return[4] = {0};
+double IRsense::meanIR           = 0;
+bool IRsense::IRpresent          = 0;
 
 void InfraredSensor_init() {
     std::cout << "Initilising INFRARED SENSOR" << std::endl;

@@ -38,17 +38,17 @@ void Disable_GREEN() {
 void Light_Sequence() {
 
     Enable_RED();
-    Delay(500);
+    delay(500);
 
     Disable_RED();
 
     Enable_BLUE();
-    Delay(500);
+    delay(500);
 
     Disable_BLUE();
 
     Enable_GREEN();
-    Delay(500);
+    delay(500);
 
     Disable_GREEN();
 }

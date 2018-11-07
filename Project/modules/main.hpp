@@ -42,7 +42,7 @@
 #include "vision/Camera/src/Camera.hpp"
 #include "vision/Classifier/src/Classifier.hpp"
 #include "vision/InfraredSensor/src/InfraredSensor.hpp"
-#include "vision/InfraredSensor/src/LedStatus.hpp"
+#include "vision/LedStatus/src/LedStatus.hpp"
 #include "vision/UltrasonicSensor/src/UltrasonicSensor.hpp"
 
 #define ADDRESS_VALUE(VAL) ADD_##VAL
