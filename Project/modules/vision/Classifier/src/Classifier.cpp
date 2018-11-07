@@ -115,11 +115,9 @@ void Classifier(uint8_t* data) {
             // cluster right
             error = 0;
             while (error < 10) {
-                // while (R_min <= data[pixel] && R_max >= data[pixel] &&
-                //        G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)] &&
-                //        B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
-                if (R_min <= data[pixel] && R_max >= data[pixel] && G_min <= data[(pixel + 1)]
-                    && G_max >= data[(pixel + 1)] && B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
+                if (R_min - 10 <= data[pixel] && R_max + 10 >= data[pixel] && G_min - 10 <= data[(pixel + 1)]
+                    && G_max + 10 >= data[(pixel + 1)] && B_min - 10 <= data[(pixel + 2)]
+                    && B_max + 10 >= data[(pixel + 2)]) {
                 }
                 else {
                     error++;
@@ -137,11 +135,9 @@ void Classifier(uint8_t* data) {
             pixel = Classifier::seed[j][1];
             error = 0;
             while (error < 10) {
-                // while (R_min <= data[(pixel - 3)] && R_max >= data[(pixel - 3)] &&
-                //        G_min <= data[(pixel - 2)] && G_max >= data[(pixel - 2)] &&
-                //        B_min <= data[(pixel - 1)] && B_max >= data[(pixel - 1)]) {
-                if (R_min <= data[(pixel - 3)] && R_max >= data[(pixel - 3)] && G_min <= data[(pixel - 2)]
-                    && G_max >= data[(pixel - 2)] && B_min <= data[(pixel - 1)] && B_max >= data[(pixel - 1)]) {
+                if (R_min - 10 <= data[(pixel - 3)] && R_max + 10 >= data[(pixel - 3)]
+                    && G_min - 10 <= data[(pixel - 2)] && G_max + 10 >= data[(pixel - 2)]
+                    && B_min - 10 <= data[(pixel - 1)] && B_max + 10 >= data[(pixel - 1)]) {
                 }
                 else {
                     error++;
@@ -159,11 +155,9 @@ void Classifier(uint8_t* data) {
             pixel = Classifier::seed[j][1];
             error = 0;
             while (error < 10) {
-                // while (R_min <= data[pixel] && R_max >= data[pixel] &&
-                //        G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)] &&
-                //        B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
-                if (R_min <= data[pixel] && R_max >= data[pixel] && G_min <= data[(pixel + 1)]
-                    && G_max >= data[(pixel + 1)] && B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
+                if (R_min - 10 <= data[pixel] && R_max + 10 >= data[pixel] && G_min - 10 <= data[(pixel + 1)]
+                    && G_max + 10 >= data[(pixel + 1)] && B_min - 10 <= data[(pixel + 2)]
+                    && B_max + 10 >= data[(pixel + 2)]) {
                 }
                 else {
                     error++;
@@ -180,11 +174,9 @@ void Classifier(uint8_t* data) {
             pixel = Classifier::seed[j][1];
             error = 0;
             while (error < 10) {
-                // while (R_min <= data[pixel] && R_max >= data[pixel] &&
-                //        G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)] &&
-                //        B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
-                if (R_min <= data[pixel] && R_max >= data[pixel] && G_min <= data[(pixel + 1)]
-                    && G_max >= data[(pixel + 1)] && B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
+                if (R_min - 10 <= data[pixel] && R_max + 10 >= data[pixel] && G_min - 10 <= data[(pixel + 1)]
+                    && G_max + 10 >= data[(pixel + 1)] && B_min - 10 <= data[(pixel + 2)]
+                    && B_max + 10 >= data[(pixel + 2)]) {
                 }
                 else {
                     error++;
