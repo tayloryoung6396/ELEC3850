@@ -26,9 +26,9 @@ void Classifier_init() {
         {{64, 97}, {19, 48}, {19, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
         {{1, 9}, {11, 49}, {8, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
         {{14, 33}, {44, 61}, {79, 111}}};  // Blue maximum and minimum pixel parameters (RGB Image)
-    for (int q = 0; int q < 3; q++) {
-        for (int w = 0; int w < 3; w++) {
-            for (int e = 0; int e < 2; e++) {
+    for (int q = 0; q < 3; q++) {
+        for (int w = 0; w < 3; w++) {
+            for (int e = 0; e < 2; e++) {
                 Classifier::colours[q][w][e] = colours[q][w][e];
             }
         }
