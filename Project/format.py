@@ -15,7 +15,7 @@ def register(command):
 def run(**kwargs):
 
     # Get our relevant directories
-    for d in [os.path.join(b.project_dir, p) for p in ['module', 'shared', 'tests']]:
+    for d in [os.path.join(b.project_dir, p) for p in ['module']]:
         for dirpath, dnames, fnames in os.walk(d):
             for f in fnames:
                 if f.endswith(('.h', '.c', '.cc', '.cxx', '.cpp', '.hpp', '.ipp', '.proto')):

@@ -13,6 +13,9 @@
  * White: (255, 255, 255)
  */
 
+// http://www.cse.psu.edu/~rtc12/CSE486/lecture12.pdf
+// http://www.cse.psu.edu/~rtc12/CSE486/lecture13.pdf
+
 #include "Classifier.hpp"
 
 void Classifier_init() {

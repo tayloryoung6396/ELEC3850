@@ -3,7 +3,7 @@
 
 #include "main.hpp"
 
-#define DELTA_GRIP 0.03
+#define DELTA_GRIP 0.1
 
 extern void IKGripper_init();
 extern int Gripper_home();

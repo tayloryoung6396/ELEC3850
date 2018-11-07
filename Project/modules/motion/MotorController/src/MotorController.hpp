@@ -3,7 +3,7 @@
 
 #include "main.hpp"
 
-#define DistToRev 0.48  // Meters per rotation
+#define DistToRev 483232.0  // Meters per rotation
 
 class PathPlanner {
 
@@ -14,11 +14,12 @@ public:
     bool check_path();
     std::vector<std::pair<double, double>>::const_iterator get_first_path();
     void path_erase_first();
+    void path_erase_last();
 
-    static uint32_t goal_pos[2];
-    static uint32_t prev_pos[2];
-    static uint32_t curr_pos[2];
-    static uint8_t curr_revolution[2];
+    static int32_t goal_pos[2];
+    static int32_t prev_pos[2];
+    static int32_t curr_pos[2];
+    static int8_t curr_revolution[2];
     static int moving_flag[2];
 };
 
@@ -27,7 +28,7 @@ extern void MotorController_init();
 extern int MotorDriver_Distance(double Forward, double Rotation);
 extern int MotorDriver_Velocity(double Forward, double Rotation);
 extern int MotorDirector();
-extern double ConvertDistanceToRotation(double Goal_Dist);
+extern double ConvertDistanceToPosition(double Goal_Dist);
 extern double ConvertDistanceToRotation_r(double Goal_Dist);
 extern double ConvertRotationToArclen(double Rotation);
 

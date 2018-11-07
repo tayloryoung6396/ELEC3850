@@ -20,6 +20,8 @@ public:
     static double grip_load;
     static double grip_home[3];
 
+    static double Rest_Gripper[3];
+
     // Tank specific parameters
     static double origin_offset[3];
     static double tank_length;
@@ -31,6 +33,10 @@ public:
     static double Servo_offset[5];
 
     static double ultrasonic_offset[4];
+
+    static const double cam_phi;
+    static const double cam_pos[3];
+    static const double cam_height;
 };
 
 
