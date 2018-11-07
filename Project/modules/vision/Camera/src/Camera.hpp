@@ -4,6 +4,7 @@
 #include "main.hpp"
 
 static raspicam::RaspiCam Camera;  // Open camera
+
 class Image {
 public:
     static int Height;

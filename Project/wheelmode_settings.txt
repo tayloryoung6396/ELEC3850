@@ -1,0 +1,3 @@
+p gain 850
+v gain 100
+v gain i 1920
