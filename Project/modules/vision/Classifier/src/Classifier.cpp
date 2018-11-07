@@ -28,9 +28,9 @@ int Classifier::object[10][4];
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
     const int colours[3][3][2] = {
-        {{64, 97}, {19, 48}, {19, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
-        {{1, 9}, {11, 49}, {8, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
-        {{14, 33}, {44, 61}, {79, 111}}};  // Blue maximum and minimum pixel parameters (RGB Image)
+        {{64, 255}, {0, 48}, {0, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
+        {{0, 9}, {11, 255}, {0, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
+        {{0, 33}, {0, 61}, {79, 255}}};  // Blue maximum and minimum pixel parameters (RGB Image)
     for (int q = 0; q < 3; q++) {
         for (int w = 0; w < 3; w++) {
             for (int e = 0; e < 2; e++) {

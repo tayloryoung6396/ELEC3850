@@ -23,7 +23,7 @@
 #include <stack>
 #include <string>
 #include <vector>
-
+#include <sstream>
 
 #include "behaviour/src/SimplePathPlanner.hpp"
 #include "dynamixel/v2/Dynamixel.hpp"
