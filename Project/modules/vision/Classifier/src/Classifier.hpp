@@ -11,6 +11,7 @@
 extern void Classifier_init();
 extern int Classifier_main();
 extern void Classifier(uint8_t* data);
+extern void find_distance(int u, int v);
 extern void Output_Segmentation(uint8_t* seg_image_array,
                                 int img_width,
                                 int img_height,

@@ -242,6 +242,8 @@ void Classifier(uint8_t* data) {
                 int obj_height    = Classifier::object[k][3];
                 Output_Segmentation(data, 1280, 960, obj_width, obj_height, obj_center);
 
+                find_distance(obj_center[0], obj_center[1]);
+
                 k++;
             }
         }
@@ -255,6 +257,31 @@ void Classifier(uint8_t* data) {
     printf("Segmented_Image Saved\n");
 
     return;
+}
+
+void find_distance(int u, int v) {
+    // int u;  // Some pixel that you are interested in
+    // int v;  // Some pixel that you are interested in
+
+    double p = (Camera::pixel_x * 0.000001) * (u - Image::Width / 2.0);   // The screen coordinates returned
+    double q = (Camera::pixel_y * 0.000001) * (v - Image::Height / 2.0);  // The screen coordinates returned
+
+    // Now find the angle the pixel is offset from the screen origin
+    double theta = std::atan(p / Camera::focal_len);  // The vertical angle
+    double phi   = std::atan(q / Camera::focal_len);  // The horizontal angle
+
+    // Now convert the offsets into world coordinates
+    // Vertical
+    double plane_offset = 0;
+    double dist_x       = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
+    std::cout << "Distance x " << dist_x << std::endl;
+
+    // Horizontal
+    double dist_y =
+        (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
+    std::cout << "Distance y " << dist_y << std::endl;
+
+    // These should be the components of x and y of the object from a pixel
 }
 
 
