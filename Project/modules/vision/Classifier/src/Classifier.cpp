@@ -15,6 +15,13 @@
 
 #include "Classifier.hpp"
 
+int Classifier::colours[3][3][2] = {
+    {{64, 97}, {19, 48}, {19, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
+    {{1, 9}, {11, 49}, {8, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
+    {{14, 33}, {44, 61}, {79, 111}}};  // Blue maximum and minimum pixel parameters (RGB Image)
+int Classifier::seed[1000][2];
+int Classifier::object[10][4];
+
 
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
@@ -37,11 +44,13 @@ void Classifier(uint8_t* data) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
             // printf("into colour for loop \n");
-            if (data[pixel] >= colours[colour][0][0] && data[pixel] <= colours[colour][0][1]
-                && data[(pixel + 1)] >= colours[colour][1][0] && data[(pixel + 1)] <= colours[colour][1][1]
-                && data[(pixel + 2)] >= colours[colour][2][0] && data[(pixel + 2)] <= colours[colour][2][1]) {
-                seed[i][0] = colour;
-                seed[i][1] = pixel;
+            if (data[pixel] >= Classifier::colours[colour][0][0] && data[pixel] <= Classifier::colours[colour][0][1]
+                && data[(pixel + 1)] >= Classifier::colours[colour][1][0]
+                && data[(pixel + 1)] <= Classifier::colours[colour][1][1]
+                && data[(pixel + 2)] >= Classifier::colours[colour][2][0]
+                && data[(pixel + 2)] <= Classifier::colours[colour][2][1]) {
+                Classifier::seed[i][0] = colour;
+                Classifier::seed[i][1] = pixel;
                 i++;
                 break;
             }
@@ -52,20 +61,20 @@ void Classifier(uint8_t* data) {
     // cycle through seed points
     for (int j = 0; j <= i; j++) {
         // printf("into seed point \n");
-        colour             = seed[j][0];
-        pixel              = seed[j][1];
+        colour             = Classifier::seed[j][0];
+        pixel              = Classifier::seed[j][1];
         int m              = 0;
-        int seed_y         = (seed[j][1] / 3.0) / Image::Width;
-        int seed_x         = (seed[j][1] / 3.0) - seed_y * Image::Width;
+        int seed_y         = (Classifier::seed[j][1] / 3.0) / Image::Width;
+        int seed_x         = (Classifier::seed[j][1] / 3.0) - seed_y * Image::Width;
         int seed_in_object = 0;
 
         for (m = 0; m <= objects_found; m++) {
             // printf("into seed object check \n");
-            int object_center = Image::Width * 3 * object[m][1] + object[m][0] * 3;
-            int ax            = object[m][1] - object[m][3] * 3 / 2;
-            int ay            = object[m][0] - object[m][2] * 3 / 2;
-            int bx            = object[m][1] + object[m][3] * 3 / 2;
-            int by            = object[m][0] + object[m][2] * 3 / 2;
+            int object_center = Image::Width * 3 * Classifier::object[m][1] + Classifier::object[m][0] * 3;
+            int ax            = Classifier::object[m][1] - Classifier::object[m][3] * 3 / 2;
+            int ay            = Classifier::object[m][0] - Classifier::object[m][2] * 3 / 2;
+            int bx            = Classifier::object[m][1] + Classifier::object[m][3] * 3 / 2;
+            int by            = Classifier::object[m][0] + Classifier::object[m][2] * 3 / 2;
 
             if (seed_x >= ax && seed_x <= bx && seed_y >= ay && seed_y <= by) {
                 // seed is already in an object
@@ -85,12 +94,12 @@ void Classifier(uint8_t* data) {
             int up    = 0;
             int down  = 0;
 
-            int R_min = colours[colour][0][0];
-            int R_max = colours[colour][0][1];
-            int G_min = colours[colour][1][0];
-            int G_max = colours[colour][1][1];
-            int B_min = colours[colour][2][0];
-            int B_max = colours[colour][2][1];
+            int R_min = Classifier::colours[colour][0][0];
+            int R_max = Classifier::colours[colour][0][1];
+            int G_min = Classifier::colours[colour][1][0];
+            int G_max = Classifier::colours[colour][1][1];
+            int B_min = Classifier::colours[colour][2][0];
+            int B_max = Classifier::colours[colour][2][1];
 
             // cluster right
             error = 0;
@@ -114,7 +123,7 @@ void Classifier(uint8_t* data) {
             }
 
             // cluster left
-            pixel = seed[j][1];
+            pixel = Classifier::seed[j][1];
             error = 0;
             while (error < 10) {
                 // while (R_min <= data[(pixel - 3)] && R_max >= data[(pixel - 3)] &&
@@ -136,7 +145,7 @@ void Classifier(uint8_t* data) {
             }
 
             // cluster up
-            pixel = seed[j][1];
+            pixel = Classifier::seed[j][1];
             error = 0;
             while (error < 10) {
                 // while (R_min <= data[pixel] && R_max >= data[pixel] &&
@@ -157,7 +166,7 @@ void Classifier(uint8_t* data) {
             }
 
             // cluster down
-            pixel = seed[j][1];
+            pixel = Classifier::seed[j][1];
             error = 0;
             while (error < 10) {
                 // while (R_min <= data[pixel] && R_max >= data[pixel] &&
@@ -185,9 +194,9 @@ void Classifier(uint8_t* data) {
             if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
                 printf("\nWIDTH IS GOOD\n\n");
                 printf("Seed = %d\n", j);
-                printf("pixel = %d\n", seed[j][1]);
-                int p = (seed[j][1] / 3.0) / Image::Width;
-                int q = (seed[j][1] / 3.0) - p * Image::Width;
+                printf("pixel = %d\n", Classifier::seed[j][1]);
+                int p = (Classifier::seed[j][1] / 3.0) / Image::Width;
+                int q = (Classifier::seed[j][1] / 3.0) - p * Image::Width;
 
                 printf("Pixel new %d, %d\n", q, p);
 
@@ -195,9 +204,9 @@ void Classifier(uint8_t* data) {
                 printf("Up = %d \t \t Down = %d\n", up, down);
                 printf("Width = %d \t Height = %d\n", width, height);
 
-                data_mod[seed[j][1]]     = {255};
-                data_mod[seed[j][1] + 1] = {255};
-                data_mod[seed[j][1] + 2] = {0};
+                data_mod[Classifier::seed[j][1]]     = {255};
+                data_mod[Classifier::seed[j][1] + 1] = {255};
+                data_mod[Classifier::seed[j][1] + 2] = {0};
             }
 
             // Check object size to target object parameters
@@ -209,23 +218,23 @@ void Classifier(uint8_t* data) {
                 printf("Hey! Shit's great %d, %d\n", up, down);
 
                 // Calculate centers
-                pixel        = seed[j][1];
+                pixel        = Classifier::seed[j][1];
                 int center_y = ((pixel - up * (Image::Width / 3)) + (pixel + down * (Image::Width / 3))) / 2;
                 center_y     = (center_y / 3.0) / Image::Width;
                 int center_x = ((pixel - left) + (pixel + right)) / 2;
                 center_x     = (center_x / 3.0) - center_y * Image::Width;
 
-                object[k][0] = center_x;
-                object[k][1] = center_y;
-                object[k][2] = width;
-                object[k][3] = height;
+                Classifier::object[k][0] = center_x;
+                Classifier::object[k][1] = center_y;
+                Classifier::object[k][2] = width;
+                Classifier::object[k][3] = height;
 
                 printf("Object center %d, %d\n", center_x, center_y);
                 printf("Object %d, width %d, height %d\n", objects_found, width, height);
 
-                int obj_center[2] = {object[k][0], object[k][1]};
-                int obj_width     = object[k][2];
-                int obj_height    = object[k][3];
+                int obj_center[2] = {Classifier::object[k][0], Classifier::object[k][1]};
+                int obj_width     = Classifier::object[k][2];
+                int obj_height    = Classifier::object[k][3];
                 Output_Segmentation(data, 1280, 960, obj_width, obj_height, obj_center);
 
                 k++;

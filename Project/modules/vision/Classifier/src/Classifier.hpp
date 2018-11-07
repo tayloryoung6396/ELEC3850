@@ -10,15 +10,19 @@
 
 extern void Classifier_init();
 extern int Classifier_main();
+extern void Classifier(uint8_t* data);
+extern void Output_Segmentation(uint8_t* seg_image_array,
+                                int img_width,
+                                int img_height,
+                                int obj_width,
+                                int obj_height,
+                                int center[2]);
 
-int colours[3][3][2] = {
-    {{64, 97}, {19, 48}, {19, 47}},  // Red maximum and minimum pixel parameters (RGB Image)
-    {{1, 9}, {11, 49}, {8, 44}},     // Green maximum and minimum pixel parameters (RGB Image)
-    {{14, 33}, {44, 61}, {79, 111}}  // Blue maximum and minimum pixel parameters (RGB Image)
+class Classifier {
+public:
+    static const int colours[3][3][2];
+    static int seed[1000][2];
+    static int object[10][4];
 };
-
-int seed[1000][2];
-
-int object[10][4];
 
 #endif /* CLASSIFIER_H_ */
