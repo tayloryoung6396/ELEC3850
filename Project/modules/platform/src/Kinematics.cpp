@@ -34,9 +34,9 @@ double Kinematics::ultrasonic_offset[4] = {Kinematics::tank_width / 2.0,
                                            Kinematics::tank_width / 2.0,
                                            Kinematics::tank_length / 2.0};  // R, B, L, F
 
-const double cam_phi    = 15;
-const double cam_pos[3] = {Kinematics::tank_length / 2.0, 0, -0.05};
-const double cam_height = 0.05;
+const double Kinematics::cam_phi    = 15;
+const double Kinematics::cam_pos[3] = {Kinematics::tank_length / 2.0, 0, -0.05};
+const double Kinematics::cam_height = 0.05;
 
 void Kinematics_init() {
     std::cout << "Initilising KINEMATICS" << std::endl;

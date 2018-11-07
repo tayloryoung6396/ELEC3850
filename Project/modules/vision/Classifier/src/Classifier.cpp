@@ -197,17 +197,17 @@ void Classifier(uint8_t* data) {
             int height = up + down;
 
             if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
-                printf("\nWIDTH IS GOOD\n\n");
-                printf("Seed = %d\n", j);
-                printf("pixel = %d\n", Classifier::seed[j][1]);
+                // printf("\nWIDTH IS GOOD\n\n");
+                // printf("Seed = %d\n", j);
+                // printf("pixel = %d\n", Classifier::seed[j][1]);
                 int p = (Classifier::seed[j][1] / 3.0) / Image::Width;
                 int q = (Classifier::seed[j][1] / 3.0) - p * Image::Width;
 
-                printf("Pixel new %d, %d\n", q, p);
+                // printf("Pixel new %d, %d\n", q, p);
 
-                printf("Left = %d \t Right = %d\n", left, right);
-                printf("Up = %d \t \t Down = %d\n", up, down);
-                printf("Width = %d \t Height = %d\n", width, height);
+                // printf("Left = %d \t Right = %d\n", left, right);
+                // printf("Up = %d \t \t Down = %d\n", up, down);
+                // printf("Width = %d \t Height = %d\n", width, height);
 
                 data_mod[Classifier::seed[j][1]]     = {255};
                 data_mod[Classifier::seed[j][1] + 1] = {255};
@@ -225,15 +225,22 @@ void Classifier(uint8_t* data) {
                 // Calculate centers
                 pixel        = Classifier::seed[j][1];
                 int center_y = ((pixel - up * (Image::Width / 3)) + (pixel + down * (Image::Width / 3))) / 2;
+		printf("Center y %d\n", center_y);
                 center_y     = (center_y / 3.0) / Image::Width;
-                int center_x = ((pixel - left) + (pixel + right)) / 2;
-                center_x     = (center_x / 3.0) - center_y * Image::Width;
+                printf("Center y %d\n", center_y);
+		int center_x = ((pixel - left) + (pixel + right)) / 2;
+                printf("Center x %d\n", center_x);
+		center_x     = (center_x / 3.0) - center_y * Image::Width;
+		printf("Center x %d\n", center_x);
 
                 Classifier::object[k][0] = center_x;
                 Classifier::object[k][1] = center_y;
                 Classifier::object[k][2] = width;
                 Classifier::object[k][3] = height;
 
+		printf("Left = %d \t Right = %d\n", left, right);
+                printf("Up = %d \t \t Down = %d\n", up, down);
+                printf("Width = %d \t Height = %d\n", width, height);
                 printf("Object center %d, %d\n", center_x, center_y);
                 printf("Object %d, width %d, height %d\n", objects_found, width, height);
 
