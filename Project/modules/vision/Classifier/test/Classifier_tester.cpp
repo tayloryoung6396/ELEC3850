@@ -88,9 +88,9 @@ void Output_Segmentation(uint8_t* seg_image_array,
 int Image_Size = IMAGE_HEIGHT * IMAGE_WIDTH * 3;
 // colours[How many colours][R,G,B][Min,Max]
 int colours[3][3][2] = {
-    {{64, 97}, {19, 48}, {19, 47}},  // Red maximum and minimum pixel parameters (RGB Image)
-    {{1, 9}, {11, 49}, {8, 44}},     // Green maximum and minimum pixel parameters (RGB Image)
-    {{14, 33}, {44, 61}, {79, 111}}  // Blue maximum and minimum pixel parameters (RGB Image)
+    {{51, 100}, {0, 40}, {0, 41}},  // Red maximum and minimum pixel parameters (RGB Image)
+    {{2, 33}, {0, 54}, {0, 40}},    // Green maximum and minimum pixel parameters (RGB Image)
+    {{5, 65}, {0, 102}, {0, 146}}   // Blue maximum and minimum pixel parameters (RGB Image)
 };
 
 // int seed[][] = { {colour, pixel}, {} }
@@ -112,7 +112,7 @@ void Classifier(uint8_t* data) {
     int objects_found = 0;
     int error         = 0;
 
-    for (pixel = 0; pixel <= Image_Size; pixel += 1800) {
+    for (pixel = 0; pixel <= Image_Size; pixel += 4200) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
             // printf("into colour for loop \n");
@@ -262,17 +262,17 @@ void Classifier(uint8_t* data) {
             int height = up + down;
 
             if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
-                printf("\nWIDTH IS GOOD\n\n");
-                printf("Seed = %d\n", j);
-                printf("pixel = %d\n", seed[j][1]);
+                // printf("\nWIDTH IS GOOD\n\n");
+                // printf("Seed = %d\n", j);
+                // printf("pixel = %d\n", seed[j][1]);
                 int p = (seed[j][1] / 3.0) / IMAGE_WIDTH;
                 int q = (seed[j][1] / 3.0) - p * IMAGE_WIDTH;
 
-                printf("Pixel new %d, %d\n", q, p);
+                // printf("Pixel new %d, %d\n", q, p);
 
-                printf("Left = %d \t Right = %d\n", left, right);
-                printf("Up = %d \t \t Down = %d\n", up, down);
-                printf("Width = %d \t Height = %d\n", width, height);
+                // printf("Left = %d \t Right = %d\n", left, right);
+                // printf("Up = %d \t \t Down = %d\n", up, down);
+                // printf("Width = %d \t Height = %d\n", width, height);
 
                 data_mod[seed[j][1]]     = {255};
                 data_mod[seed[j][1] + 1] = {255};
