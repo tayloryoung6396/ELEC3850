@@ -78,7 +78,7 @@ int main() {
     IKGripper_init();
 
     // Sensors Init
-    // Camera_init();
+    Camera_init();
     InfraredSensor_init();
     UltrasonicSensor_init();
     SensorFilter_init();
@@ -103,6 +103,7 @@ int main() {
         previous_time = current_time;
 
         // Check sensors
+	Camera_main();
         if (frame_count % 5 == 0) {
             //          Camera_main();
             // InfraredSensor_main();
@@ -164,6 +165,7 @@ int main() {
             // myfile << "AutonomousControl_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO
             // Remove
         }
+	break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
