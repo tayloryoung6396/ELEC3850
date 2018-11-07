@@ -15,16 +15,18 @@
 
 #include "Classifier.hpp"
 
-int Classifier::colours[3][3][2] = {
-    {{64, 97}, {19, 48}, {19, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
-    {{1, 9}, {11, 49}, {8, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
-    {{14, 33}, {44, 61}, {79, 111}}};  // Blue maximum and minimum pixel parameters (RGB Image)
+int Classifier::colours[3][3][2] = {0};
 int Classifier::seed[1000][2];
 int Classifier::object[10][4];
 
 
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
+    const int colours[3][3][2] = {
+        {{64, 97}, {19, 48}, {19, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
+        {{1, 9}, {11, 49}, {8, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
+        {{14, 33}, {44, 61}, {79, 111}}};  // Blue maximum and minimum pixel parameters (RGB Image)
+    Classifier::colours = colours;
 }
 
 void Classifier(uint8_t* data) {
