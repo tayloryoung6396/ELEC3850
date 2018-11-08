@@ -132,8 +132,8 @@ int Classifier_main() {
 #define HEIGHT_MAX 200
 
 
-#define IMAGE_HEIGHT 1280
-#define IMAGE_WIDTH 960
+#define IMAGE_HEIGHT 960
+#define IMAGE_WIDTH 1280
 
 int Image_Size = IMAGE_HEIGHT * IMAGE_WIDTH * 3;
 //colours[How many colours][R,G,B][Min,Max]
@@ -176,7 +176,7 @@ void Classifier(uint8_t* data)
 		}
 
 	}
-	printf("seeds = %d\n", i);
+	//printf("seeds = %d\n", i);
 
 	//cycle through seed points
 	for (int j = 0; j <= i; j++) {
@@ -186,21 +186,24 @@ void Classifier(uint8_t* data)
 		int m = 0;
 		int seed_y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
 		int seed_x = (seed[j][1] / 3.0) - seed_y*IMAGE_WIDTH;
-		int seed_in_object = 0;
+		bool seed_in_object = 0;
 
 
 		for (m = 0; m <= objects_found; m++) {
 			//printf("into seed object check \n");
 			int object_center = IMAGE_WIDTH * 3 * object[m][1] + object[m][0] * 3;
-			int ax = object[m][1] - object[m][3] * 3 / 2;
-			int ay = object[m][0] - object[m][2] * 3 / 2;
-			int bx = object[m][1] + object[m][3] * 3 / 2;
-			int by = object[m][0] + object[m][2] * 3 / 2;
+			int ax = object[m][1] - object[m][3] * 3 / 2.0;
+			int ay = object[m][0] - object[m][2] * 3 / 2.0;
+			int bx = object[m][1] + object[m][3] * 3 / 2.0;
+			int by = object[m][0] + object[m][2] * 3 / 2.0;
+
+			printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay, bx, by);
+			printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
 			if (seed_x >= ax && seed_x <= bx && seed_y >= ay && seed_y <= by) {
 				//seed is already in an object 
 				seed_in_object = 1;
-				//printf("SEED IN OBJECT \n");
+				printf("SEED IN OBJECT \n\n");
 				break;
 			}
 		}
@@ -226,66 +229,103 @@ void Classifier(uint8_t* data)
 
 
 			//cluster right
-			while (R_min <= data[pixel] && R_max >= data[pixel]
-				&& G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)]
-				&& B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]
-				) {
-				//printf("cluster right \n");
-				//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+			int error = 0;
+
+			while (error < 11) {
+
+				if (R_min <= data[pixel] && R_max >= data[pixel]
+					&& G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)]
+					&& B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]
+					) {
+					//printf("cluster right \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+				}
+				else {
+					error++;
+				}
 				right++;
 				pixel += 3;
 			}
 
-			//cluster left
-			pixel = seed[j][1];
-			while (R_min <= data[(pixel - 3)] && R_max >= data[(pixel - 3)]
-				&& G_min <= data[(pixel - 2)] && G_max >= data[(pixel - 2)]
-				&& B_min <= data[(pixel - 1)] && B_max >= data[(pixel - 1)]
-				) {
 
-				//printf("cluster left \n");
-				//printf("pixel = {%d,%d,%d}\n", data[pixel-3], data[pixel -2], data[pixel -3]);
+			//cluster left
+			error = 0;
+			pixel = seed[j][1];
+
+			while (error < 11) {
+
+				if (R_min <= data[(pixel - 3)] && R_max >= data[(pixel - 3)]
+					&& G_min <= data[(pixel - 2)] && G_max >= data[(pixel - 2)]
+					&& B_min <= data[(pixel - 1)] && B_max >= data[(pixel - 1)]
+					) {
+
+					//printf("cluster left \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel-3], data[pixel -2], data[pixel -3]);
+					left++;
+					pixel = pixel - 3;
+				}
+				else {
+					error++;
+				}
+
 				left++;
 				pixel = pixel - 3;
 			}
 			//printf("New up\n");
 			//cluster up
+			error = 0;
 			pixel = seed[j][1];
-			while (R_min <= data[pixel] && R_max >= data[pixel]
-				&& G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)]
-				&& B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]
-				) {
-				//printf("cluster up \n");
-				//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+			while (error < 11) {
+				if (R_min <= data[pixel] && R_max >= data[pixel]
+					&& G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)]
+					&& B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]
+					) {
+					//printf("cluster up \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					int p = (pixel / 3.0) / IMAGE_WIDTH;
+					int q = (pixel / 3.0) - p *IMAGE_WIDTH;
+
+					//printf("Pixel current %d, %d\n", q, p); 
+
+					//printf("RGB up current= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					//p = (pixel / 3.0) / IMAGE_WIDTH;
+					//q = (pixel / 3.0) - p *IMAGE_WIDTH;
+
+					//printf("Pixel new %d, %d\n", q, p);
+					//printf("RGB up new= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+				}
+				else {
+					error++;
+
+				}
 				up++;
-				int p = (pixel / 3.0) / IMAGE_WIDTH;
-				int q = (pixel / 3.0) - p *IMAGE_WIDTH;
-
-				//printf("Pixel current %d, %d\n", q, p); 
-
-				//printf("RGB up current= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
 				pixel = pixel - IMAGE_WIDTH * 3;
-
-				//p = (pixel / 3.0) / IMAGE_WIDTH;
-				//q = (pixel / 3.0) - p *IMAGE_WIDTH;
-
-				//printf("Pixel new %d, %d\n", q, p);
-				//printf("RGB up new= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
 			}
 
 			//cluster down
+			error = 0;
 			pixel = seed[j][1];
-			while (R_min <= data[pixel] && R_max >= data[pixel]
-				&& G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)]
-				&& B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]
-				) {
+			while (error < 11) {
+				if (R_min <= data[pixel] && R_max >= data[pixel]
+					&& G_min <= data[(pixel + 1)] && G_max >= data[(pixel + 1)]
+					&& B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]
+					) {
 
-				//printf("cluster down \n");
-				//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+					//printf("cluster down \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					//printf("RGB down current = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					//printf("RGB down new = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+				}
+				else {
+					error++;
+				}
 				down++;
-				//printf("RGB down current = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
 				pixel = pixel + IMAGE_WIDTH * 3;
-				//printf("RGB down new = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
 			}
 
 			//calulate object width and height from clustering
@@ -296,13 +336,13 @@ void Classifier(uint8_t* data)
 			//printf("Width = %d \t Height = %d\n", width, height);
 
 			if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
-				printf("\nWIDTH IS GOOD\n\n");
-				printf("Seed = %d\n", j);
-				printf("pixel = %d\n", seed[j][1]);
-				int p = (seed[j][1] / 3.0) / IMAGE_WIDTH;
-				int q = (seed[j][1] / 3.0) - p *IMAGE_WIDTH;
+				//printf("\nWIDTH IS GOOD\n\n");
+				//printf("Seed = %d\n", j);
+				//printf("pixel = %d\n", seed[j][1]);
+				//int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
+				//int x = (seed[j][1] / 3.0) - y *IMAGE_WIDTH;
 
-				printf("Pixel new %d, %d\n", q, p);
+				//printf("Pixel new %d, %d\n", q, p);
 			}
 
 			//Check object size to target object parameters
@@ -314,15 +354,19 @@ void Classifier(uint8_t* data)
 
 				//Calculate centers
 				pixel = seed[j][1];
-				int center_x = ((pixel - left) + (pixel + right)) / 2;
-				int center_y = ((pixel - up * (IMAGE_WIDTH / 3)) + (pixel + down * (IMAGE_WIDTH / 3))) / 2;
+				int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
+				int x = (seed[j][1] / 3.0) - y*IMAGE_WIDTH;
+
+				int center_x = ((x - left) + (x + right)) / 2.0;
+				int center_y = ((y - up) + (y + down)) / 2.0;
 
 				object[k][0] = center_x;
 				object[k][1] = center_y;
 				object[k][2] = width;
 				object[k][3] = height;
 
-				printf("Object %d, width %d, height &d\n", objects_found, width, height);
+				printf("Object %d, width %d, height %d, center x %d, center y %d\n", objects_found, width, height, center_x, center_y);
+				printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n", pixel, left, right, y, x, up, down);
 
 				k++;
 			}
@@ -331,5 +375,4 @@ void Classifier(uint8_t* data)
 	printf("Objects found = %d \n", objects_found);
 	return;
 }
-
 
