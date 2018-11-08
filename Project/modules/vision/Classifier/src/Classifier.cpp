@@ -136,276 +136,332 @@ int Classifier_main() {
 #define IMAGE_WIDTH 1280
 
 int Image_Size = IMAGE_HEIGHT * IMAGE_WIDTH * 3;
-// colours[How many colours][R,G,B][Min,Max]
-int colours[3][3][2] = {
-    {{64, 97}, {19, 48}, {19, 47}},   // Red maximum and minimum pixel parameters (RGB Image)
-    {{1, 9}, {11, 49}, {47, 61}},     // Green maximum and minimum pixel parameters (RGB Image)
-    {{14, 33}, {44, 61}, {79, 111}},  // Blue maximum and minimum pixel parameters (RGB Image)
-};
+//colours[How many colours][R,G,B][Min,Max]
+//int colours[3][3][2] = { { { 64,97 },{ 19,48 },{ 19,47 } },		//Red maximum and minimum pixel parameters (RGB Image)
+//{ { 1,9 },{ 11,49 },{ 47,61 } },		//Green maximum and minimum pixel parameters (RGB Image)
+//{ { 14,33 },{ 44,61 },{ 79,111 } },		//Blue maximum and minimum pixel parameters (RGB Image)
+//};
 
-// int seed[][] = { {colour, pixel}, {} }
-int seed[100][2] = {{0, 0}, {0, 0}};
+int colours[3][3][2] = { { { 0 , 100 },{ 136,219 },{ 51,100 } },
+{ { 75,190 },{ 41,225 },{ 14,54 } },
+{ { 200,218 },{ 104,239 },{ 58,146 } } };
 
-// int object[][] = {{center_x, center_y, width, height}, {} }
-int object[40][4] = {{0, 0, 0, 0}, {0, 0, 0, 0}};
+//int colours[3][3][2] = { { {51, 100}, { 0,40 }, { 0,41 }},
+//{ { 2, 33 }, { 0,54 }, { 0,40 } },
+//{ { 14,33 },{ 44,61 },{ 79,111 }} };//{ 5, 65 }, { 0,102 }, { 0,146 } }};
 
-void Classifier(uint8_t* data) {
-    printf("into classifier \n");
+//int seed[][] = { {colour, pixel}, {} }
+int seed[100][2] = { { 0,0 },{ 0,0 } };
 
-    uint8_t* data_mod = new uint8_t[3 * IMAGE_WIDTH * IMAGE_HEIGHT];
-    data_mod          = data;
+//int object[][] = {{center_x, center_y, width, height}, {} }
+int object[40][4] = { { 0,0,0,0 },{ 0,0,0,0 } };
 
-    int pixel         = 0;  // start at the first pixel of the image
-    int colour        = 0;
-    int i             = 0;
-    int k             = 0;
-    int objects_found = 0;
+void Classifier(uint8_t* data)
+{
+	printf("into classifier \n");
 
-    for (pixel = 0; pixel <= Image_Size; pixel += 150) {
-        // printf("into pixel for loop \n");
-        for (colour = 0; colour < 1; colour++) {
-            // printf("into colour for loop \n");
-            if (data[pixel] >= colours[colour][0][0] && data[pixel] <= colours[colour][0][1]
-                && data[(pixel + 1)] >= colours[colour][1][0] && data[(pixel + 1)] <= colours[colour][1][1]
-                && data[(pixel + 2)] >= colours[colour][2][0] && data[(pixel + 2)] <= colours[colour][2][1]) {
-                seed[i][0] = colour;
-                seed[i][1] = pixel;
-                i++;
-                break;
-            }
-        }
-    }
-    // printf("seeds = %d\n", i);
+	uint8_t* data_mod = new uint8_t[Image_Size];
+	data_mod = data;
 
-    // cycle through seed points
-    for (int j = 0; j <= i; j++) {
-        // printf("into seed point \n");
-        colour              = seed[j][0];
-        pixel               = seed[j][1];
-        int m               = 0;
-        int seed_y          = (seed[j][1] / 3.0) / IMAGE_WIDTH;
-        int seed_x          = (seed[j][1] / 3.0) - seed_y * IMAGE_WIDTH;
-        bool seed_in_object = 0;
+	int pixel = 0;		//start at the first pixel of the image 
+	int colour = 0;
+	int i = 0;
+	int k = 0;
+	int objects_found = 0;
 
+	rgb rgb_colour;
+	hsv hsv_colour;
+	int h_value = 0;
+	int s_value = 0;
+	int v_value = 0;
 
-        for (m = 0; m <= objects_found; m++) {
-            // printf("into seed object check \n");
-            int object_center = IMAGE_WIDTH * 3 * object[m][1] + object[m][0] * 3;
-            int ax            = object[m][1] - object[m][3] * 3 / 2.0;
-            int ay            = object[m][0] - object[m][2] * 3 / 2.0;
-            int bx            = object[m][1] + object[m][3] * 3 / 2.0;
-            int by            = object[m][0] + object[m][2] * 3 / 2.0;
+	for (pixel = 0; pixel <= Image_Size; pixel += 4200) {
+		//printf("into pixel for loop \n");
+		for (colour = 0; colour < 3; colour++) {
+			//printf("into colour for loop \n");
 
-            printf(
-                "Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay, bx, by);
-            printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
+			rgb_colour.r = data[pixel] / 255.0;
+			rgb_colour.g = data[pixel + 1] / 255.0;
+			rgb_colour.b = data[pixel + 2] / 255.0;
+			hsv_colour = rgb2hsv(rgb_colour);
+			h_value = hsv_colour.h;
+			s_value = hsv_colour.s * 255;
+			v_value = hsv_colour.v * 255;
+			if (h_value >= colours[colour][0][0] && h_value <= colours[colour][0][1]
+				&& s_value >= colours[colour][1][0] && s_value <= colours[colour][1][1]
+				&& v_value >= colours[colour][2][0] && v_value <= colours[colour][2][1]
+				)
+			{
+				seed[i][0] = colour;
+				seed[i][1] = pixel;
+				i++;
+				break;
+			}
 
-            if (seed_x >= ax && seed_x <= bx && seed_y >= ay && seed_y <= by) {
-                // seed is already in an object
-                seed_in_object = 1;
-                printf("SEED IN OBJECT \n\n");
-                break;
-            }
-        }
+		}
 
-        if (seed_in_object == 1) {
-            // printf("SEED IN OBJECT IF LOOP BREAK \n");
-        }
+	}
+	//printf("seeds = %d\n", i);
 
-        else {
-            // printf("into else, seed not in object \n");
-            int left  = 0;
-            int right = 0;
-            int up    = 0;
-            int down  = 0;
-
-            int R_min = colours[colour][0][0];
-            int R_max = colours[colour][0][1];
-            int G_min = colours[colour][1][0];
-            int G_max = colours[colour][1][1];
-            int B_min = colours[colour][2][0];
-            int B_max = colours[colour][2][1];
+	//cycle through seed points
+	for (int j = 0; j <= i; j++) {
+		//printf("into seed point \n");
+		colour = seed[j][0];
+		pixel = seed[j][1];
+		int m = 0;
+		int seed_y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
+		int seed_x = (seed[j][1] / 3.0) - seed_y*IMAGE_WIDTH;
+		bool seed_in_object = 0;
 
 
-            // cluster right
-            int error = 0;
+		for (m = 0; m <= objects_found; m++) {
+			//printf("into seed object check \n");
+			int object_center = IMAGE_WIDTH * 3 * object[m][1] + object[m][0] * 3;
+			int ax = object[m][1] - object[m][3] * 3 / 2.0;
+			int ay = object[m][0] - object[m][2] * 3 / 2.0;
+			int bx = object[m][1] + object[m][3] * 3 / 2.0;
+			int by = object[m][0] + object[m][2] * 3 / 2.0;
 
-            while (error < 11) {
+			printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay, bx, by);
+			printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
-                if (R_min <= data[pixel] && R_max >= data[pixel] && G_min <= data[(pixel + 1)]
-                    && G_max >= data[(pixel + 1)] && B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
-                    // printf("cluster right \n");
-                    // printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-                }
-                else {
-                    error++;
-                }
-                right++;
+			if (seed_x >= ax && seed_x <= bx && seed_y >= ay && seed_y <= by) {
+				//seed is already in an object 
+				seed_in_object = 1;
+				printf("SEED IN OBJECT \n\n");
+				break;
+			}
+		}
 
+		if (seed_in_object == 1) {
+			//printf("SEED IN OBJECT IF LOOP BREAK \n");
 
-                data_mod[pixel]     = {255};
-                data_mod[pixel + 1] = {255};
-                data_mod[pixel + 2] = {0};
+		}
 
-                pixel += 3;
-            }
+		else {
+			//printf("into else, seed not in object \n");
+			int left = 0;
+			int right = 0;
+			int up = 0;
+			int down = 0;
 
-
-            // cluster left
-            error = 0;
-            pixel = seed[j][1];
-
-            while (error < 11) {
-
-                if (R_min <= data[(pixel - 3)] && R_max >= data[(pixel - 3)] && G_min <= data[(pixel - 2)]
-                    && G_max >= data[(pixel - 2)] && B_min <= data[(pixel - 1)] && B_max >= data[(pixel - 1)]) {
-
-                    // printf("cluster left \n");
-                    // printf("pixel = {%d,%d,%d}\n", data[pixel-3], data[pixel -2], data[pixel -3]);
-                    left++;
-                    pixel = pixel - 3;
-                }
-                else {
-                    error++;
-                }
-
-                left++;
-
-                data_mod[(pixel - 3)] = {100};
-                data_mod[(pixel - 2)] = {255};
-                data_mod[(pixel - 1)] = {50};
-
-                pixel = pixel - 3;
-            }
-            // printf("New up\n");
-            // cluster up
-            error = 0;
-            pixel = seed[j][1];
-
-            while (error < 11) {
-                if (R_min <= data[pixel] && R_max >= data[pixel] && G_min <= data[(pixel + 1)]
-                    && G_max >= data[(pixel + 1)] && B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
-                    // printf("cluster up \n");
-                    // printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-                    int p = (pixel / 3.0) / IMAGE_WIDTH;
-                    int q = (pixel / 3.0) - p * IMAGE_WIDTH;
-
-                    // printf("Pixel current %d, %d\n", q, p);
-
-                    // printf("RGB up current= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-                    // p = (pixel / 3.0) / IMAGE_WIDTH;
-                    // q = (pixel / 3.0) - p *IMAGE_WIDTH;
-
-                    // printf("Pixel new %d, %d\n", q, p);
-                    // printf("RGB up new= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-                }
-                else {
-                    error++;
-                }
-                up++;
-
-                data_mod[pixel]       = {25};
-                data_mod[(pixel + 1)] = {255};
-                data_mod[(pixel + 2)] = {200};
-
-                pixel = pixel - IMAGE_WIDTH * 3;
-            }
-
-            // cluster down
-            error = 0;
-            pixel = seed[j][1];
-            while (error < 11) {
-                if (R_min <= data[pixel] && R_max >= data[pixel] && G_min <= data[(pixel + 1)]
-                    && G_max >= data[(pixel + 1)] && B_min <= data[(pixel + 2)] && B_max >= data[(pixel + 2)]) {
-
-                    // printf("cluster down \n");
-                    // printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-                    // printf("RGB down current = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-                    // printf("RGB down new = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-                }
-                else {
-                    error++;
-                }
-
-                data_mod[pixel]     = {255};
-                data_mod[pixel + 1] = {25};
-                data_mod[pixel + 2] = {200};
-
-                down++;
-                pixel = pixel + IMAGE_WIDTH * 3;
-            }
-
-            // calulate object width and height from clustering
-            int width  = left + right;
-            int height = up + down;
-            // printf("Left = %d \t Right = %d\n", left, right);
-            // printf("Up = %d \t \t Down = %d\n", up, down);
-            // printf("Width = %d \t Height = %d\n", width, height);
-
-            if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
-                // printf("\nWIDTH IS GOOD\n\n");
-                // printf("Seed = %d\n", j);
-                // printf("pixel = %d\n", seed[j][1]);
-                // int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
-                // int x = (seed[j][1] / 3.0) - y *IMAGE_WIDTH;
-
-                // printf("Pixel new %d, %d\n", q, p);
-            }
-
-            // Check object size to target object parameters
-
-            if (width >= WIDTH_MIN && width <= WIDTH_MAX && height >= HEIGHT_MIN && height <= HEIGHT_MAX) {
+			int R_min = colours[colour][0][0];
+			int R_max = colours[colour][0][1];
+			int G_min = colours[colour][1][0];
+			int G_max = colours[colour][1][1];
+			int B_min = colours[colour][2][0];
+			int B_max = colours[colour][2][1];
 
 
-                objects_found++;
+			//cluster right
+			int error = 0;
 
-                // Calculate centers
-                pixel = seed[j][1];
-                int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
-                int x = (seed[j][1] / 3.0) - y * IMAGE_WIDTH;
+			while (error < 11) {
+				rgb_colour.r = data[pixel] / 255.0;
+				rgb_colour.g = data[pixel + 1] / 255.0;
+				rgb_colour.b = data[pixel + 2] / 255.0;
+				hsv_colour = rgb2hsv(rgb_colour);
+				h_value = hsv_colour.h;
+				s_value = hsv_colour.s * 255;
+				v_value = hsv_colour.v * 255;
 
-                int center_x = ((x - left) + (x + right)) / 2.0;
-                int center_y = ((y - up) + (y + down)) / 2.0;
+				if (R_min <= h_value && R_max >= h_value
+					&& G_min <= s_value && G_max >= s_value
+					&& B_min <= v_value && B_max >= v_value
+					) {
+					//printf("cluster right \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+				}
+				else {
+					error++;
+				}
+				right++;
 
-                object[k][0] = center_x;
-                object[k][1] = center_y;
-                object[k][2] = width;
-                object[k][3] = height;
+				//data_mod[pixel + 0] = { 55 };
+				//data_mod[pixel + 1] = { 155 };
+				//data_mod[pixel + 2] = { 125 };
 
-                printf("Object %d, width %d, height %d, center x %d, center y %d\n",
-                       objects_found,
-                       width,
-                       height,
-                       center_x,
-                       center_y);
-                printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n",
-                       pixel,
-                       left,
-                       right,
-                       y,
-                       x,
-                       up,
-                       down);
+				pixel += 3;
+			}
 
-                int obj_center[2] = {center_x, center_y};
-                int obj_width     = object[k][2];
-                int obj_height    = object[k][3];
-                Output_Segmentation(data, 1280, 960, obj_width, obj_height, obj_center);
 
-                k++;
-            }
-        }
-    }
-    printf("Objects found = %d \n", objects_found);
+			//cluster left
+			error = 0;
+			pixel = seed[j][1];
 
-    printf("Saving file\n");
-    std::ofstream outfile("Classified_Image.ppm", std::ios::binary);
-    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
-    outfile.write((char*) data_mod, (Image::Height * Image::Width * 3));
-    printf("Segmented_Image Saved\n");
-    return;
+			while (error < 11) {
+				rgb_colour.r = data[pixel - 3] / 255.0;
+				rgb_colour.g = data[pixel - 2] / 255.0;
+				rgb_colour.b = data[pixel - 1] / 255.0;
+				hsv_colour = rgb2hsv(rgb_colour);
+				h_value = hsv_colour.h;
+				s_value = hsv_colour.s * 255;
+				v_value = hsv_colour.v * 255;
+
+				if (R_min <= h_value && R_max >= h_value
+					&& G_min <= s_value && G_max >= s_value
+					&& B_min <= v_value && B_max >= v_value
+					) {
+
+					//printf("cluster left \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel-3], data[pixel -2], data[pixel -3]);
+					left++;
+					pixel = pixel - 3;
+				}
+				else {
+					error++;
+				}
+
+				left++;
+
+				//data_mod[pixel - 3] = { 255 };
+				//data_mod[pixel - 2] = { 55 };
+				//data_mod[pixel - 1] = { 125 };
+
+				pixel = pixel - 3;
+			}
+			//printf("New up\n");
+			//cluster up
+			error = 0;
+			pixel = seed[j][1];
+
+			while (error < 11) {
+
+				rgb_colour.r = data[pixel] / 255.0;
+				rgb_colour.g = data[pixel + 1] / 255.0;
+				rgb_colour.b = data[pixel + 2] / 255.0;
+				hsv_colour = rgb2hsv(rgb_colour);
+				h_value = hsv_colour.h;
+				s_value = hsv_colour.s * 255;
+				v_value = hsv_colour.v * 255;
+
+				if (R_min <= h_value && R_max >= h_value
+					&& G_min <= s_value && G_max >= s_value
+					&& B_min <= v_value && B_max >= v_value
+					) {
+					//printf("cluster up \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					int p = (pixel / 3.0) / IMAGE_WIDTH;
+					int q = (pixel / 3.0) - p *IMAGE_WIDTH;
+
+					//printf("Pixel current %d, %d\n", q, p); 
+
+					//printf("RGB up current= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					//p = (pixel / 3.0) / IMAGE_WIDTH;
+					//q = (pixel / 3.0) - p *IMAGE_WIDTH;
+
+					//printf("Pixel new %d, %d\n", q, p);
+					//printf("RGB up new= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+				}
+				else {
+					error++;
+
+				}
+				up++;
+
+				//data_mod[pixel + 0] = { 55 };
+				//data_mod[pixel + 1] = { 255 };
+				//data_mod[pixel + 2] = { 25 };
+
+				pixel = pixel - IMAGE_WIDTH * 3;
+			}
+
+			//cluster down
+			error = 0;
+			pixel = seed[j][1];
+			while (error < 11) {
+
+				rgb_colour.r = data[pixel] / 255.0;
+				rgb_colour.g = data[pixel + 1] / 255.0;
+				rgb_colour.b = data[pixel + 2] / 255.0;
+				hsv_colour = rgb2hsv(rgb_colour);
+				h_value = hsv_colour.h;
+				s_value = hsv_colour.s * 255;
+				v_value = hsv_colour.v * 255;
+
+				if (R_min <= h_value && R_max >= h_value
+					&& G_min <= s_value && G_max >= s_value
+					&& B_min <= v_value && B_max >= v_value
+					) {
+
+					//printf("cluster down \n");
+					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					//printf("RGB down current = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+
+					//printf("RGB down new = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+				}
+				else {
+					error++;
+				}
+				down++;
+
+				//data_mod[pixel + 0] = { 255 };
+				//data_mod[pixel + 1] = { 55 };
+				//data_mod[pixel + 2] = { 25 };
+
+				pixel = pixel + IMAGE_WIDTH * 3;
+			}
+
+			//calulate object width and height from clustering
+			int width = left + right;
+			int height = up + down;
+			//printf("Left = %d \t Right = %d\n", left, right);
+			//printf("Up = %d \t \t Down = %d\n", up, down);
+			//printf("Width = %d \t Height = %d\n", width, height);
+
+			if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
+				//printf("\nWIDTH IS GOOD\n\n");
+				//printf("Seed = %d\n", j);
+				//printf("pixel = %d\n", seed[j][1]);
+				//int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
+				//int x = (seed[j][1] / 3.0) - y *IMAGE_WIDTH;
+
+				//printf("Pixel new %d, %d\n", q, p);
+			}
+
+			//Check object size to target object parameters
+
+			if (width >= WIDTH_MIN && width <= WIDTH_MAX && height >= HEIGHT_MIN && height <= HEIGHT_MAX) {
+
+
+				objects_found++;
+
+				//Calculate centers
+				pixel = seed[j][1];
+				int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
+				int x = (seed[j][1] / 3.0) - y*IMAGE_WIDTH;
+
+				int center_x = ((x - left) + (x + right)) / 2.0;
+				int center_y = ((y - up) + (y + down)) / 2.0;
+
+				object[k][0] = center_x;
+				object[k][1] = center_y;
+				object[k][2] = width;
+				object[k][3] = height;
+
+				printf("Object %d, width %d, height %d, center x %d, center y %d\n", objects_found, width, height, center_x, center_y);
+				printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n", pixel, left, right, y, x, up, down);
+
+				int obj_center[2] = { center_x, center_y };
+				Output_Segmentation(data_mod, IMAGE_WIDTH, IMAGE_HEIGHT, width, height, obj_center);
+
+				k++;
+			}
+		}
+	}
+	printf("Objects found = %d \n", objects_found);
+
+
+
+	/*printf("Saving file\n");
+	std::ofstream outfile("Segmented_Image_3.ppm", std::ios::binary);
+	outfile << "P6\n" << IMAGE_WIDTH << " " << IMAGE_HEIGHT << " 255\n";  // dont know
+	outfile.write((char*)data_mod, (Image_Size));
+	printf("Segmented_Image Saved\n");
+
+	delete data_mod; */
+	return;
 }
