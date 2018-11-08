@@ -113,10 +113,21 @@ int Localisation_main() {
                     // std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
                     // std::cout << "Distance " << cell_dist << std::endl;
 
-                    // function to calculate probability
-                    probability(
-                        curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
+                    if (cell_dist <= std::sqrt(std::pow(((Grid::m) *Grid::gridspace), 2)
+                                               + std::pow(((Grid::n) *Grid::gridspace), 2))) {
 
+                        // std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
+                        // std::cout << "Distance " << cell_dist << std::endl;
+
+                        // function to calculate probability
+                        probability(curr_cell_list->first,
+                                    curr_cell_list->second,
+                                    cell_dist,
+                                    Ultrasonic::Detection_distances[i]);
+                    }
+		    else {
+			std::cout << "ERROR Cell distance too large" << std::endl;
+		    }
                     // Remove the element from the list
                     Grid::cell_list.erase(Grid::cell_list.begin());
                 }
@@ -213,8 +224,13 @@ void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, d
             break;
         }
     }
-    // std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
-    Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
+    if (x <= Grid::n || y <= Grid::n || x >= 0 || y >= 0) {
+        // std::cout << "Cell " << std::round(x) << "\t" << std::round(y) << std::endl;
+        Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
+    }
+    else {
+	std::cout << "ERROR Incorrect DDA cell" << std::endl;
+    }
 }
 
 void Print_Occupancy_Map() {
