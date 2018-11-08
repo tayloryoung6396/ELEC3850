@@ -92,33 +92,36 @@ int Localisation_main() {
 
             // TODO Fix this
             // breshams_alg(i, sen_hori, sen_vert);
-            Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
+            if (object_cell_m <= Grid::m || object_cell_n <= Grid::n || object_cell_m >= 0 || object_cell_n >= 0) {
+                Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
 
-            // std::cout << "Fininished calculating list" << std::endl;
+                // std::cout << "Fininished calculating list" << std::endl;
 
-            while (!Grid::cell_list.empty()) {
+                while (!Grid::cell_list.empty()) {
 
-                std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
+                    std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
 
-                // this will give a list of grid ms and ns that need to be looked at,starting from
-                // closest to the tank
-                // need to access the list pairs seperately and save as cella(m) and cellb(n)
+                    // this will give a list of grid ms and ns that need to be looked at,starting from
+                    // closest to the tank
+                    // need to access the list pairs seperately and save as cella(m) and cellb(n)
 
-                // use pythagoras to calculate distance between tank and the cell we are looking at
-                double cell_dist = std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
-                                             + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
+                    // use pythagoras to calculate distance between tank and the cell we are looking at
+                    double cell_dist =
+                        std::sqrt(std::pow(((curr_cell_list->first - tank_cell_m) * Grid::gridspace), 2)
+                                  + std::pow(((curr_cell_list->second - tank_cell_n) * Grid::gridspace), 2));
 
-                // std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
-                // std::cout << "Distance " << cell_dist << std::endl;
+                    // std::cout << "Cell " << curr_cell_list->first << " " << curr_cell_list->second << std::endl;
+                    // std::cout << "Distance " << cell_dist << std::endl;
 
-                // function to calculate probability
-                probability(
-                    curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
+                    // function to calculate probability
+                    probability(
+                        curr_cell_list->first, curr_cell_list->second, cell_dist, Ultrasonic::Detection_distances[i]);
 
-                // Remove the element from the list
-                Grid::cell_list.erase(Grid::cell_list.begin());
+                    // Remove the element from the list
+                    Grid::cell_list.erase(Grid::cell_list.begin());
+                }
+                // std::cout << "Finished list" << std::endl;
             }
-            // std::cout << "Finished list" << std::endl;
         }
         else {
             // std::cout << "Sensor reading invalid" << std::endl;
