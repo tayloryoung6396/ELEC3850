@@ -103,7 +103,7 @@ int main() {
         previous_time = current_time;
 
         // Check sensors
-	Camera_main();
+	// Camera_main();
         if (frame_count % 5 == 0) {
             //          Camera_main();
             // InfraredSensor_main();
@@ -111,7 +111,7 @@ int main() {
         }
 
         // prev_time = (double) millis();  // TODO Remove
-        UltrasonicSensor_main();
+        // UltrasonicSensor_main();
         // myfile << "UltrasonicSensor_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
 
         if (frame_count % 10 == 0) {
@@ -129,12 +129,13 @@ int main() {
             }
         }
 
-        //        if (frame_count % 50 == 0) {
+        if (frame_count % 50 == 0) {
         // TODO We probably want to store the last 5 US readings
         // prev_time = (double) millis();  // TODO Remove
-        Localisation_main();
+            UltrasonicSensor_main();
+	    Localisation_main();
         // myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
-        //      }
+        }
 
         // Check if we are connected, if we are then check the mode
         // If we are in ps3 control mode then don't run the autonomous controller
@@ -156,6 +157,9 @@ int main() {
                     PS3Walk::Gripper_flag = FALSE;
                 }
             }
+	    if(!PS3Walk::drive_flag){
+		MotorDriver_Velocity(0, 0);
+	    }
         }
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
