@@ -216,6 +216,9 @@ void Classifier(uint8_t* data)
 
 		for (m = 0; m <= objects_found; m++) {
 			//printf("into seed object check \n");
+			int errorx = 200;
+			int errory = 50;
+
 			int object_center = IMAGE_WIDTH * 3 * object[m][1] + object[m][0] * 3;
 			int ax = object[m][1] - object[m][3] * 3 / 2.0;
 			int ay = object[m][0] - object[m][2] * 3 / 2.0;
@@ -225,7 +228,7 @@ void Classifier(uint8_t* data)
 			printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay, bx, by);
 			printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
-			if (seed_x >= ax && seed_x <= bx && seed_y >= ay && seed_y <= by) {
+			if (seed_x >= (ax - errorx) && seed_x <= (bx + errorx) && seed_y >= ay - (errory) && seed_y <= (by + errory)) {
 				//seed is already in an object 
 				seed_in_object = 1;
 				printf("SEED IN OBJECT \n\n");
@@ -447,6 +450,10 @@ void Classifier(uint8_t* data)
 
 				int obj_center[2] = { center_x, center_y };
 				Output_Segmentation(data_mod, IMAGE_WIDTH, IMAGE_HEIGHT, width, height, obj_center);
+
+				//Find_distance(center_x, center_y);
+
+				printf("Object found seed = %d\n", object[k][1]);
 
 				k++;
 			}
