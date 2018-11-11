@@ -135,9 +135,12 @@ void SpintoWin() {
     Localisation::w_Goal_Position[1] = 45 * M_PI / 180.0;
     if (AutoState::have_object) {
         AutoState::known_goal = TRUE;
+        std::cout << "AutoState::known_goal = TRUE" << std::endl;
     }
     else {
         AutoState::known_object = TRUE;
+        std::cout << "AutoState::known_object = TRUE" << std::endl;
     }
     AutoState::on_route = TRUE;
+    std::cout << "AutoState::on_route = TRUE" << std::endl;
 }
