@@ -28,8 +28,8 @@ int Classifier::object[10][4];
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
     const int colours[3][3][2] = {
-        {{64, 255}, {0, 48}, {0, 47}},    // Red maximum and minimum pixel parameters (RGB Image)
-        {{0, 9}, {11, 255}, {0, 44}},       // Green maximum and minimum pixel parameters (RGB Image)
+        {{64, 255}, {0, 48}, {0, 47}},   // Red maximum and minimum pixel parameters (RGB Image)
+        {{0, 9}, {11, 255}, {0, 44}},    // Green maximum and minimum pixel parameters (RGB Image)
         {{0, 33}, {0, 61}, {79, 255}}};  // Blue maximum and minimum pixel parameters (RGB Image)
     for (int q = 0; q < 3; q++) {
         for (int w = 0; w < 3; w++) {
@@ -225,20 +225,20 @@ void Classifier(uint8_t* data) {
                 // Calculate centers
                 pixel        = Classifier::seed[j][1];
                 int center_y = ((pixel - up * (Image::Width / 3)) + (pixel + down * (Image::Width / 3))) / 2;
-		printf("Center y %d\n", center_y);
-                center_y     = (center_y / 3.0) / Image::Width;
                 printf("Center y %d\n", center_y);
-		int center_x = ((pixel - left) + (pixel + right)) / 2;
+                center_y = (center_y / 3.0) / Image::Width;
+                printf("Center y %d\n", center_y);
+                int center_x = ((pixel - left) + (pixel + right)) / 2;
                 printf("Center x %d\n", center_x);
-		center_x     = (center_x / 3.0) - center_y * Image::Width;
-		printf("Center x %d\n", center_x);
+                center_x = (center_x / 3.0) - center_y * Image::Width;
+                printf("Center x %d\n", center_x);
 
                 Classifier::object[k][0] = center_x;
                 Classifier::object[k][1] = center_y;
                 Classifier::object[k][2] = width;
                 Classifier::object[k][3] = height;
 
-		printf("Left = %d \t Right = %d\n", left, right);
+                printf("Left = %d \t Right = %d\n", left, right);
                 printf("Up = %d \t \t Down = %d\n", up, down);
                 printf("Width = %d \t Height = %d\n", width, height);
                 printf("Object center %d, %d\n", center_x, center_y);
@@ -270,25 +270,27 @@ void find_distance(int u, int v) {
     // int u;  // Some pixel that you are interested in
     // int v;  // Some pixel that you are interested in
 
-    double p = (Camera::pixel_x * 0.000001) * (u - Image::Width / 2.0);   // The screen coordinates returned
-    double q = (Camera::pixel_y * 0.000001) * (v - Image::Height / 2.0);  // The screen coordinates returned
+    double p = (Camera::resolution_x / (double) Image::Width) * Camera::pixel_x
+               * (u - Image::Width / 2.0);  // The screen coordinates returned
+    double q = (Camera::resolution_y / (double) Image::Height) * Camera::pixel_y
+               * (v - Image::Height / 2.0);  // The screen coordinates returned
+
 
     // Now find the angle the pixel is offset from the screen origin
-    double theta = std::atan(p / Camera::focal_len);  // The vertical angle
-    double phi   = std::atan(q / Camera::focal_len);  // The horizontal angle
+    double phi   = -std::atan2(p, Camera::focal_len);
+    double theta = -std::atan2(q, Camera::focal_len);
 
     // Now convert the offsets into world coordinates
     // Vertical
-    double plane_offset = 0;
-    double dist_x       = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
+    double plane_offset = 0;  // TODO Remove shitty hardcoded value
+
+    double dist_x = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
     std::cout << "Distance x " << dist_x << std::endl;
 
     // Horizontal
     double dist_y =
         (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
     std::cout << "Distance y " << dist_y << std::endl;
-
-    // These should be the components of x and y of the object from a pixel
 }
 
 

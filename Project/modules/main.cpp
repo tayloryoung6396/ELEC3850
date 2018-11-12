@@ -103,11 +103,13 @@ int main() {
         previous_time = current_time;
 
         // Check sensors
-	// Camera_main();
+        // TODO This will be within the autonomous enable section
         if (frame_count % 5 == 0) {
-            //          Camera_main();
+            // Camera_main();
+            // Classifier_main();
+            // if(object found){
             // InfraredSensor_main();
-            //          Classifier_main();
+            // }
         }
 
         // prev_time = (double) millis();  // TODO Remove
@@ -129,12 +131,13 @@ int main() {
             }
         }
 
+        // TODO This will be within the autonomous enable section
         if (frame_count % 50 == 0) {
-        // TODO We probably want to store the last 5 US readings
-        // prev_time = (double) millis();  // TODO Remove
+            // TODO We probably want to store the last 5 US readings
+            // prev_time = (double) millis();  // TODO Remove
             UltrasonicSensor_main();
-	    Localisation_main();
-        // myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
+            Localisation_main();
+            // myfile << "Localisation_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO Remove
         }
 
         // Check if we are connected, if we are then check the mode
@@ -157,9 +160,9 @@ int main() {
                     PS3Walk::Gripper_flag = FALSE;
                 }
             }
-	    if(!PS3Walk::drive_flag){
-		MotorDriver_Velocity(0, 0);
-	    }
+            if (!PS3Walk::drive_flag) {
+                MotorDriver_Velocity(0, 0);
+            }
         }
         if (Input::Autonomous_Enabled) {
             // We must be in autonomous mode
@@ -169,7 +172,7 @@ int main() {
             // myfile << "AutonomousControl_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO
             // Remove
         }
-//	break;
+        //	break;
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count

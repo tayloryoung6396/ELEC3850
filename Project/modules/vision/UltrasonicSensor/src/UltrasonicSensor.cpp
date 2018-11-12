@@ -70,10 +70,10 @@ int UltrasonicSensor_main() {
     DistanceM();  // DISTANCE DETECTION
 
     // DEBUG DISTANCE CALCULATIONS
-//    std::cout << "Sensor 0 'Front' Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
-//    std::cout << "Sensor 1 'Right' Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
-//    std::cout << "Sensor 2 'Back'  Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
-//    std::cout << "Sensor 3 'Left'  Distance " << Ultrasonic::Detection_distances[3] << " m" << std::endl;
+    //    std::cout << "Sensor 0 'Front' Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
+    //    std::cout << "Sensor 1 'Right' Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
+    //    std::cout << "Sensor 2 'Back'  Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
+    //    std::cout << "Sensor 3 'Left'  Distance " << Ultrasonic::Detection_distances[3] << " m" << std::endl;
     return 0;
 }
 
@@ -111,4 +111,31 @@ void DistanceM() {
             Ultrasonic::Detection_distances[sensor] = -1;
         }
     }
+}
+
+double check_front_distance() {
+    Ultrasonic::sensor_return[0] = -1;
+
+    digitalWrite(TRIG, HIGH);
+    delayMicroseconds(100);  // 10us Delay
+    digitalWrite(TRIG, LOW);
+
+    // WAIT FOR ECHO START
+    delayMicroseconds(400);
+
+    Ultrasonic::Start_time = micros();
+
+    while ((Ultrasonic::sensor_return[0] == -1) && ((micros() - Ultrasonic::Start_time < TIMEOUT))) {
+    }
+
+    // Only calculate it if the distance was not a timeout
+    if (Ultrasonic::sensor_return[0] != -1) {
+        Ultrasonic::Detection_distances[0] = (Ultrasonic::sensor_return[0] - Ultrasonic::Start_time) * 0.00017
+                                             + Kinematics::ultrasonic_offset[0];  // DISTANCE CALCULATION IN METRES
+    }
+    else {
+        Ultrasonic::Detection_distances[0] = -1;
+    }
+
+    return Ultrasonic::Detection_distances[0];
 }

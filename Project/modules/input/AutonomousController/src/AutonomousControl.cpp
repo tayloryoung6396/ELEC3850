@@ -84,9 +84,15 @@ int AutonomousControl_main() {
             // Am i at the object?
             else if (AutoState::at_goal) {
                 // I must be at the object
-                // Lets pick it up
-                std::cout << "At Goal" << std::endl;
-                // IKGripper_Grab_Object(Goal_pos);
+                if (check_front_distance() > Kinematics::ultrasonic_offset[4] + 0.1) {
+                    // Lets pick it up
+                    std::cout << "At Goal" << std::endl;
+                    // IKGripper_Grab_Object(Goal_pos);
+                }
+                else {
+                    // TODO Correct position
+                    std::cout << "Object too far" << std::endl;
+                }
             }
             else {
                 // I'm not at the object

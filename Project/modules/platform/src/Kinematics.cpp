@@ -29,12 +29,12 @@ double Kinematics::Servo_max_limit[5] = {M_PI, M_PI / 2.0, M_PI / 2.0, M_PI / 2.
 double Kinematics::Servo_min_limit[5] = {-M_PI, -M_PI / 2.0, -M_PI / 2.0, -M_PI / 2.0, -M_PI / 4.0};
 double Kinematics::Servo_offset[5]    = {0, 0, 0, 0, 0};
 
-double Kinematics::ultrasonic_offset[4] = {Kinematics::tank_width / 2.0,
-                                           Kinematics::tank_length / 2.0,
+double Kinematics::ultrasonic_offset[4] = {Kinematics::tank_length / 2.0,
                                            Kinematics::tank_width / 2.0,
-                                           Kinematics::tank_length / 2.0};  // R, B, L, F
+                                           Kinematics::tank_length / 2.0,
+                                           Kinematics::tank_width / 2.0};  // F, R, B, L
 
-const double Kinematics::cam_phi    = 15;
+const double Kinematics::cam_phi    = 15 * M_PI / 180.0;
 const double Kinematics::cam_pos[3] = {Kinematics::tank_length / 2.0, 0, -0.05};
 const double Kinematics::cam_height = 0.05;
 
