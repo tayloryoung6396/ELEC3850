@@ -14,7 +14,7 @@
 int IRsense::IR_attempts         = IR_ATTEMPTS;
 int IRsense::IR_sensor_return[4] = {0};
 double IRsense::meanIR           = 0;
-bool IRsense::IRpresent          = 0;
+bool IRsense::IRpresent          = FALSE;
 
 void InfraredSensor_init() {
     std::cout << "Initilising INFRARED SENSOR" << std::endl;
@@ -25,10 +25,11 @@ int InfraredSensor_main() {
 
     IRdetect();
     if (IRsense::meanIR >= 2) {
-        IRsense::IRpresent = 1;
+        IRsense::IRpresent = TRUE;
+        std::cout << "IR Found object" << std::endl;
     }
     else {
-        IRsense::IRpresent = 0;
+        IRsense::IRpresent = FALSE;
     }
 
     return 0;

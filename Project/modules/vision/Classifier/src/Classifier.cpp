@@ -257,6 +257,10 @@ void Classifier(uint8_t* data) {
     }
     printf("Objects found = %d \n", objects_found);
 
+    if (objects_found > 0) {
+        AutoState::object_classified = TRUE;
+    }
+
     printf("Saving file\n");
     std::ofstream outfile("Classified_Image.ppm", std::ios::binary);
     outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
