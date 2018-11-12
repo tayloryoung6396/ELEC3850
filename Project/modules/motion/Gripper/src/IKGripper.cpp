@@ -340,11 +340,22 @@ int Grip_Object() {
     bool Gripped     = false;
     uint8_t servo_ID = Gripper;
     uint16_t grip_load;
+    uint16_t address = MX28_ADDRESS_VALUE(GOAL_POSITION);
+
+    int32_t data;
+    Open_Gripper();
+    Gripper_angles::grip = Kinematics::grip_open;
     while (!Gripped) {
-        Gripper_angles::grip++;
+        Gripper_angles::grip += 0.1;
+
+        // Slowly close the gripper
+        data = convert_rad_pos(servo_ID, Gripper_angles::grip);
+        executeWriteSingle(servo_ID, address, data);
+
         // Check if the object is in gripper
         if (executeReadSingle(servo_ID, MX28_ADDRESS_VALUE(PRESENT_LOAD), MX28_SIZE_VALUE(PRESENT_LOAD), grip_load)
             == 0) {
+            std::cout << "Grip load " << grip_load << std::endl;
             if (grip_load >= Kinematics::grip_load) {
                 Gripped = true;
             }
