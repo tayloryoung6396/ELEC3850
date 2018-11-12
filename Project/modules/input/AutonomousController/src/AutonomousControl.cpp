@@ -11,11 +11,12 @@
 #include "AutonomousControl.hpp"
 
 // flags for conditions
-bool AutoState::have_object  = FALSE;
-bool AutoState::known_object = FALSE;
-bool AutoState::at_goal      = FALSE;
-bool AutoState::known_goal   = FALSE;
-bool AutoState::on_route     = FALSE;
+bool AutoState::have_object       = FALSE;
+bool AutoState::known_object      = FALSE;
+bool AutoState::at_goal           = FALSE;
+bool AutoState::known_goal        = FALSE;
+bool AutoState::on_route          = FALSE;
+bool AutoState::object_classified = FALSE;
 
 void AutonomousControl_init() {
     std::cout << "Initilising AUTONOMOUS CONTROLLER" << std::endl;
@@ -64,6 +65,9 @@ int AutonomousControl_main() {
             // No idea where to take it
             // Let's find where to take it
             // TODO For now.. Spin to win
+
+            // TODO This will probably be hardcoded as some grid cell
+
             std::cout << "Weighted Search" << std::endl;
             SpintoWin();
             MotorController();
@@ -98,9 +102,11 @@ int AutonomousControl_main() {
                 // I'm not at the object
                 // Lets find our way there
                 std::cout << "Path Planning" << std::endl;
-                // TODO This should be set by the camera classifier
-                Localisation::w_Goal_Position[0] = 1;
-                Localisation::w_Goal_Position[1] = 0;
+                // The distance is found in the classifier and transformed to world coordinates
+
+                find_distance(Classifier::object[0][0], Classifier::object[0][1]);
+
+                // Our path should just be a rotation and forward movement
                 SimplePathPlanner();
                 MotorController();
             }
