@@ -295,6 +295,14 @@ void find_distance(int u, int v) {
     double dist_y =
         (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
     std::cout << "Distance y " << dist_y << std::endl;
+
+    // Set the tank goal
+    // These distances are relative to the tank, however i need them in world coordinates
+
+    Localisation::w_Goal_Position[0] = dist_x * std::cos(Localisation::w_Tank_Rotation)
+                                       - dist_x * std::sin(Localisation::w_Tank_Rotation) + w_Tank_Position[0];
+    Localisation::w_Goal_Position[1] = dist_y * std::cos(Localisation::w_Tank_Rotation)
+                                       - dist_y * std::sin(Localisation::w_Tank_Rotation) + w_Tank_Position[1];
 }
 
 
