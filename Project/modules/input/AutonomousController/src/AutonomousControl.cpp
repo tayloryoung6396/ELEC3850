@@ -10,6 +10,9 @@
 
 #include "AutonomousControl.hpp"
 
+#define GOAL_CELL_X 0
+#define GOAL_CELL_Y 0
+
 // flags for conditions
 bool AutoState::have_object       = FALSE;
 bool AutoState::known_object      = FALSE;
@@ -54,9 +57,10 @@ int AutonomousControl_main() {
                 // I'm not at the place
                 // Lets find our way there
                 std::cout << "Path Planning" << std::endl;
-                // TODO This should be set by the camera classifier
-                Localisation::w_Goal_Position[0] = 1;
-                Localisation::w_Goal_Position[1] = 0;
+                // NOTE This should be set by the camera classifier / actually be a goal. But for now just return it to
+                // a set location
+                Localisation::w_Goal_Position[0] = GOAL_CELL_X;
+                Localisation::w_Goal_Position[1] = GOAL_CELL_Y;
                 SimplePathPlanner();
                 MotorController();
             }
@@ -64,9 +68,7 @@ int AutonomousControl_main() {
         else {
             // No idea where to take it
             // Let's find where to take it
-            // TODO For now.. Spin to win
-
-            // TODO This will probably be hardcoded as some grid cell
+            // NOTE For now.. Spin to win
 
             std::cout << "Weighted Search" << std::endl;
             SpintoWin();
@@ -114,7 +116,7 @@ int AutonomousControl_main() {
         else {
             // No idea where the object is
             // Lets search for one
-            // TODO For now.. Spin to win!
+            // NOTE For now.. Spin to win!
             std::cout << "Weighted Search" << std::endl;
             SpintoWin();
             MotorController();
