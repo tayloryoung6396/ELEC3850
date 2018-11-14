@@ -13,6 +13,7 @@ public:
     static bool at_goal;
     static bool known_goal;
     static bool on_route;
+    static bool object_classified;
 };
 
 #endif /* AUTONOMOUS_CONTROL_H_ */

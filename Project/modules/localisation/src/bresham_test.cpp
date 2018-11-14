@@ -1,4 +1,4 @@
-// // TODO this doesn't use the vertical distanc
+// // NOTE, not used as this doesn't use the vertical distanc
 
 #include <math.h>
 #include <stdint.h>
