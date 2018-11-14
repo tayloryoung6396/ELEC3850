@@ -78,6 +78,8 @@ int Localisation_main() {
             // TODO Add an out of range probability sweep
             // breshams_alg(i, sen_hori, sen_vert);
             if (object_cell_m <= Grid::m || object_cell_n <= Grid::n || object_cell_m >= 0 || object_cell_n >= 0) {
+
+                // DDA Should handle objects outside the range
                 Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
 
                 // std::cout << "Fininished calculating list" << std::endl;
@@ -111,6 +113,29 @@ int Localisation_main() {
                     Grid::cell_list.erase(Grid::cell_list.begin());
                 }
             }
+            else {
+                // Check which object cell is negative
+                if (object_cell_m < 0) {
+                    object_cell_m = 0;
+                }
+                if (object_cell_n < 0) {
+                    object_cell_n = 0;
+                }
+
+                // DDA Should handle objects outside the range
+                Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
+                while (!Grid::cell_list.empty()) {
+
+                    std::vector<std::pair<int, int>>::const_iterator curr_cell_list = Grid::cell_list.begin();
+
+                    // Probability doesn't handle this case, lets just decrease the probability for all cells equally
+                    // Hence in probability if the cell distance is -1, it adds and offset of -0.1
+                    probability(curr_cell_list->first, curr_cell_list->second, -1, Ultrasonic::Detection_distances[i]);
+
+                    // Remove the element from the list
+                    Grid::cell_list.erase(Grid::cell_list.begin());
+                }
+            }
         }
     }
     return 0;
@@ -119,8 +144,11 @@ int Localisation_main() {
 void probability(int cell_column, int cell_row, double cell_dist, double obj_dist) {
 
     // use a straight line function to start however i believe tanh would work nicely
+    double prob = -0.1;
+    if (cell_dist != -1) {
+        prob = (0.2 * cell_dist) / obj_dist - 0.1;
+    }
 
-    double prob = (0.2 * cell_dist) / obj_dist - 0.1;
     // set upper and lower prob lim
     // cap upper at 1
     if (Grid::map[cell_column][cell_row] + prob > 1) {
@@ -172,11 +200,11 @@ void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, d
             break;
         }
     }
-    if (x <= Grid::n || y <= Grid::n || x >= 0 || y >= 0) {
+    if (x <= Grid::n && y <= Grid::n && x >= 0 && y >= 0) {
         Grid::cell_list.emplace_back(std::make_pair(std::round(x), std::round(y)));
     }
     else {
-        std::cout << "ERROR Incorrect DDA cell" << std::endl;
+        std::cout << "WARN Incorrect DDA cell" << std::endl;
     }
 }
 
