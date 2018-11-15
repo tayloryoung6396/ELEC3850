@@ -136,21 +136,12 @@ int Classifier_main() {
 #define IMAGE_WIDTH 1280
 
 int Image_Size = IMAGE_HEIGHT * IMAGE_WIDTH * 3;
-//colours[How many colours][R,G,B][Min,Max]
-//int colours[3][3][2] = { { { 64,97 },{ 19,48 },{ 19,47 } },		//Red maximum and minimum pixel parameters (RGB Image)
-//{ { 1,9 },{ 11,49 },{ 47,61 } },		//Green maximum and minimum pixel parameters (RGB Image)
-//{ { 14,33 },{ 44,61 },{ 79,111 } },		//Blue maximum and minimum pixel parameters (RGB Image)
-//};
 
-int colours[3][3][2] = { { { 0 , 100 },{ 136,219 },{ 51,100 } },
-{ { 75,190 },{ 41,225 },{ 14,54 } },
-{ { 200,218 },{ 104,239 },{ 58,146 } } };
+int colours[3][3][2] = { { { 64 , 97 },{ 19,48 },{ 19,47 } }, //rgb red
+{ { 75,190 },{ 41,225 },{ 14,54 } },						  //hsv green
+{ { 200,218 },{ 104,239 },{ 58,146 } } };					  //hsv blue
 
-//int colours[3][3][2] = { { {51, 100}, { 0,40 }, { 0,41 }},
-//{ { 2, 33 }, { 0,54 }, { 0,40 } },
-//{ { 14,33 },{ 44,61 },{ 79,111 }} };//{ 5, 65 }, { 0,102 }, { 0,146 } }};
-
-//int seed[][] = { {colour, pixel}, {} }
+															  //int seed[][] = { {colour, pixel}, {} }
 int seed[100][2] = { { 0,0 },{ 0,0 } };
 
 //int object[][] = {{center_x, center_y, width, height}, {} }
@@ -158,7 +149,7 @@ int object[40][4] = { { 0,0,0,0 },{ 0,0,0,0 } };
 
 void Classifier(uint8_t* data)
 {
-	printf("into classifier \n");
+	//printf("into classifier \n");
 
 	uint8_t* data_mod = new uint8_t[Image_Size];
 	data_mod = data;
@@ -180,31 +171,45 @@ void Classifier(uint8_t* data)
 		for (colour = 0; colour < 3; colour++) {
 			//printf("into colour for loop \n");
 
-			rgb_colour.r = data[pixel] / 255.0;
-			rgb_colour.g = data[pixel + 1] / 255.0;
-			rgb_colour.b = data[pixel + 2] / 255.0;
-			hsv_colour = rgb2hsv(rgb_colour);
-			h_value = hsv_colour.h;
-			s_value = hsv_colour.s * 255;
-			v_value = hsv_colour.v * 255;
-			if (h_value >= colours[colour][0][0] && h_value <= colours[colour][0][1]
-				&& s_value >= colours[colour][1][0] && s_value <= colours[colour][1][1]
-				&& v_value >= colours[colour][2][0] && v_value <= colours[colour][2][1]
-				)
+			if (colour == 0
+				&& data[pixel] >= colours[colour][0][0] && data[pixel] <= colours[colour][0][1]
+				&& data[(pixel + 1)] >= colours[colour][1][0] && data[(pixel + 1)] <= colours[colour][1][1]
+				&& data[(pixel + 2)] >= colours[colour][2][0] && data[(pixel + 2)] <= colours[colour][2][1])
 			{
 				seed[i][0] = colour;
 				seed[i][1] = pixel;
 				i++;
 				break;
-			}
 
+			}
+			else if (colour == 1 || colour == 2)
+			{
+				rgb_colour.r = data[pixel] / 255.0;
+				rgb_colour.g = data[pixel + 1] / 255.0;
+				rgb_colour.b = data[pixel + 2] / 255.0;
+				hsv_colour = rgb2hsv(rgb_colour);
+				h_value = hsv_colour.h;
+				s_value = hsv_colour.s * 255;
+				v_value = hsv_colour.v * 255;
+
+				if (h_value >= colours[colour][0][0] && h_value <= colours[colour][0][1]
+					&& s_value >= colours[colour][1][0] && s_value <= colours[colour][1][1]
+					&& v_value >= colours[colour][2][0] && v_value <= colours[colour][2][1]
+					)
+				{
+					seed[i][0] = colour;
+					seed[i][1] = pixel;
+					i++;
+					break;
+				}
+			}
 		}
 
 	}
-	//printf("seeds = %d\n", i);
+	printf("seeds = %d\n", i);
 
 	//cycle through seed points
-	for (int j = 0; j <= i; j++) {
+	for (int j = 0; j <= (i - 5); j++) {
 		//printf("into seed point \n");
 		colour = seed[j][0];
 		pixel = seed[j][1];
@@ -213,26 +218,28 @@ void Classifier(uint8_t* data)
 		int seed_x = (seed[j][1] / 3.0) - seed_y*IMAGE_WIDTH;
 		bool seed_in_object = 0;
 
+		if (objects_found > 0) {
+			for (m = 0; m <= objects_found; m++) {
+				//printf("into seed object check \n");
+				int errorx = 200;
+				int errory = 50;
 
-		for (m = 0; m <= objects_found; m++) {
-			//printf("into seed object check \n");
-			int errorx = 200;
-			int errory = 50;
+				int object_center = IMAGE_WIDTH * 3 * object[m][1] + object[m][0] * 3;
+				int ax = object[m][1] - object[m][3] * 3 / 2.0;
+				int ay = object[m][0] - object[m][2] * 3 / 2.0;
+				int bx = object[m][1] + object[m][3] * 3 / 2.0;
+				int by = object[m][0] + object[m][2] * 3 / 2.0;
 
-			int object_center = IMAGE_WIDTH * 3 * object[m][1] + object[m][0] * 3;
-			int ax = object[m][1] - object[m][3] * 3 / 2.0;
-			int ay = object[m][0] - object[m][2] * 3 / 2.0;
-			int bx = object[m][1] + object[m][3] * 3 / 2.0;
-			int by = object[m][0] + object[m][2] * 3 / 2.0;
+				//printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay, bx, by);
+				//printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
-			printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay, bx, by);
-			printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
+				if (seed_x >= (ax - errorx) && seed_x <= (bx + errorx) && seed_y >= ay - (errory) && seed_y <= (by + errory)) {
+					//seed is already in an object 
+					seed_in_object = 1;
+					//printf("SEED IN OBJECT \n\n");
+					break;
+				}
 
-			if (seed_x >= (ax - errorx) && seed_x <= (bx + errorx) && seed_y >= ay - (errory) && seed_y <= (by + errory)) {
-				//seed is already in an object 
-				seed_in_object = 1;
-				printf("SEED IN OBJECT \n\n");
-				break;
 			}
 		}
 
@@ -242,6 +249,7 @@ void Classifier(uint8_t* data)
 		}
 
 		else {
+
 			//printf("into else, seed not in object \n");
 			int left = 0;
 			int right = 0;
@@ -257,25 +265,39 @@ void Classifier(uint8_t* data)
 
 
 			//cluster right
+
 			int error = 0;
 
 			while (error < 11) {
-				rgb_colour.r = data[pixel] / 255.0;
-				rgb_colour.g = data[pixel + 1] / 255.0;
-				rgb_colour.b = data[pixel + 2] / 255.0;
-				hsv_colour = rgb2hsv(rgb_colour);
-				h_value = hsv_colour.h;
-				s_value = hsv_colour.s * 255;
-				v_value = hsv_colour.v * 255;
+
+				int a = 0;
+				if (seed[j][0] == 0) {
+
+					h_value = data[pixel];
+					s_value = data[pixel + 1];
+					v_value = data[pixel + 2];
+
+				}
+
+				if (seed[j][0] == 1 || seed[j][0] == 2) {
+
+					rgb_colour.r = data[pixel] / 255.0;
+					rgb_colour.g = data[pixel + 1] / 255.0;
+					rgb_colour.b = data[pixel + 2] / 255.0;
+					hsv_colour = rgb2hsv(rgb_colour);
+					h_value = hsv_colour.h;
+					s_value = hsv_colour.s * 255;
+					v_value = hsv_colour.v * 255;
+				}
 
 				if (R_min <= h_value && R_max >= h_value
 					&& G_min <= s_value && G_max >= s_value
 					&& B_min <= v_value && B_max >= v_value
 					) {
-					//printf("cluster right \n");
-					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+					a = 1;
+
 				}
-				else {
+				if (a != 1) {
 					error++;
 				}
 				right++;
@@ -293,25 +315,35 @@ void Classifier(uint8_t* data)
 			pixel = seed[j][1];
 
 			while (error < 11) {
-				rgb_colour.r = data[pixel - 3] / 255.0;
-				rgb_colour.g = data[pixel - 2] / 255.0;
-				rgb_colour.b = data[pixel - 1] / 255.0;
-				hsv_colour = rgb2hsv(rgb_colour);
-				h_value = hsv_colour.h;
-				s_value = hsv_colour.s * 255;
-				v_value = hsv_colour.v * 255;
+
+				int a = 0;
+				if (seed[j][0] == 0) {
+
+					h_value = data[pixel - 3];
+					s_value = data[pixel - 2];
+					v_value = data[pixel - 1];
+
+				}
+
+				if (seed[j][0] == 1 || seed[j][0] == 2) {
+					rgb_colour.r = data[pixel - 3] / 255.0;
+					rgb_colour.g = data[pixel - 2] / 255.0;
+					rgb_colour.b = data[pixel - 1] / 255.0;
+					hsv_colour = rgb2hsv(rgb_colour);
+					h_value = hsv_colour.h;
+					s_value = hsv_colour.s * 255;
+					v_value = hsv_colour.v * 255;
+				}
 
 				if (R_min <= h_value && R_max >= h_value
 					&& G_min <= s_value && G_max >= s_value
 					&& B_min <= v_value && B_max >= v_value
 					) {
 
-					//printf("cluster left \n");
-					//printf("pixel = {%d,%d,%d}\n", data[pixel-3], data[pixel -2], data[pixel -3]);
-					left++;
-					pixel = pixel - 3;
+					a = 1;
 				}
-				else {
+
+				if (a != 1) {
 					error++;
 				}
 
@@ -323,44 +355,46 @@ void Classifier(uint8_t* data)
 
 				pixel = pixel - 3;
 			}
-			//printf("New up\n");
+
 			//cluster up
 			error = 0;
 			pixel = seed[j][1];
 
 			while (error < 11) {
 
-				rgb_colour.r = data[pixel] / 255.0;
-				rgb_colour.g = data[pixel + 1] / 255.0;
-				rgb_colour.b = data[pixel + 2] / 255.0;
-				hsv_colour = rgb2hsv(rgb_colour);
-				h_value = hsv_colour.h;
-				s_value = hsv_colour.s * 255;
-				v_value = hsv_colour.v * 255;
+				int a = 0;
+				if (seed[j][0] == 0) {
+
+					h_value = data[pixel];
+					s_value = data[pixel + 1];
+					v_value = data[pixel + 2];
+
+				}
+
+				if (seed[j][0] == 1 || seed[j][0] == 2) {
+
+					rgb_colour.r = data[pixel] / 255.0;
+					rgb_colour.g = data[pixel + 1] / 255.0;
+					rgb_colour.b = data[pixel + 2] / 255.0;
+					hsv_colour = rgb2hsv(rgb_colour);
+					h_value = hsv_colour.h;
+					s_value = hsv_colour.s * 255;
+					v_value = hsv_colour.v * 255;
+				}
 
 				if (R_min <= h_value && R_max >= h_value
 					&& G_min <= s_value && G_max >= s_value
 					&& B_min <= v_value && B_max >= v_value
 					) {
-					//printf("cluster up \n");
-					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
 
 					int p = (pixel / 3.0) / IMAGE_WIDTH;
 					int q = (pixel / 3.0) - p *IMAGE_WIDTH;
 
-					//printf("Pixel current %d, %d\n", q, p); 
-
-					//printf("RGB up current= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-					//p = (pixel / 3.0) / IMAGE_WIDTH;
-					//q = (pixel / 3.0) - p *IMAGE_WIDTH;
-
-					//printf("Pixel new %d, %d\n", q, p);
-					//printf("RGB up new= {{%d,%d,%d}\n\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+					a = 1;
 				}
-				else {
-					error++;
 
+				if (a != 1) {
+					error++;
 				}
 				up++;
 
@@ -376,34 +410,37 @@ void Classifier(uint8_t* data)
 			pixel = seed[j][1];
 			while (error < 11) {
 
-				rgb_colour.r = data[pixel] / 255.0;
-				rgb_colour.g = data[pixel + 1] / 255.0;
-				rgb_colour.b = data[pixel + 2] / 255.0;
-				hsv_colour = rgb2hsv(rgb_colour);
-				h_value = hsv_colour.h;
-				s_value = hsv_colour.s * 255;
-				v_value = hsv_colour.v * 255;
+				int a = 0;
+				if (seed[j][0] == 0) {
+
+					h_value = data[pixel];
+					s_value = data[pixel + 1];
+					v_value = data[pixel + 2];
+
+				}
+
+				if (seed[j][0] == 1 || seed[j][0] == 2) {
+					rgb_colour.r = data[pixel] / 255.0;
+					rgb_colour.g = data[pixel + 1] / 255.0;
+					rgb_colour.b = data[pixel + 2] / 255.0;
+					hsv_colour = rgb2hsv(rgb_colour);
+					h_value = hsv_colour.h;
+					s_value = hsv_colour.s * 255;
+					v_value = hsv_colour.v * 255;
+				}
 
 				if (R_min <= h_value && R_max >= h_value
 					&& G_min <= s_value && G_max >= s_value
 					&& B_min <= v_value && B_max >= v_value
 					) {
 
-					//printf("cluster down \n");
-					//printf("pixel = {%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-					//printf("RGB down current = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
-
-					//printf("RGB down new = {{%d,%d,%d}\n", data[pixel], data[pixel + 1], data[pixel + 2]);
+					a = 1;
 				}
-				else {
+
+				if (a != 1) {
 					error++;
 				}
 				down++;
-
-				//data_mod[pixel + 0] = { 255 };
-				//data_mod[pixel + 1] = { 55 };
-				//data_mod[pixel + 2] = { 25 };
 
 				pixel = pixel + IMAGE_WIDTH * 3;
 			}
@@ -411,21 +448,6 @@ void Classifier(uint8_t* data)
 			//calulate object width and height from clustering
 			int width = left + right;
 			int height = up + down;
-			//printf("Left = %d \t Right = %d\n", left, right);
-			//printf("Up = %d \t \t Down = %d\n", up, down);
-			//printf("Width = %d \t Height = %d\n", width, height);
-
-			if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
-				//printf("\nWIDTH IS GOOD\n\n");
-				//printf("Seed = %d\n", j);
-				//printf("pixel = %d\n", seed[j][1]);
-				//int y = (seed[j][1] / 3.0) / IMAGE_WIDTH;
-				//int x = (seed[j][1] / 3.0) - y *IMAGE_WIDTH;
-
-				//printf("Pixel new %d, %d\n", q, p);
-			}
-
-			//Check object size to target object parameters
 
 			if (width >= WIDTH_MIN && width <= WIDTH_MAX && height >= HEIGHT_MIN && height <= HEIGHT_MAX) {
 
@@ -445,8 +467,8 @@ void Classifier(uint8_t* data)
 				object[k][2] = width;
 				object[k][3] = height;
 
-				printf("Object %d, width %d, height %d, center x %d, center y %d\n", objects_found, width, height, center_x, center_y);
-				printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n", pixel, left, right, y, x, up, down);
+				//printf("Object %d, width %d, height %d, center x %d, center y %d, width %d height %d\n", objects_found, width, height, center_x, center_y, width, height);
+				//printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n",  pixel, left, right, y, x, up, down);
 
 				int obj_center[2] = { center_x, center_y };
 				Output_Segmentation(data_mod, IMAGE_WIDTH, IMAGE_HEIGHT, width, height, obj_center);
@@ -456,6 +478,8 @@ void Classifier(uint8_t* data)
 				printf("Object found seed = %d\n", object[k][1]);
 
 				k++;
+
+
 			}
 		}
 	}
@@ -463,12 +487,12 @@ void Classifier(uint8_t* data)
 
 
 
-	/*printf("Saving file\n");
+	printf("Saving file\n");
 	std::ofstream outfile("Segmented_Image_3.ppm", std::ios::binary);
 	outfile << "P6\n" << IMAGE_WIDTH << " " << IMAGE_HEIGHT << " 255\n";  // dont know
 	outfile.write((char*)data_mod, (Image_Size));
 	printf("Segmented_Image Saved\n");
 
-	delete data_mod; */
+	delete data_mod;
 	return;
 }
