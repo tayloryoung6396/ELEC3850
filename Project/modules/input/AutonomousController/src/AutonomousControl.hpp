@@ -5,6 +5,7 @@
 
 extern void AutonomousControl_init();
 extern int AutonomousControl_main();
+extern void SpintoWin();
 
 class AutoState {
 public:

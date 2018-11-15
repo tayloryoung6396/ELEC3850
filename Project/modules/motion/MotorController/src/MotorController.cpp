@@ -45,9 +45,9 @@ int MotorController() {
                 return -1;
             }
             AutoState::on_route = TRUE;
-            std::cout << "AutoState::on_route = TRUE" << std::endl;
+            // std::cout << "AutoState::on_route = TRUE" << std::endl;
             AutoState::at_goal = FALSE;
-            std::cout << "AutoState::at_goal  = FALSE" << std::endl;
+            // std::cout << "AutoState::at_goal  = FALSE" << std::endl;
         }
     }
     return 0;
@@ -246,16 +246,16 @@ int MotorDirector() {
                     return -1;
                 }
                 AutoState::on_route = TRUE;
-                std::cout << "AutoState::on_route = TRUE" << std::endl;
+                // std::cout << "AutoState::on_route = TRUE" << std::endl;
                 AutoState::at_goal = FALSE;
-                std::cout << "AutoState::at_goal  = FALSE" << std::endl;
+                // std::cout << "AutoState::at_goal  = FALSE" << std::endl;
             }
             // If the path has finished, tell the state machine that we are no longer on route
             else {
                 AutoState::on_route = FALSE;
-                std::cout << "AutoState::on_route = FALSE" << std::endl;
+                // std::cout << "AutoState::on_route = FALSE" << std::endl;
                 AutoState::at_goal = TRUE;
-                std::cout << "AutoState::at_goal  = TRUE" << std::endl;
+                // std::cout << "AutoState::at_goal  = TRUE" << std::endl;
             }
         }
         // Store our position

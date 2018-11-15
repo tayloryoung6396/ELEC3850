@@ -8,6 +8,7 @@ extern void UltrasonicSensor_init();
 extern int UltrasonicSensor_main();
 extern void Sendpulse();
 extern void DistanceM();
+extern double check_front_distance();
 
 #define SENSORS 4  // AMOUNT OF US SENSORS
 #define TRIG 21    // TRIGGER PIN FOR US SENSORS

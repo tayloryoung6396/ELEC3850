@@ -5,7 +5,7 @@
 
 #include "main.hpp"
 
-bool Input::Autonomous_Enabled FALSE;
+bool Input::Autonomous_Enabled = FALSE;
 
 std::ofstream myfile;  // TODO Remove
 
