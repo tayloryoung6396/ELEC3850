@@ -29,6 +29,21 @@ int Classifier::colours[3][3][2] = {0};
 int Classifier::seed[100][2];
 int Classifier::object[10][4];
 
+typedef struct {
+    double r;  // a fraction between 0 and 1
+    double g;  // a fraction between 0 and 1
+    double b;  // a fraction between 0 and 1
+} rgb;
+
+typedef struct {
+    double h;  // angle in degrees
+    double s;  // a fraction between 0 and 1
+    double v;  // a fraction between 0 and 1
+} hsv;
+
+static hsv rgb2hsv(rgb in);
+static rgb hsv2rgb(hsv in);
+
 
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
@@ -414,21 +429,6 @@ void Output_Segmentation(uint8_t* seg_image_array,
         pixel += img_width * 3 - 3;
     }
 }
-
-typedef struct {
-    double r;  // a fraction between 0 and 1
-    double g;  // a fraction between 0 and 1
-    double b;  // a fraction between 0 and 1
-} rgb;
-
-typedef struct {
-    double h;  // angle in degrees
-    double s;  // a fraction between 0 and 1
-    double v;  // a fraction between 0 and 1
-} hsv;
-
-static hsv rgb2hsv(rgb in);
-static rgb hsv2rgb(hsv in);
 
 hsv rgb2hsv(rgb in) {
     hsv out;
