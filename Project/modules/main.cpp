@@ -108,7 +108,7 @@ int main() {
             // Camera_main();
             // Classifier_main();
             // if(AutoState::object_classified){
-            // InfraredSensor_main();
+            InfraredSensor_main();
             // // returns IRsense::IRpresent = TRUE if ir object found
             // }
         }

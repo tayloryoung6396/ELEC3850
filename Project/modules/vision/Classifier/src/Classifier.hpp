@@ -22,7 +22,7 @@ extern void Output_Segmentation(uint8_t* seg_image_array,
 class Classifier {
 public:
     static int colours[3][3][2];
-    static int seed[1000][2];
+    static int seed[100][2];
     static int object[10][4];
 };
 
