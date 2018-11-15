@@ -45,6 +45,7 @@ int AutonomousControl_main() {
             if (AutoState::on_route) {
                 // Don't do anything just keep going
                 std::cout << "On Route" << std::endl;
+                // TODO Check our goal is still where we think it is
             }
             // Am i at the place?
             else if (AutoState::at_goal) {
@@ -86,6 +87,7 @@ int AutonomousControl_main() {
             if (AutoState::on_route) {
                 // Don't do anything just keep going
                 std::cout << "On Route" << std::endl;
+                // TODO Check our goal is still where we think it is
             }
             // Am i at the object?
             else if (AutoState::at_goal) {

@@ -152,7 +152,7 @@ void Classifier(uint8_t* data) {
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                else if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
 
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
@@ -186,7 +186,7 @@ void Classifier(uint8_t* data) {
                     v_value = data[pixel - 1];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                else if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
                     rgb_colour.r = data[pixel - 3] / 255.0;
                     rgb_colour.g = data[pixel - 2] / 255.0;
                     rgb_colour.b = data[pixel - 1] / 255.0;
@@ -217,7 +217,7 @@ void Classifier(uint8_t* data) {
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                else if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
                     rgb_colour.b = data[pixel + 2] / 255.0;
@@ -251,7 +251,7 @@ void Classifier(uint8_t* data) {
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                else if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
                     rgb_colour.b = data[pixel + 2] / 255.0;
@@ -300,6 +300,13 @@ void Classifier(uint8_t* data) {
         }
     }
     printf("Objects found = %d \n", objects_found);
+
+    if (objects_found > 0) {
+        AutoState::known_object = TRUE;
+    }
+    else {
+        AutoState::known_object = FALSE;
+    }
 
     return;
 }
