@@ -47,9 +47,14 @@ void signalHandler(int signum) {
     exit(signum);
 }
 
+void segfaultHandler(int signum){
+    signalHandler(signum);
+}
+
 int main() {
 
     signal(SIGINT, signalHandler);
+    signal(SIGSEGV, segfaultHandler);
 
     myfile.open("Sample_time.txt");  // TODO Remove
 
@@ -104,9 +109,9 @@ int main() {
 
         // Check sensors
         // TODO This will be within the autonomous enable section
-        if (frame_count % 5 == 0) {
-            // Camera_main();
-            // Classifier_main();
+        if (frame_count % 10 == 0) {
+            Camera_main();
+            // Classifier();
             // if(AutoState::object_classified){
             InfraredSensor_main();
             // // returns IRsense::IRpresent = TRUE if ir object found

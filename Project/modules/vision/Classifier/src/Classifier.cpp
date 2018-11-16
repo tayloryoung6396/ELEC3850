@@ -20,13 +20,13 @@
 
 #define OFFSET 5
 
-#define WIDTH_MIN 100
-#define WIDTH_MAX 300
-#define HEIGHT_MIN 100
-#define HEIGHT_MAX 200
+//#define WIDTH_MIN 100
+//#define WIDTH_MAX 300
+//#define HEIGHT_MIN 100
+//#define HEIGHT_MAX 200
 
 int Classifier::colours[3][3][2] = {0};
-int Classifier::seed[100][2];
+int Classifier::seed[1000][2];
 int Classifier::object[10][4];
 
 typedef struct {
@@ -75,7 +75,7 @@ void Classifier(uint8_t* data) {
     int v_value = 0;
 
     for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
-        for (colour = 0; colour < 3; colour++) {
+        for (colour = 0; colour < 1; colour++) {
 
             if (colour == 0 && data[pixel] >= Classifier::colours[colour][0][0]
                 && data[pixel] <= Classifier::colours[colour][0][1]
@@ -109,7 +109,7 @@ void Classifier(uint8_t* data) {
         }
     }
 
-    printf("seeds = %d\n", i);
+//    printf("seeds = %d\n", i);
 
     // cycle through seed points
     for (int j = 0; j <= (i - 5); j++) {
@@ -187,6 +187,7 @@ void Classifier(uint8_t* data) {
                 right++;
 
                 pixel += 3;
+//		std::cout << "Cluster right" << std::endl;
             }
 
             // cluster left
@@ -220,6 +221,7 @@ void Classifier(uint8_t* data) {
 
                 left++;
                 pixel -= 3;
+//		std::cout << "Cluster left" << std::endl;
             }
 
             // cluster up
@@ -253,7 +255,8 @@ void Classifier(uint8_t* data) {
 
                 up++;
                 pixel = pixel - Image::Width * 3;
-            }
+  //          	std::cout << "Cluster up" << std::endl;
+	    }
 
             // cluster down
             error = 0;
@@ -285,6 +288,7 @@ void Classifier(uint8_t* data) {
 
                 down++;
                 pixel = pixel + Image::Width * 3;
+    //            std::cout << "Cluster down" << std::endl;
             }
 
             // calulate object width and height from clustering

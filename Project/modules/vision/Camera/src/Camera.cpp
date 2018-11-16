@@ -40,12 +40,12 @@ int Camera_main() {
     Camera.retrieve(data, raspicam::RASPICAM_FORMAT_RGB);  // Extract image in rgb format
 
     Classifier(data);
-    count++;
-    printf("Saving file\n");
-    std::ofstream outfile(make_filename("Raw_image_", count, ".ppm").c_str(), std::ios::binary);
-    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
-    outfile.write((char*) data, (Image::Height * Image::Width * 3));
-    printf("Segmented_Image Saved\n");
+    //count++;
+    //printf("Saving file\n");
+    //std::ofstream outfile(make_filename("Raw_image_", count, ".ppm").c_str(), std::ios::binary);
+    //outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
+    //outfile.write((char*) data, (Image::Height * Image::Width * 3));
+    //printf("Segmented_Image Saved\n");
     delete data;
 
     return 0;
