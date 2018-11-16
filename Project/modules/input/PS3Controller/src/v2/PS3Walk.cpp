@@ -290,7 +290,9 @@ int PS3Control_main() {
                         if (event.value > 0) {  // button down
                             // std::cout << "BUTTON_SQUARE" << std::endl;
                             std::cout << "----------> Running load test" << std::endl;
-                            Grip_Object()
+                            // Grip_Object();
+			    double pos[3] = {0.3, 0, -0.1};
+			    IKGripper_move(pos);
                         }
                     }
                     break;
