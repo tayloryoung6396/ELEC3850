@@ -47,7 +47,7 @@ void signalHandler(int signum) {
     exit(signum);
 }
 
-void segfaultHandler(int signum){
+void segfaultHandler(int signum) {
     signalHandler(signum);
 }
 
