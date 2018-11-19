@@ -170,14 +170,14 @@ void Classifier(uint8_t* data) {
             while (error < 11) {
 
                 int a = 0;
-                if (seed[j][0] == 0) {
+                if (Classifier::seed[j][0] == 0) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (seed[j][0] == 1 || seed[j][0] == 2) {
+                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
 
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
