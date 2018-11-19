@@ -23,8 +23,8 @@
 #define AXIS_MIN_LIMIT -32767
 #define FORWARD_MAX_LIMIT 100
 #define FORWARD_MIN_LIMIT -100
-#define ROTATION_MAX_LIMIT 50
-#define ROTATION_MIN_LIMIT -50
+#define ROTATION_MAX_LIMIT 100
+#define ROTATION_MIN_LIMIT -100
 
 class Joystick joystick;
 
