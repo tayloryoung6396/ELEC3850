@@ -76,9 +76,9 @@ void Classifier(uint8_t* data) {
     int v_value = 0;
 
     for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
-        // printf("into pixel for loop \n");
+        //printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
-            // printf("into colour for loop \n");
+            //printf("into colour for loop \n");
 
             if (colour == 0 && data[pixel] >= Classifier::colours[colour][0][0]
                 && data[pixel] <= Classifier::colours[colour][0][1]
@@ -124,7 +124,7 @@ void Classifier(uint8_t* data) {
 
         if (objects_found > 0) {
             for (m = 0; m <= objects_found; m++) {
-                // printf("into seed object check \n");
+                printf("into seed object check \n");
                 int errorx = 200;
                 int errory = 50;
 
@@ -134,21 +134,21 @@ void Classifier(uint8_t* data) {
                 int bx            = Classifier::object[m][1] + Classifier::object[m][3] * 3 / 2.0;
                 int by            = Classifier::object[m][0] + Classifier::object[m][2] * 3 / 2.0;
 
-                // printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay,
-                // bx, by); printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
+                printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n", object_center, ax, ay,
+                bx, by); printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
                 if (seed_x >= (ax - errorx) && seed_x <= (bx + errorx) && seed_y >= ay - (errory)
                     && seed_y <= (by + errory)) {
                     // seed is already in an object
                     seed_in_object = 1;
-                    // printf("SEED IN OBJECT \n\n");
+                    printf("SEED IN OBJECT \n\n");
                     break;
                 }
             }
         }
 
         if (seed_in_object == 1) {
-            // printf("SEED IN OBJECT IF LOOP BREAK \n");
+            printf("SEED IN OBJECT IF LOOP BREAK \n");
         }
 
         else {
@@ -341,9 +341,9 @@ void Classifier(uint8_t* data) {
                 Classifier::object[k][2] = width;
                 Classifier::object[k][3] = height;
 
-                // printf("Object %d, width %d, height %d, center x %d, center y %d, width %d height %d\n",
-                // objects_found, width, height, center_x, center_y, width, height); printf("pixel = %d, left = %d,
-                // right = %d, y = %d, x = %d, up = %d, down = %d\n",  pixel, left, right, y, x, up, down);
+                printf("Object %d, width %d, height %d, center x %d, center y %d, width %d height %d\n",
+                objects_found, width, height, center_x, center_y, width, height); 
+                printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n",  pixel, left, right, y, x, up, down);
 
                 printf("Object found seed = %d\n", Classifier::object[k][1]);
 
