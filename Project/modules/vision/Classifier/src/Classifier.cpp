@@ -27,6 +27,7 @@
 
 int Classifier::colours[3][3][2] = {0};
 int Classifier::seed[1000][2];
+int seed[1000][2];
 int Classifier::object[10][4];
 
 typedef struct {
@@ -85,8 +86,8 @@ void Classifier(uint8_t* data) {
                 && data[(pixel + 1)] <= Classifier::colours[colour][1][1]
                 && data[(pixel + 2)] >= Classifier::colours[colour][2][0]
                 && data[(pixel + 2)] <= Classifier::colours[colour][2][1]) {
-                Classifier::seed[i][0] = colour;
-                Classifier::seed[i][1] = pixel;
+                seed[i][0] = colour;
+                seed[i][1] = pixel;
                 i++;
                 break;
             }
@@ -102,8 +103,8 @@ void Classifier(uint8_t* data) {
                 if (h_value >= Classifier::colours[colour][0][0] && h_value <= Classifier::colours[colour][0][1]
                     && s_value >= Classifier::colours[colour][1][0] && s_value <= Classifier::colours[colour][1][1]
                     && v_value >= Classifier::colours[colour][2][0] && v_value <= Classifier::colours[colour][2][1]) {
-                    Classifier::seed[i][0] = colour;
-                    Classifier::seed[i][1] = pixel;
+                    seed[i][0] = colour;
+                    seed[i][1] = pixel;
                     i++;
                     break;
                 }
@@ -114,11 +115,11 @@ void Classifier(uint8_t* data) {
 
     // cycle through seed points
     for (int j = 0; j <= (i - 5); j++) {
-        colour              = Classifier::seed[j][0];
-        pixel               = Classifier::seed[j][1];
+        colour              = seed[j][0];
+        pixel               = seed[j][1];
         int m               = 0;
-        int seed_y          = (Classifier::seed[j][1] / 3.0) / Image::Width;
-        int seed_x          = (Classifier::seed[j][1] / 3.0) - seed_y * Image::Width;
+        int seed_y          = (seed[j][1] / 3.0) / Image::Width;
+        int seed_x          = (seed[j][1] / 3.0) - seed_y * Image::Width;
         bool seed_in_object = 0;
 
         if (objects_found > 0) {
@@ -170,14 +171,14 @@ void Classifier(uint8_t* data) {
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0) {
+                if (seed[j][0] == 0) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                if (seed[j][0] == 1 || seed[j][0] == 2) {
 
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
@@ -203,19 +204,19 @@ void Classifier(uint8_t* data) {
 
             // cluster left
             error = 0;
-            pixel = Classifier::seed[j][1];
+            pixel = seed[j][1];
 
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0) {
+                if (seed[j][0] == 0) {
 
                     h_value = data[pixel - 3];
                     s_value = data[pixel - 2];
                     v_value = data[pixel - 1];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                if (seed[j][0] == 1 || seed[j][0] == 2) {
                     rgb_colour.r = data[pixel - 3] / 255.0;
                     rgb_colour.g = data[pixel - 2] / 255.0;
                     rgb_colour.b = data[pixel - 1] / 255.0;
@@ -242,19 +243,19 @@ void Classifier(uint8_t* data) {
 
             // cluster up
             error = 0;
-            pixel = Classifier::seed[j][1];
+            pixel = seed[j][1];
 
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0) {
+                if (seed[j][0] == 0) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                if (seed[j][0] == 1 || seed[j][0] == 2) {
 
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
@@ -284,18 +285,18 @@ void Classifier(uint8_t* data) {
 
             // cluster down
             error = 0;
-            pixel = Classifier::seed[j][1];
+            pixel = seed[j][1];
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0) {
+                if (seed[j][0] == 0) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
+                if (seed[j][0] == 1 || seed[j][0] == 2) {
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
                     rgb_colour.b = data[pixel + 2] / 255.0;
@@ -328,9 +329,9 @@ void Classifier(uint8_t* data) {
                 objects_found++;
 
                 // Calculate centers
-                pixel = Classifier::seed[j][1];
-                int y = (Classifier::seed[j][1] / 3.0) / Image::Width;
-                int x = (Classifier::seed[j][1] / 3.0) - y * Image::Width;
+                pixel = seed[j][1];
+                int y = (seed[j][1] / 3.0) / Image::Width;
+                int x = (seed[j][1] / 3.0) - y * Image::Width;
 
                 int center_x = ((x - left) + (x + right)) / 2.0;
                 int center_y = ((y - up) + (y + down)) / 2.0;
