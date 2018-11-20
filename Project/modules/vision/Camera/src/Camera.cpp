@@ -70,7 +70,7 @@ int Camera_main() {
     int s_value = 0;
     int v_value = 0;
 
-    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
+    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 1050) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
             // printf("into colour for loop \n");
@@ -106,7 +106,7 @@ int Camera_main() {
             }
         }
     }
-    printf("seeds = %d\n", i);
+//    printf("seeds = %d\n", i);
 
     // cycle through seed points
     for (int j = 0; j <= (i - 5); j++) {
@@ -130,11 +130,11 @@ int Camera_main() {
                 int by            = Classifier::object[m][0] + Classifier::object[m][2] * 3 / 2.0;
 
                 // printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n",
-                       object_center,
-                       ax,
-                       ay,
-                       bx,
-                       by);
+                       //object_center,
+                       //ax,
+                       //ay,
+                       //bx,
+                       //by);
                        // printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
                        if (seed_x >= (ax - errorx) && seed_x <= (bx + errorx) && seed_y >= ay - (errory)
@@ -323,6 +323,8 @@ int Camera_main() {
             // calulate object width and height from clustering
             int width  = left + right;
             int height = up + down;
+	    
+  //          printf("Width %d\t, Height %d\n", width, height);
 
             if (width >= WIDTH_MIN && width <= WIDTH_MAX && height >= HEIGHT_MIN && height <= HEIGHT_MAX) {
 
@@ -359,13 +361,17 @@ int Camera_main() {
                 // down);
 
                 // printf("Object found seed = %d\n", Classifier::object[k][1]);
+		find_distance(Classifier::object[k][0], Classifier::object[k][1]);
 
-                k++;
+		AutoState::known_object = TRUE;
+              k++;
             }
         }
     }
     printf("Objects found = %d \n", objects_found);
-
+    if(objects_found == 0){
+	AutoState::known_object = FALSE;
+    }
     return 0;
 }
 

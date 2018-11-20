@@ -124,7 +124,7 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
         std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goal_pos[i] << std::endl;
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), (i == 0 ? MAX_VELOCITY : -MAX_VELOCITY));
+        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), MAX_VELOCITY);// (i == 0 ? MAX_VELOCITY : -MAX_VELOCITY));
         delay(DELAY_TIME);
     }
     return 0;
@@ -253,7 +253,7 @@ int MotorDirector() {
             // If the path has finished, tell the state machine that we are no longer on route
             else {
                 AutoState::on_route = FALSE;
-                // std::cout << "AutoState::on_route = FALSE" << std::endl;
+                std::cout << "AutoState::on_route = FALSE" << std::endl;
                 AutoState::at_goal = TRUE;
                 // std::cout << "AutoState::at_goal  = TRUE" << std::endl;
             }

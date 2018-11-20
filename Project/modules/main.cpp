@@ -114,7 +114,7 @@ int main() {
         if (frame_count % 10 == 0) {
             Camera_main();
 
-            find_distance(Classifier::object[0][0], Classifier::object[0][1]);
+            // find_distance(Classifier::object[0][0], Classifier::object[0][1]);
             // Classifier();
             // if(AutoState::object_classified){
             //     InfraredSensor_main();
