@@ -3,10 +3,10 @@
 
 #include "main.hpp"
 
-#define WIDTH_MIN 100
-#define WIDTH_MAX 300
-#define HEIGHT_MIN 100
-#define HEIGHT_MAX 300
+#define WIDTH_MIN 50
+#define WIDTH_MAX 150
+#define HEIGHT_MIN 50
+#define HEIGHT_MAX 150
 
 extern void Classifier_init();
 extern int Classifier_main();
