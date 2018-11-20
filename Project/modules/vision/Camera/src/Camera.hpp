@@ -3,16 +3,22 @@
 
 #include "main.hpp"
 
-//#define IMAGE_WIDTH 1280
-//#define IMAGE_HEIGHT 960
-
 static raspicam::RaspiCam Camera;  // Open camera
+
 class Image {
 public:
     static int Height;
     static int Width;
 };
 
+class Camera {
+public:
+    static const double pixel_x;
+    static const double pixel_y;
+    static const double resolution_x;
+    static const double resolution_y;
+    static const double focal_len;
+};
 
 extern void Camera_init();
 extern int Camera_main();

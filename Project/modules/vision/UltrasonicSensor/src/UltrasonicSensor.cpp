@@ -12,22 +12,18 @@ double Ultrasonic::Detection_distances[SENSORS] = {0};
 
 // Interrupts
 void myInterrupt0(void) {  // INTERRUPT FOR SENSOR 1
-    // std::cout << "INT 1" << std::endl;
     Ultrasonic::sensor_return[0] = micros();
 }
 
 void myInterrupt1(void) {  // INTERRUPT FOR SENSOR 2
-    // std::cout << "INT 2" << std::endl;
     Ultrasonic::sensor_return[1] = micros();
 }
 
 void myInterrupt2(void) {  // INTERRUPT FOR SENSOR 3
-    // std::cout << "INT 3" << std::endl;
     Ultrasonic::sensor_return[2] = micros();
 }
 
 void myInterrupt3(void) {  // INTERRUPT FOR SENSOR 4
-    // std::cout << "INT 4" << std::endl;
     Ultrasonic::sensor_return[3] = micros();
 }
 
@@ -38,7 +34,6 @@ void UltrasonicSensor_init() {
     // Set inputs/outputs
     // Set and ISR functions etc.
 
-    // DEFINE GPIO PINS FOR I/O MODE
     pinMode(TRIG, OUTPUT);  // TRIGGER IS AN OUTPUT FOR RPI
     pinMode(ECHO0, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 1
     pinMode(ECHO1, INPUT);  // ECH0 IS AN OUTPUT FOR RPI TO SENSOR 2
@@ -75,10 +70,10 @@ int UltrasonicSensor_main() {
     DistanceM();  // DISTANCE DETECTION
 
     // DEBUG DISTANCE CALCULATIONS
-    std::cout << "Sensor 0 Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
-    std::cout << "Sensor 1 Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
-    std::cout << "Sensor 2 Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
-    std::cout << "Sensor 3 Distance " << Ultrasonic::Detection_distances[3] << " m" << std::endl;
+    //    std::cout << "Sensor 0 'Front' Distance " << Ultrasonic::Detection_distances[0] << " m" << std::endl;
+    //    std::cout << "Sensor 1 'Right' Distance " << Ultrasonic::Detection_distances[1] << " m" << std::endl;
+    //    std::cout << "Sensor 2 'Back'  Distance " << Ultrasonic::Detection_distances[2] << " m" << std::endl;
+    //    std::cout << "Sensor 3 'Left'  Distance " << Ultrasonic::Detection_distances[3] << " m" << std::endl;
     return 0;
 }
 
@@ -109,12 +104,38 @@ void DistanceM() {
         // Only calculate it if the distance was not a timeout
         if (Ultrasonic::sensor_return[sensor] != -1) {
             Ultrasonic::Detection_distances[sensor] =
-                (Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time) * 0.00017;
-            // TODO Add this back in and check the kinematics line up with the sensor position
-            // + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
+                (Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time) * 0.00017
+                + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
         }
         else {
             Ultrasonic::Detection_distances[sensor] = -1;
         }
     }
+}
+
+double check_front_distance() {
+    Ultrasonic::sensor_return[0] = -1;
+
+    digitalWrite(TRIG, HIGH);
+    delayMicroseconds(100);  // 10us Delay
+    digitalWrite(TRIG, LOW);
+
+    // WAIT FOR ECHO START
+    delayMicroseconds(400);
+
+    Ultrasonic::Start_time = micros();
+
+    while ((Ultrasonic::sensor_return[0] == -1) && ((micros() - Ultrasonic::Start_time < TIMEOUT))) {
+    }
+
+    // Only calculate it if the distance was not a timeout
+    if (Ultrasonic::sensor_return[0] != -1) {
+        Ultrasonic::Detection_distances[0] = (Ultrasonic::sensor_return[0] - Ultrasonic::Start_time) * 0.00017
+                                             + Kinematics::ultrasonic_offset[0];  // DISTANCE CALCULATION IN METRES
+    }
+    else {
+        Ultrasonic::Detection_distances[0] = -1;
+    }
+
+    return Ultrasonic::Detection_distances[0];
 }

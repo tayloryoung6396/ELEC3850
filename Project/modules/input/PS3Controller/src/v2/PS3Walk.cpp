@@ -17,7 +17,7 @@
  * Copyright 2013 NUbots <nubots@nubots.net>
  */
 
-#include "PS3Walk.h"
+#include "PS3Walk.hpp"
 
 #define AXIS_MAX_LIMIT 32768
 #define AXIS_MIN_LIMIT -32767
@@ -28,16 +28,22 @@
 
 class Joystick joystick;
 
+double PS3Walk::Forward  = 0;
+double PS3Walk::Rotation = 0;
+bool PS3Walk::drive_flag = FALSE;
+
+bool PS3Walk::Gripper_flag = FALSE;
+
+double PS3Walk::Gripper_Goal[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
+
 void PS3Control_init() {
     std::cout << "Initilising PS3 CONTROLLER" << std::endl;
+    if (joystick.found()) {
+        Enable_BLUE();
+    }
 }
 
 int PS3Control_main() {
-    static double Forward  = 0;
-    static double Rotation = 0;
-
-    // TODO, I know this is not a good implementation, but time is short
-    static double Gripper_Goal[3] = {Kinematics::grip_home[0], Kinematics::grip_home[1], Kinematics::grip_home[2]};
 
     JoystickEvent event;
     Input ip;
@@ -47,72 +53,65 @@ int PS3Control_main() {
             // event was an axis event
             switch (event.number) {
                 case PS3Walk::AXIS_LEFT_JOYSTICK_HORIZONTAL:
-                    std::cout << "AXIS_LEFT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
+                    // std::cout << "AXIS_LEFT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
                     axis_left_joystick_horizontal = (int) event.value;
-                    // Call some function probably or something
-                    // Call motor function
-                    // Need some scaled values
-                    Forward = -(double) map_values(axis_left_joystick_horizontal,
-                                                   FORWARD_MAX_LIMIT,
-                                                   FORWARD_MIN_LIMIT,
-                                                   AXIS_MAX_LIMIT,
-                                                   AXIS_MIN_LIMIT);
-                    std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
-                    MotorDriver_Velocity(Forward, Rotation);
+                    PS3Walk::Forward              = -(double) map_values(axis_left_joystick_horizontal,
+                                                            FORWARD_MAX_LIMIT,
+                                                            FORWARD_MIN_LIMIT,
+                                                            AXIS_MAX_LIMIT,
+                                                            AXIS_MIN_LIMIT);
+                    if (axis_left_joystick_horizontal != 0 | axis_left_joystick_vertical != 0) {
+                        PS3Walk::drive_flag = TRUE;
+                    }
+                    else {
+                        PS3Walk::drive_flag = FALSE;
+                    }
+
                     break;
                 case PS3Walk::AXIS_LEFT_JOYSTICK_VERTICAL:
-                    std::cout << "AXIS_LEFT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
+                    // std::cout << "AXIS_LEFT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
                     axis_left_joystick_vertical = (int) event.value;
-                    // Call some function probably or something
-                    // Call motor function
-                    // Need some scaled values
-                    Rotation = -(double) map_values(axis_left_joystick_vertical,
-                                                    ROTATION_MAX_LIMIT,
-                                                    ROTATION_MIN_LIMIT,
-                                                    AXIS_MAX_LIMIT,
-                                                    AXIS_MIN_LIMIT);
-                    std::cout << "Forward " << Forward << " Rotation " << Rotation << std::endl;
-                    MotorDriver_Velocity(Forward, Rotation);
+                    PS3Walk::Rotation           = -(double) map_values(axis_left_joystick_vertical,
+                                                             ROTATION_MAX_LIMIT,
+                                                             ROTATION_MIN_LIMIT,
+                                                             AXIS_MAX_LIMIT,
+                                                             AXIS_MIN_LIMIT);
+                    if (axis_left_joystick_vertical != 0 | axis_left_joystick_horizontal != 0) {
+                        PS3Walk::drive_flag = TRUE;
+                    }
+                    else {
+                        PS3Walk::drive_flag = FALSE;
+                    }
+
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_VERTICAL:
-                    std::cout << "AXIS_RIGHT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
+                    // std::cout << "AXIS_RIGHT_JOYSTICK_VERTICAL" << (int) event.value << std::endl;
                     axis_right_joystick_vertical = (int) event.value;
-                    // Call some function probably or something
-                    // Gripper forward backwards
-                    // Need some intermediate variable to be incrememted
-                    // Move it positive
-                    // if (axis_right_joystick_vertical < 0) {
-                    //     Gripper_Goal[1] += (double) axis_right_joystick_vertical / 10000.0;
-                    // }
-                    // else if (axis_right_joystick_vertical > 0) {
-                    //     Gripper_Goal[1] -= (double) axis_right_joystick_vertical / 10000.0;
-                    // }
-                    // if (IKGripper_move(Gripper_Goal) != 0) {
-                    //     std::cout << "ERROR: Could not move gripper" << std::endl;
-                    // }
-                    // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " <<
-                    // Gripper_Goal[2]
-                    //           << std::endl;
+                    if (axis_right_joystick_vertical < 0) {
+                        PS3Walk::Gripper_Goal[1] +=
+                            (double) axis_right_joystick_vertical / std::numeric_limits<int32_t>::max() * 0.0001;
+                        PS3Walk::Gripper_flag = TRUE;
+                    }
+                    else if (axis_right_joystick_vertical > 0) {
+                        PS3Walk::Gripper_Goal[1] -=
+                            (double) axis_right_joystick_vertical / std::numeric_limits<int32_t>::max() * 0.0001;
+                        PS3Walk::Gripper_flag = TRUE;
+                    }
+
                     break;
                 case PS3Walk::AXIS_RIGHT_JOYSTICK_HORIZONTAL:
-                    std::cout << "AXIS_RIGHT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
+                    // std::cout << "AXIS_RIGHT_JOYSTICK_HORIZONTAL" << (int) event.value << std::endl;
                     axis_right_joystick_horizontal = (int) event.value;
-                    // Call some function probably or something
-                    // Gripper either left right or rotate
-                    // Need some intermediate variable to be incrememted
-                    // Move it positive
-                    // if (axis_right_joystick_horizontal < 0) {
-                    //     Gripper_Goal[0] += (double) axis_right_joystick_horizontal / 10000.0;
-                    // }
-                    // else if (axis_right_joystick_horizontal > 0) {
-                    //     Gripper_Goal[0] -= (double) axis_right_joystick_horizontal / 10000.0;
-                    // }
-                    // if (IKGripper_move(Gripper_Goal) != 0) {
-                    //     std::cout << "ERROR: Could not move gripper" << std::endl;
-                    // }
-                    // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " " <<
-                    // Gripper_Goal[2]
-                    //           << std::endl;
+                    if (axis_right_joystick_horizontal < 0) {
+                        PS3Walk::Gripper_Goal[1] +=
+                            (double) axis_right_joystick_horizontal / std::numeric_limits<int32_t>::max() * 0.0001;
+                        PS3Walk::Gripper_flag = TRUE;
+                    }
+                    else if (axis_right_joystick_horizontal > 0) {
+                        PS3Walk::Gripper_Goal[1] -=
+                            (double) axis_right_joystick_horizontal / std::numeric_limits<int32_t>::max() * 0.0001;
+                        PS3Walk::Gripper_flag = TRUE;
+                    }
                     break;
             }
         }
@@ -127,47 +126,49 @@ int PS3Control_main() {
                         std::cout << "BUTTON_SELECT" << std::endl;
                         ip.Autonomous_Enabled = !ip.Autonomous_Enabled;
                         std::cout << "Autonomous " << ip.Autonomous_Enabled << std::endl;
-                    }
-                    break;
-                case PS3Walk::BUTTON_LEFT_JOYSTICK:
-                    if (!ip.Autonomous_Enabled) {
-                        button_left_joystick = (int) event.value;
-                        // Call some function probably or something
-                        if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_LEFT_JOYSTICK" << std::endl;
+                        if (ip.Autonomous_Enabled) {
+                            Enable_GREEN();
+                        }
+                        else {
+                            Disable_GREEN();
                         }
                     }
                     break;
-                case PS3Walk::BUTTON_RIGHT_JOYSTICK:
-                    if (!ip.Autonomous_Enabled) {
-                        button_right_joystick = (int) event.value;
-                        // Call some function probably or something
-                        if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_RIGHT_JOYSTICK" << std::endl;
-                        }
-                    }
-                    break;
-                case PS3Walk::BUTTON_START:
-                    if (!ip.Autonomous_Enabled) {
-                        button_start = (int) event.value;
-                        // Call some function probably or something
-                        if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_START" << std::endl;
-                        }
-                    }
-                    break;
+                // case PS3Walk::BUTTON_LEFT_JOYSTICK:
+                //     if (!ip.Autonomous_Enabled) {
+                //         button_left_joystick = (int) event.value;
+                //         // Call some function probably or something
+                //         if (event.value > 0) {  // button down
+                //             std::cout << "BUTTON_LEFT_JOYSTICK" << std::endl;
+                //         }
+                //     }
+                //     break;
+                // case PS3Walk::BUTTON_RIGHT_JOYSTICK:
+                //     if (!ip.Autonomous_Enabled) {
+                //         button_right_joystick = (int) event.value;
+                //         // Call some function probably or something
+                //         if (event.value > 0) {  // button down
+                //             std::cout << "BUTTON_RIGHT_JOYSTICK" << std::endl;
+                //         }
+                //     }
+                //     break;
+                // case PS3Walk::BUTTON_START:
+                //     if (!ip.Autonomous_Enabled) {
+                //         button_start = (int) event.value;
+                //         // Call some function probably or something
+                //         if (event.value > 0) {  // button down
+                //             std::cout << "BUTTON_START" << std::endl;
+                //         }
+                //     }
+                //     break;
                 case PS3Walk::BUTTON_DPAD_UP:
                     if (!ip.Autonomous_Enabled) {
                         button_dpad_up = (int) event.value;
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_DPAD_UP" << std::endl;
-                            Gripper_Goal[0] += 0.01;
-                            if (IKGripper_move(Gripper_Goal) != 0) {
-                                std::cout << "ERROR: Could not move gripper" << std::endl;
-                            }
-                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                            //           << Gripper_Goal[2] << std::endl;
+                            // std::cout << "BUTTON_DPAD_UP" << std::endl;
+                            PS3Walk::Gripper_Goal[0] += 0.01;
+                            PS3Walk::Gripper_flag = TRUE;
                         }
                     }
                     break;
@@ -176,13 +177,9 @@ int PS3Control_main() {
                         button_dpad_right = (int) event.value;
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_DPAD_RIGHT" << std::endl;
-                            Gripper_Goal[1] -= 0.01;
-                            if (IKGripper_move(Gripper_Goal) != 0) {
-                                std::cout << "ERROR: Could not move gripper" << std::endl;
-                            }
-                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                            //           << Gripper_Goal[2] << std::endl;
+                            // std::cout << "BUTTON_DPAD_RIGHT" << std::endl;
+                            PS3Walk::Gripper_Goal[1] -= 0.01;
+                            PS3Walk::Gripper_flag = TRUE;
                         }
                     }
                     break;
@@ -191,13 +188,9 @@ int PS3Control_main() {
                         button_dpad_down = (int) event.value;
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_DPAD_DOWN" << std::endl;
-                            Gripper_Goal[0] -= 0.01;
-                            if (IKGripper_move(Gripper_Goal) != 0) {
-                                std::cout << "ERROR: Could not move gripper" << std::endl;
-                            }
-                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                            //           << Gripper_Goal[2] << std::endl;
+                            // std::cout << "BUTTON_DPAD_DOWN" << std::endl;
+                            PS3Walk::Gripper_Goal[0] -= 0.01;
+                            PS3Walk::Gripper_flag = TRUE;
                         }
                     }
                     break;
@@ -206,25 +199,21 @@ int PS3Control_main() {
                         button_dpad_left = (int) event.value;
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_DPAD_LEFT" << std::endl;
-                            Gripper_Goal[1] += 0.01;
-                            if (IKGripper_move(Gripper_Goal) != 0) {
-                                std::cout << "ERROR: Could not move gripper" << std::endl;
-                            }
-                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                            //           << Gripper_Goal[2] << std::endl;
+                            // std::cout << "BUTTON_DPAD_LEFT" << std::endl;
+                            PS3Walk::Gripper_Goal[1] += 0.01;
+                            PS3Walk::Gripper_flag = TRUE;
                         }
                     }
                     break;
-                case PS3Walk::BUTTON_L2:
-                    if (!ip.Autonomous_Enabled) {
-                        button_l2 = (int) event.value;
-                        // Call some function probably or something
-                        if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_L2" << std::endl;
-                        }
-                    }
-                    break;
+                // case PS3Walk::BUTTON_L2:
+                //     if (!ip.Autonomous_Enabled) {
+                //         button_l2 = (int) event.value;
+                //         // Call some function probably or something
+                //         if (event.value > 0) {  // button down
+                //             std::cout << "BUTTON_L2" << std::endl;
+                //         }
+                //     }
+                //     break;
                 case PS3Walk::BUTTON_R2:
                     if (!ip.Autonomous_Enabled) {
                         button_r2 = (int) event.value;
@@ -232,25 +221,21 @@ int PS3Control_main() {
                         // Gripper up down
                         // Need some intermediate variable to be incrememted
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_R2" << std::endl;
-                            Gripper_Goal[2] += 0.01;
-                            if (IKGripper_move(Gripper_Goal) != 0) {
-                                std::cout << "ERROR: Could not move gripper" << std::endl;
-                            }
-                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                            //           << Gripper_Goal[2] << std::endl;
+                            // std::cout << "BUTTON_R2" << std::endl;
+                            PS3Walk::Gripper_Goal[2] -= 0.01;
+                            PS3Walk::Gripper_flag = TRUE;
                         }
                     }
                     break;
-                case PS3Walk::BUTTON_L1:
-                    if (!ip.Autonomous_Enabled) {
-                        button_l1 = (int) event.value;
-                        // Call some function probably or something
-                        if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_L1" << std::endl;
-                        }
-                    }
-                    break;
+                // case PS3Walk::BUTTON_L1:
+                //     if (!ip.Autonomous_Enabled) {
+                //         button_l1 = (int) event.value;
+                //         // Call some function probably or something
+                //         if (event.value > 0) {  // button down
+                //             std::cout << "BUTTON_L1" << std::endl;
+                //         }
+                //     }
+                //     break;
                 case PS3Walk::BUTTON_R1:
                     if (!ip.Autonomous_Enabled) {
                         button_r1 = (int) event.value;
@@ -258,13 +243,9 @@ int PS3Control_main() {
                         // Gripper up down
                         // Need some intermediate variable to be incrememted
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_R1" << std::endl;
-                            Gripper_Goal[2] -= 0.01;
-                            if (IKGripper_move(Gripper_Goal) != 0) {
-                                std::cout << "ERROR: Could not move gripper" << std::endl;
-                            }
-                            // std::cout << "Gripper set to" << Gripper_Goal[0] << " " << Gripper_Goal[1] << " "
-                            //           << Gripper_Goal[2] << std::endl;
+                            // std::cout << "BUTTON_R1" << std::endl;
+                            PS3Walk::Gripper_Goal[2] += 0.01;
+                            PS3Walk::Gripper_flag = TRUE;
                         }
                     }
                     break;
@@ -273,7 +254,7 @@ int PS3Control_main() {
                         button_triangle = (int) event.value;
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_TRIANGLE" << std::endl;
+                            // std::cout << "BUTTON_TRIANGLE" << std::endl;
                             Gripper_home();
                         }
                     }
@@ -285,7 +266,7 @@ int PS3Control_main() {
                         // Grip open
 
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_CIRCLE" << std::endl;
+                            // std::cout << "BUTTON_CIRCLE" << std::endl;
                             Open_Gripper();
                         }
                     }
@@ -297,7 +278,7 @@ int PS3Control_main() {
                         // Grip close
 
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_CROSS" << std::endl;
+                            // std::cout << "BUTTON_CROSS" << std::endl;
                             Close_Gripper();
                         }
                     }
@@ -307,7 +288,11 @@ int PS3Control_main() {
                         button_square = (int) event.value;
                         // Call some function probably or something
                         if (event.value > 0) {  // button down
-                            std::cout << "BUTTON_SQUARE" << std::endl;
+                            // std::cout << "BUTTON_SQUARE" << std::endl;
+                            std::cout << "----------> Running load test" << std::endl;
+                            // Grip_Object();
+			    double pos[3] = {0.3, 0, -0.1};
+			    IKGripper_move(pos);
                         }
                     }
                     break;

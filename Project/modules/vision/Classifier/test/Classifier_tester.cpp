@@ -18,6 +18,62 @@ const double Camera::resolution_x = 3280;
 const double Camera::resolution_y = 2464;
 const double Camera::focal_len    = 3.04;  // mm
 
+typedef struct {
+    double r;  // a fraction between 0 and 1
+    double g;  // a fraction between 0 and 1
+    double b;  // a fraction between 0 and 1
+} rgb;
+
+typedef struct {
+    double h;  // angle in degrees
+    double s;  // a fraction between 0 and 1
+    double v;  // a fraction between 0 and 1
+} hsv;
+
+static hsv rgb2hsv(rgb in);
+static rgb hsv2rgb(hsv in);
+
+hsv rgb2hsv(rgb in) {
+    hsv out;
+    double min, max, delta;
+
+    min = in.r < in.g ? in.r : in.g;
+    min = min < in.b ? min : in.b;
+
+    max = in.r > in.g ? in.r : in.g;
+    max = max > in.b ? max : in.b;
+
+    out.v = max;  // v
+    delta = max - min;
+    if (delta < 0.00001) {
+        out.s = 0;
+        out.h = 0;  // undefined, maybe nan?
+        return out;
+    }
+    if (max > 0.0) {            // NOTE: if Max is == 0, this divide would cause a crash
+        out.s = (delta / max);  // s
+    }
+    else {
+        // if max is 0, then r = g = b = 0
+        // s = 0, h is undefined
+        out.s = 0.0;
+        out.h = NAN;  // its now undefined
+        return out;
+    }
+    if (in.r >= max)                    // > is bogus, just keeps compilor happy
+        out.h = (in.g - in.b) / delta;  // between yellow & magenta
+    else if (in.g >= max)
+        out.h = 2.0 + (in.b - in.r) / delta;  // between cyan & yellow
+    else
+        out.h = 4.0 + (in.r - in.g) / delta;  // between magenta & cyan
+
+    out.h *= 60.0;  // degrees
+
+    if (out.h < 0.0) out.h += 360.0;
+
+    return out;
+}
+
 void Output_Segmentation(uint8_t* seg_image_array,
                          int img_width,
                          int img_height,
@@ -85,12 +141,35 @@ void Output_Segmentation(uint8_t* seg_image_array,
     }
 }
 
+void Find_distance(int u, int v) {
+
+    double p = (Camera::pixel_x * 0.000001) * (u - Image::Width / 2.0);   // The screen coordinates returned
+    double q = (Camera::pixel_y * 0.000001) * (v - Image::Height / 2.0);  // The screen coordinates returned
+
+    // Now find the angle the pixel is offset from the screen origin
+    double theta = std::atan(p / Camera::focal_len);  // The vertical angle
+    double phi   = std::atan(q / Camera::focal_len);  // The horizontal angle
+
+    // Now convert the offsets into world coordinates
+    // Vertical
+    double plane_offset = 0;
+    double dist_x       = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
+    std::cout << "Distance x " << dist_x << std::endl;
+
+    // Horizontal
+    double dist_y =
+        (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
+    std::cout << "Distance y " << dist_y << std::endl;
+
+    // These should be the components of x and y of the object from a pixel
+}
+
 int Image_Size = IMAGE_HEIGHT * IMAGE_WIDTH * 3;
 // colours[How many colours][R,G,B][Min,Max]
 int colours[3][3][2] = {
-    {{64, 97}, {19, 48}, {19, 47}},  // Red maximum and minimum pixel parameters (RGB Image)
-    {{1, 9}, {11, 49}, {8, 44}},     // Green maximum and minimum pixel parameters (RGB Image)
-    {{14, 33}, {44, 61}, {79, 111}}  // Blue maximum and minimum pixel parameters (RGB Image)
+    {{51, 100}, {0, 40}, {0, 41}},  // Red maximum and minimum pixel parameters (RGB Image)
+    {{2, 33}, {0, 54}, {0, 40}},    // Green maximum and minimum pixel parameters (RGB Image)
+    {{5, 65}, {0, 102}, {0, 146}}   // Blue maximum and minimum pixel parameters (RGB Image)
 };
 
 // int seed[][] = { {colour, pixel}, {} }
@@ -112,7 +191,7 @@ void Classifier(uint8_t* data) {
     int objects_found = 0;
     int error         = 0;
 
-    for (pixel = 0; pixel <= Image_Size; pixel += 1800) {
+    for (pixel = 0; pixel <= Image_Size; pixel += 4200) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
             // printf("into colour for loop \n");
@@ -262,17 +341,17 @@ void Classifier(uint8_t* data) {
             int height = up + down;
 
             if (width >= WIDTH_MIN && width <= WIDTH_MAX) {
-                printf("\nWIDTH IS GOOD\n\n");
-                printf("Seed = %d\n", j);
-                printf("pixel = %d\n", seed[j][1]);
+                // printf("\nWIDTH IS GOOD\n\n");
+                // printf("Seed = %d\n", j);
+                // printf("pixel = %d\n", seed[j][1]);
                 int p = (seed[j][1] / 3.0) / IMAGE_WIDTH;
                 int q = (seed[j][1] / 3.0) - p * IMAGE_WIDTH;
 
-                printf("Pixel new %d, %d\n", q, p);
+                // printf("Pixel new %d, %d\n", q, p);
 
-                printf("Left = %d \t Right = %d\n", left, right);
-                printf("Up = %d \t \t Down = %d\n", up, down);
-                printf("Width = %d \t Height = %d\n", width, height);
+                // printf("Left = %d \t Right = %d\n", left, right);
+                // printf("Up = %d \t \t Down = %d\n", up, down);
+                // printf("Width = %d \t Height = %d\n", width, height);
 
                 data_mod[seed[j][1]]     = {255};
                 data_mod[seed[j][1] + 1] = {255};
@@ -306,6 +385,8 @@ void Classifier(uint8_t* data) {
                 int obj_width     = object[k][2];
                 int obj_height    = object[k][3];
                 Output_Segmentation(data, 1280, 960, obj_width, obj_height, obj_center);
+
+                find_distance(obj_center[0], obj_center[1]);
 
                 k++;
             }
