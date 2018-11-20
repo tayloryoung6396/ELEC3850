@@ -283,15 +283,19 @@ int PS3Control_main() {
                         }
                     }
                     break;
-                    // case PS3Walk::BUTTON_SQUARE:
-                    //     if (!ip.Autonomous_Enabled) {
-                    //         button_square = (int) event.value;
-                    //         // Call some function probably or something
-                    //         if (event.value > 0) {  // button down
-                    //             std::cout << "BUTTON_SQUARE" << std::endl;
-                    //         }
-                    //     }
-                    //     break;
+                case PS3Walk::BUTTON_SQUARE:
+                    if (!ip.Autonomous_Enabled) {
+                        button_square = (int) event.value;
+                        // Call some function probably or something
+                        if (event.value > 0) {  // button down
+                            // std::cout << "BUTTON_SQUARE" << std::endl;
+                            std::cout << "----------> Running load test" << std::endl;
+                            // Grip_Object();
+			    double pos[3] = {0.3, 0, -0.1};
+			    IKGripper_move(pos);
+                        }
+                    }
+                    break;
             }
         }
     }

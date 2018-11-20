@@ -182,17 +182,23 @@ void Dynamixel_init() {
             // Change gain
             executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);
             delay(DELAY_TIME);
+	    
+//	    executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_I_GAIN), 0);
+//            delay(DELAY_TIME);
+
+//            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_D_GAIN), 0);
+//            delay(DELAY_TIME);
 
             // Change Acceleration Profile
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), 16000);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), 30);
             delay(DELAY_TIME);
 
             // Change Velocity Limit Unit is 0.229 RPM from 0 ~1023
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 150);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(VELOCITY_LIMIT), 30);
             delay(DELAY_TIME);
 
             // Change Velocity Profile Unit is 0.229 RPM from 0 ~1023
-            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 150);
+            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_VELOCITY), 30);
             delay(DELAY_TIME);
 
             // Enable torque
