@@ -124,7 +124,8 @@ int MotorDriver_Distance(double Forward, double Rotation) {
         std::cout << "Wheel " << i << " Expected revolutions" << (int) PathPlanner::curr_revolution[i] << std::endl;
         std::cout << "Wheel " << i << " Final Position" << (int) PathPlanner::goal_pos[i] << std::endl;
 
-        executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), MAX_VELOCITY);// (i == 0 ? MAX_VELOCITY : -MAX_VELOCITY));
+        executeWriteSingle(
+            servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), MAX_VELOCITY);  // (i == 0 ? MAX_VELOCITY : -MAX_VELOCITY));
         delay(DELAY_TIME);
     }
     return 0;

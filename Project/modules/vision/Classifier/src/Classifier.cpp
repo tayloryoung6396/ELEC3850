@@ -27,9 +27,9 @@
 
 int Classifier::colours[3][3][2] = {0};
 int Classifier::seed[1000][2];
-//int seed[1000][2];
+int seed[1000][2];
 int Classifier::object[10][4];
-/*
+
 typedef struct {
     double r;  // a fraction between 0 and 1
     double g;  // a fraction between 0 and 1
@@ -44,7 +44,7 @@ typedef struct {
 
 static hsv rgb2hsv(rgb in);
 static rgb hsv2rgb(hsv in);
-*/
+
 
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
@@ -60,7 +60,7 @@ void Classifier_init() {
         }
     }
 }
-/*
+
 void Classifier(uint8_t* data) {
 
     int pixel         = 0;  // start at the first pixel of the image
@@ -75,13 +75,7 @@ void Classifier(uint8_t* data) {
     int s_value = 0;
     int v_value = 0;
 
-    std::ofstream outfile("Image_Classified.ppm", std::ios::binary);
-    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
-    outfile.write((char*) data, (Image::Height * Image::Width * 3));
-    printf("Classified_Image Saved\n");
-    delete data;
-
-    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
+    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 1050) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
             // printf("into colour for loop \n");
@@ -117,7 +111,7 @@ void Classifier(uint8_t* data) {
             }
         }
     }
-    printf("seeds = %d\n", i);
+    //    printf("seeds = %d\n", i);
 
     // cycle through seed points
     for (int j = 0; j <= (i - 5); j++) {
@@ -130,7 +124,7 @@ void Classifier(uint8_t* data) {
 
         if (objects_found > 0) {
             for (m = 0; m <= objects_found; m++) {
-                printf("into seed object check \n");
+                // printf("into seed object check \n");
                 int errorx = 200;
                 int errory = 50;
 
@@ -140,26 +134,26 @@ void Classifier(uint8_t* data) {
                 int bx            = Classifier::object[m][1] + Classifier::object[m][3] * 3 / 2.0;
                 int by            = Classifier::object[m][0] + Classifier::object[m][2] * 3 / 2.0;
 
-                printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n",
-                       object_center,
-                       ax,
-                       ay,
-                       bx,
-                       by);
-                printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
+                // printf("Object Center = %d \t ax = %d \t ay = %d \t bx = %d \t by = %d \t\n",
+                // object_center,
+                // ax,
+                // ay,
+                // bx,
+                // by);
+                // printf("Seed = %d \t Seed_x = %d \t Seed_y = %d \t\n\n", pixel, seed_x, seed_y);
 
                 if (seed_x >= (ax - errorx) && seed_x <= (bx + errorx) && seed_y >= ay - (errory)
                     && seed_y <= (by + errory)) {
                     // seed is already in an object
                     seed_in_object = 1;
-                    printf("SEED IN OBJECT \n\n");
+                    // printf("SEED IN OBJECT \n\n");
                     break;
                 }
             }
         }
 
         if (seed_in_object == 1) {
-            printf("SEED IN OBJECT IF LOOP BREAK \n");
+            // printf("SEED IN OBJECT IF LOOP BREAK \n");
         }
 
         else {
@@ -335,6 +329,8 @@ void Classifier(uint8_t* data) {
             int width  = left + right;
             int height = up + down;
 
+            //          printf("Width %d\t, Height %d\n", width, height);
+
             if (width >= WIDTH_MIN && width <= WIDTH_MAX && height >= HEIGHT_MIN && height <= HEIGHT_MAX) {
 
                 objects_found++;
@@ -352,71 +348,75 @@ void Classifier(uint8_t* data) {
                 Classifier::object[k][2] = width;
                 Classifier::object[k][3] = height;
 
-                printf("Object %d, width %d, height %d, center x %d, center y %d, width %d height %d\n",
-                       objects_found,
-                       width,
-                       height,
-                       center_x,
-                       center_y,
-                       width,
-                       height);
-                printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n",
-                       pixel,
-                       left,
-                       right,
-                       y,
-                       x,
-                       up,
-                       down);
+                // printf("Object %d, width %d, height %d, center x %d, center y %d, width %d height %d\n",
+                //        objects_found,
+                //        width,
+                //        height,
+                //        center_x,
+                //        center_y,
+                //        width,
+                //        height);
+                // printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n",
+                //        pixel,
+                //        left,
+                //        right,
+                //        y,
+                //        x,
+                //        up,
+                //        down);
 
-                printf("Object found seed = %d\n", Classifier::object[k][1]);
+                // printf("Object found seed = %d\n", Classifier::object[k][1]);
+                find_distance(Classifier::object[k][0], Classifier::object[k][1]);
 
+                AutoState::known_object = TRUE;
                 k++;
             }
         }
     }
     printf("Objects found = %d \n", objects_found);
+    if (objects_found == 0) {
+        AutoState::known_object = FALSE;
+    }
     return;
 }
 
-*/
 void find_distance(int u, int v) {
 
-//    printf("U %d\tV %d\n", u, v);
-    double p = (Camera::resolution_x / (double) Image::Width*2) * Camera::pixel_x
-               * (u *2 - Image::Width);  // The screen coordinates returned
-    double q = (Camera::resolution_y / (double) Image::Height*2) * Camera::pixel_y
-               * (v *2 - Image::Height);  // The screen coordinates returned
+    //    printf("U %d\tV %d\n", u, v);
+    double p = (Camera::resolution_x / (double) Image::Width * 2) * Camera::pixel_x
+               * (u * 2 - Image::Width);  // The screen coordinates returned
+    double q = (Camera::resolution_y / (double) Image::Height * 2) * Camera::pixel_y
+               * (v * 2 - Image::Height);  // The screen coordinates returned
 
-//    printf("P %lf\tQ %lf\n", p, q);
+    //    printf("P %lf\tQ %lf\n", p, q);
     // Now find the angle the pixel is offset from the screen origin
     double phi   = -std::atan2(p, Camera::focal_len);
     double theta = -std::atan2(q, Camera::focal_len);
 
-//    printf("Phi %lf\tTheta %lf\n", phi, theta);
+    //    printf("Phi %lf\tTheta %lf\n", phi, theta);
     // Now convert the offsets into world coordinates
     // Vertical
     double plane_offset = 0.03;  // TODO Remove shitty hardcoded value
 
     double dist_x = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
-//    std::cout << "Distance x " << dist_x << std::endl;
+    //    std::cout << "Distance x " << dist_x << std::endl;
 
     // Horizontal
     double dist_y =
         (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
-//    std::cout << "Distance y " << dist_y << std::endl;
+    //    std::cout << "Distance y " << dist_y << std::endl;
 
     // Set the tank goal
     // These distances are relative to the tank, however i need them in world coordinates
-if(dist_x >= 0.1){
-    Localisation::w_Goal_Position[0] = dist_x * std::cos(Localisation::w_Tank_Rotation)
-                                       - dist_x * std::sin(Localisation::w_Tank_Rotation)
-                                       + Localisation::w_Tank_Position[0];
-    Localisation::w_Goal_Position[1] = dist_y * std::cos(Localisation::w_Tank_Rotation)
-                                       - dist_y * std::sin(Localisation::w_Tank_Rotation)
-                                       + Localisation::w_Tank_Position[1];
-std::cout << "Distance x " << dist_x << std::endl;	
-}
+    if (dist_x >= 0.1) {
+        Localisation::w_Goal_Position[0] = dist_x * std::cos(Localisation::w_Tank_Rotation)
+                                           - dist_x * std::sin(Localisation::w_Tank_Rotation)
+                                           + Localisation::w_Tank_Position[0];
+        Localisation::w_Goal_Position[1] = dist_y * std::cos(Localisation::w_Tank_Rotation)
+                                           - dist_y * std::sin(Localisation::w_Tank_Rotation)
+                                           + Localisation::w_Tank_Position[1];
+        std::cout << "Distance x " << dist_x << std::endl;
+    }
 }
 
 
@@ -486,7 +486,7 @@ void Output_Segmentation(uint8_t* seg_image_array,
         pixel += img_width * 3 - 3;
     }
 }
-/*
+
 hsv rgb2hsv(rgb in) {
     hsv out;
     double min, max, delta;
@@ -527,5 +527,3 @@ hsv rgb2hsv(rgb in) {
 
     return out;
 }
-
-*/

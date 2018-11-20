@@ -22,6 +22,5 @@ public:
 
 extern void Camera_init();
 extern int Camera_main();
-extern std::string make_filename( const std::string& basename, int index, const std::string& ext );
 
 #endif /* CAMERA_H_ */

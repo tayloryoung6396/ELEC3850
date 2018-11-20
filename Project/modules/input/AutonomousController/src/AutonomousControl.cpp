@@ -116,17 +116,17 @@ int AutonomousControl_main() {
             }
         }
         else {
-		if(AutoState::on_route){}
-		else{
-            // No idea where the object is
-            // Lets search for one
-            // NOTE For now.. Spin to win!
-            std::cout << "Weighted Search" << std::endl;
-            SpintoWin();
-	    //SimplePathPlanner();
-            MotorController();
+            if (AutoState::on_route) {
+            }
+            else {
+                // No idea where the object is
+                // Lets search for one
+                // NOTE For now.. Spin to win!
+                std::cout << "Weighted Search" << std::endl;
+                SpintoWin();
+                MotorController();
+            }
         }
-}
     }
 
     return 0;
@@ -153,7 +153,7 @@ void SpintoWin() {
     // Set our goal to be a 45 degree rotation
     Localisation::w_Goal_Position[0] = 0;
     Localisation::w_Goal_Position[1] = 45 * M_PI / 180.0;
-    
+
     PathPlanner pplanner;
 
     pplanner.emplace_path(0, 45 * M_PI / 180.0);
