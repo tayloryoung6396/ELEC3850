@@ -13,7 +13,7 @@ void signalHandler(int signum) {
     std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
 
     Light_Sequence();
-   
+
     Camera.release();
 
     // cleanup and close up stuff here
@@ -111,14 +111,14 @@ int main() {
 
         // Check sensors
         // TODO This will be within the autonomous enable section
-//        if (frame_count % 10 == 0) {
+        if (frame_count % 10 == 0) {
             Camera_main();
             // Classifier();
             // if(AutoState::object_classified){
-  //          InfraredSensor_main();
+            //     InfraredSensor_main();
             // // returns IRsense::IRpresent = TRUE if ir object found
             // }
-    //    }
+        }
 
         // prev_time = (double) millis();  // TODO Remove
         // UltrasonicSensor_main();
@@ -180,9 +180,6 @@ int main() {
             // myfile << "AutonomousControl_main() -> end time " << (double) millis() - prev_time << "\n";  // TODO
             // Remove
         }
-//        if(frame_count == 5){
-//		break;
-//	}
         frame_count++;
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count

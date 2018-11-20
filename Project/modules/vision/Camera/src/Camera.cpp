@@ -55,20 +55,10 @@ uint8_t* data = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RG
 int Camera_main() {
     static int count = 0;
     Camera.grab();
-    //uint8_t* data = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
 
     Camera.retrieve(data, raspicam::RASPICAM_FORMAT_RGB);  // Extract image in rgb format
-//    printf("data size %d\n", Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB));
-//    printf("data size %d\n", Image::Height * Image::Width * 3);
-//    Classifier(data);
-    //count++;
-    printf("Saving file\n");
-    std::ofstream outfile("Image.ppm", std::ios::binary);
-    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
-    outfile.write((char*) data, (Image::Height * Image::Width * 3));
-    printf("Segmented_Image Saved\n");
-printf("Running Classifier\n");  
- int pixel         = 0;  // start at the first pixel of the image
+
+    int pixel         = 0;  // start at the first pixel of the image
     int colour        = 0;
     int i             = 0;
     int k             = 0;
@@ -80,12 +70,6 @@ printf("Running Classifier\n");
     int s_value = 0;
     int v_value = 0;
 
-/*    std::ofstream outfile("Image_Classified.ppm", std::ios::binary);
-    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
-    outfile.write((char*) data, (Image::Height * Image::Width * 3));
-    printf("Classified_Image Saved\n");
-    delete data;
-*/
     for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
@@ -382,8 +366,6 @@ printf("Running Classifier\n");
     }
     printf("Objects found = %d \n", objects_found);
 
-  //delete data;
-
     return 0;
 }
 
@@ -433,4 +415,3 @@ hsv rgb2hsv(rgb in) {
 
     return out;
 }
-
