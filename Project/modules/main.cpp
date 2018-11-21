@@ -41,6 +41,8 @@ void signalHandler(int signum) {
     // TODO Remove probably
     std::cout << "Printing occupancy map" << std::endl;
     Print_Occupancy_Map();
+    std::cout << "Ended at position " << Localisation::w_Tank_Position[0] << " " << Localisation::w_Tank_Position[1] << " " << Localisation::w_Tank_Rotation << std::endl;
+    std::cout << "Ended in cell " << std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row << " " << std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column << std::endl;
 
     myfile.close();  // TODO Remove
 

@@ -19,7 +19,7 @@ double Localisation::w_Goal_Position[2] = {0};
 const int Grid::m            = Grid_m;   // dimensions that are mxn
 const int Grid::n            = Grid::m;  //
 const int Grid::start_row    = 7;        // assume starting position is in the middle bottom (for robot)
-const int Grid::start_column = 7;        //
+const int Grid::start_column = 0;        //
 
 double Grid::area                  = 1.5;  // this is the dimensions of the grid in Y*Y meters
 double Grid::gridspace             = 0.1;  // this is the dimensions of the gridsquares in Y*Y meters
