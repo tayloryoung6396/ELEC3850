@@ -75,6 +75,11 @@ void Classifier(uint8_t* data) {
     int s_value = 0;
     int v_value = 0;
 
+    /*
+    uint8_t* seg_image_array = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
+    seg_image_array          = data;
+    */
+
     for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 1050) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 3; colour++) {
@@ -348,25 +353,18 @@ void Classifier(uint8_t* data) {
                 Classifier::object[k][2] = width;
                 Classifier::object[k][3] = height;
 
-                // printf("Object %d, width %d, height %d, center x %d, center y %d, width %d height %d\n",
-                //        objects_found,
-                //        width,
-                //        height,
-                //        center_x,
-                //        center_y,
-                //        width,
-                //        height);
-                // printf("pixel = %d, left = %d, right = %d, y = %d, x = %d, up = %d, down = %d\n",
-                //        pixel,
-                //        left,
-                //        right,
-                //        y,
-                //        x,
-                //        up,
-                //        down);
-
                 // printf("Object found seed = %d\n", Classifier::object[k][1]);
                 find_distance(Classifier::object[k][0], Classifier::object[k][1]);
+
+                int img_width  = Image::Width;
+                int img_height = Image::Height;
+                int obj_width  = Classifier::object[k][2];
+                int obj_height = Classifier::object[k][3];
+                int center[2]  = {Classifier::object[k][0], Classifier::object[k][1]};
+
+                /*
+                Output_Segmentation(seg_image_array, img_width, img_height, obj_width, obj_height, center);
+                */
 
                 AutoState::known_object = TRUE;
                 k++;
@@ -377,34 +375,38 @@ void Classifier(uint8_t* data) {
     if (objects_found == 0) {
         AutoState::known_object = FALSE;
     }
+
+    /*
+    printf("Saving file\n");
+    std::ofstream outfile("Segmented_Image.ppm", std::ios::binary);
+    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
+    outfile.write((char*) seg_image_array, (Image::Height * Image::Width * 3));
+    printf("Segmented_Image Saved\n");
+    */
+
     return;
 }
 
 void find_distance(int u, int v) {
 
-    //    printf("U %d\tV %d\n", u, v);
     double p = (Camera::resolution_x / (double) Image::Width * 2) * Camera::pixel_x
                * (u * 2 - Image::Width);  // The screen coordinates returned
     double q = (Camera::resolution_y / (double) Image::Height * 2) * Camera::pixel_y
                * (v * 2 - Image::Height);  // The screen coordinates returned
 
-    //    printf("P %lf\tQ %lf\n", p, q);
     // Now find the angle the pixel is offset from the screen origin
     double phi   = -std::atan2(p, Camera::focal_len);
     double theta = -std::atan2(q, Camera::focal_len);
 
-    //    printf("Phi %lf\tTheta %lf\n", phi, theta);
     // Now convert the offsets into world coordinates
     // Vertical
     double plane_offset = 0.03;  // TODO Remove shitty hardcoded value
 
     double dist_x = (Kinematics::cam_height - plane_offset) * std::tan(M_PI_2 - theta - Kinematics::cam_phi);
-    //    std::cout << "Distance x " << dist_x << std::endl;
 
     // Horizontal
     double dist_y =
         (Kinematics::cam_height - plane_offset) / std::cos(M_PI_2 - theta - Kinematics::cam_phi) * std::tan(phi);
-    //    std::cout << "Distance y " << dist_y << std::endl;
 
     // Set the tank goal
     // These distances are relative to the tank, however i need them in world coordinates

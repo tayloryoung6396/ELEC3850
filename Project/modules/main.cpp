@@ -26,6 +26,7 @@ void signalHandler(int signum) {
     }
 
     // Move gripper to rest position
+    std::cout << "Lowering gripper" << std::endl;
     IKGripper_move(Kinematics::Rest_Gripper);
 
     std::cout << "Disabling torque" << std::endl;
