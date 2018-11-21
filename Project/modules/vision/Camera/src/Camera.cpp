@@ -23,7 +23,7 @@ void Camera_init() {
         printf("Error: Camera could not open\n");
         return;
     }
-    Camera.setCaptureSize(640, 480);
+    // Camera.setCaptureSize(640, 480);
     Camera.setExposure(raspicam::RASPICAM_EXPOSURE_AUTO);
     Camera.setHorizontalFlip(1);
     Camera.setVerticalFlip(1);

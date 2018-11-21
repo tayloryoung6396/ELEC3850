@@ -3,10 +3,10 @@
 
 #include "main.hpp"
 
-#define WIDTH_MIN 20
-#define WIDTH_MAX 150
-#define HEIGHT_MIN 20
-#define HEIGHT_MAX 150
+#define WIDTH_MIN 100
+#define WIDTH_MAX 300
+#define HEIGHT_MIN 100
+#define HEIGHT_MAX 200
 
 extern void Classifier_init();
 extern int Classifier_main();
@@ -22,7 +22,7 @@ extern void Output_Segmentation(uint8_t* seg_image_array,
 class Classifier {
 public:
     static int colours[3][3][2];
-    static int seed[1000][2];
+    static int seed[100][2];
     static int object[10][4];
 };
 

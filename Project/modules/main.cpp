@@ -196,5 +196,6 @@ int main() {
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
         }
+        break;
     }
 }
