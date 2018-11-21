@@ -24,6 +24,10 @@ void signalHandler(int signum) {
         executeWriteSingle(servo_ID[i], MX64_ADDRESS_VALUE(GOAL_VELOCITY), 0);
         delay(DELAY_TIME);
     }
+
+    // Move gripper to rest position
+    IKGripper_move(Kinematics::Rest_Gripper);
+
     std::cout << "Disabling torque" << std::endl;
     uint8_t data;
     for (int servo_ID = 1; servo_ID < 8; servo_ID++) {
@@ -41,8 +45,11 @@ void signalHandler(int signum) {
     // TODO Remove probably
     std::cout << "Printing occupancy map" << std::endl;
     Print_Occupancy_Map();
-    std::cout << "Ended at position " << Localisation::w_Tank_Position[0] << " " << Localisation::w_Tank_Position[1] << " " << Localisation::w_Tank_Rotation << std::endl;
-    std::cout << "Ended in cell " << std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row << " " << std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column << std::endl;
+    std::cout << "Ended at position " << Localisation::w_Tank_Position[0] << " " << Localisation::w_Tank_Position[1]
+              << " " << Localisation::w_Tank_Rotation << std::endl;
+    std::cout << "Ended in cell " << std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row
+              << " " << std::floor(Localisation::w_Tank_Position[1] / Grid::gridspace) + Grid::start_column
+              << std::endl;
 
     myfile.close();  // TODO Remove
 
@@ -119,7 +126,7 @@ int main() {
             // find_distance(Classifier::object[0][0], Classifier::object[0][1]);
             // Classifier();
             // if(AutoState::object_classified){
-            //     InfraredSensor_main();
+            InfraredSensor_main();
             // // returns IRsense::IRpresent = TRUE if ir object found
             // }
         }

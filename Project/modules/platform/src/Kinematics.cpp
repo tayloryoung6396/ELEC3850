@@ -12,7 +12,7 @@ double Kinematics::arm_len_1   = 0.19;
 double Kinematics::arm_len_2   = 0.208;
 double Kinematics::grip_cen    = 0.1;
 double Kinematics::grip_closed = M_PI / 4.0;
-double Kinematics::grip_open   = -M_PI / 4.0;
+double Kinematics::grip_open   = 0;
 double Kinematics::grip_load   = std::numeric_limits<uint16_t>::max() / 4.0;
 
 double Kinematics::grip_home[3]    = {0, 0, 0.2};

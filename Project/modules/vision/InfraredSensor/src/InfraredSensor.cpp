@@ -45,22 +45,22 @@ void IRdetect() {
     IRsense::meanIR              = 0;
 
     for (int sensor = 0; sensor < IRsense::IR_attempts; sensor++) {
-        //IRsense::IR_sensor_return[sensor] = digitalRead(IRTRIG);
-/*
-        if (IRsense::IR_sensor_return[sensor] == -1) {
-            std::cout << "Error w/ IR " << IRsense::IR_sensor_return[sensor] << std::endl;
-        }
-        else{
-            IRsense::meanIR += IRsense::IR_sensor_return[sensor];
-	}*/
-	int value = digitalRead(IRTRIG);
-	IRsense::meanIR += value;
-	//if(value == 0){
-//	    std::cout << "IR sensor reading " << value << std::endl;
-    	//}
+        // IRsense::IR_sensor_return[sensor] = digitalRead(IRTRIG);
+        /*
+                if (IRsense::IR_sensor_return[sensor] == -1) {
+                    std::cout << "Error w/ IR " << IRsense::IR_sensor_return[sensor] << std::endl;
+                }
+                else{
+                    IRsense::meanIR += IRsense::IR_sensor_return[sensor];
+            }*/
+        int value = digitalRead(IRTRIG);
+        IRsense::meanIR += value;
+        // if(value == 0){
+        std::cout << "IR sensor reading " << value << std::endl;
+        //}
     }
     // there are 4 tests, if majority are true (1) then probs have an IR present.
-    //IRsense::meanIR = IRsense::meanIR / IRsense::IR_attempts;
+    // IRsense::meanIR = IRsense::meanIR / IRsense::IR_attempts;
 
     delayMicroseconds(5);  // chuck in a delay for good measure am i right
 }

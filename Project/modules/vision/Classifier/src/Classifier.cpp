@@ -373,7 +373,7 @@ void Classifier(uint8_t* data) {
             }
         }
     }
-    printf("Objects found = %d \n", objects_found);
+    // printf("Objects found = %d \n", objects_found);
     if (objects_found == 0) {
         AutoState::known_object = FALSE;
     }
