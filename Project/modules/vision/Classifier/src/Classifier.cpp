@@ -47,14 +47,15 @@ static rgb hsv2rgb(hsv in);
 
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
-    const int colours[3][3][2] = {
-        {{64, 220}, {19, 48}, {19, 47}},      // Red maximum and minimum pixel parameters (RGB Image)
-        {{1, 20}, {11, 100}, {5, 50}},        // Green maximum and minimum pixel parameters (RGB Image)
-        {{14, 33}, {44, 80}, {79, 150}},      // Blue maximum and minimum pixel parameters (RGB Image)
-        {{0, 60}, {41, 225}, {14, 150}},      // Red maximum and minimum pixel parameters (HSV Image)
-        {{300, 360}, {41, 225}, {14, 150}},   // Red maximum and minimum pixel parameters (HSV Image)
-        {{75, 190}, {41, 225}, {14, 150}},    // Green maximum and minimum pixel parameters (HSV Image)
-        {{200, 218}, {75, 239}, {40, 146}}};  // Blue maximum and minimum pixel parameters (HSV Image)
+    const int colours[7][3][2] = {
+        {{64, 220}, {19, 48}, {19, 47}},     // Red maximum and minimum pixel parameters (RGB Image)
+        {{1, 20}, {11, 100}, {5, 50}},       // Green maximum and minimum pixel parameters (RGB Image)
+        {{14, 33}, {44, 80}, {79, 150}},     // Blue maximum and minimum pixel parameters (RGB Image)
+        {{0, 60}, {41, 225}, {14, 150}},     // Red maximum and minimum pixel parameters (HSV Image)
+        {{300, 360}, {41, 225}, {14, 150}},  // Red maximum and minimum pixel parameters (HSV Image)
+        {{75, 190}, {41, 225}, {14, 150}},   // Green maximum and minimum pixel parameters (HSV Image)
+        {{200, 218}, {75, 239}, {40, 146}}   // Blue maximum and minimum pixel parameters (HSV Image)
+    };
 
     for (int q = 0; q < 3; q++) {
         for (int w = 0; w < 3; w++) {
