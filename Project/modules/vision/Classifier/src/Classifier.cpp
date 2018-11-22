@@ -80,9 +80,8 @@ void Classifier(uint8_t* data) {
     int s_value = 0;
     int v_value = 0;
 
-
-    //    uint8_t* seg_image_array = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
-    //    seg_image_array          = data;
+    uint8_t* seg_image_array = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
+    seg_image_array          = data;
 
 
     for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 2100) {
@@ -398,8 +397,7 @@ void Classifier(uint8_t* data) {
                 int center[2]  = {Classifier::object[k][0], Classifier::object[k][1]};
 
 
-                //                Output_Segmentation(seg_image_array, img_width, img_height, obj_width, obj_height,
-                //                center);
+                Output_Segmentation(seg_image_array, img_width, img_height, obj_width, obj_height, center);
 
 
                 AutoState::known_object = TRUE;
@@ -412,13 +410,11 @@ void Classifier(uint8_t* data) {
         AutoState::known_object = FALSE;
     }
 
-    /*
-        printf("Saving file\n");
-        std::ofstream outfile("Segmented_Image.ppm", std::ios::binary);
-        outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
-        outfile.write((char*) seg_image_array, (Image::Height * Image::Width * 3));
-        printf("Segmented_Image Saved\n");
-    */
+    printf("Saving file\n");
+    std::ofstream outfile("Segmented_Image.ppm", std::ios::binary);
+    outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
+    outfile.write((char*) seg_image_array, (Image::Height * Image::Width * 3));
+    printf("Segmented_Image Saved\n");
 
     return;
 }

@@ -41,7 +41,7 @@ int Camera_main() {
 
     Camera.retrieve(data, raspicam::RASPICAM_FORMAT_RGB);  // Extract image in rgb format
 
-    // Classifier(data);
+    Classifier(data);
 
     return 0;
 }
