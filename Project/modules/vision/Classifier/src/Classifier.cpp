@@ -48,14 +48,13 @@ static rgb hsv2rgb(hsv in);
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
     const int colours[7][3][2] = {
-        {{40, 250}, {5, 48}, {5, 47}},       // Red maximum and minimum pixel parameters (RGB Image)
-        {{1, 20}, {11, 100}, {5, 50}},       // Green maximum and minimum pixel parameters (RGB Image)
-        {{14, 33}, {44, 80}, {79, 150}},     // Blue maximum and minimum pixel parameters (RGB Image)
-        {{0, 60}, {20, 255}, {14, 255}},     // Red maximum and minimum pixel parameters (HSV Image)
-        {{300, 360}, {20, 255}, {14, 255}},  // Red maximum and minimum pixel parameters (HSV Image)
-        {{75, 190}, {41, 225}, {14, 150}},   // Green maximum and minimum pixel parameters (HSV Image)
-        {{200, 218}, {75, 239}, {40, 146}}   // Blue maximum and minimum pixel parameters (HSV Image)
-    };
+	{{64, 110}, {19, 48}, {19, 47}},        // Red maximum and minimum pixel parameters (RGB Image)
+	{{1, 20}, {11, 100}, {5, 50}},       // Green maximum and minimum pixel parameters (RGB Image)
+	{{14, 33}, {44, 80}, {79, 150}},     // Blue maximum and minimum pixel parameters (RGB Image)
+	{{0, 60}, {40, 255}, {40, 255}},     // Red maximum and minimum pixel parameters (HSV Image)
+	{{300, 360}, {40, 255}, {20, 255}},  // Red maximum and minimum pixel parameters (HSV Image)
+	{{75, 190}, {20, 200}, {15, 200}},      // Green maximum and minimum pixel parameters (HSV Image)
+	{{200, 218}, {40, 255}, {20, 255}}};  // Blue maximum and minimum pixel parameters (HSV Image)
 
     for (int q = 0; q < 7; q++) {
         for (int w = 0; w < 3; w++) {
@@ -88,8 +87,10 @@ void Classifier(uint8_t* data) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 7; colour++) {
             // printf("into colour for loop \n");
+	    if(colour == 1 || colour == 3 || colour == 4){
+	    }
 
-            if ((colour == 0 || colour == 1 || colour == 2) && data[pixel] >= Classifier::colours[colour][0][0]
+            else if ((colour == 0 || colour == 1 || colour == 2) && data[pixel] >= Classifier::colours[colour][0][0]
                 && data[pixel] <= Classifier::colours[colour][0][1]
                 && data[(pixel + 1)] >= Classifier::colours[colour][1][0]
                 && data[(pixel + 1)] <= Classifier::colours[colour][1][1]
@@ -97,13 +98,13 @@ void Classifier(uint8_t* data) {
                 && data[(pixel + 2)] <= Classifier::colours[colour][2][1]) {
                 Classifier::seed[i][0] = colour;
                 if (colour == 0) {
-                    //                    printf("Colour Red RGB\n");
+                                        printf("Colour Red RGB\n");
                 }
                 else if (colour == 1) {
-                    //                    printf("Colour Green RGB\n");
+                                        printf("Colour Green RGB\n");
                 }
                 else if (colour == 2) {
-                    //                    printf("Colour Blue RGB\n");
+                                        printf("Colour Blue RGB\n");
                 }
                 Classifier::seed[i][1] = pixel;
                 i++;
@@ -124,14 +125,17 @@ void Classifier(uint8_t* data) {
                     Classifier::seed[i][0] = colour;
                     Classifier::seed[i][1] = pixel;
                     i++;
-                    if (colour == 3 || colour == 4) {
-                        //                        printf("Colour Red HSV\n");
+                    if (colour == 3 ){
+			printf("Colour Red HSV A\n");
+		    }
+		    else if(colour == 4) {
+                                                printf("Colour Red HSV B\n");
                     }
                     else if (colour == 5) {
-                        //                        printf("Colour Green HSV\n");
+                                                printf("Colour Green HSV\n");
                     }
                     else if (colour == 6) {
-                        //                        printf("Colour Blue HSV\n");
+                                                printf("Colour Blue HSV\n");
                     }
                     break;
                 }
