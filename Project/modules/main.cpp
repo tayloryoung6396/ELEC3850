@@ -78,6 +78,7 @@ int main() {
     wiringPiSetup();
     LedStatus_init();
     UART();
+    Enable_RED();
 
     // Odometry Init
     Localisation_init();
@@ -100,6 +101,7 @@ int main() {
     UltrasonicSensor_init();
     SensorFilter_init();
     Classifier_init();
+    Disable_RED();
 
     printf("Finished Initilisation\n");
     myfile << "Finished Initilisation.\n";
@@ -196,6 +198,6 @@ int main() {
         if (frame_count % frame_max == 0) {
             frame_count = 0;  // Reset frame count
         }
-//        break;
+        //        break;
     }
 }

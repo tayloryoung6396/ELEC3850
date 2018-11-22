@@ -182,12 +182,12 @@ void Dynamixel_init() {
             // Change gain
             executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_P_GAIN), 1000);
             delay(DELAY_TIME);
-	    
-//	    executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_I_GAIN), 0);
-//            delay(DELAY_TIME);
 
-//            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_D_GAIN), 0);
-//            delay(DELAY_TIME);
+            //	    executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_I_GAIN), 0);
+            //            delay(DELAY_TIME);
+
+            //            executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(POSITION_D_GAIN), 0);
+            //            delay(DELAY_TIME);
 
             // Change Acceleration Profile
             executeWriteSingle(servo_ID, MX28_ADDRESS_VALUE(PROFILE_ACCELERATION), 30);

@@ -21,10 +21,10 @@
 
 #define AXIS_MAX_LIMIT 32768
 #define AXIS_MIN_LIMIT -32767
-#define FORWARD_MAX_LIMIT 500
-#define FORWARD_MIN_LIMIT -500
-#define ROTATION_MAX_LIMIT 500
-#define ROTATION_MIN_LIMIT -500
+#define FORWARD_MAX_LIMIT 100
+#define FORWARD_MIN_LIMIT -100
+#define ROTATION_MAX_LIMIT 100
+#define ROTATION_MIN_LIMIT -100
 
 class Joystick joystick;
 
@@ -291,8 +291,8 @@ int PS3Control_main() {
                             // std::cout << "BUTTON_SQUARE" << std::endl;
                             std::cout << "----------> Running load test" << std::endl;
                             // Grip_Object();
-			    double pos[3] = {0.3, 0, -0.1};
-			    IKGripper_move(pos);
+                            double pos[3] = {0.3, 0, -0.1};
+                            IKGripper_move(pos);
                         }
                     }
                     break;

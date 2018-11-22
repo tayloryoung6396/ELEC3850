@@ -38,7 +38,7 @@ void Localisation_init() {
 }
 
 int Localisation_main() {
-//    std::cout << "Into Localisation" << std::endl;
+    //    std::cout << "Into Localisation" << std::endl;
     // what cell is the tank in, note that the x is forward and y is sideways, 0,0 is defined to be the bottom right
     //     corner -return a x and y for what cell we are looking at stuff in
     int tank_cell_n = std::floor(Localisation::w_Tank_Position[0] / Grid::gridspace) + Grid::start_row;
@@ -66,7 +66,7 @@ int Localisation_main() {
 
     // convert all of these to grid spaces and within here update occupancy map
     for (int i = 0; i < SENSORS; i++) {
-//	std::cout << "Sensor number " << i << std::endl;
+        //	std::cout << "Sensor number " << i << std::endl;
         // account for the possibility of getting an invlid sensor reading, the distance will read -1
         if (Ultrasonic::Detection_distances[i] != -1) {
             sen_hori[i] = Ultrasonic::Detection_distances[i] * std::cos(sen_theta[i]);
@@ -80,8 +80,8 @@ int Localisation_main() {
             if (object_cell_m <= Grid::m || object_cell_n <= Grid::n || object_cell_m >= 0 || object_cell_n >= 0) {
 
                 // DDA Should handle objects outside the range
-//		std::cout << "object " << object_cell_m << " " << object_cell_n << std::endl;
-//		std::cout << "tank " << tank_cell_m << " " << tank_cell_n << std::endl;
+                //		std::cout << "object " << object_cell_m << " " << object_cell_n << std::endl;
+                //		std::cout << "tank " << tank_cell_m << " " << tank_cell_n << std::endl;
                 Digital_Differential_Analyzer(object_cell_m, object_cell_n, tank_cell_m, tank_cell_n);
 
                 // std::cout << "Fininished calculating list" << std::endl;
@@ -99,7 +99,7 @@ int Localisation_main() {
                         std::sqrt(std::pow(((curr_cell_list->first - tank_cell_n) * Grid::gridspace), 2)
                                   + std::pow(((curr_cell_list->second - tank_cell_m) * Grid::gridspace), 2));
 
-  //                  std::cout << "Cell_dist " << cell_dist << std::endl;
+                    //                  std::cout << "Cell_dist " << cell_dist << std::endl;
                     // std::cout << "List cell " << curr_cell_list->first << " tank cell " << tank_cell_n << std::endl;
                     // std::cout << "List cell " << curr_cell_list->second << " tank cell " << tank_cell_m << std::endl;
 
@@ -149,7 +149,7 @@ int Localisation_main() {
 }
 
 void probability(int cell_column, int cell_row, double cell_dist, double obj_dist) {
-  //  std::cout << "Probability" <<std::endl;
+    //  std::cout << "Probability" <<std::endl;
     // use a straight line function to start however i believe tanh would work nicely
     double prob = -0.1;
     if (cell_dist != -1) {
@@ -168,8 +168,8 @@ void probability(int cell_column, int cell_row, double cell_dist, double obj_dis
     else {
         Grid::map[cell_column][cell_row] += prob;
     }
-   // std::cout << "Cell distance " << cell_dist << " Object distance " << obj_dist << std::endl;
-  //  std::cout << "Probability " << prob << std::endl;
+    // std::cout << "Cell distance " << cell_dist << " Object distance " << obj_dist << std::endl;
+    //  std::cout << "Probability " << prob << std::endl;
 }
 
 void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, double tank_cell_m, double tank_cell_n) {
@@ -184,7 +184,7 @@ void Digital_Differential_Analyzer(double object_cell_m, double object_cell_n, d
     double step;
     int i;
 
-   // std::cout << "DDA" << std::endl;
+    // std::cout << "DDA" << std::endl;
 
     dx = (x2 - x1);
     dy = (y2 - y1);

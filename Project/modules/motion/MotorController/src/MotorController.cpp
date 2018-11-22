@@ -217,9 +217,10 @@ int MotorDirector() {
     Localisation::w_Tank_Rotation += Rotation;
     Localisation::w_Tank_Position[0] += Forward * std::cos(Localisation::w_Tank_Rotation);
     Localisation::w_Tank_Position[1] += Forward * std::sin(Localisation::w_Tank_Rotation);
-    //Localisation::w_Tank_Rotation += Rotation;
+    // Localisation::w_Tank_Rotation += Rotation;
 
-    //std::cout << "Current position " << Localisation::w_Tank_Position[0] << " " << Localisation::w_Tank_Position[1] << std::endl;
+    // std::cout << "Current position " << Localisation::w_Tank_Position[0] << " " << Localisation::w_Tank_Position[1]
+    // << std::endl;
 
     // If we are in autonomous mode then do the normal thing
     if (!Input::Autonomous_Enabled) {
