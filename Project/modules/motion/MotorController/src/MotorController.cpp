@@ -212,7 +212,7 @@ int MotorDirector() {
     // std::cout << "L Curr " << PathPlanner::curr_pos[0] << "\t Prev " << PathPlanner::prev_pos[0] << std::endl;
     // std::cout << "R Curr " << PathPlanner::curr_pos[1] << "\t Prev " << PathPlanner::prev_pos[1] << std::endl;
     // std::cout << Left_Position << " * " << DistToRev << " / " << std::numeric_limits<uint32_t>::max() << std::endl;
-    std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
+    // std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
 
     Localisation::w_Tank_Rotation += Rotation;
     Localisation::w_Tank_Position[0] += Forward * std::cos(Localisation::w_Tank_Rotation);
