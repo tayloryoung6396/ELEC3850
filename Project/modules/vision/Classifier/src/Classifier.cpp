@@ -18,16 +18,16 @@
 
 #include "Classifier.hpp"
 
-#define OFFSET 5
+#define OFFSET 11
 
 //#define WIDTH_MIN 100
 //#define WIDTH_MAX 300
 //#define HEIGHT_MIN 100
 //#define HEIGHT_MAX 200
 
-int Classifier::colours[3][3][2] = {0};
-int Classifier::seed[100][2];
-int Classifier::object[10][4];
+int Classifier::colours[7][3][2] = {0};
+int Classifier::seed[500][2];
+int Classifier::object[50][4];
 
 typedef struct {
     double r;  // a fraction between 0 and 1
@@ -48,16 +48,16 @@ static rgb hsv2rgb(hsv in);
 void Classifier_init() {
     std::cout << "Initilising CLASSIFIER" << std::endl;
     const int colours[7][3][2] = {
-        {{64, 220}, {19, 48}, {19, 47}},     // Red maximum and minimum pixel parameters (RGB Image)
+        {{40, 250}, {5, 48}, {5, 47}},     // Red maximum and minimum pixel parameters (RGB Image)
         {{1, 20}, {11, 100}, {5, 50}},       // Green maximum and minimum pixel parameters (RGB Image)
         {{14, 33}, {44, 80}, {79, 150}},     // Blue maximum and minimum pixel parameters (RGB Image)
-        {{0, 60}, {41, 225}, {14, 150}},     // Red maximum and minimum pixel parameters (HSV Image)
-        {{300, 360}, {41, 225}, {14, 150}},  // Red maximum and minimum pixel parameters (HSV Image)
+        {{0, 60}, {20, 255}, {14, 255}},     // Red maximum and minimum pixel parameters (HSV Image)
+        {{300, 360}, {20, 255}, {14, 255}},  // Red maximum and minimum pixel parameters (HSV Image)
         {{75, 190}, {41, 225}, {14, 150}},   // Green maximum and minimum pixel parameters (HSV Image)
         {{200, 218}, {75, 239}, {40, 146}}   // Blue maximum and minimum pixel parameters (HSV Image)
     };
 
-    for (int q = 0; q < 3; q++) {
+    for (int q = 0; q < 7; q++) {
         for (int w = 0; w < 3; w++) {
             for (int e = 0; e < 2; e++) {
                 Classifier::colours[q][w][e] = colours[q][w][e];
@@ -81,13 +81,13 @@ void Classifier(uint8_t* data) {
     int v_value = 0;
 
 
-    uint8_t* seg_image_array = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
-    seg_image_array          = data;
+//    uint8_t* seg_image_array = new uint8_t[Camera.getImageTypeSize(raspicam::RASPICAM_FORMAT_RGB)];
+//    seg_image_array          = data;
 
 
-    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
+    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 2100) {
         // printf("into pixel for loop \n");
-        for (colour = 0; colour < 3; colour++) {
+        for (colour = 0; colour < 7; colour++) {
             // printf("into colour for loop \n");
 
             if ((colour == 0 || colour == 1 || colour == 2) && data[pixel] >= Classifier::colours[colour][0][0]
@@ -98,13 +98,13 @@ void Classifier(uint8_t* data) {
                 && data[(pixel + 2)] <= Classifier::colours[colour][2][1]) {
                 Classifier::seed[i][0] = colour;
                 if (colour == 0) {
-                    printf("Colour Red\n");
+//                    printf("Colour Red RGB\n");
                 }
                 else if (colour == 1) {
-                    printf("Colour Green\n");
+//                    printf("Colour Green RGB\n");
                 }
                 else if (colour == 2) {
-                    printf("Colour Blue\n");
+//                    printf("Colour Blue RGB\n");
                 }
                 Classifier::seed[i][1] = pixel;
                 i++;
@@ -126,20 +126,20 @@ void Classifier(uint8_t* data) {
                     Classifier::seed[i][1] = pixel;
                     i++;
                     if (colour == 3 || colour == 4) {
-                        printf("Colour Red\n");
+//                        printf("Colour Red HSV\n");
                     }
                     else if (colour == 5) {
-                        printf("Colour Green\n");
+//                        printf("Colour Green HSV\n");
                     }
                     else if (colour == 6) {
-                        printf("Colour Blue\n");
+//                        printf("Colour Blue HSV\n");
                     }
                     break;
                 }
             }
         }
     }
-    printf("seeds = %d\n", i);
+//    printf("seeds = %d\n", i);
 
     // cycle through seed points
     for (int j = 0; j <= (i - 5); j++) {
@@ -151,7 +151,7 @@ void Classifier(uint8_t* data) {
         bool seed_in_object = 0;
 
         if (objects_found > 0) {
-            for (m = 0; m <= objects_found; m++) {
+            for (m = 0; m < objects_found; m++) {
                 // printf("into seed object check \n");
                 int errorx = 200;
                 int errory = 50;
@@ -174,7 +174,7 @@ void Classifier(uint8_t* data) {
                     && seed_y <= (by + errory)) {
                     // seed is already in an object
                     seed_in_object = 1;
-                    // printf("SEED IN OBJECT \n\n");
+//                    printf("SEED IN OBJECT \n\n");
                     break;
                 }
             }
@@ -201,7 +201,7 @@ void Classifier(uint8_t* data) {
             // cluster right
             int error = 0;
 
-            while (error < 11) {
+            while (error < OFFSET) {
 
                 int a = 0;
                 if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
@@ -231,7 +231,9 @@ void Classifier(uint8_t* data) {
                     error++;
                 }
                 right++;
-
+//		seg_image_array[pixel] = 255;
+//seg_image_array[pixel + 1] = 255;
+//seg_image_array[pixel + 2] = 0;
                 pixel += 3;
             }
 
@@ -240,7 +242,7 @@ void Classifier(uint8_t* data) {
             error = 0;
             pixel = Classifier::seed[j][1];
 
-            while (error < 11) {
+            while (error < OFFSET) {
 
                 int a = 0;
                 if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
@@ -272,7 +274,9 @@ void Classifier(uint8_t* data) {
                 }
 
                 left++;
-
+//seg_image_array[pixel -3] = 255;
+//seg_image_array[pixel -2] = 255;
+//seg_image_array[pixel -1] = 255;
                 pixel = pixel - 3;
             }
 
@@ -280,7 +284,7 @@ void Classifier(uint8_t* data) {
             error = 0;
             pixel = Classifier::seed[j][1];
 
-            while (error < 11) {
+            while (error < OFFSET) {
 
                 int a = 0;
                 if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
@@ -315,14 +319,16 @@ void Classifier(uint8_t* data) {
                     error++;
                 }
                 up++;
-
+//seg_image_array[pixel] = 25;
+//seg_image_array[pixel + 1] = 255;
+//seg_image_array[pixel + 2] = 0;
                 pixel = pixel - Image::Width * 3;
             }
 
             // cluster down
             error = 0;
             pixel = Classifier::seed[j][1];
-            while (error < 11) {
+            while (error < OFFSET) {
 
                 int a = 0;
                 if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
@@ -353,7 +359,9 @@ void Classifier(uint8_t* data) {
                     error++;
                 }
                 down++;
-
+//seg_image_array[pixel] = 55;
+//seg_image_array[pixel + 1] = 255;
+//seg_image_array[pixel + 2] = 250;
                 pixel = pixel + Image::Width * 3;
             }
 
@@ -390,7 +398,7 @@ void Classifier(uint8_t* data) {
                 int center[2]  = {Classifier::object[k][0], Classifier::object[k][1]};
 
 
-                Output_Segmentation(seg_image_array, img_width, img_height, obj_width, obj_height, center);
+//                Output_Segmentation(seg_image_array, img_width, img_height, obj_width, obj_height, center);
 
 
                 AutoState::known_object = TRUE;
@@ -398,18 +406,18 @@ void Classifier(uint8_t* data) {
             }
         }
     }
-    printf("Objects found = %d \n", objects_found);
+//    printf("Objects found = %d \n", objects_found);
     if (objects_found == 0) {
         AutoState::known_object = FALSE;
     }
 
-
+/*
     printf("Saving file\n");
     std::ofstream outfile("Segmented_Image.ppm", std::ios::binary);
     outfile << "P6\n" << Image::Width << " " << Image::Height << " 255\n";  // dont know
     outfile.write((char*) seg_image_array, (Image::Height * Image::Width * 3));
     printf("Segmented_Image Saved\n");
-
+*/
 
     return;
 }
