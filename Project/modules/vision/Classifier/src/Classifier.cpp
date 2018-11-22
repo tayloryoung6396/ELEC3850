@@ -50,7 +50,7 @@ void Classifier_init() {
     const int colours[7][3][2] = {
 	{{64, 110}, {19, 48}, {19, 47}},        // Red maximum and minimum pixel parameters (RGB Image)
 	{{1, 20}, {11, 100}, {5, 50}},       // Green maximum and minimum pixel parameters (RGB Image)
-	{{14, 33}, {44, 80}, {79, 150}},     // Blue maximum and minimum pixel parameters (RGB Image)
+	{{14, 33}, {40, 80}, {75, 200}},     // Blue maximum and minimum pixel parameters (RGB Image)
 	{{0, 60}, {40, 255}, {40, 255}},     // Red maximum and minimum pixel parameters (HSV Image)
 	{{300, 360}, {40, 255}, {20, 255}},  // Red maximum and minimum pixel parameters (HSV Image)
 	{{75, 190}, {20, 200}, {15, 200}},      // Green maximum and minimum pixel parameters (HSV Image)
