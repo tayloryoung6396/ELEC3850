@@ -84,7 +84,7 @@ void Classifier(uint8_t* data) {
     seg_image_array          = data;
 
 
-    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 2100) {
+    for (pixel = 0; pixel <= Image::Height * Image::Width * 3; pixel += 4200) {
         // printf("into pixel for loop \n");
         for (colour = 0; colour < 7; colour++) {
             // printf("into colour for loop \n");
