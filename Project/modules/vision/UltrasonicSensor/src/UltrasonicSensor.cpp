@@ -108,6 +108,9 @@ void DistanceM() {
             Ultrasonic::Detection_distances[sensor] =
                 (Ultrasonic::sensor_return[sensor] - Ultrasonic::Start_time) * 0.00017
                 + Kinematics::ultrasonic_offset[sensor];  // DISTANCE CALCULATION IN METRES
+	    if(sensor == 2){
+		Ultrasonic::Detection_distances[sensor] = -1;
+            }
         }
         else {
             Ultrasonic::Detection_distances[sensor] = -1;

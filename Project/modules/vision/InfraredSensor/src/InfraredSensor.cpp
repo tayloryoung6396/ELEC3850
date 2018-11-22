@@ -56,7 +56,7 @@ void IRdetect() {
         int value = digitalRead(IRTRIG);
         IRsense::meanIR += value;
         // if(value == 0){
-        std::cout << "IR sensor reading " << value << std::endl;
+//        std::cout << "IR sensor reading " << value << std::endl;
         //}
     }
     // there are 4 tests, if majority are true (1) then probs have an IR present.

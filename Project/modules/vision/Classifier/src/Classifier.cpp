@@ -50,8 +50,8 @@ void Classifier_init() {
     const int colours[3][3][2] = {
         {{64, 220}, {19, 48}, {19, 47}},        // Red maximum and minimum pixel parameters (RGB Image)
         {{75, 190}, {41, 225}, {14, 150}},      // Green maximum and minimum pixel parameters (HSV Image)
-        //{{200, 218}, {75, 239}, {40, 146}}};  // Blue maximum and minimum pixel parameters (HSV Image)
-        {{14, 33},{44, 80},{79, 150}}};
+        {{200, 218}, {75, 239}, {40, 146}}};  // Blue maximum and minimum pixel parameters (HSV Image)
+        //{{14, 33},{44, 80},{79, 150}}};
 
     for (int q = 0; q < 3; q++) {
         for (int w = 0; w < 3; w++) {
@@ -86,18 +86,27 @@ void Classifier(uint8_t* data) {
         for (colour = 0; colour < 3; colour++) {
             // printf("into colour for loop \n");
 
-            if ((colour == 0 || colour == 2) && data[pixel] >= Classifier::colours[colour][0][0]
+            if ((colour == 0 || colour == 1) && data[pixel] >= Classifier::colours[colour][0][0]
                 && data[pixel] <= Classifier::colours[colour][0][1]
                 && data[(pixel + 1)] >= Classifier::colours[colour][1][0]
                 && data[(pixel + 1)] <= Classifier::colours[colour][1][1]
                 && data[(pixel + 2)] >= Classifier::colours[colour][2][0]
                 && data[(pixel + 2)] <= Classifier::colours[colour][2][1]) {
                 Classifier::seed[i][0] = colour;
+		if(colour == 0){
+		    printf("Colour Red\n");
+		}
+		else if (colour == 1){
+		    printf("Colour Green\n");
+		}
+		else if (colour == 2){
+		    printf("Colour Blue\n");
+		}
                 Classifier::seed[i][1] = pixel;
                 i++;
                 break;
             }
-            else if (colour == 1 || colour == 3) {
+            else if (colour == 1 || colour == 2) {
                 rgb_colour.r = data[pixel] / 255.0;
                 rgb_colour.g = data[pixel + 1] / 255.0;
                 rgb_colour.b = data[pixel + 2] / 255.0;
@@ -112,12 +121,21 @@ void Classifier(uint8_t* data) {
                     Classifier::seed[i][0] = colour;
                     Classifier::seed[i][1] = pixel;
                     i++;
-                    break;
+		    if(colour == 1){
+			printf("Colour Green\n");
+                    }
+		    else if (colour == 2){
+			printf("Colour Blue\n");
+		    }
+		    else if (colour == 0){
+			printf("Colour Red\n");
+		    }
+		    break;
                 }
             }
         }
     }
-    //    printf("seeds = %d\n", i);
+    printf("seeds = %d\n", i);
 
     // cycle through seed points
     for (int j = 0; j <= (i - 5); j++) {
@@ -182,14 +200,14 @@ void Classifier(uint8_t* data) {
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 2) {
+                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 3) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 3) {
+                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
 
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
@@ -220,14 +238,14 @@ void Classifier(uint8_t* data) {
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 2) {
+                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 3) {
 
                     h_value = data[pixel - 3];
                     s_value = data[pixel - 2];
                     v_value = data[pixel - 1];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 3) {
+                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
                     rgb_colour.r = data[pixel - 3] / 255.0;
                     rgb_colour.g = data[pixel - 2] / 255.0;
                     rgb_colour.b = data[pixel - 1] / 255.0;
@@ -259,14 +277,14 @@ void Classifier(uint8_t* data) {
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 2) {
+                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 3) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 3) {
+                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
 
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
@@ -300,14 +318,14 @@ void Classifier(uint8_t* data) {
             while (error < 11) {
 
                 int a = 0;
-                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 2) {
+                if (Classifier::seed[j][0] == 0 || Classifier::seed[j][0] == 3) {
 
                     h_value = data[pixel];
                     s_value = data[pixel + 1];
                     v_value = data[pixel + 2];
                 }
 
-                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 3) {
+                if (Classifier::seed[j][0] == 1 || Classifier::seed[j][0] == 2) {
                     rgb_colour.r = data[pixel] / 255.0;
                     rgb_colour.g = data[pixel + 1] / 255.0;
                     rgb_colour.b = data[pixel + 2] / 255.0;

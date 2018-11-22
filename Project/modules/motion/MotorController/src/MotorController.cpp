@@ -173,10 +173,13 @@ int MotorDirector() {
 
     // Get the current position of each servo should be between min and max position
     for (int i = 0; i < count; i++) {
-        executeReadSingle(servo_ID[i],
-                          MX64_ADDRESS_VALUE(PRESENT_POSITION),
-                          MX64_SIZE_VALUE(PRESENT_POSITION),
-                          PathPlanner::curr_pos[i]);
+        if (executeReadSingle(servo_ID[i],
+                              MX64_ADDRESS_VALUE(PRESENT_POSITION),
+                              MX64_SIZE_VALUE(PRESENT_POSITION),
+                              PathPlanner::curr_pos[i])
+            != 0) {
+            return -1;
+        }
         delay(DELAY_TIME);
     }
 
@@ -204,16 +207,19 @@ int MotorDirector() {
 
     double Forward = (Left_Position + Right_Position) * 0.5 * DistToRev / std::numeric_limits<uint32_t>::max();
     double Rotation =
-        (Forward - Left_Position * DistToRev / std::numeric_limits<uint32_t>::max()) / (Kinematics::tank_width * 0.5);
+        (Forward - Left_Position * DistToRev / std::numeric_limits<uint32_t>::max()) / (Kinematics::tank_width);
 
     // std::cout << "L Curr " << PathPlanner::curr_pos[0] << "\t Prev " << PathPlanner::prev_pos[0] << std::endl;
     // std::cout << "R Curr " << PathPlanner::curr_pos[1] << "\t Prev " << PathPlanner::prev_pos[1] << std::endl;
     // std::cout << Left_Position << " * " << DistToRev << " / " << std::numeric_limits<uint32_t>::max() << std::endl;
-    // std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
+    std::cout << "Forward " << Forward << "\t Rotation " << Rotation << std::endl;
 
-    Localisation::w_Tank_Position[0] += Forward * std::cos(Rotation);
-    Localisation::w_Tank_Position[1] += Forward * std::sin(Rotation);
-    Localisation::w_Tank_Rotation = Rotation;
+    Localisation::w_Tank_Rotation += Rotation;
+    Localisation::w_Tank_Position[0] += Forward * std::cos(Localisation::w_Tank_Rotation);
+    Localisation::w_Tank_Position[1] += Forward * std::sin(Localisation::w_Tank_Rotation);
+    //Localisation::w_Tank_Rotation += Rotation;
+
+    //std::cout << "Current position " << Localisation::w_Tank_Position[0] << " " << Localisation::w_Tank_Position[1] << std::endl;
 
     // If we are in autonomous mode then do the normal thing
     if (!Input::Autonomous_Enabled) {

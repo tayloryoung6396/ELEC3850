@@ -152,7 +152,7 @@ int main() {
         }
 
         // TODO This will be within the autonomous enable section
-        if (frame_count % 50 == 0) {
+        if (frame_count % 20 == 0) {
             // TODO We probably want to store the last 5 US readings
             // prev_time = (double) millis();  // TODO Remove
             UltrasonicSensor_main();
